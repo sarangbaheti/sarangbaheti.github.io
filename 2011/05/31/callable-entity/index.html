@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+  <title>callable entity</title>
+
+  <meta name="author" content="Sarang Baheti" />
+  
+  
+
+  <meta name="generator" content="Hugo 0.30.2" />
+
+  <link rel="alternate" href="https://www.variadic.xyz/index.xml" type="application/rss+xml" title="a few notes">
+
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
+  <link rel="stylesheet" href="https://www.variadic.xyz/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="https://www.variadic.xyz/css/main.css" />
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" />
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" />
+  
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/styles/default.min.css">
+  
+  
+  
+  <meta property="og:title" content="callable entity" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="/2011/05/31/callable-entity//" />
+  <meta property="og:image" content="" />
+  
+</head>
+
+
+  <body>
+
+    <nav class="navbar navbar-default navbar-fixed-top navbar-custom">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="https://www.variadic.xyz/">a few notes</a>
+    </div>
+
+    <div class="collapse navbar-collapse" id="main-navbar">
+      <ul class="nav navbar-nav navbar-right">
+      
+        
+          <li>
+          <a title="Notes" href="/">Notes</a>
+  	      </li>
+  	    
+      
+        
+          <li>
+          <a title="About" href="/about/">About</a>
+  	      </li>
+  	    
+      
+        
+          <li>
+          <a title="Archive" href="/archive/">Archive</a>
+  	      </li>
+  	    
+      
+        
+          <li>
+          <a title="Books" href="/books/">Books</a>
+  	      </li>
+  	    
+      
+        
+          <li>
+          <a title="Disclaimer" href="/disclaimer/">Disclaimer</a>
+  	      </li>
+  	    
+      
+      </ul>
+    </div>
+
+	<div class="avatar-container">
+	  <div class="avatar-img-border">
+      
+	  </div>
+	</div>
+
+  </div>
+</nav>
+
+
+    <div role="main" class="container main-content">
+
+      
+        
+
+
+
+
+
+<header class="header-section ">
+
+<div class="intro-header no-img">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="post-heading">
+          <h1>callable entity</h1>
+      
+      
+      
+      <span class="post-meta">Posted on May 31, 2011</span>
+      
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</header>
+
+
+
+
+<div class="container">
+  <div class="row">
+    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+      <article role="main" class="blog-post">
+          <p>C++ is language of functions – global, instance or class functions. However it is not just functions that are callable. C++ provides an <code>operator()</code> to make even objects behave as if they were functions, affectionately known as <code>functors</code>, <code>function objects</code> to be more precise. With <code>C++11</code> lambda’s have been added to callable entity’s list.</p>
+
+<p>Overall here is the summary of the callable objects:</p>
+
+<pre><code class="language-cpp">#include &lt;algorithm&gt;
+//
+//
+template
+int length(T (&amp;arr)[N] )
+{
+    return N;
+}
+//
+//
+template
+T* end(T (&amp;arr)[N])
+{
+    return arr+N;
+}
+//
+//
+template
+struct Comparator
+{
+    const Type&amp; _comparisonObject;
+    Comparator(const Type&amp; obj) : _comparisonObject(obj)
+    {}
+    bool operator()(const Type&amp; other) const
+    {
+        return other == _comparisonObject;
+    }
+};
+//
+//
+int tobefound = 0;
+//
+//
+bool find_function(int val)
+{
+    return tobefound == val;
+}
+//
+//
+int main()
+{
+    //
+    int arr[] = {0,1,2,3,4,5,6,7,8,9};
+    //  using function
+    //  tobefound is global variable
+    //
+    //  Readability/Maintainability -- (Ok)
+    //
+    tobefound = 5;
+    auto iterator1 = std::find_if(arr, arr + length(arr), find_function);
+    //
+    bool found1 = iterator1 != end(arr);
+    //
+    //
+    //  using function_pointer
+    //  uses the find_function's pointer to
+    //  find the object, one can change the function used on fly
+    //
+    //  Readability/Maintainability -- (Ok--)
+    //  function pointer can get ugly very quickly
+    //
+    typedef bool(*CompareFunc_t)(int);
+    CompareFunc_t compareFunc1 = find_function;
+    //
+    auto iterator2 = std::find_if(arr, arr + length(arr), find_function);
+    //
+    bool found2 = iterator2 != end(arr);
+    //
+    //
+    //  using functor (function object)
+    //  comparator object stores state of what needs to be found
+    //
+    //  Readability/Maintainability -- (Good)
+    //  can change the object that compares, plus no global state to be
+    //  maintained
+    //
+    Comparator comparator(tobefound);
+    //
+    auto iterator3 = std::find_if(arr, arr + length(arr), comparator);
+    bool found3 = iterator3 != end(arr);
+    //
+    //
+    //  using lambda's
+    //
+    //  benefits of functor - functor class definition
+    //
+    //  Readability/Maintainability -- (Better)
+    //
+    auto iterator4 = std::find_if(arr, arr + length(arr),
+                                [](int val) {return val == tobefound;});
+    //
+    bool found4 = iterator4 != end(arr);
+    //
+    //
+    return 0;
+}
+//
+</code></pre>
+
+<p>The last bit of code demos the newly added functionality in <code>C++11</code>, lambda. Lambda’s are un-named function objects that can maintain state (optional). They promote use of functional programming and the use of small un-named functions that we generally need with STL.
+Lets look at this lambda:</p>
+
+<pre><code class="language-cpp">[](int val) {return val == tobefound;}
+</code></pre>
+
+<p><code>[]</code> – indicates start of a lambda, un-named local function object
+<code>(int val)</code> - takes one parameter of type <code>int</code> by value
+<code>{return val == tobefound;}</code> - defines function body. Here the variable <code>tobefound</code> is captured by value, for this un-named function object and it returns <code>bool</code>.</p>
+
+<p>Here is what compiler generates for lambda’s:</p>
+
+<pre><code class="language-cpp">    int tobefound = 5;
+    auto lambda1 = [tobefound](int val) {return val == tobefound;};
+    //
+    //
+    class UnNamedLocalFunction
+    {
+        int localVar;
+        //
+    public:
+        UnNamedLocalFunction(int var) : localVar(var)
+        {}
+        //
+        bool operator()(int val)
+        {
+            return val == localVar;
+        }
+    };
+    //
+    //
+    UnNamedLocalFunction lambda2(tobefound);
+    //
+    bool is5_one = lambda1(5);
+    bool is5_two = lambda2(5);
+</code></pre>
+
+<p>Here both <code>lambda1</code> and <code>lambda2</code> are equivalent. Thus lambda’s are syntactic sugar. Note this is one of the vary basic usage of lambda. This post is one of the basic post for upcoming ones on functional programming and lambdas.</p>
+
+<p>See <a href="/2011/10/12/c11-lambda-having-fun-with-brackets/">Lambda Function Post for further details</a></p>
+
+      </article>
+
+      <ul class="pager blog-pager">
+        
+        <li class="previous">
+          <a href="https://www.variadic.xyz/2011/05/28/auto-and-decltype/" data-toggle="tooltip" data-placement="top" title="auto and decltype">&larr; Previous Post</a>
+        </li>
+        
+        
+        <li class="next">
+          <a href="https://www.variadic.xyz/2011/06/07/functional-programming-for-the-rest-of-us/" data-toggle="tooltip" data-placement="top" title="Functional Programming For The Rest of Us">Next Post &rarr;</a>
+        </li>
+        
+      </ul>
+
+      
+
+    </div>
+  </div>
+</div>
+
+      
+
+    </div>
+
+    <footer>
+  <div class="container beautiful-jekyll-footer">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <ul class="list-inline text-center footer-links">
+          
+          
+          
+          <li>
+            <a href="https://github.com/sarangbaheti" title="GitHub">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+		      
+		      
+          <li>
+            <a href="https://linkedin.com/in/sarangbaheti" title="LinkedIn">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+	    	  
+          <li>
+            <a href="https://stackoverflow.com/users/916549/sarang" title="StackOverflow">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-stack-overflow fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+          
+    		  <li>
+      			<a href="https://www.variadic.xyz/index.xml" title="RSS">
+      			  <span class="fa-stack fa-lg">
+        				<i class="fa fa-circle fa-stack-2x"></i>
+        				<i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+      			  </span>
+      			</a>
+    		  </li>		
+
+        </ul>
+        <p class="copyright text-muted">
+    		  Sarang Baheti
+    		  &nbsp;&bull;&nbsp;
+    		  2009 - 2020
+    		  
+    		  
+    		  &nbsp;&bull;&nbsp;
+    		  <a href="https://www.variadic.xyz/">a few notes</a>
+    		  
+  	    </p>
+  	        
+    		<p class="theme-by text-muted">
+    		  Theme by
+    		  <a href="https://github.com/sarangbaheti/bh">bh</a>
+    		</p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="https://www.variadic.xyz/js/jquery-1.11.2.min.js"></script>
+<script src="https://www.variadic.xyz/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/highlight.min.js"></script>
+<script src="https://www.variadic.xyz/js/main.js"></script>
+
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-27935503-1', 'auto');
+ga('send', 'pageview');
+</script>
+
+
+
+  </body>
+</html>

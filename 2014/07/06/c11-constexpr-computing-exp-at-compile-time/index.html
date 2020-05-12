@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+  <title>C&#43;&#43;11 constexpr: computing exp at compile time</title>
+
+  <meta name="author" content="Sarang Baheti" />
+  
+  
+
+  <meta name="generator" content="Hugo 0.30.2" />
+
+  <link rel="alternate" href="https://www.variadic.xyz/index.xml" type="application/rss+xml" title="a few notes">
+
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
+  <link rel="stylesheet" href="https://www.variadic.xyz/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="https://www.variadic.xyz/css/main.css" />
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" />
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" />
+  
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/styles/default.min.css">
+  
+  
+  
+  <meta property="og:title" content="C&#43;&#43;11 constexpr: computing exp at compile time" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="/2014/07/06/c11-constexpr-computing-exp-at-compile-time//" />
+  <meta property="og:image" content="" />
+  
+</head>
+
+
+  <body>
+
+    <nav class="navbar navbar-default navbar-fixed-top navbar-custom">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="https://www.variadic.xyz/">a few notes</a>
+    </div>
+
+    <div class="collapse navbar-collapse" id="main-navbar">
+      <ul class="nav navbar-nav navbar-right">
+      
+        
+          <li>
+          <a title="Notes" href="/">Notes</a>
+  	      </li>
+  	    
+      
+        
+          <li>
+          <a title="About" href="/about/">About</a>
+  	      </li>
+  	    
+      
+        
+          <li>
+          <a title="Archive" href="/archive/">Archive</a>
+  	      </li>
+  	    
+      
+        
+          <li>
+          <a title="Books" href="/books/">Books</a>
+  	      </li>
+  	    
+      
+        
+          <li>
+          <a title="Disclaimer" href="/disclaimer/">Disclaimer</a>
+  	      </li>
+  	    
+      
+      </ul>
+    </div>
+
+	<div class="avatar-container">
+	  <div class="avatar-img-border">
+      
+	  </div>
+	</div>
+
+  </div>
+</nav>
+
+
+    <div role="main" class="container main-content">
+
+      
+        
+
+
+
+
+
+<header class="header-section ">
+
+<div class="intro-header no-img">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="post-heading">
+          <h1>C&#43;&#43;11 constexpr: computing exp at compile time</h1>
+      
+      
+      
+      <span class="post-meta">Posted on July 6, 2014</span>
+      
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</header>
+
+
+
+
+<div class="container">
+  <div class="row">
+    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+      <article role="main" class="blog-post">
+          <p>While trying out constexpr I was wondering what else can I get compiler to compute. I can pretty much do any integral computation with both C++ Template Metaprogramming and constexpr, but can I do some floating point computations? It appears I can!!</p>
+
+<p>So I set out to compute <code>exp(z)</code>, using <a href="http://www.math.sc.edu/~girardi/m142/handouts/10sTaylorPolySeries.pdf" target="_blank">Taylor series implementation for exp</a>:</p>
+
+<pre><code class="language-cpp">//  can't deal with negative powers!!
+//
+constexpr double pow(double x, int y)
+{
+    return y == 0 ? 1.0 : x * pow(x, y-1);
+}
+
+constexpr int factorial(int x)
+{
+    return x == 0 ? 1 : x * factorial(x-1);
+}
+
+constexpr double exp(double x)
+{
+    return 1.0 + x + pow(x,2)/factorial(2) + pow(x, 3)/factorial(3)
+        + pow(x, 4)/factorial(4) + pow(x, 5)/factorial(5)
+        + pow(x,6)/factorial(6) + pow(x, 7)/factorial(7)
+        + pow(x, 8)/factorial(8) + pow(x, 9)/factorial(9);
+}
+
+int main()
+{
+    constexpr double exp1 = exp(1.0);
+    return 0;
+}
+</code></pre>
+
+<p>In here I have <code>pow</code> function to compute powers of a floating point number, mine is bit limited as it can do integral powers only; <code>factorial</code>  straight forward. <code>exp</code> function function goes to <code>10</code> component evaluation. With <code>exp(1)</code> I do see value of <code>2.7182815255731922</code> in debug window while <code>cout</code> prints it to be <code>2.71828</code>. Since this is floating point value I can&rsquo;t do <code>static_assert</code>.</p>
+
+<p>Now what&rsquo;s the proof that it was all compile time rather than runtime evaluation, the only way to confirm is to look at what is executed by processor, that&rsquo;s right assembly:</p>
+
+<p></p>
+
+<pre><code>cpp-cxpr`main at main.cpp:388:
+0x100000cc0:  pushq  %rbp
+0x100000cc1:  movq   %rsp, %rbp
+0x100000cc4:  movl   $0x0, %eax
+0x100000cc9:  movsd  0x247(%rip), %xmm0
+0x100000cd1:  movl   $0x0, -0x4(%rbp)
+0x100000cd8:  movsd  %xmm0, -0x10(%rbp)
+0x100000cdd:  popq   %rbp
+0x100000cde:  ret
+</code></pre>
+
+<p>Note: there is no instruction for <code>callq</code>, which means no function was called. Since <code>exp(1.0)</code> was evaluated at compile time it&rsquo;s value was loaded in to register <code>%xmm0</code> at line 5 and then loaded into a local variable (negative offset from <code>%rbp</code> register) at line 7. Life is a bit easy working with debug builds.</p>
+
+<p>Had we not evaluated <code>exp(z)</code> on compile time, just remove constexpr from code in main:</p>
+
+<pre><code class="language-cpp">double exp1 = exp(1); 
+// no constexpr - this will be evaluated at runtime
+</code></pre>
+
+<p>generated assembly for main function is:</p>
+
+<pre><code>cpp-cxpr`main at main.cpp:388:
+0x1000009e0:  pushq  %rbp
+0x1000009e1:  movq   %rsp, %rbp
+0x1000009e4:  subq   $0x10, %rsp
+0x1000009e8:  movabsq $0x1, %rax
+0x1000009f2:  cvtsi2sdq %rax, %xmm0
+0x1000009f7:  movl   $0x0, -0x4(%rbp)
+0x1000009fe:  callq  0x100000b10        ; exp(double) at main.cpp:354
+0x100000a03:  movl   $0x0, %eax
+0x100000a08:  movsd  %xmm0, -0x10(%rbp)
+0x100000a0d:  addq   $0x10, %rsp
+0x100000a11:  popq   %rbp
+0x100000a12:  ret
+</code></pre>
+
+<p>Here we are loading abs value 1 into register <code>%rax</code> (line 5), then converting int value to floating point with <code>cvtsi2sdq</code> instruction at line 6 and writing that in <code>%xmm0</code> register. Then at line 8 we are calling <code>exp(double)</code> function which will again put the value in register <code>%xmm0</code>. This value is then moved to a local variable at line 10 (negative offset from <code>%rbp</code> register).</p>
+
+<p>The value computed at runtime is : <code>2.7182815255731922</code></p>
+
+<p>Here is the assembly code generated for <code>exp(double)</code> function:</p>
+
+<pre><code>cpp-cxpr`exp(double) at main.cpp:354:
+0x100000b10:  pushq  %rbp
+0x100000b11:  movq   %rsp, %rbp
+0x100000b14:  subq   $0x90, %rsp
+0x100000b1b:  movl   $0x2, %edi
+0x100000b20:  movabsq $0x1, %rax
+0x100000b2a:  cvtsi2sdq %rax, %xmm1
+0x100000b2f:  movsd  %xmm0, -0x8(%rbp)
+0x100000b34:  addsd  -0x8(%rbp), %xmm1
+0x100000b39:  movsd  -0x8(%rbp), %xmm0
+0x100000b3e:  movsd  %xmm1, -0x10(%rbp)
+0x100000b43:  callq  0x100000d20           ; pow(double, int) at main.cpp:344
+0x100000b48:  movl   $0x2, %edi
+0x100000b4d:  movsd  %xmm0, -0x18(%rbp)
+0x100000b52:  callq  0x100000d90           ; factorial(int) at main.cpp:349
+0x100000b57:  movl   $0x3, %edi
+...
+...
+; many more instructions to make 7 more calls to pow and factorial
+...
+...
+0x100000d17:  addq   $0x90, %rsp
+0x100000d1e:  popq   %rbp
+0x100000d1f:  ret    
+
+;
+;  similarly there is code for pow and factorial
+;
+</code></pre>
+
+<p>That&rsquo;s all I have for this post..</p>
+
+<p>Till next time.</p>
+      </article>
+
+      <ul class="pager blog-pager">
+        
+        <li class="previous">
+          <a href="https://www.variadic.xyz/2014/07/01/c11-polymorphic-function-objects/" data-toggle="tooltip" data-placement="top" title="C&#43;&#43;11: polymorphic function objects">&larr; Previous Post</a>
+        </li>
+        
+        
+        <li class="next">
+          <a href="https://www.variadic.xyz/2014/07/17/screen-recording-on-mac-os-x/" data-toggle="tooltip" data-placement="top" title="screen recording on Mac OS X">Next Post &rarr;</a>
+        </li>
+        
+      </ul>
+
+      
+
+    </div>
+  </div>
+</div>
+
+      
+
+    </div>
+
+    <footer>
+  <div class="container beautiful-jekyll-footer">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <ul class="list-inline text-center footer-links">
+          
+          
+          
+          <li>
+            <a href="https://github.com/sarangbaheti" title="GitHub">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+		      
+		      
+          <li>
+            <a href="https://linkedin.com/in/sarangbaheti" title="LinkedIn">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+	    	  
+          <li>
+            <a href="https://stackoverflow.com/users/916549/sarang" title="StackOverflow">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-stack-overflow fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+          
+    		  <li>
+      			<a href="https://www.variadic.xyz/index.xml" title="RSS">
+      			  <span class="fa-stack fa-lg">
+        				<i class="fa fa-circle fa-stack-2x"></i>
+        				<i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+      			  </span>
+      			</a>
+    		  </li>		
+
+        </ul>
+        <p class="copyright text-muted">
+    		  Sarang Baheti
+    		  &nbsp;&bull;&nbsp;
+    		  2009 - 2020
+    		  
+    		  
+    		  &nbsp;&bull;&nbsp;
+    		  <a href="https://www.variadic.xyz/">a few notes</a>
+    		  
+  	    </p>
+  	        
+    		<p class="theme-by text-muted">
+    		  Theme by
+    		  <a href="https://github.com/sarangbaheti/bh">bh</a>
+    		</p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="https://www.variadic.xyz/js/jquery-1.11.2.min.js"></script>
+<script src="https://www.variadic.xyz/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/highlight.min.js"></script>
+<script src="https://www.variadic.xyz/js/main.js"></script>
+
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-27935503-1', 'auto');
+ga('send', 'pageview');
+</script>
+
+
+
+  </body>
+</html>

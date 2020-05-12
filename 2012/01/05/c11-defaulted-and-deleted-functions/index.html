@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+  <title>C&#43;&#43;11: defaulted and deleted functions</title>
+
+  <meta name="author" content="Sarang Baheti" />
+  
+  
+
+  <meta name="generator" content="Hugo 0.30.2" />
+
+  <link rel="alternate" href="https://www.variadic.xyz/index.xml" type="application/rss+xml" title="a few notes">
+
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
+  <link rel="stylesheet" href="https://www.variadic.xyz/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="https://www.variadic.xyz/css/main.css" />
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" />
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" />
+  
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/styles/default.min.css">
+  
+  
+  
+  <meta property="og:title" content="C&#43;&#43;11: defaulted and deleted functions" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="/2012/01/05/c11-defaulted-and-deleted-functions//" />
+  <meta property="og:image" content="" />
+  
+</head>
+
+
+  <body>
+
+    <nav class="navbar navbar-default navbar-fixed-top navbar-custom">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="https://www.variadic.xyz/">a few notes</a>
+    </div>
+
+    <div class="collapse navbar-collapse" id="main-navbar">
+      <ul class="nav navbar-nav navbar-right">
+      
+        
+          <li>
+          <a title="Notes" href="/">Notes</a>
+  	      </li>
+  	    
+      
+        
+          <li>
+          <a title="About" href="/about/">About</a>
+  	      </li>
+  	    
+      
+        
+          <li>
+          <a title="Archive" href="/archive/">Archive</a>
+  	      </li>
+  	    
+      
+        
+          <li>
+          <a title="Books" href="/books/">Books</a>
+  	      </li>
+  	    
+      
+        
+          <li>
+          <a title="Disclaimer" href="/disclaimer/">Disclaimer</a>
+  	      </li>
+  	    
+      
+      </ul>
+    </div>
+
+	<div class="avatar-container">
+	  <div class="avatar-img-border">
+      
+	  </div>
+	</div>
+
+  </div>
+</nav>
+
+
+    <div role="main" class="container main-content">
+
+      
+        
+
+
+
+
+
+<header class="header-section ">
+
+<div class="intro-header no-img">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="post-heading">
+          <h1>C&#43;&#43;11: defaulted and deleted functions</h1>
+      
+      
+      
+      <span class="post-meta">Posted on January 5, 2012</span>
+      
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</header>
+
+
+
+
+<div class="container">
+  <div class="row">
+    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+      <article role="main" class="blog-post">
+          
+
+<p>C++ programmers seem to (or at times have to) get along with the current syntax and semantics of the four special member functions since 1983, or so we think. However, library designers often come across stumbling blocks and annoyances that are a direct result of these rules.</p>
+
+<p>By default, C++ implicitly declares the following four member functions for every class:</p>
+
+<ul>
+<li>default constructor (ctor)</li>
+<li>copy constructor (copy ctor)</li>
+<li>operator = (assignment operator)</li>
+<li>destructor (dtor)</li>
+</ul>
+
+<p>In addition, a default global implementation of the following operators are implemented for each class:</p>
+
+<ul>
+<li>address-of operator <code>&amp;</code></li>
+<li>indirection operator <code>*</code></li>
+<li>member access operator <code>-&gt;</code></li>
+<li>member indirection operator <code>-&gt;*</code></li>
+<li>free-store allocation <code>operator new</code></li>
+<li>free-store deallocation <code>operator delete</code>
+
+<br /></li>
+</ul>
+
+<p>In both cases, users may override the defaults by providing an explicit declaration of these special member functions and operators in a given class. These default functions have been more trouble than use with most of the libraries, where you want control over how the object is allocated, copied or deleted.</p>
+
+<p>The latest <a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2007/n2210.html#&quot;default&quot;">&#8220;Defaulted and Deleted Functions&#8221; proposal</a> introduces two new syntactic mechanisms. The first mechanism reintroduces the default implementation of a member function or an operator. The second mechanism deletes the definition of the currently visible function.</p>
+
+<h2 id="default-specifier">default specifier</h2>
+
+<pre><code class="language-cpp">class Sample
+{
+public:
+    //
+    //  the pack of four functions that compiler
+    //  implements by default for each class
+    //
+    Sample() = default;
+    Sample(const Sample&amp;) = default;
+    ~Sample() = default;
+    Sample&amp; operator=(const Sample&amp;) = default;
+};
+</code></pre>
+
+<p>Sample class declares all the four-special functions to be implemented by default. Actually we do not need to put default specifier with each method as compiler will provide you anyway but they are good way of documenting your code. <strong><em>default</em></strong> specifier can be applied to function definitions as well rather than declarations:</p>
+
+<pre><code class="language-cpp">class Sample
+{
+public:
+    //
+    //  the pack of four functions that compiler
+    //  implements by default for each class
+    //
+    Sample();
+    Sample(const Sample&amp;) = default;
+    virtual ~Sample();
+    Sample&amp; operator=(const Sample&amp;) = default;
+};
+
+//  implementation file for Sample
+//
+Sample::Sample() = default;
+Sample::~Sample() = default;
+</code></pre>
+
+<p><code>default</code> specifier is not restricted to just member functions but can be used on free-standing functions as well. The only thing to remember is that not to specify <code>default</code> on both declaration and definition.</p>
+
+<h2 id="delete-specifier">delete specifier</h2>
+
+<p><code>delete</code> specifier is more interesting than <code>default</code> specifier, cause it can solve some of the annoying issues while writing general frameworks or libraries. One of the nice things is that it is declarative that you don&rsquo;t want certain function to be implemented:</p>
+
+<pre><code class="language-cpp">class Sample
+{
+public:
+    
+    //  the pack of four functions that compiler
+    //  implements by default for each class
+    Sample() = default;
+    virtual ~Sample() = default;
+    
+    //  I don't want objects of this class to be
+    //  copied or assigned
+    Sample(const Sample&amp;) = delete;
+    Sample&amp; operator=(const Sample&amp;) = delete;
+
+    //  custom logic to copy objects of this class
+    virtual Sample* Clone() const = 0;
+};
+</code></pre>
+
+<p>Similar to <code>default</code> you can specify <code>delete</code> on definitions (with XCode, clang-llvm 3.0, I am running into some issues, but this should not be a problem moving forward.) in your implementation files.</p>
+
+<h2 id="summary">Summary</h2>
+
+<p>I liked the idea that you can declaratively control the generation of special functions and operators for classes. This is big win as it will reduce the cryptic code and will document the intent very well. All in all this is very useful feature.</p>
+
+<p><br/>
+<a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2007/n2210.html#&quot;default&quot;">Defaulted and Deleted functions</a> (open-std.org)</p>
+
+      </article>
+
+      <ul class="pager blog-pager">
+        
+        <li class="previous">
+          <a href="https://www.variadic.xyz/2012/01/04/enum-classes/" data-toggle="tooltip" data-placement="top" title="C&#43;&#43;11: enum classes">&larr; Previous Post</a>
+        </li>
+        
+        
+        <li class="next">
+          <a href="https://www.variadic.xyz/2012/01/06/parallel-computing-terms/" data-toggle="tooltip" data-placement="top" title="Parallel Computing Terms">Next Post &rarr;</a>
+        </li>
+        
+      </ul>
+
+      
+
+    </div>
+  </div>
+</div>
+
+      
+
+    </div>
+
+    <footer>
+  <div class="container beautiful-jekyll-footer">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <ul class="list-inline text-center footer-links">
+          
+          
+          
+          <li>
+            <a href="https://github.com/sarangbaheti" title="GitHub">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+		      
+		      
+          <li>
+            <a href="https://linkedin.com/in/sarangbaheti" title="LinkedIn">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+	    	  
+          <li>
+            <a href="https://stackoverflow.com/users/916549/sarang" title="StackOverflow">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-stack-overflow fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+          
+    		  <li>
+      			<a href="https://www.variadic.xyz/index.xml" title="RSS">
+      			  <span class="fa-stack fa-lg">
+        				<i class="fa fa-circle fa-stack-2x"></i>
+        				<i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+      			  </span>
+      			</a>
+    		  </li>		
+
+        </ul>
+        <p class="copyright text-muted">
+    		  Sarang Baheti
+    		  &nbsp;&bull;&nbsp;
+    		  2009 - 2020
+    		  
+    		  
+    		  &nbsp;&bull;&nbsp;
+    		  <a href="https://www.variadic.xyz/">a few notes</a>
+    		  
+  	    </p>
+  	        
+    		<p class="theme-by text-muted">
+    		  Theme by
+    		  <a href="https://github.com/sarangbaheti/bh">bh</a>
+    		</p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="https://www.variadic.xyz/js/jquery-1.11.2.min.js"></script>
+<script src="https://www.variadic.xyz/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/highlight.min.js"></script>
+<script src="https://www.variadic.xyz/js/main.js"></script>
+
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-27935503-1', 'auto');
+ga('send', 'pageview');
+</script>
+
+
+
+  </body>
+</html>

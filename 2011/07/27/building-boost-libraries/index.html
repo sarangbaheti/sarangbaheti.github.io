@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+  <title>building boost libraries</title>
+
+  <meta name="author" content="Sarang Baheti" />
+  
+  
+
+  <meta name="generator" content="Hugo 0.30.2" />
+
+  <link rel="alternate" href="https://www.variadic.xyz/index.xml" type="application/rss+xml" title="a few notes">
+
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
+  <link rel="stylesheet" href="https://www.variadic.xyz/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="https://www.variadic.xyz/css/main.css" />
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" />
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" />
+  
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/styles/default.min.css">
+  
+  
+  
+  <meta property="og:title" content="building boost libraries" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="/2011/07/27/building-boost-libraries//" />
+  <meta property="og:image" content="" />
+  
+</head>
+
+
+  <body>
+
+    <nav class="navbar navbar-default navbar-fixed-top navbar-custom">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="https://www.variadic.xyz/">a few notes</a>
+    </div>
+
+    <div class="collapse navbar-collapse" id="main-navbar">
+      <ul class="nav navbar-nav navbar-right">
+      
+        
+          <li>
+          <a title="Notes" href="/">Notes</a>
+  	      </li>
+  	    
+      
+        
+          <li>
+          <a title="About" href="/about/">About</a>
+  	      </li>
+  	    
+      
+        
+          <li>
+          <a title="Archive" href="/archive/">Archive</a>
+  	      </li>
+  	    
+      
+        
+          <li>
+          <a title="Books" href="/books/">Books</a>
+  	      </li>
+  	    
+      
+        
+          <li>
+          <a title="Disclaimer" href="/disclaimer/">Disclaimer</a>
+  	      </li>
+  	    
+      
+      </ul>
+    </div>
+
+	<div class="avatar-container">
+	  <div class="avatar-img-border">
+      
+	  </div>
+	</div>
+
+  </div>
+</nav>
+
+
+    <div role="main" class="container main-content">
+
+      
+        
+
+
+
+
+
+<header class="header-section ">
+
+<div class="intro-header no-img">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="post-heading">
+          <h1>building boost libraries</h1>
+      
+      
+      
+      <span class="post-meta">Posted on July 27, 2011</span>
+      
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</header>
+
+
+
+
+<div class="container">
+  <div class="row">
+    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+      <article role="main" class="blog-post">
+          
+
+<p style="text-align: justify;">
+  boost is mostly header only library, there are a few libraries like file-system, threads, chrono that abstract the OS/Runtime Library concepts, and few have been implemented in cpp files regex for an example. These few libraries need to be built before you can use them.
+</p>
+
+<p style="text-align: justify;">
+  boost comes with its own build engine, bjam, which is configured to build it with relevant dependencies and install the libraries in designated locations.
+</p>
+
+<p style="text-align: justify;">
+  I am not getting into boost-bjam in this post, however I will cover building boost library using bjam with VS 2010 SP1.
+</p>
+
+<p style="text-align: justify;">
+  Extract the latest boost version, at the time of writing this post the version happens to be 1.47, in some directory, may be f: boostboost_1.47, let’s call this a root directory. bjam is distributed as source along with boost, to build boost we need to build bjam first.
+</p>
+
+<p style="text-align: justify;">
+  Open a VS 2010 SP1 Command Prompt, that would be VS 2010 Tools (either open x64 or 32), on that command prompt cd to root directory. Execute the command bootstrap.bat, this will build the bjam engine and place the bjam.exe in your root directory.
+</p>
+
+<p style="text-align: justify;">
+  <a href="/wp-content/uploads/2011/07/boost11.png"><img class="aligncenter size-full wp-image-443" src="/wp-content/uploads/2011/07/boost11.png" alt="" width="758" height="755" /></a><br /> Once done building bjam, again on the same command prompt execute the command bjam and after a while you are all set. This command generates static libraries from boost code to be directly linked against you application.
+</p>
+
+<p style="text-align: justify;">
+  <a href="/wp-content/uploads/2011/07/boost2.png"><img class="aligncenter size-full wp-image-444" src="/wp-content/uploads/2011/07/boost2.png" alt="" width="997" height="414" /></a>
+</p>
+
+<p style="text-align: justify;">
+  <a href="/wp-content/uploads/2011/07/boost3.png"><img class="aligncenter size-full wp-image-445" src="/wp-content/uploads/2011/07/boost3.png" alt="" width="758" height="755" /></a>
+</p>
+ 
+
+<p>Two lib files are generated for each library built, in case of chrono these are:</p>
+
+<ul>
+<li>libboost_chrono-vc100-mt-1_47.lib ( this is release version)</li>
+<li>libboost_chrono-vc100-mt-gd-1_47.lib ( this is debug version)</li>
+</ul>
+
+<p>you will be required to provide these as input to linker, depending upon the release or debug version, to build and link</p>
+
+<h4 id="related-articles">Related articles</h4>
+
+<ul>
+<li><a href="http://www.codeproject.com/KB/tips/Building_boost_libraries.aspx">Building Boost Libraries</a> (codeproject.com)</li>
+<li><a href="http://www.boost.org/doc/libs/1_35_0/more/getting_started/windows.html">Boost Getting Started</a> (boost.org)</li>
+</ul>
+
+      </article>
+
+      <ul class="pager blog-pager">
+        
+        <li class="previous">
+          <a href="https://www.variadic.xyz/2011/07/26/vector-reserve-with-care/" data-toggle="tooltip" data-placement="top" title="vector: reserve with care">&larr; Previous Post</a>
+        </li>
+        
+        
+        <li class="next">
+          <a href="https://www.variadic.xyz/2011/08/13/c0x-is-an-international-standard/" data-toggle="tooltip" data-placement="top" title="C&#43;&#43;0x is an international standard">Next Post &rarr;</a>
+        </li>
+        
+      </ul>
+
+      
+
+    </div>
+  </div>
+</div>
+
+      
+
+    </div>
+
+    <footer>
+  <div class="container beautiful-jekyll-footer">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <ul class="list-inline text-center footer-links">
+          
+          
+          
+          <li>
+            <a href="https://github.com/sarangbaheti" title="GitHub">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+		      
+		      
+          <li>
+            <a href="https://linkedin.com/in/sarangbaheti" title="LinkedIn">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+	    	  
+          <li>
+            <a href="https://stackoverflow.com/users/916549/sarang" title="StackOverflow">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-stack-overflow fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+          
+    		  <li>
+      			<a href="https://www.variadic.xyz/index.xml" title="RSS">
+      			  <span class="fa-stack fa-lg">
+        				<i class="fa fa-circle fa-stack-2x"></i>
+        				<i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+      			  </span>
+      			</a>
+    		  </li>		
+
+        </ul>
+        <p class="copyright text-muted">
+    		  Sarang Baheti
+    		  &nbsp;&bull;&nbsp;
+    		  2009 - 2020
+    		  
+    		  
+    		  &nbsp;&bull;&nbsp;
+    		  <a href="https://www.variadic.xyz/">a few notes</a>
+    		  
+  	    </p>
+  	        
+    		<p class="theme-by text-muted">
+    		  Theme by
+    		  <a href="https://github.com/sarangbaheti/bh">bh</a>
+    		</p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="https://www.variadic.xyz/js/jquery-1.11.2.min.js"></script>
+<script src="https://www.variadic.xyz/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/highlight.min.js"></script>
+<script src="https://www.variadic.xyz/js/main.js"></script>
+
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-27935503-1', 'auto');
+ga('send', 'pageview');
+</script>
+
+
+
+  </body>
+</html>

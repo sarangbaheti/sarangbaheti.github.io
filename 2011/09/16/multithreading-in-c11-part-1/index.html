@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+  <title>Multithreading in C&#43;&#43;11 - part 1</title>
+
+  <meta name="author" content="Sarang Baheti" />
+  
+  
+
+  <meta name="generator" content="Hugo 0.30.2" />
+
+  <link rel="alternate" href="https://www.variadic.xyz/index.xml" type="application/rss+xml" title="a few notes">
+
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
+  <link rel="stylesheet" href="https://www.variadic.xyz/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="https://www.variadic.xyz/css/main.css" />
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" />
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" />
+  
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/styles/default.min.css">
+  
+  
+  
+  <meta property="og:title" content="Multithreading in C&#43;&#43;11 - part 1" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="/2011/09/16/multithreading-in-c11-part-1//" />
+  <meta property="og:image" content="" />
+  
+</head>
+
+
+  <body>
+
+    <nav class="navbar navbar-default navbar-fixed-top navbar-custom">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="https://www.variadic.xyz/">a few notes</a>
+    </div>
+
+    <div class="collapse navbar-collapse" id="main-navbar">
+      <ul class="nav navbar-nav navbar-right">
+      
+        
+          <li>
+          <a title="Notes" href="/">Notes</a>
+  	      </li>
+  	    
+      
+        
+          <li>
+          <a title="About" href="/about/">About</a>
+  	      </li>
+  	    
+      
+        
+          <li>
+          <a title="Archive" href="/archive/">Archive</a>
+  	      </li>
+  	    
+      
+        
+          <li>
+          <a title="Books" href="/books/">Books</a>
+  	      </li>
+  	    
+      
+        
+          <li>
+          <a title="Disclaimer" href="/disclaimer/">Disclaimer</a>
+  	      </li>
+  	    
+      
+      </ul>
+    </div>
+
+	<div class="avatar-container">
+	  <div class="avatar-img-border">
+      
+	  </div>
+	</div>
+
+  </div>
+</nav>
+
+
+    <div role="main" class="container main-content">
+
+      
+        
+
+
+
+
+
+<header class="header-section ">
+
+<div class="intro-header no-img">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="post-heading">
+          <h1>Multithreading in C&#43;&#43;11 - part 1</h1>
+      
+      
+      
+      <span class="post-meta">Posted on September 16, 2011</span>
+      
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</header>
+
+
+
+
+<div class="container">
+  <div class="row">
+    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+      <article role="main" class="blog-post">
+          <p>Concurrency and multithreading is all about running multiple pieces of code in parallel. If you have the hardware for it in the form of a nice shiny multi-core CPU or a multi-processor system then this code can run truly in parallel, otherwise it is interleaved by the operating system — a bit of one task, then a bit of another. This is all very well, but somehow you have to specify <em>what</em> code to run on all these threads.
+Let’s get started with <code>std::thread</code></p>
+
+<pre><code class="language-cpp">#include &lt;thread&gt;
+#include &lt;iostream&gt;
+
+void function()
+{
+    std::cout &lt;&lt; &quot;From thread 1&quot; &lt;&lt; std::endl;
+}
+
+int main()
+{
+    std::thread t(function);
+    t.join();
+
+    std::cout &lt;&lt; &quot;From main thread&quot; &lt;&lt; std::endl;
+
+    std::cin.ignore();
+    return 0;
+}
+</code></pre>
+
+<p>First two lines include <code>thread</code> and <code>iostream</code> header files. Then we define a function <code>thread_function</code> that will be executed by the <code>thread</code>, for now it will just print something to shell. In <code>main</code> function we first create a <code>thread</code> object t and pass the function to be executed by this thread, in this case it is <code>thread_function</code>. <code>thread</code> object construction launches a thread and executes the function but in the meanwhile <code>main</code> thread continues with the next statement. The main thread continues on irrespective of progress of thread it spawned. If main thread returns while thread <code>t</code> is still working then application terminates, thereby killing the spawned thread <code>t</code>. That’s where the state <code>t.join()</code> comes into picture, it ensures that main thread does not progress further till thread <code>t</code> returns. The statement <code>std::cin.ignore();</code> ensures that shell waits for you for keyboard prompt before it terminates.</p>
+
+<p>Here is how the application progresses:</p>
+
+<p><a href="http://www.nullptr.me/wp-content/uploads/2011/09/thread-1.png"><img class="aligncenter size-full wp-image-978" title="thread-1" src="http://www.nullptr.me/wp-content/uploads/2011/09/thread-1.png" alt="" width="664" height="664" /></a><br />
+In previous example we saw <code>thread</code> was created with function to be executed as a parameter. Actually what <code>thread</code> really wants is a callable entity. Now we know that any entity that has <code>operator()</code> is a callable entity:</p>
+
+<pre><code class="language-cpp">#include &lt;thread&gt;
+#include &lt;iostream&gt;
+
+struct Functor
+{
+    void operator()() const
+    {
+        std::cout &lt;&lt; &quot;From functor&quot; &lt;&lt; std::endl;
+    }
+};
+
+void function()
+{
+    std::cout &lt;&lt; &quot;From thread 1&quot; &lt;&lt; std::endl;
+}
+
+int main()
+{
+    std::thread t1(function);
+
+    Functor functor;
+    std::thread t2(functor);
+
+    auto lambdaFunc = []()-&gt;void{std::cout &lt;&lt; &quot;From lambda function&quot; &lt;&lt; std::endl;};
+    std::thread t3(lambdaFunc);
+
+    t1.join();
+    t2.join();
+    t3.join();
+
+    std::cin.ignore();
+    return 0;
+}
+</code></pre>
+
+<p>Here in this code snippet we are creating three threads:</p>
+
+<ol>
+<li>Thread <code>t1</code> is passed a function to execute</li>
+<li>Thread <code>t2</code> is passed a functor to execute</li>
+<li>Thread <code>t3</code> is passed a lambda to execute</li>
+</ol>
+
+<p>All these work fine, as they are callable entities. All these examples have been simple as the function to execute are not passed any data. Here is another example where you can pass some parameters to executing thread:</p>
+
+<pre><code class="language-cpp">#include &lt;thread&gt;
+#include &lt;iostream&gt;
+
+struct Functor
+{
+    void operator()(double x, double y) const
+    {
+        std::cout &lt;&lt; &quot;From functor -- sum of x &amp; y is:&quot; &lt;&lt; (x+y) &lt;&lt; std::endl;
+    }
+};
+
+int main()
+{
+
+    Functor functor;
+    std::thread t(functor, 10,12);
+    t.join();
+
+    std::cin.ignore();
+    return 0;
+}
+</code></pre>
+
+<p>All of this has been just demonstration code, lets write something that is bit more useful, like computing dotproduct:</p>
+
+<blockquote>
+<p>Update: This problem has been resolved in the latest version of Visual Studio (VS 2011 Beta at this point of time)</p>
+</blockquote>
+
+<pre><code class="language-cpp">#include &lt;thread&gt;
+#include &lt;iostream&gt;
+
+struct DotProduct
+{
+    double* dp;
+    double* a;
+    double* b;
+    size_t numElems;
+
+    DotProduct(double* result, double* a, double* b, size_t elems) :
+                dp(result), a(a), b(b), numElems(elems)
+    {}
+
+    void operator()() const
+    {
+        for(decltype(numElems) idx = 0; idx &lt; numElems; ++idx )
+        {
+            *dp += a[idx] * b[idx];
+        }
+    }
+};
+
+int main()
+{
+    static const size_t NumElems = 100000;
+    double* a = new double[NumElems];
+    double* b = new double[NumElems];
+
+    for( size_t idx = 0; idx &lt; NumElems; ++idx )
+    {
+        a[idx] = idx;
+        b[idx] = NumElems - idx;
+    }
+
+    //  for now we are going to have 4 threads
+    //
+    size_t increment = NumElems/4;
+
+    //  we ensure that each DotProduct object holds onto separate range
+    //  so these can be executed in parallel
+    //  as the computation in each thread is fairly predictable
+    //  we can go with equal distribution
+    //
+    double dp1_sum = 0;
+    DotProduct dp1(&amp;dp1_sum, a+0*increment,b+0*increment,increment);
+
+    double dp2_sum = 0;
+    DotProduct dp2(&amp;dp2_sum, a+1*increment,b+1*increment,increment);
+
+    double dp3_sum = 0;
+    DotProduct dp3(&amp;dp3_sum, a+2*increment,b+2*increment,increment);
+
+    double dp4_sum = 0;
+    DotProduct dp4(&amp;dp4_sum, a+3*increment,b+3*increment,increment);
+
+    //  create four threads and assign each dotproduct
+    //  evaluation job to each
+    //
+    std::thread t1(dp1);
+    std::thread t2(dp2);
+    std::thread t3(dp3);
+    //std::thread t4(dp4);
+    dp4();
+
+    //  ensure that main thread does not proceed further
+    //  till all the threads have completed execution
+    //
+    t1.join();
+    t2.join();
+    t3.join();
+    //t4.join();
+
+    //  at the end just add-up all the dot-products computed by
+    //  each thread
+    //
+    double dotprod = dp1_sum + dp2_sum + dp3_sum+ dp4_sum;
+
+    std::cout &lt;&lt; &quot;Dotproduct is &quot; &lt;&lt; dotprod &lt;&lt; std::endl;
+
+    delete[] a;
+    delete[] b;
+
+    std::cin.ignore();
+    return 0;
+}
+</code></pre>
+
+<p>Well Microsoft’s thread library is not entirely bug-free, with above code I ran into various threading issues with mutex lock and unlock, <a href="https://connect.microsoft.com/VisualStudio/feedback/details/688797/std-thread-crashes-with-error-f-dd-vctools-crt-bld-self-x86-crt-src-thr-mutex-cpp-206-unlock-of-unowned-mutex">here</a> is the bug report in case if you are interested.</p>
+
+<p>I intend to explore some more thread enhancements with Visual Studio 2011 Developer Preview. Stay tuned&hellip;</p>
+
+      </article>
+
+      <ul class="pager blog-pager">
+        
+        <li class="previous">
+          <a href="https://www.variadic.xyz/2011/09/13/0xcd-0xdd-understanding-windows-memory-codes-2/" data-toggle="tooltip" data-placement="top" title="0xCD 0xDD - understanding windows memory codes">&larr; Previous Post</a>
+        </li>
+        
+        
+        <li class="next">
+          <a href="https://www.variadic.xyz/2011/09/16/multithreading-in-c-part-1/" data-toggle="tooltip" data-placement="top" title="Multithreading in C# - part 1">Next Post &rarr;</a>
+        </li>
+        
+      </ul>
+
+      
+
+    </div>
+  </div>
+</div>
+
+      
+
+    </div>
+
+    <footer>
+  <div class="container beautiful-jekyll-footer">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <ul class="list-inline text-center footer-links">
+          
+          
+          
+          <li>
+            <a href="https://github.com/sarangbaheti" title="GitHub">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+		      
+		      
+          <li>
+            <a href="https://linkedin.com/in/sarangbaheti" title="LinkedIn">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+	    	  
+          <li>
+            <a href="https://stackoverflow.com/users/916549/sarang" title="StackOverflow">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-stack-overflow fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+          
+    		  <li>
+      			<a href="https://www.variadic.xyz/index.xml" title="RSS">
+      			  <span class="fa-stack fa-lg">
+        				<i class="fa fa-circle fa-stack-2x"></i>
+        				<i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+      			  </span>
+      			</a>
+    		  </li>		
+
+        </ul>
+        <p class="copyright text-muted">
+    		  Sarang Baheti
+    		  &nbsp;&bull;&nbsp;
+    		  2009 - 2020
+    		  
+    		  
+    		  &nbsp;&bull;&nbsp;
+    		  <a href="https://www.variadic.xyz/">a few notes</a>
+    		  
+  	    </p>
+  	        
+    		<p class="theme-by text-muted">
+    		  Theme by
+    		  <a href="https://github.com/sarangbaheti/bh">bh</a>
+    		</p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="https://www.variadic.xyz/js/jquery-1.11.2.min.js"></script>
+<script src="https://www.variadic.xyz/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/highlight.min.js"></script>
+<script src="https://www.variadic.xyz/js/main.js"></script>
+
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-27935503-1', 'auto');
+ga('send', 'pageview');
+</script>
+
+
+
+  </body>
+</html>

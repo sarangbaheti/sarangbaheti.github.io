@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+  <title>curious case of 20GB address space reservation</title>
+
+  <meta name="author" content="Sarang Baheti" />
+  
+  
+
+  <meta name="generator" content="Hugo 0.30.2" />
+
+  <link rel="alternate" href="https://www.variadic.xyz/index.xml" type="application/rss+xml" title="a few notes">
+
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
+  <link rel="stylesheet" href="https://www.variadic.xyz/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="https://www.variadic.xyz/css/main.css" />
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" />
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" />
+  
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/styles/default.min.css">
+  
+  
+  
+  <meta property="og:title" content="curious case of 20GB address space reservation" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="/2014/10/19/curious-case-of-20gb-address-space-reservation//" />
+  <meta property="og:image" content="" />
+  
+</head>
+
+
+  <body>
+
+    <nav class="navbar navbar-default navbar-fixed-top navbar-custom">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="https://www.variadic.xyz/">a few notes</a>
+    </div>
+
+    <div class="collapse navbar-collapse" id="main-navbar">
+      <ul class="nav navbar-nav navbar-right">
+      
+        
+          <li>
+          <a title="Notes" href="/">Notes</a>
+  	      </li>
+  	    
+      
+        
+          <li>
+          <a title="About" href="/about/">About</a>
+  	      </li>
+  	    
+      
+        
+          <li>
+          <a title="Archive" href="/archive/">Archive</a>
+  	      </li>
+  	    
+      
+        
+          <li>
+          <a title="Books" href="/books/">Books</a>
+  	      </li>
+  	    
+      
+        
+          <li>
+          <a title="Disclaimer" href="/disclaimer/">Disclaimer</a>
+  	      </li>
+  	    
+      
+      </ul>
+    </div>
+
+	<div class="avatar-container">
+	  <div class="avatar-img-border">
+      
+	  </div>
+	</div>
+
+  </div>
+</nav>
+
+
+    <div role="main" class="container main-content">
+
+      
+        
+
+
+
+
+
+<header class="header-section ">
+
+<div class="intro-header no-img">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="post-heading">
+          <h1>curious case of 20GB address space reservation</h1>
+      
+      
+      
+      <span class="post-meta">Posted on October 19, 2014</span>
+      
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</header>
+
+
+
+
+<div class="container">
+  <div class="row">
+    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+      <article role="main" class="blog-post">
+          <p style="text-align: justify;">
+  Recently I have been tracking a case where some code from a third party library was fiddling up with address space of my application. <a href="http://msdn.microsoft.com/en-us/library/windows/desktop/aa366912(v=vs.85).aspx" target="_blank">Address space</a> was very important back in Win32 days you had only 2GB (3GB for large address aware applications), <a href="http://msdn.microsoft.com/en-us/library/windows/desktop/aa366778(v=vs.85).aspx" target="_blank">but with x64 Windows 7 allows you to reference up to 8TB</a> (that&#8217;s right 8192GB). Well, no one needs that much address space as of today- but a lot of times it is the first thing you look at when your application is running out of memory.
+</p>
+
+<p style="text-align: justify;">
+  Such thing happened with me: due to some bug in a very thick algorithm, while loop never terminated and kept on allocating memory internally. It allocated so much memory that Windows started having problems with Low Memory Condition and finally had to quit the application. As for investigation I noticed that application reported it&#8217;s address space was ~82GB while Task Manager reported it&#8217;s <a href="http://msdn.microsoft.com/en-us/library/windows/desktop/cc441804(v=vs.85).aspx" target="_blank">Working Set</a> to be ~48GB- what was puzzling was my application during the run had reserved ~34 GB address space for nothing.
+</p>
+
+<p style="text-align: justify;">
+  
+</p>
+
+<p style="text-align: justify;">
+  The way you fiddle with address space in Windows is by calls to <a href="http://msdn.microsoft.com/en-us/library/windows/desktop/aa366887(v=vs.85).aspx" target="_blank">VirtualAlloc </a>and <a href="http://msdn.microsoft.com/en-us/library/windows/desktop/aa366890(v=vs.85).aspx" target="_blank">VirtualAllocEx</a>. After checking the source base for all the callers of VirtualAlloc I could not find a single caller that just did reserve- in fact all callers reserved and committed the request for addres space. This meant some other library was reserving the memory. How do you debug such cases? You set break point in VirtualAlloc function and check who else is allocating memory. The easiest way to do this is to fire up windbg (you can get it <a href="http://msdn.microsoft.com/en-us/windows/hardware/hh852365.aspx" target="_blank">here</a>) and attach it to your application such that it finds symbols (<a href="http://support.microsoft.com/kb/311503" target="_blank">_NT_SYMBOL_PATH</a> or <a href="http://www.windowstipspage.com/symbol-server-path-windbg-debugging/" target="_blank">.sympath</a>). Once you have all that setup then symbols for kernel32.dll will be required- so as to set breakpoint at function VirtualAlloc. You can get the symbols for Windows <a href="http://msdn.microsoft.com/en-us/windows/hardware/gg463028.aspx" target="_blank">here</a>, prefer retail- checked are useful when debugging kernel.
+</p>
+
+<p style="text-align: justify;">
+  Once you have the setup running, lets load symbols for kernel32.dll in windbg with following command:
+</p>
+
+<pre class="brush: cpp; title: ; notranslate" title="">.reload /f kernel32.dll
+</pre>
+
+<p style="text-align: justify;">
+  VirtualAlloc takes 4 parameters- <a href="http://msdn.microsoft.com/en-us/library/zthk2dkh.aspx" target="_blank">with Windows x64 the first four parameters are passed in registers</a> and rest are passed on stack. The sequence is rcx, rdx, r8 and r9. Second parameter is about the allocation size so it will be passed in rdx register. Easiest way is to set <a href="http://msdn.microsoft.com/en-us/library/windows/hardware/ff556853(v=vs.85).aspx" target="_blank">conditional breakpoint</a>.
+</p>
+
+<pre class="brush: cpp; title: ; notranslate" title="">bp kernel32!VirtualAlloc ".if (@rdx&gt;0x100000) {r; KB 25} .else {gc}"
+</pre>
+
+<p style="text-align: justify;">
+  Here we are checking for value in rdx being greater than 0x100000 (1MB), if this is true then prior to break it will print the contents of registers with <a href="http://windbg.info/doc/1-common-cmds.html" target="_blank">command <b><i>r</i></b></a> and then traceback upto depth 25 with <a href="http://windbg.info/doc/1-common-cmds.html" target="_blank">command <b><i>KB 25</i></b></a>. In case the memory requested is less than 1MB it will just continue- <a href="http://windbg.info/doc/1-common-cmds.html" target="_blank">command <b><i>gc</i></b></a>.
+</p>
+
+<p style="text-align: justify;">
+  run your application with <a href="http://windbg.info/doc/1-common-cmds.html" target="_blank">command <b><i>g</i></b></a> and watch the fun.
+</p>
+
+<p style="text-align: justify;">
+  For me this is what it turned out- initing Cuda launched Cuda profiler which reserved 20GB of address space for itself- not sure what it is going to do with it but it was fun to track down.
+</p>
+
+<pre class="brush: cpp; title: ; notranslate" title="">Below debugging information translates to:
+VirtualAlloc(0x0000000200000000, 20GB, MEM_RESERVE, PAGE_NOACCESS)
+VirtualAlloc(rcx, rdx, r8, r9)
+----------------------------------------------------------------------
+
+kernel32!VirtualAlloc:
+
+00000000`776c5c68 ff25ba760800    jmp     qword ptr 
+[kernel32!_imp_VirtualAlloc (00000000`7774d328)]
+ds:00000000`7774d328={KERNELBASE!VirtualAlloc (000007fe`fd721900)}
+
+ModLoad:000007fe`d1680000 000007fe`d23cc000 
+C:\windows\system32\nvcuda.dll
+ModLoad:000007fe`ec760000 000007fe`eca93000 
+C:\windows\system32\nvapi64.dll
+
+*** ERROR: Symbol file could not be found. 
+Defaulted to export symbols for C:\windows\system32\nvcuda.dll -
+
+rax=0000000700000000 rbx=0000000200000000 rcx=0000000200000000
+rdx=0000000500000000 rsi=000000fff8000000 rdi=0000000500000000
+rip=00000000776c5c68 rsp=000000000022c108 rbp=0000000100000000
+r8=0000000000002000  r9=0000000000000001 r10=0000000000000000
+r11=0000000000000246 r12=0000000000000000 r13=0000000000000002
+r14=0000000100000000 r15=000000fff8000000
+
+iopl=0         nv up ei ng nz na po cy
+cs=0033  ss=002b  ds=002b  es=002b  fs=0053  gs=002b             
+efl=00000287
+
+kernel32!VirtualAlloc:
+
+00000000`776c5c68 ff25ba760800    jmp    
+qword ptr [kernel32!_imp_VirtualAlloc (00000000`7774d328)]
+ds:00000000`7774d328={KERNELBASE!VirtualAlloc (000007fe`fd721900)}
+
+Child-SP          RetAddr           Call Site
+00000000`0022c108 000007fe`d1ecd538 kernel32!VirtualAlloc
+00000000`0022c110 000007fe`d16c7a33 nvcuda!cuProfilerStop+0x82fc18
+00000000`0022c140 000007fe`d16c7c0d nvcuda!cuProfilerStop+0x2a113
+00000000`0022c1a0 000007fe`d16c8595 nvcuda!cuProfilerStop+0x2a2ed
+00000000`0022c1f0 000007fe`d169fc09 nvcuda!cuProfilerStop+0x2ac75
+00000000`0022c230 000007fe`d169fd0a nvcuda!cuProfilerStop+0x22e9
+00000000`0022c270 000007fe`d1681417 nvcuda!cuProfilerStop+0x23ea
+00000000`0022c2a0 00000000`2e22337a nvcuda!cuInit+0x137
+
+</pre>
+
+<p>Reference links:</p>
+
+<ul>
+<li><a href="http://msdn.microsoft.com/en-us/library/windows/desktop/aa366786(v=vs.85).aspx" target="_blank"> Memory Protection Constants </a> (msdn.microsoft.com)</li>
+<li><a href="http://www.windowstipspage.com/symbol-server-path-windbg-debugging/" target="_blank"> Debugging using Windbg : Symbols loading</a> (windowstipspage.com)</li>
+<li><a href="http://msdn.microsoft.com/en-us/library/windows/hardware/ff556853(v=vs.85).aspx" target="_blank"> Conditional breakpoints in WinDbg</a> (msdn.microsoft.com)</li>
+<li><a href="http://bugslasher.net/2011/01/15/memory-exhaustion-even-if-a-large-enough-free-memory-segment-is-available/" target="_blank">Memory management under Windows</a> (bugslasher.net)</li>
+<li><a href="http://www.crowdstrike.com/blog/unpacking-dynamically-allocated-code/" target="_blank">Unpacking Dynamically Allocated Code</a> (crowdstrike.com)</li>
+<li><a href="http://blogs.msdn.com/b/maoni/archive/2010/04/23/debugging-with-the-right-tools.aspx" target="_blank">Debugging with the Right Tools</a> (blogs.msdn.com)</li>
+<li><a target="_blank">Investigating Memory Issues</a> (msdn.microsoft.com)</li>
+</ul>
+      </article>
+
+      <ul class="pager blog-pager">
+        
+        <li class="previous">
+          <a href="https://www.variadic.xyz/2014/08/28/origin-of-endian/" data-toggle="tooltip" data-placement="top" title="origin of endian">&larr; Previous Post</a>
+        </li>
+        
+        
+        <li class="next">
+          <a href="https://www.variadic.xyz/2014/12/22/disabling-superfetch-prefetch-and-indexing/" data-toggle="tooltip" data-placement="top" title="disabling superfetch, prefetch and indexing">Next Post &rarr;</a>
+        </li>
+        
+      </ul>
+
+      
+
+    </div>
+  </div>
+</div>
+
+      
+
+    </div>
+
+    <footer>
+  <div class="container beautiful-jekyll-footer">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <ul class="list-inline text-center footer-links">
+          
+          
+          
+          <li>
+            <a href="https://github.com/sarangbaheti" title="GitHub">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+		      
+		      
+          <li>
+            <a href="https://linkedin.com/in/sarangbaheti" title="LinkedIn">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+	    	  
+          <li>
+            <a href="https://stackoverflow.com/users/916549/sarang" title="StackOverflow">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-stack-overflow fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+          
+    		  <li>
+      			<a href="https://www.variadic.xyz/index.xml" title="RSS">
+      			  <span class="fa-stack fa-lg">
+        				<i class="fa fa-circle fa-stack-2x"></i>
+        				<i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+      			  </span>
+      			</a>
+    		  </li>		
+
+        </ul>
+        <p class="copyright text-muted">
+    		  Sarang Baheti
+    		  &nbsp;&bull;&nbsp;
+    		  2009 - 2020
+    		  
+    		  
+    		  &nbsp;&bull;&nbsp;
+    		  <a href="https://www.variadic.xyz/">a few notes</a>
+    		  
+  	    </p>
+  	        
+    		<p class="theme-by text-muted">
+    		  Theme by
+    		  <a href="https://github.com/sarangbaheti/bh">bh</a>
+    		</p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="https://www.variadic.xyz/js/jquery-1.11.2.min.js"></script>
+<script src="https://www.variadic.xyz/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/highlight.min.js"></script>
+<script src="https://www.variadic.xyz/js/main.js"></script>
+
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-27935503-1', 'auto');
+ga('send', 'pageview');
+</script>
+
+
+
+  </body>
+</html>

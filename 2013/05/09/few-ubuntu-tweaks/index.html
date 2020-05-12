@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+  <title>few ubuntu tweaks</title>
+
+  <meta name="author" content="Sarang Baheti" />
+  
+  
+
+  <meta name="generator" content="Hugo 0.30.2" />
+
+  <link rel="alternate" href="https://www.variadic.xyz/index.xml" type="application/rss+xml" title="a few notes">
+
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
+  <link rel="stylesheet" href="https://www.variadic.xyz/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="https://www.variadic.xyz/css/main.css" />
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" />
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" />
+  
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/styles/default.min.css">
+  
+  
+  
+  <meta property="og:title" content="few ubuntu tweaks" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="/2013/05/09/few-ubuntu-tweaks//" />
+  <meta property="og:image" content="" />
+  
+</head>
+
+
+  <body>
+
+    <nav class="navbar navbar-default navbar-fixed-top navbar-custom">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="https://www.variadic.xyz/">a few notes</a>
+    </div>
+
+    <div class="collapse navbar-collapse" id="main-navbar">
+      <ul class="nav navbar-nav navbar-right">
+      
+        
+          <li>
+          <a title="Notes" href="/">Notes</a>
+  	      </li>
+  	    
+      
+        
+          <li>
+          <a title="About" href="/about/">About</a>
+  	      </li>
+  	    
+      
+        
+          <li>
+          <a title="Archive" href="/archive/">Archive</a>
+  	      </li>
+  	    
+      
+        
+          <li>
+          <a title="Books" href="/books/">Books</a>
+  	      </li>
+  	    
+      
+        
+          <li>
+          <a title="Disclaimer" href="/disclaimer/">Disclaimer</a>
+  	      </li>
+  	    
+      
+      </ul>
+    </div>
+
+	<div class="avatar-container">
+	  <div class="avatar-img-border">
+      
+	  </div>
+	</div>
+
+  </div>
+</nav>
+
+
+    <div role="main" class="container main-content">
+
+      
+        
+
+
+
+
+
+<header class="header-section ">
+
+<div class="intro-header no-img">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="post-heading">
+          <h1>few ubuntu tweaks</h1>
+      
+      
+      
+      <span class="post-meta">Posted on May 9, 2013</span>
+      
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</header>
+
+
+
+
+<div class="container">
+  <div class="row">
+    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+      <article role="main" class="blog-post">
+          <p>Ubuntu is a great OS to use, but there are few things that can make life a bit more easier. First and foremost I don&#8217;t like those flash overlaid scroll-bars. Open a terminal and execute this command:</p>
+
+<pre><code>sudo apt-get remove overlay-scrollbar
+</code></pre>
+
+<p>and result is pleasing, notice the normal scrollbars</p>
+
+<p><img src="/wp-content/uploads/2013/05/system-monitor.png" alt="alt text" title="system-monitor" /></p>
+
+<p></br><br />
+Ubuntu these days is the poster boy of Linux for mere mortals, thus Canonical has cut down on installing build related tools by default. Get your machine up to date for build related stuff by executing this command</p>
+
+<pre><code>sudo apt-get install build-essentials flex bison gcc-multilib
+</code></pre>
+
+<p></br><br />
+Take control of privacy, with Ubuntu 13.04 search includes results from online sources as well. You can disable them here:</p>
+
+<p><img src="/wp-content/uploads/2013/05/privacy-settings.png" alt="alt text" title="privacy-settings" /></p>
+
+<p></br><br />
+To take control of every nook and corner of your Ubuntu&#8217;s look and feel, install Unity Tweak tool:<br />
+<img alt="Screenshot 2013-02-06 13:54:48" src="http://www.omgubuntu.co.uk/wp-content/uploads/2013/01/Screenshot-2013-02-06-135448.png" width="750" /><br />
+</br><br />
+Install jupiter to control the power mode, as in Windows:</p>
+
+<p><img title="jupiter indicator" alt="jupiter indicator" src="http://4.bp.blogspot.com/-2Y3nKCDnmR4/T5khQR-CJhI/AAAAAAAAIvA/BYX-Bnxatak/s320/jupiter-indicator.png" width="320" height="180" border="0" /></p>
+
+<pre><code>sudo apt-add-repository ppa:alanbell/unity&lt;/br&gt;
+sudo apt-get update&lt;/br&gt;
+sudo apt-get install unity-window-quicklists
+</code></pre>
+
+<p></br><br />
+Install Weather Indicator right in your app-menu:</p>
+
+<pre><code>sudo add-apt-repository ppa:atareao/atareao&lt;/br&gt;
+sudo apt-get update&lt;/br&gt;
+sudo apt-get install my-weather-indicator
+</code></pre>
+
+<p></br><br />
+Get quick lists between open windows, much like jump-lists in Windows 7:</p>
+
+<p><img src="http://2.bp.blogspot.com/-m8sqPCRbhiY/T9s_ui3dSMI/AAAAAAAAJH4/E3H6FhjGD9A/s320/unity-window-quicklists.png" alt="unity window quicklists" /></p>
+
+<pre><code>sudo add-apt-repository ppa:tualatrix/ppa&lt;/br&gt;
+sudo apt-get update&lt;/br&gt;
+sudo apt-get install ubuntu-tweak
+</code></pre>
+
+<p></br><br />
+Sources:</p>
+
+<ul>
+<li><a href="http://www.webupd8.org/2013/04/7-things-to-do-after-installing-ubuntu.html" target="_blank">7 things to do after installing Ubuntu</a></li>
+<li><a href="http://www.webupd8.org/2012/04/things-to-tweak-after-installing-ubuntu.html" target="_blank">things to tweak after installing Ubuntu</a></li>
+</ul>
+
+      </article>
+
+      <ul class="pager blog-pager">
+        
+        <li class="previous">
+          <a href="https://www.variadic.xyz/2013/04/24/generating-stack-traces-on-unixlinux-systems/" data-toggle="tooltip" data-placement="top" title="generating stack traces on UNIX/Linux systems">&larr; Previous Post</a>
+        </li>
+        
+        
+        <li class="next">
+          <a href="https://www.variadic.xyz/2013/06/03/command-line-cheat-sheet/" data-toggle="tooltip" data-placement="top" title="command line cheat-sheet">Next Post &rarr;</a>
+        </li>
+        
+      </ul>
+
+      
+
+    </div>
+  </div>
+</div>
+
+      
+
+    </div>
+
+    <footer>
+  <div class="container beautiful-jekyll-footer">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <ul class="list-inline text-center footer-links">
+          
+          
+          
+          <li>
+            <a href="https://github.com/sarangbaheti" title="GitHub">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+		      
+		      
+          <li>
+            <a href="https://linkedin.com/in/sarangbaheti" title="LinkedIn">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+	    	  
+          <li>
+            <a href="https://stackoverflow.com/users/916549/sarang" title="StackOverflow">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-stack-overflow fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+          
+    		  <li>
+      			<a href="https://www.variadic.xyz/index.xml" title="RSS">
+      			  <span class="fa-stack fa-lg">
+        				<i class="fa fa-circle fa-stack-2x"></i>
+        				<i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+      			  </span>
+      			</a>
+    		  </li>		
+
+        </ul>
+        <p class="copyright text-muted">
+    		  Sarang Baheti
+    		  &nbsp;&bull;&nbsp;
+    		  2009 - 2020
+    		  
+    		  
+    		  &nbsp;&bull;&nbsp;
+    		  <a href="https://www.variadic.xyz/">a few notes</a>
+    		  
+  	    </p>
+  	        
+    		<p class="theme-by text-muted">
+    		  Theme by
+    		  <a href="https://github.com/sarangbaheti/bh">bh</a>
+    		</p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="https://www.variadic.xyz/js/jquery-1.11.2.min.js"></script>
+<script src="https://www.variadic.xyz/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/highlight.min.js"></script>
+<script src="https://www.variadic.xyz/js/main.js"></script>
+
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-27935503-1', 'auto');
+ga('send', 'pageview');
+</script>
+
+
+
+  </body>
+</html>

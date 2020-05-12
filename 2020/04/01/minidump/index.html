@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+  <title>minidump</title>
+
+  <meta name="author" content="Sarang Baheti" />
+  
+  
+  <meta name="description" content="minidump process explorer style">
+  
+
+  <meta name="generator" content="Hugo 0.30.2" />
+
+  <link rel="alternate" href="https://www.variadic.xyz/index.xml" type="application/rss+xml" title="a few notes">
+
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
+  <link rel="stylesheet" href="https://www.variadic.xyz/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="https://www.variadic.xyz/css/main.css" />
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" />
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" />
+  
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/styles/default.min.css">
+  
+  
+  
+  <meta property="og:title" content="minidump" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="/2020/04/01/minidump//" />
+  <meta property="og:image" content="" />
+  
+</head>
+
+
+  <body>
+
+    <nav class="navbar navbar-default navbar-fixed-top navbar-custom">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="https://www.variadic.xyz/">a few notes</a>
+    </div>
+
+    <div class="collapse navbar-collapse" id="main-navbar">
+      <ul class="nav navbar-nav navbar-right">
+      
+        
+          <li>
+          <a title="Notes" href="/">Notes</a>
+  	      </li>
+  	    
+      
+        
+          <li>
+          <a title="About" href="/about/">About</a>
+  	      </li>
+  	    
+      
+        
+          <li>
+          <a title="Archive" href="/archive/">Archive</a>
+  	      </li>
+  	    
+      
+        
+          <li>
+          <a title="Books" href="/books/">Books</a>
+  	      </li>
+  	    
+      
+        
+          <li>
+          <a title="Disclaimer" href="/disclaimer/">Disclaimer</a>
+  	      </li>
+  	    
+      
+      </ul>
+    </div>
+
+	<div class="avatar-container">
+	  <div class="avatar-img-border">
+      
+	  </div>
+	</div>
+
+  </div>
+</nav>
+
+
+    <div role="main" class="container main-content">
+
+      
+        
+
+
+
+
+
+<header class="header-section ">
+
+<div class="intro-header no-img">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="post-heading">
+          <h1>minidump</h1>
+      
+      
+      
+      <span class="post-meta">Posted on April 1, 2020</span>
+      
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</header>
+
+
+
+
+<div class="container">
+  <div class="row">
+    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+      <article role="main" class="blog-post">
+          <p><a href="https://docs.microsoft.com/en-us/sysinternals/downloads/process-explorer">Process explorer</a> has a pretty cool functionality about generating process dumps. It has two types of dumps: <code>mini</code> and <code>full</code>. Now the full dump generates a massive dmp file and encodes all the process memory, but often that is not really required (for various reasons), but more importantly the helpful information is about <code>threads</code> and <code>handles</code>.</p>
+
+
+<figure >
+    
+        <img src="/images/ProcessExplorer-Dumps.png" />
+    
+    
+</figure>
+
+
+<p>Microsoft provides the API for generating dumpfiles programmatically, <a href="https://docs.microsoft.com/en-us/windows/win32/api/minidumpapiset/nf-minidumpapiset-minidumpwritedump">MiniDumpWriteDump </a>. Now the key to write a dump is to <a href="https://docs.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-openprocess"><code>OpenProcess</code> with appropriate access</a>.</p>
+
+<p>To generate a dump file, then all you need is to:</p>
+
+<ol>
+<li>open process with appropriate access</li>
+<li>specify the minidump options</li>
+</ol>
+
+<pre><code>    HANDLE hFile = CreateFile(L&quot;d:\\memory.dmp&quot;, GENERIC_WRITE, 0, nullptr, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, nullptr);
+    if (hFile == INVALID_HANDLE_VALUE) 
+    {
+        printf(&quot;Can't create memory.dmp. Exiting (%ld)\n&quot;, GetLastError());
+        CloseHandle(hProc);
+        ExitProcess(0);
+    }
+
+    bool bSuccess = MiniDumpWriteDump(hProc, PID, hFile, dumpOpts, nullptr, nullptr, nullptr);
+    printf(&quot;Process Completed (%d)(%ld)&quot;, (DWORD)bSuccess, GetLastError());
+</code></pre>
+
+<p>In all of this key thing is to specify the <code>dumpOpts</code> correctly. One of the ways to ascertain the options is to look at what process explorer generated. For that open the dumpfile in windbg (<code>windbg -z memory.dmp</code>) and execute command <code>.dumpdebug</code>. It will produce following output (trimmed in this case).</p>
+
+<p>The header just contains the flags as provided to <code>MiniDumpWriteDump</code>, this does not necessarily means that requested data is written in the dump file.</p>
+
+<pre><code>0:000&gt; .dumpdebug
+----- User Mini Dump Analysis
+
+MINIDUMP_HEADER:
+Version         A793 (A063)
+NumberOfStreams 15
+Flags           1105
+                0001 MiniDumpWithDataSegs
+                0004 MiniDumpWithHandleData
+                0100 MiniDumpWithProcessThreadData
+                1000 MiniDumpWithThreadInfo
+                
+                
+</code></pre>
+
+<p>Followed by various streams as captured in dump. The stream types are <a href="https://docs.microsoft.com/en-us/windows/win32/api/minidumpapiset/ne-minidumpapiset-minidump_stream_type">defined in DbgHelp.h/minidumpapiset.h</a></p>
+
+<p>The size of streams seems like it is in bytes, 364 vs 18 threads.</p>
+
+<pre><code>Streams:
+Stream 0: type ThreadListStream (3), size 00000364, RVA 00000660
+  18 threads
+  RVA 00000664, ID 4554, Teb:000000CB58643000
+  RVA 00000694, ID 3A78, Teb:000000CB5864B000
+  ...
+Stream 1: type ThreadInfoListStream (17), size 0000048C, RVA 000009C4
+  RVA 000009D0, ID 4554
+  RVA 00000A10, ID 3A78
+  ...
+Stream 2: type ModuleListStream (4), size 0000A198, RVA 00000E50
+  383 modules
+  RVA 00000E54, 00007ff6`0e940000 - 00007ff6`0e94d000: 'd:\sample.exe', 8160
+  RVA 00000EC0, 00007ff9`85150000 - 00007ff9`8533d000: 'C:\Windows\System32\ntdll.dll', 4160
+  RVA 00000F2C, 00007ff9`82370000 - 00007ff9`82423000: 'C:\Windows\System32\kernel32.dll', 4160
+  RVA 00000F98, 00007ff9`81e30000 - 00007ff9`820c3000: 'C:\Windows\System32\KERNELBASE.dll', 4160
+  RVA 00001004, 00007ff9`81370000 - 00007ff9`8146a000: 'C:\Windows\System32\ucrtbase.dll', 4160
+  ...
+Stream 3: type MemoryListStream (5), size 0000DE34, RVA 0002371E
+  3555 memory ranges
+  range#    RVA      Address             Size
+       ...
+  Total memory: 196bdd5
+Stream 4: type SystemInfoStream (7), size 00000038, RVA 000000D4
+...
+Stream 5: type MiscInfoStream (15), size 00000554, RVA 0000010C
+Stream 6: type HandleDataStream (12), size 00008A30, RVA 019A65AD
+  884 descriptors, header size is 16, descriptor size is 40
+    Handle(0000000000000004,&quot;Event&quot;,&quot;&quot;)
+    Handle(0000000000000008,&quot;Key&quot;,&quot;\REGISTRY\MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options&quot;)
+    Handle(000000000000000C,&quot;Key&quot;,&quot;\REGISTRY\USER\S-1-5-21-954228201-601818101-482762101-192574&quot;)
+    Handle(0000000000000010,&quot;Event&quot;,&quot;&quot;)
+    Handle(0000000000000014,&quot;WaitCompletionPacket&quot;,&quot;&quot;)
+    Handle(0000000000000018,&quot;IoCompletion&quot;,&quot;&quot;)
+    Handle(000000000000001C,&quot;TpWorkerFactory&quot;,&quot;&quot;)
+    Handle(0000000000000020,&quot;IRTimer&quot;,&quot;&quot;)
+    Handle(0000000000000024,&quot;WaitCompletionPacket&quot;,&quot;&quot;)
+    Handle(0000000000000028,&quot;IRTimer&quot;,&quot;&quot;)
+    Handle(000000000000002C,&quot;WaitCompletionPacket&quot;,&quot;&quot;)
+    Handle(0000000000000030,&quot;&quot;,&quot;&quot;)
+    Handle(0000000000000034,&quot;&quot;,&quot;&quot;)
+    Handle(0000000000000038,&quot;&quot;,&quot;&quot;)
+    Handle(000000000000003C,&quot;Directory&quot;,&quot;\KnownDlls&quot;)
+    Handle(0000000000000040,&quot;Event&quot;,&quot;&quot;)
+    Handle(0000000000000044,&quot;Event&quot;,&quot;&quot;)
+    ...
+</code></pre>
+
+<p>The flags passed are <code>0x1105</code>. Now if you have just open the process with <code>PROCESS_ALL_ACCESS (0x1FFFF)</code>, you will get the handle data in dumpfile. Once you have generated the dump file open in <code>windbg</code> again and check with <code>!handle</code> command. It should list handles from dump if it could capture else it will just provide you with some error message.</p>
+
+<pre><code>0:000&gt; !handle
+ERROR: !handle: extension exception 0x80004002.
+    &quot;Unable to read handle information&quot;
+</code></pre>
+
+<blockquote>
+<p>more on this in  <a href="/2020/04/01/procexp-minidump/">next post</a></p>
+</blockquote>
+
+<!--
+--------------------------------------------------------
+links of interest:
+1. [!handle](https://docs.microsoft.com/en-us/windows-hardware/drivers/debugger/-handle)
+2. [minidumptypes](http://www.debuginfo.com/articles/effminidumps.html#minidumptypes)
+3. [combination-of-minidump-type-enumeration](https://stackoverflow.com/q/5041097)
+4. [GetLastError 87](https://stackoverflow.com/q/45426742)
+5. https://code.wildfiregames.com/file/data/byza5byxs67hnwoyoefp/PHID-FILE-5rcs6zn2liexvoz2j3aj/file
+6. https://brwilhelm.wordpress.com/2012/05/11/dtexec-dumponerror-fulldump/ 
+7. https://topic.alibabacloud.com/a/symbol-and-font-colorredfaultfont-dump-vs-studio-and-windbg_8_8_31805936.html
+8. https://docs.microsoft.com/en-us/archive/msdn-magazine/2002/june/bugslayer-symbols-and-crash-dumps 
+9. http://windbg.info/download/doc/pdf/WinDbg_A_to_Z_color.pdf 
+10. http://www.nynaeve.net/?p=126  
+11. http://www.debuginfo.com/articles/effminidumps.html
+12. http://www.debuginfo.com/articles/effminidumps2.html  
+13. http://www.rdos.net/svn/tags/V9.2.5/watcom/bld/w32api/include/imagehlp.mh  
+-->
+
+<hr />
+
+<p>Entire code is along these lines:</p>
+
+<pre><code>
+#include &lt;iostream&gt;
+#include &lt;windows.h&gt;
+
+
+BOOL typedef (*MiniDumpWriteDump_fn_t)
+(
+    HANDLE      hProcess,
+    DWORD       ProcessId,
+    HANDLE      hFile,
+    DWORD       DumpType,
+    VOID*       ExceptionParam,
+    VOID*       UserStreamParam,
+    VOID*       CallbackParam
+);
+
+//-------------------------------------------------------------------------------------------
+static std::string processIdToName(HANDLE hProc)
+{
+    std::string ret;
+    if (handle)
+    {
+        DWORD buffSize = 1024;
+        CHAR buffer[1024];
+        
+        if (QueryFullProcessImageNameA(hProc, 0, buffer, &amp;buffSize))
+            ret = buffer;
+        else
+            std::cout &lt;&lt; &quot;Error GetModuleBaseNameA : (&quot; &lt;&lt; GetLastError() &lt;&lt; &quot;)&quot; &lt;&lt; std::endl;
+    }
+    
+    return ret;
+}
+
+//-------------------------------------------------------------------------------------------
+
+typedef enum _MINIDUMP_TYPE
+{
+    MiniDumpNormal                          = 0x00000000,
+    MiniDumpWithDataSegs                    = 0x00000001,
+    MiniDumpWithFullMemory                  = 0x00000002,
+    MiniDumpWithHandleData                  = 0x00000004,
+    MiniDumpFilterMemory                    = 0x00000008,
+    MiniDumpScanMemory                      = 0x00000010,
+    MiniDumpWithUnloadedModules             = 0x00000020,
+    MiniDumpWithIndirectlyReferencedMemory  = 0x00000040,
+    MiniDumpFilterModulePaths               = 0x00000080,
+    MiniDumpWithProcessThreadData           = 0x00000100,
+    MiniDumpWithPrivateReadWriteMemory      = 0x00000200,
+    MiniDumpWithoutOptionalData             = 0x00000400,
+    MiniDumpWithFullMemoryInfo              = 0x00000800,
+    MiniDumpWithThreadInfo                  = 0x00001000,
+    MiniDumpWithCodeSegs                    = 0x00002000,
+    MiniDumpWithoutManagedState             = 0x00004000,
+} MINIDUMP_TYPE;
+
+//-------------------------------------------------------------------------------------------
+int main(int argc, char* argv[])
+{
+
+    //  MINIDUMP_TYPE dumpOpts = (MINIDUMP_TYPE) ((int)MiniDumpNormal | (int)MiniDumpWithDataSegs | (int)MiniDumpWithHandleData
+    //          | (int)MiniDumpWithProcessThreadData | (int)MiniDumpWithThreadInfo);
+    auto dumpOpts = 0x1105;
+
+    static MiniDumpWriteDump_fn_t minDmpFn = (MiniDumpWriteDump_fn_t)GetProcAddress(LoadLibrary(L&quot;Dbghelp.dll&quot;), &quot;MiniDumpWriteDump&quot;);
+    if (minDmpFn == nullptr)
+    {
+        std::cout &lt;&lt; &quot;could not find dbghelp.dll&quot; &lt;&lt; std::endl;
+        return 0;
+    }
+
+    if (argc != 2)
+    {
+        std::cout &lt;&lt; &quot;incorrect usage of command&quot; &lt;&lt; std::endl;
+        return 0;
+    }
+
+    unsigned int PID = std::atoi(argv[1]);
+    if (PID == -1)
+    {
+        std::cout &lt;&lt; &quot;invalid PID provided&quot; &lt;&lt; std::endl;
+        return 0;
+    }
+
+    auto accessVal = PROCESS_ALL_ACCESS;
+    HANDLE hProc = OpenProcess(accessVal, FALSE, PID);
+    
+    if (hProc == nullptr)
+    {
+        std::cout &lt;&lt; &quot;HANDLE is nullptr. Exiting (&quot; &lt;&lt; GetLastError() &lt;&lt; &quot;)&quot; &lt;&lt; std::endl;
+        return 0;
+    }
+    std::cout &lt;&lt; &quot;generating minidump for &quot; &lt;&lt; processIdToName(PID) &lt;&lt; &quot; (pid: &quot;&lt;&lt;  PID&lt;&lt; &quot;, handle: &quot; &lt;&lt; hProc &lt;&lt; &quot;) &quot; &lt;&lt; std::endl;
+
+    HANDLE hFile = CreateFile(L&quot;d:\\memory.dmp&quot;, GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
+    std::cout &lt;&lt; &quot;memory.dmp HANDLE &quot; &lt;&lt; std::hex &lt;&lt; hFile &lt;&lt; std::endl;
+
+    if (hFile == INVALID_HANDLE_VALUE) 
+    {
+        std::cout &lt;&lt; &quot; Can't create memory.dmp. Exiting (&quot; &lt;&lt; GetLastError() &lt;&lt; &quot;)&quot; &lt;&lt; std::endl;
+        CloseHandle(hProc);
+        ExitProcess(0);
+    }
+
+    bool bSuccess = minDmpFn(hProc, PID, hFile, dumpOpts, nullptr, nullptr, nullptr);
+    std::cout &lt;&lt; &quot;Process Completed (&quot; &lt;&lt;  (DWORD)bSuccess &lt;&lt; &quot;)(&quot; &lt;&lt; GetLastError() &lt;&lt; &quot;)&quot; &lt;&lt; std::endl;
+
+    CloseHandle(hFile);
+    CloseHandle(hProc);
+
+    return 0;
+}
+
+
+</code></pre>
+
+      </article>
+
+      <ul class="pager blog-pager">
+        
+        <li class="previous">
+          <a href="https://www.variadic.xyz/2020/03/29/robocopy/" data-toggle="tooltip" data-placement="top" title="robocopy">&larr; Previous Post</a>
+        </li>
+        
+        
+        <li class="next">
+          <a href="https://www.variadic.xyz/2020/04/01/procexp-minidump/" data-toggle="tooltip" data-placement="top" title="process explorer minidump">Next Post &rarr;</a>
+        </li>
+        
+      </ul>
+
+      
+
+    </div>
+  </div>
+</div>
+
+      
+
+    </div>
+
+    <footer>
+  <div class="container beautiful-jekyll-footer">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <ul class="list-inline text-center footer-links">
+          
+          
+          
+          <li>
+            <a href="https://github.com/sarangbaheti" title="GitHub">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+		      
+		      
+          <li>
+            <a href="https://linkedin.com/in/sarangbaheti" title="LinkedIn">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+	    	  
+          <li>
+            <a href="https://stackoverflow.com/users/916549/sarang" title="StackOverflow">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-stack-overflow fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+          
+    		  <li>
+      			<a href="https://www.variadic.xyz/index.xml" title="RSS">
+      			  <span class="fa-stack fa-lg">
+        				<i class="fa fa-circle fa-stack-2x"></i>
+        				<i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+      			  </span>
+      			</a>
+    		  </li>		
+
+        </ul>
+        <p class="copyright text-muted">
+    		  Sarang Baheti
+    		  &nbsp;&bull;&nbsp;
+    		  2009 - 2020
+    		  
+    		  
+    		  &nbsp;&bull;&nbsp;
+    		  <a href="https://www.variadic.xyz/">a few notes</a>
+    		  
+  	    </p>
+  	        
+    		<p class="theme-by text-muted">
+    		  Theme by
+    		  <a href="https://github.com/sarangbaheti/bh">bh</a>
+    		</p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="https://www.variadic.xyz/js/jquery-1.11.2.min.js"></script>
+<script src="https://www.variadic.xyz/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/highlight.min.js"></script>
+<script src="https://www.variadic.xyz/js/main.js"></script>
+
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-27935503-1', 'auto');
+ga('send', 'pageview');
+</script>
+
+
+
+  </body>
+</html>

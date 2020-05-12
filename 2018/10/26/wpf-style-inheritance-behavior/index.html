@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+  <title>WPF Style Inheritance Behavior</title>
+
+  <meta name="author" content="Sarang Baheti" />
+  
+  
+
+  <meta name="generator" content="Hugo 0.30.2" />
+
+  <link rel="alternate" href="https://www.variadic.xyz/index.xml" type="application/rss+xml" title="a few notes">
+
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
+  <link rel="stylesheet" href="https://www.variadic.xyz/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="https://www.variadic.xyz/css/main.css" />
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" />
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" />
+  
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/styles/default.min.css">
+  
+  
+  
+  <meta property="og:title" content="WPF Style Inheritance Behavior" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="/2018/10/26/wpf-style-inheritance-behavior//" />
+  <meta property="og:image" content="" />
+  
+</head>
+
+
+  <body>
+
+    <nav class="navbar navbar-default navbar-fixed-top navbar-custom">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="https://www.variadic.xyz/">a few notes</a>
+    </div>
+
+    <div class="collapse navbar-collapse" id="main-navbar">
+      <ul class="nav navbar-nav navbar-right">
+      
+        
+          <li>
+          <a title="Notes" href="/">Notes</a>
+  	      </li>
+  	    
+      
+        
+          <li>
+          <a title="About" href="/about/">About</a>
+  	      </li>
+  	    
+      
+        
+          <li>
+          <a title="Archive" href="/archive/">Archive</a>
+  	      </li>
+  	    
+      
+        
+          <li>
+          <a title="Books" href="/books/">Books</a>
+  	      </li>
+  	    
+      
+        
+          <li>
+          <a title="Disclaimer" href="/disclaimer/">Disclaimer</a>
+  	      </li>
+  	    
+      
+      </ul>
+    </div>
+
+	<div class="avatar-container">
+	  <div class="avatar-img-border">
+      
+	  </div>
+	</div>
+
+  </div>
+</nav>
+
+
+    <div role="main" class="container main-content">
+
+      
+        
+
+
+
+
+
+<header class="header-section ">
+
+<div class="intro-header no-img">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="post-heading">
+          <h1>WPF Style Inheritance Behavior</h1>
+      
+      
+      
+      <span class="post-meta">Posted on October 26, 2018</span>
+      
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</header>
+
+
+
+
+<div class="container">
+  <div class="row">
+    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+      <article role="main" class="blog-post">
+          <p>Recently I was using a window style with <a href="https://github.com/MahApps/MahApps.Metro">MahAppsMetro</a>, now it applies the styles at application level. One of the things I am doing is embedding <a href="https://github.com/icsharpcode/AvalonEdit">AvalonEdit</a> in one such window. Now with Metro styling it applies styles to the controls and in my case <code>SearchPanel</code> in <code>AvalonEdit</code> was styled too! This is fine, but the results were quite un-expected:</p>
+
+
+<figure >
+    
+        <img src="/images/2018-10-26_avalonedit1.png" alt="Metro Styling applied to SearchPanel" />
+    
+    
+    <figcaption>
+        <p>
+        Metro Styling applied to SearchPanel
+        
+            
+        
+        </p> 
+    </figcaption>
+    
+</figure>
+
+
+<p>Now, of course I do want to keep Metro Style for my application, however want to keep <code>AvalonEdit</code> styling intact as well.</p>
+
+<p>Thinking further the simplest thing to do would be to be to somehow disable inheritance of styles at some level. I found a <a href="https://stackoverflow.com/a/2138114">post on stackoverflow discussing this</a>. However for me it was not to stop inheriting styles but to fallback to theme. <a href="https://msdn.microsoft.com/en-us/library/mt824276.aspx">Documentation</a> on this topic is pretty scarce.</p>
+
+<p>Now to get things to work, I wrapped the <code>AvalonEdit.TextEditor</code> in a custom <code>Control</code> which would <code>InheritanceBehavior.SkipToThemeNow</code>.</p>
+
+<p></p>
+
+<p>and <code>xaml</code> was modified to use this <code>NoInheritanceContentControl</code></p>
+
+<pre><code class="language-xml">    &lt;local:NoInheritanceContentControl Grid.Column=&quot;2&quot; &gt;
+            &lt;ed:TextEditor Name=&quot;_txtEd&quot; IsReadOnly=&quot;True&quot; ShowLineNumbers=&quot;True&quot; 
+                           FontFamily=&quot;Consolas&quot; 
+                           FontSize=&quot;10pt&quot;/&gt;
+    &lt;/local:NoInheritanceContentControl&gt;
+        
+</code></pre>
+
+<p>and the code for the same is:</p>
+
+<pre><code class="language-csharp">public class NoInheritanceContentControl : ContentControl
+    {
+        //  https://stackoverflow.com/a/2138114
+        //  but here skip to theme instead of skipping all
+        //  otherwise the SearchPanel is rendered completely translucent
+        //
+        public NoInheritanceContentControl()
+        {
+            InheritanceBehavior = InheritanceBehavior.SkipToThemeNow;
+        }
+    }
+</code></pre>
+
+<p>With following changes, I get the <code>SearchPanel</code> to show up correctly:</p>
+
+
+<figure >
+    
+        <img src="/images/2018-10-26_avalonedit2.png" />
+    
+    
+</figure>
+
+
+<p><br/></p>
+
+<h3 id="inheritancebehavior">InheritanceBehavior</h3>
+
+<hr />
+
+<p>InheritanceBehavior has following members and I was curious how each of them turn out:</p>
+
+<pre><code class="language-csharp">    //
+    // Summary:
+    //     Indicates the current mode of lookup for both property value inheritance, a resource
+    //     lookup, and a RelativeSource FindAncestor lookup.
+    public enum InheritanceBehavior
+    {
+        //
+        // Summary:
+        //     Property value inheritance lookup will query the current element and continue
+        //     walking up the element tree to the page root.
+        Default = 0,
+        //
+        // Summary:
+        //     Property value inheritance lookup will not query the current element or any further.
+        SkipToAppNow = 1,
+        //
+        // Summary:
+        //     Property value inheritance lookup will query the current element but not any
+        //     further.
+        SkipToAppNext = 2,
+        //
+        // Summary:
+        //     Property value inheritance lookup will not query the current element or any further.
+        SkipToThemeNow = 3,
+        //
+        // Summary:
+        //     Property value inheritance lookup will query the current element but not any
+        //     further.
+        SkipToThemeNext = 4,
+        //
+        // Summary:
+        //     Property value inheritance lookup will not query the current element or any further.
+        SkipAllNow = 5,
+        //
+        // Summary:
+        //     Property value inheritance lookup will query the current element but not any
+        //     further.
+        SkipAllNext = 6
+    }
+</code></pre>
+
+<p><br/></p>
+
+<h4 id="default">Default</h4>
+
+<hr />
+
+
+<figure >
+    
+        <img src="/images/2018-10-26_avalonedit_ibdefault.png" />
+    
+    
+</figure>
+
+
+<p><br/></p>
+
+<h4 id="skiptoappnow">SkipToAppNow</h4>
+
+<hr />
+
+
+<figure >
+    
+        <img src="/images/2018-10-26_avalonedit_ibdefault.png" />
+    
+    
+</figure>
+
+
+<p><br/></p>
+
+<h4 id="skiptoappnext">SkipToAppNext</h4>
+
+<hr />
+
+
+<figure >
+    
+        <img src="/images/2018-10-26_avalonedit_ibdefault.png" />
+    
+    
+</figure>
+
+
+<p><br/></p>
+
+<h4 id="skiptothemenow">SkipToThemeNow</h4>
+
+<hr />
+
+
+<figure >
+    
+        <img src="/images/2018-10-26_avalonedit2.png" />
+    
+    
+</figure>
+
+
+<p><br/></p>
+
+<h4 id="skiptothemenext">SkipToThemeNext</h4>
+
+<hr />
+
+
+<figure >
+    
+        <img src="/images/2018-10-26_avalonedit2.png" />
+    
+    
+</figure>
+
+
+<p><br/></p>
+
+<h4 id="skipallnow">SkipAllNow</h4>
+
+<hr />
+
+
+<figure >
+    
+        <img src="/images/2018-10-26_avalonedit_ibskipallnow.png" />
+    
+    
+</figure>
+
+
+<p><br/></p>
+
+<h4 id="skipallnext">SkipAllNext</h4>
+
+<hr />
+
+
+<figure >
+    
+        <img src="/images/2018-10-26_avalonedit_ibskipallnow.png" />
+    
+    
+</figure>
+
+
+<p><br/></p>
+      </article>
+
+      <ul class="pager blog-pager">
+        
+        <li class="previous">
+          <a href="https://www.variadic.xyz/2018/06/18/system-call-failed/" data-toggle="tooltip" data-placement="top" title="system call failed">&larr; Previous Post</a>
+        </li>
+        
+        
+        <li class="next">
+          <a href="https://www.variadic.xyz/2019/01/20/library-load-dbg-flags/" data-toggle="tooltip" data-placement="top" title="library load dbg flags">Next Post &rarr;</a>
+        </li>
+        
+      </ul>
+
+      
+
+    </div>
+  </div>
+</div>
+
+      
+
+    </div>
+
+    <footer>
+  <div class="container beautiful-jekyll-footer">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <ul class="list-inline text-center footer-links">
+          
+          
+          
+          <li>
+            <a href="https://github.com/sarangbaheti" title="GitHub">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+		      
+		      
+          <li>
+            <a href="https://linkedin.com/in/sarangbaheti" title="LinkedIn">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+	    	  
+          <li>
+            <a href="https://stackoverflow.com/users/916549/sarang" title="StackOverflow">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-stack-overflow fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+          
+    		  <li>
+      			<a href="https://www.variadic.xyz/index.xml" title="RSS">
+      			  <span class="fa-stack fa-lg">
+        				<i class="fa fa-circle fa-stack-2x"></i>
+        				<i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+      			  </span>
+      			</a>
+    		  </li>		
+
+        </ul>
+        <p class="copyright text-muted">
+    		  Sarang Baheti
+    		  &nbsp;&bull;&nbsp;
+    		  2009 - 2020
+    		  
+    		  
+    		  &nbsp;&bull;&nbsp;
+    		  <a href="https://www.variadic.xyz/">a few notes</a>
+    		  
+  	    </p>
+  	        
+    		<p class="theme-by text-muted">
+    		  Theme by
+    		  <a href="https://github.com/sarangbaheti/bh">bh</a>
+    		</p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="https://www.variadic.xyz/js/jquery-1.11.2.min.js"></script>
+<script src="https://www.variadic.xyz/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/highlight.min.js"></script>
+<script src="https://www.variadic.xyz/js/main.js"></script>
+
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-27935503-1', 'auto');
+ga('send', 'pageview');
+</script>
+
+
+
+  </body>
+</html>

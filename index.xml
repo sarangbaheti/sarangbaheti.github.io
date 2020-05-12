@@ -1,0 +1,2094 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>a few notes</title>
+    <link>https://www.variadic.xyz/</link>
+    <description>Recent content on a few notes</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 11 May 2020 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://www.variadic.xyz/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>magic keyboard</title>
+      <link>https://www.variadic.xyz/2020/05/11/apple-self-congratulatory-behavior/</link>
+      <pubDate>Mon, 11 May 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.variadic.xyz/2020/05/11/apple-self-congratulatory-behavior/</guid>
+      <description>Here and here is a very nice summary of all that is wrong with Butterfly keyboard.
+ April 2015: Apple Inc. releases the all-new MacBook with a “butterfly” keyboard. In order to achieve extreme thinness, the keys are much flatter than older generations but the butterfly mechanism underneath, for which the keyboard is named, aims to replicate the bounce of a more traditional keyboard.
+October 2016: The MacBook Pro arrives with a second-generation butterfly keyboard.</description>
+    </item>
+    
+    <item>
+      <title>purging stuff from git</title>
+      <link>https://www.variadic.xyz/2020/05/07/removing-files-dirs-from-git-history/</link>
+      <pubDate>Thu, 07 May 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.variadic.xyz/2020/05/07/removing-files-dirs-from-git-history/</guid>
+      <description>Wanted to remove entire pdfs directory from and rewrite git history to remove all traces from it. First i deleted the directory manually and commited those changes.
+rmdir /s /q pdfs git add -u git commit -m &amp;quot;delete pdfs&amp;quot;  The went about cleaning up git history thru filter-branch command. There are ample of warnings online about it being horribly slow (it was slow for me as well, took over ~2 hours to purge 2 directories).</description>
+    </item>
+    
+    <item>
+      <title>com apartments</title>
+      <link>https://www.variadic.xyz/2020/04/24/com-apartments/</link>
+      <pubDate>Fri, 24 Apr 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.variadic.xyz/2020/04/24/com-apartments/</guid>
+      <description>I often wondered what the STA was and what COM Apartments were, found a good summary by Raymond Chen here Original article link
+A slightly less brief introduction to COM apartments (but it’s still brief) The Component Object Model (COM) has this thing called apartments. What are they?
+I’m going to explain them by going into the history.
+In the beginning, we had 16-bit Windows. Each process had only one thread.</description>
+    </item>
+    
+    <item>
+      <title>encode videos</title>
+      <link>https://www.variadic.xyz/2020/04/15/encode-vids/</link>
+      <pubDate>Wed, 15 Apr 2020 01:00:00 +0000</pubDate>
+      
+      <guid>https://www.variadic.xyz/2020/04/15/encode-vids/</guid>
+      <description>This current COVID19 has given me ample of time to take backups and cleanup pics and videos from my camera. Just a few commands to convert between formats to save space and archive.
+converting between containers:
+ffmpeg -i &amp;lt;my-video.mkv&amp;gt; -c:v copy -c:a copy &amp;lt;my-video.mp4&amp;gt;  for bulk converting in a directory:
+for %f in (*.mkv) do (echo &amp;quot;ffmpeg -i %f -c:v copy -c:a copy %~nf.mp4&amp;quot;)  encoding m4v to mkv/mp4 (hbcli is handbrake-cli):</description>
+    </item>
+    
+    <item>
+      <title>process explorer minidump</title>
+      <link>https://www.variadic.xyz/2020/04/01/procexp-minidump/</link>
+      <pubDate>Wed, 01 Apr 2020 01:00:00 +0000</pubDate>
+      
+      <guid>https://www.variadic.xyz/2020/04/01/procexp-minidump/</guid>
+      <description>As in last post, I started putting together a utility for generation of minidump, intention is to have it be part of bigger workflow. I got most of it right, but had some fun getting the flags and process access right.
+First, I started with OpenProcess but had opened the process with PROCESS_QUERY_INFORMATION and PROCESS_VM_READ access rights only. Documentation link.
+Second, referring documentation for MiniDumpWriteDump , I was looking for flags to be passed as documented for MINIDUMP_TYPE.</description>
+    </item>
+    
+    <item>
+      <title>minidump</title>
+      <link>https://www.variadic.xyz/2020/04/01/minidump/</link>
+      <pubDate>Wed, 01 Apr 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.variadic.xyz/2020/04/01/minidump/</guid>
+      <description>Process explorer has a pretty cool functionality about generating process dumps. It has two types of dumps: mini and full. Now the full dump generates a massive dmp file and encodes all the process memory, but often that is not really required (for various reasons), but more importantly the helpful information is about threads and handles.
+ Microsoft provides the API for generating dumpfiles programmatically, MiniDumpWriteDump . Now the key to write a dump is to OpenProcess with appropriate access.</description>
+    </item>
+    
+    <item>
+      <title>robocopy</title>
+      <link>https://www.variadic.xyz/2020/03/29/robocopy/</link>
+      <pubDate>Sun, 29 Mar 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.variadic.xyz/2020/03/29/robocopy/</guid>
+      <description>robocopy is a pretty good cmd utility to copy/mirror directories. I have been using it regularly now. One of the recent usages was to backup data.
+robocopy /E /A /MT:4 d:\ f:\d_backup /XD d:\OneDrive /XF d:\pagefile.sys
+Here:
+ /E /A will cause it to mirror directory structure from source location d:\ to destination location f:\d_backup. It will create destination directory, if it does not exist. /MT:4 will direct robocopy to use 4 thread to copy- helps saturate io bandwith.</description>
+    </item>
+    
+    <item>
+      <title>keeping sane in crazy times</title>
+      <link>https://www.variadic.xyz/2020/03/22/crazy-times-covid19/</link>
+      <pubDate>Sun, 22 Mar 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.variadic.xyz/2020/03/22/crazy-times-covid19/</guid>
+      <description>With COVID-19 rampaging around the world things are bit crazy. Here is a good article about how to keep sanity.. and here is one more from nytimes
+Also, Beth.Mole has done a remarkable job of keeping folks updated and knowledgeable about this pandemic with her comprehensive guide to coronovirus
+ Take control Anxiety comes, in many ways, from a loss of control, and most of us are probably deeply feeling that lack right now.</description>
+    </item>
+    
+    <item>
+      <title>linux commands</title>
+      <link>https://www.variadic.xyz/2020/02/25/linux-cmds/</link>
+      <pubDate>Tue, 25 Feb 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.variadic.xyz/2020/02/25/linux-cmds/</guid>
+      <description>cmd-name description     alias allows you to set aliases and view the current aliases   awk search for a pattern within a file.   badblocks searches a device for bad blocks.   bg move a job running in the foreground to the background.   bzip2 used to compress and decompress files. Similar to gzip.   cp copy   chattr changes the attributes of a file or folder.</description>
+    </item>
+    
+    <item>
+      <title>windows commands</title>
+      <link>https://www.variadic.xyz/2020/02/21/windows-cmds/</link>
+      <pubDate>Fri, 21 Feb 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.variadic.xyz/2020/02/21/windows-cmds/</guid>
+      <description>  </description>
+    </item>
+    
+    <item>
+      <title>Simplexity-CSharp</title>
+      <link>https://www.variadic.xyz/2020/02/06/simplexity-csharp/</link>
+      <pubDate>Thu, 06 Feb 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.variadic.xyz/2020/02/06/simplexity-csharp/</guid>
+      <description>A three part interview with Anders Hejlsberg about design of CSharp language at artima:
+ The C# Design Process The Trouble with Checked Exceptions Delegates, Components, and Simplexity  Behind the Code with Anders Hejlsberg</description>
+    </item>
+    
+    <item>
+      <title>Are cell phones destroying the college classroom</title>
+      <link>https://www.variadic.xyz/2019/12/27/cellphones/</link>
+      <pubDate>Fri, 27 Dec 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.variadic.xyz/2019/12/27/cellphones/</guid>
+      <description>As with all things, too much technology is not good..
+Articles:
+ They&amp;rsquo;re abysmal students- arstechnica I asked my students to turn in their cell phones and write about living without them - technologyreview How classroom technology is holding students back - technologyreview  Well, not necessarily just class room- i have seen it destroying manners, concentration, engagement and above all happiness. Cellphones made applications like whatsapp ubiquitous- to the point my parents became tech junkies overnight :).</description>
+    </item>
+    
+    <item>
+      <title>notes on semaphores, part 1</title>
+      <link>https://www.variadic.xyz/2019/12/01/semaphores-1/</link>
+      <pubDate>Sun, 01 Dec 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.variadic.xyz/2019/12/01/semaphores-1/</guid>
+      <description>Reference: The Little Book of Semaphores by Allen B. Downey Link1 Link2
+ Synchronization Synchronization (synch) is about making 2 things happen at same time, however it is a little more general in programming. It refers to relationship among events (any number and any kind).
+Synch constraints:
+- Serialization: EventA must happen before EventB
+- Mutual Exclusion: EventA and EventB must not happen at the same time
+So what are the complications in developing concurrent software?</description>
+    </item>
+    
+    <item>
+      <title>windbg crashdump 1</title>
+      <link>https://www.variadic.xyz/2019/11/21/windbg-crashdump-analysis-1/</link>
+      <pubDate>Thu, 21 Nov 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.variadic.xyz/2019/11/21/windbg-crashdump-analysis-1/</guid>
+      <description>open crash dump in windbg   Windows 10 Version 18362 MP (4 procs) Free x64 Product: WinNt, suite: SingleUserTS Built by: 10.0.18362.329 (WinBuild.160101.0800) Machine Name: Debug session time: Thu Nov 21 18:32:37.000 2019 (UTC - 8:00) System Uptime: 3 days 22:27:41.943 Process Uptime: 0 days 0:00:01.000 ............ This dump file has an exception of interest stored in it. The stored exception information can be accessed via .</description>
+    </item>
+    
+    <item>
+      <title>VS squiggly lines</title>
+      <link>https://www.variadic.xyz/2019/11/20/vs-squiggly/</link>
+      <pubDate>Wed, 20 Nov 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.variadic.xyz/2019/11/20/vs-squiggly/</guid>
+      <description>With VS2019 lately I have been noticing VS is incorrectly marking code as if there was an error.
+  incorrect squigglys   Now here i just declared a std::vector and yet a few lines below it complains that it can&amp;rsquo;t find that variable declaration. Similarly for tbb namespace for parallel_for.
+I couldn&amp;rsquo;t find a way to hide it, however found that it can be controlled thru the setting in Fonts and Colors (Tools - Options - Environment - Fonts and Colors).</description>
+    </item>
+    
+    <item>
+      <title>procdump</title>
+      <link>https://www.variadic.xyz/2019/11/12/procdump/</link>
+      <pubDate>Tue, 12 Nov 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.variadic.xyz/2019/11/12/procdump/</guid>
+      <description> to install procdump as default postmortem debugger on windows run command:
+procdump -ma -i c:\crashdumps  Here, it will generate minimal dump files with threads and handles -ma in directory c:\crashdumps
+to uninstall procdump run following command:
+procdump -u  A few Links  Enabling Postmortem Debugging Sysinternals ProcDump procdump wintellect  </description>
+    </item>
+    
+    <item>
+      <title>runas from cmd</title>
+      <link>https://www.variadic.xyz/2019/10/06/runas-from-cmd/</link>
+      <pubDate>Sun, 06 Oct 2019 16:55:07 -0700</pubDate>
+      
+      <guid>https://www.variadic.xyz/2019/10/06/runas-from-cmd/</guid>
+      <description>powershell -Command &amp;quot;Start-Process &#39;devenv.exe&#39; -Verb runAs&amp;quot;  </description>
+    </item>
+    
+    <item>
+      <title>shared mutable synchronization</title>
+      <link>https://www.variadic.xyz/2019/09/15/shared-mutable-synchronization/</link>
+      <pubDate>Sun, 15 Sep 2019 21:32:33 -0700</pubDate>
+      
+      <guid>https://www.variadic.xyz/2019/09/15/shared-mutable-synchronization/</guid>
+      <description>Source: Concurrency in .NET   Shared Mutable Synchronization   </description>
+    </item>
+    
+    <item>
+      <title>cpp17 std parallel algo</title>
+      <link>https://www.variadic.xyz/2019/08/28/cpp17-std-parallel-algo/</link>
+      <pubDate>Wed, 28 Aug 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.variadic.xyz/2019/08/28/cpp17-std-parallel-algo/</guid>
+      <description>parallel algorithms The C++17 standard added the concept of parallel algorithms to the C++ Standard Library. These are additional overloads of many of the functions that operate on ranges. The parallel versions have the same signature as the �normal� single-threaded versions, except for the addition of a new first parameter, which specifies the execution policy to use.
+The execution policies as defined in C++17 are: * std::execution::seq * std::execution::par * std::execution::par_unseq</description>
+    </item>
+    
+    <item>
+      <title>constexpr vs C&#43;&#43; Template Metaprogramming</title>
+      <link>https://www.variadic.xyz/2019/07/03/constexpr2/</link>
+      <pubDate>Wed, 03 Jul 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.variadic.xyz/2019/07/03/constexpr2/</guid>
+      <description>Last time i was experimenting with what constexpr has to offer for compile time calculations &amp;amp; ran into limits with how nested these can be. However back then with C++11 these could have only 1 return statement and thus were good but anything fancy would have resulted in convulated implementation.
+With much better C++17 compiler support quite a few of the template metaprograms can easily be moved to constexpr. Esp the implementation from here and here becomes just a few functions rather than #n types.</description>
+    </item>
+    
+    <item>
+      <title>open with notepad</title>
+      <link>https://www.variadic.xyz/2019/05/27/open-with-notepad/</link>
+      <pubDate>Mon, 27 May 2019 21:32:33 -0700</pubDate>
+      
+      <guid>https://www.variadic.xyz/2019/05/27/open-with-notepad/</guid>
+      <description>Steps to add a context menu to open any file in notepad in Windows Explorer.
+  Shell Registry Entry for all      Creating a new key under shell      Create notepad key and set details/icons      Create notepad command key for execution   </description>
+    </item>
+    
+    <item>
+      <title>MESI states transition</title>
+      <link>https://www.variadic.xyz/2019/03/27/mesi-states-transition/</link>
+      <pubDate>Wed, 27 Mar 2019 21:55:07 -0700</pubDate>
+      
+      <guid>https://www.variadic.xyz/2019/03/27/mesi-states-transition/</guid>
+      <description>   from Pentium manuals, it seems a bit MESI :)   </description>
+    </item>
+    
+    <item>
+      <title>relaunching as an admin</title>
+      <link>https://www.variadic.xyz/2019/02/21/relaunching-as-an-admin/</link>
+      <pubDate>Thu, 21 Feb 2019 12:04:07 -0700</pubDate>
+      
+      <guid>https://www.variadic.xyz/2019/02/21/relaunching-as-an-admin/</guid>
+      <description>In library-load-dbg-flags the code I posted requires one to run it as as admin. Now how do you detect that you need to run as an admin from code is the question i was pondering about.
+With C# it is quite easy to detect whether you have admin priviledges or not:
+private bool IsRunAsAdmin() { try { WindowsIdentity id = WindowsIdentity.GetCurrent(); WindowsPrincipal principal = new WindowsPrincipal(id); return principal.IsInRole(WindowsBuiltInRole.Administrator); } catch (Exception) { return false; } }  Now, the question is about relaunching on detecting.</description>
+    </item>
+    
+    <item>
+      <title>library load dbg flags</title>
+      <link>https://www.variadic.xyz/2019/01/20/library-load-dbg-flags/</link>
+      <pubDate>Sun, 20 Jan 2019 12:04:07 -0700</pubDate>
+      
+      <guid>https://www.variadic.xyz/2019/01/20/library-load-dbg-flags/</guid>
+      <description>Last time for debugging library load issues I had to use gflags utility from Microsoft. I was wondering what it was doing exactly. So i started with monitoring registery tweaks when executing command gflags -i notepad.exe +sls and gflags -i notepad.exe -sls and it was quite evident that it was just setting up a new registry value.
+C:\WINDOWS\system32&amp;gt;gflags -i notepad.exe +sls Current Registry Settings for notepad.exe executable are: 00000002 sls - Show Loader Snaps C:\WINDOWS\system32&amp;gt;gflags -i notepad.</description>
+    </item>
+    
+    <item>
+      <title>WPF Style Inheritance Behavior</title>
+      <link>https://www.variadic.xyz/2018/10/26/wpf-style-inheritance-behavior/</link>
+      <pubDate>Fri, 26 Oct 2018 15:33:06 -0700</pubDate>
+      
+      <guid>https://www.variadic.xyz/2018/10/26/wpf-style-inheritance-behavior/</guid>
+      <description>&lt;p&gt;Recently I was using a window style with &lt;a href=&#34;https://github.com/MahApps/MahApps.Metro&#34;&gt;MahAppsMetro&lt;/a&gt;, now it applies the styles at application level. One of the things I am doing is embedding &lt;a href=&#34;https://github.com/icsharpcode/AvalonEdit&#34;&gt;AvalonEdit&lt;/a&gt; in one such window. Now with Metro styling it applies styles to the controls and in my case &lt;code&gt;SearchPanel&lt;/code&gt; in &lt;code&gt;AvalonEdit&lt;/code&gt; was styled too! This is fine, but the results were quite un-expected:&lt;/p&gt;
+
+
+&lt;figure &gt;
+    
+        &lt;img src=&#34;https://www.variadic.xyz/images/2018-10-26_avalonedit1.png&#34; alt=&#34;Metro Styling applied to SearchPanel&#34; /&gt;
+    
+    
+    &lt;figcaption&gt;
+        &lt;p&gt;
+        Metro Styling applied to SearchPanel
+        
+            
+        
+        &lt;/p&gt; 
+    &lt;/figcaption&gt;
+    
+&lt;/figure&gt;
+
+
+&lt;p&gt;Now, of course I do want to keep Metro Style for my application, however want to keep &lt;code&gt;AvalonEdit&lt;/code&gt; styling intact as well.&lt;/p&gt;
+
+&lt;p&gt;Thinking further the simplest thing to do would be to be to somehow disable inheritance of styles at some level. I found a &lt;a href=&#34;https://stackoverflow.com/a/2138114&#34;&gt;post on stackoverflow discussing this&lt;/a&gt;. However for me it was not to stop inheriting styles but to fallback to theme. &lt;a href=&#34;https://msdn.microsoft.com/en-us/library/mt824276.aspx&#34;&gt;Documentation&lt;/a&gt; on this topic is pretty scarce.&lt;/p&gt;
+
+&lt;p&gt;Now to get things to work, I wrapped the &lt;code&gt;AvalonEdit.TextEditor&lt;/code&gt; in a custom &lt;code&gt;Control&lt;/code&gt; which would &lt;code&gt;InheritanceBehavior.SkipToThemeNow&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>system call failed</title>
+      <link>https://www.variadic.xyz/2018/06/18/system-call-failed/</link>
+      <pubDate>Mon, 18 Jun 2018 17:11:54 -0700</pubDate>
+      
+      <guid>https://www.variadic.xyz/2018/06/18/system-call-failed/</guid>
+      <description>&lt;p&gt;Whatever that means, but it is the only error message I got today when trying to open explorer&lt;/p&gt;
+
+
+&lt;figure &gt;
+    
+        &lt;img src=&#34;https://www.variadic.xyz/images/2018_06_18_system_call_failed.png&#34; /&gt;
+    
+    
+&lt;/figure&gt;
+
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>diskpart</title>
+      <link>https://www.variadic.xyz/2018/03/11/diskpart/</link>
+      <pubDate>Sun, 11 Mar 2018 19:25:24 -0700</pubDate>
+      
+      <guid>https://www.variadic.xyz/2018/03/11/diskpart/</guid>
+      <description>Windows disk management, at times is quite simple- it won&amp;rsquo;t allow advanced management features- where you know what you are doing. This was with formatting a SD card with Fedora for Raspberry Pi3. I needed to redo the os image and just couldn&amp;rsquo;t get back all the space there was on SD Card.
+ following command will cause loss of data- try at your own risk
+ There is an alternative, is to use diskpart.</description>
+    </item>
+    
+    <item>
+      <title>pwsh and openssh on windows</title>
+      <link>https://www.variadic.xyz/2018/03/09/pwsh-and-openssh-on-windows/</link>
+      <pubDate>Fri, 09 Mar 2018 21:49:25 -0800</pubDate>
+      
+      <guid>https://www.variadic.xyz/2018/03/09/pwsh-and-openssh-on-windows/</guid>
+      <description>&lt;h3 id=&#34;powershell-core-pwsh&#34;&gt;powershell-core/pwsh&lt;/h3&gt;
+
+&lt;p&gt;to install powershell either download the zip/msi from &lt;a href=&#34;https://github.com/PowerShell/PowerShell/releases&#34;&gt;github page&lt;/a&gt; or you can install thru &lt;code&gt;chocolatey&lt;/code&gt;. But I preferred going with msi file for now.&lt;/p&gt;
+
+&lt;p&gt;The claim is that you can run &lt;a href=&#34;https://blogs.msdn.microsoft.com/powershell/2018/01/10/powershell-core-6-0-generally-available-ga-and-supported/&#34;&gt;powershell core side-by-side&lt;/a&gt;, which is not a requirement for me- but wanted to move over to it for some time now.&lt;/p&gt;
+
+&lt;p&gt;Anyway, I installed this in &lt;code&gt;C:\PowerShell\6.0.1&lt;/code&gt; directory &amp;amp; added it to &lt;code&gt;Path&lt;/code&gt; environment variable on the machine- so is accessible to all uesrs.&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>git diff</title>
+      <link>https://www.variadic.xyz/2018/03/02/git-diff/</link>
+      <pubDate>Fri, 02 Mar 2018 12:13:02 -0800</pubDate>
+      
+      <guid>https://www.variadic.xyz/2018/03/02/git-diff/</guid>
+      <description>&lt;p&gt;By default &lt;code&gt;git&lt;/code&gt; usually launches &lt;code&gt;vimdiff&lt;/code&gt; for diffs and merges, but I would rather prefer &lt;code&gt;kdiff3&lt;/code&gt; gui for merges/diffs.
+Here are some of my notes about how to set it up.&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;For a detailed list of options that &lt;code&gt;git diff&lt;/code&gt; supports visit &lt;a href=&#34;https://git-scm.com/docs/git-diff&#34;&gt;this link&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;code&gt;git&lt;/code&gt; supports various tools for merge and diff, here is a partial list:
+ - &lt;a href=&#34;http://kdiff3.sourceforge.net/&#34;&gt;kdiff3&lt;/a&gt; &amp;amp; &lt;a href=&#34;http://kdiff3.sourceforge.net/doc/kdiff3_en.pdf&#34;&gt;documentation&lt;/a&gt;
+ - &lt;a href=&#34;https://sourceforge.net/projects/tkdiff/files/&#34;&gt;tkdiff&lt;/a&gt;
+ - &lt;a href=&#34;http://meldmerge.org/&#34;&gt;meld&lt;/a&gt;
+ - &lt;a href=&#34;https://stackoverflow.com/questions/27832630/merge-changes-using-vimdiff&#34;&gt;vimdiff&lt;/a&gt;
+ - &lt;a href=&#34;https://linux.die.net/man/1/gvimdiff&#34;&gt;gvimdiff&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;You can setup &lt;code&gt;kdiff3&lt;/code&gt; by default as diff tool by executing follow command:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;git config --global diff.tool kdiff3
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;for other tools see here: &lt;a href=&#34;https://stackoverflow.com/a/17541084/916549&#34;&gt;Viewing all git diffs with vimdiff&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Error Handling Links</title>
+      <link>https://www.variadic.xyz/2018/03/02/error-handling-links/</link>
+      <pubDate>Fri, 02 Mar 2018 11:53:15 -0800</pubDate>
+      
+      <guid>https://www.variadic.xyz/2018/03/02/error-handling-links/</guid>
+      <description>Some of the links about error handling, collected over years:
+ having-a-look-at-the-windows-userkernel-exceptions-dispatcher https://ptgmedia.pearsoncmg.com/images/9780735665873/samplepages/9780735665873.pdf https://www.blackhat.com/presentations/bh-usa-07/Quist_and_Valsmith/Presentation/bh-usa-07-quist_and_valsmith.pdf Programming against the x64 exception handling support exceptional-behavior-windows-81-x64-seh.html The Exception to the Rule - Structured Exception Handling  ehsc-vc-eha-synchronous-vs-asynchronous-exception-handling what-happens-if-both-ehsc-and-eha-are-specified ehsc-vc-eha-synchronous-vs-asynchronous-exception-handling exception-handling-warnings-in-visual-studio http://members.gamedev.net/sicrane/articles/exception.html http://accu.org/index.php/journals/245 https://www.exploit-db.com/docs/17505.pdf difference-between-a-c-exception-and-structured-exception visual-c-unmanaged-code-use-eha-or-ehsc-for-c-exceptions structured-exceptions-seh-in-c Exception Handling- MSDN Exception Dispatching - MSDN</description>
+    </item>
+    
+    <item>
+      <title>gpg signing github commits</title>
+      <link>https://www.variadic.xyz/2018/02/15/gpg-signing-github-commits/</link>
+      <pubDate>Thu, 15 Feb 2018 20:11:01 -0800</pubDate>
+      
+      <guid>https://www.variadic.xyz/2018/02/15/gpg-signing-github-commits/</guid>
+      <description>&lt;p&gt;With &lt;code&gt;git&lt;/code&gt; it is easy to overwrite someone as author or commit as someone else. Then how do you know it was someone who committed the changes?
+That&amp;rsquo;s where the gpg signing comes into picture.&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;this is my first gpg signed post&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;One thing to note is that once you have generated gpg keys from &lt;code&gt;git bash&lt;/code&gt; then you can&amp;rsquo;t use them from windows command prompt.  I found it rather handy to install gnugpg and then generating keys with gpg.
+One thing i had to setup explicitly is to tell &lt;code&gt;git&lt;/code&gt; where to find &lt;code&gt;gpg&lt;/code&gt; so it asks me &lt;code&gt;passcode&lt;/code&gt; . Anyway the command is:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;git config --global gpg.program &amp;quot;C:\GnuPG\bin\gpg.exe&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;A few links of interest around this topic:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;a href=&#34;https://news.ycombinator.com/item?id=7792026&#34;&gt;Why-does-GitHub-let-me-commit-as-other-people&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;http://git.661346.n2.nabble.com/GPG-signing-for-git-commit-td2582986.html&#34;&gt;GPG-signing-for-git-commit&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://mikegerwitz.com/papers/git-horror-story.html&#34;&gt;A git horror story: Repository Integrity With Signed Commits&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;Anyway the most interesting &lt;a href=&#34;https://security.stackexchange.com/a/33471&#34;&gt;is this&lt;/a&gt;:&lt;/p&gt;
+
+
+&lt;figure &gt;
+    
+        &lt;img src=&#34;https://www.variadic.xyz/images/internet-full-of-chimps.png&#34; /&gt;
+    
+    
+&lt;/figure&gt;</description>
+    </item>
+    
+    <item>
+      <title>Tweaking Hugo Summary</title>
+      <link>https://www.variadic.xyz/2018/02/14/tweaking-hugo-summary/</link>
+      <pubDate>Wed, 14 Feb 2018 18:11:15 -0800</pubDate>
+      
+      <guid>https://www.variadic.xyz/2018/02/14/tweaking-hugo-summary/</guid>
+      <description>&lt;p&gt;One of the things I find quite annoying with &lt;code&gt;hugo&lt;/code&gt; is it auto summary feature. While it is quite handy to limit content on main page as it is- but it&amp;rsquo;s default limit of 70 characters adds more to improvement.&lt;/p&gt;
+
+&lt;p&gt;To top that it messes up all the formatting:&lt;/p&gt;
+
+
+&lt;figure &gt;
+    
+        &lt;img src=&#34;https://www.variadic.xyz/images/post-render-before-tweaks.png&#34; /&gt;
+    
+    
+&lt;/figure&gt;
+
+
+&lt;p&gt;One of the work arounds I have found is to use &lt;code&gt;&amp;lt;!-- more --&amp;gt;&lt;/code&gt;, &lt;a href=&#34;https://gohugo.io/content-management/summaries/&#34;&gt;content summaries&lt;/a&gt;, to control what sort of summary will be generated, but it still the same that you have in page.&lt;/p&gt;
+
+&lt;p&gt;Often I would like to have a short note for the content, which is not part of the content itself. Something like this:&lt;/p&gt;
+
+
+&lt;figure &gt;
+    
+        &lt;img src=&#34;https://www.variadic.xyz/images/post-render-after-tweaks.png&#34; /&gt;
+    
+    
+&lt;/figure&gt;
+
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Gcc Headers Dir</title>
+      <link>https://www.variadic.xyz/2018/02/14/gcc-headers-dir/</link>
+      <pubDate>Wed, 14 Feb 2018 17:15:00 -0800</pubDate>
+      
+      <guid>https://www.variadic.xyz/2018/02/14/gcc-headers-dir/</guid>
+      <description>Commands to figure where gcc is looking for system headers:
+For C++: `gcc -print-prog-name=cc1plus` -v
+For C: `gcc -print-prog-name=cc1` -v</description>
+    </item>
+    
+    <item>
+      <title>querying disk type</title>
+      <link>https://www.variadic.xyz/2018/01/24/querying-disk-type/</link>
+      <pubDate>Wed, 24 Jan 2018 20:21:28 -0700</pubDate>
+      
+      <guid>https://www.variadic.xyz/2018/01/24/querying-disk-type/</guid>
+      <description> For a similar c++ wmi based code see driveinfo
+ fire up a powershell window and execute following command:
+C:\Users\sarangb&amp;gt; Get-PhysicalDisk | Select FriendlyName, MediaType FriendlyName MediaType ------------ --------- WDC WD10EZEX-00ZF5A0 Unspecified OCZ-ARC100 SSD Hitachi HTS545050B9A302 HDD   Note: this will not work with powershell core (as of 6.0 version)
+ </description>
+    </item>
+    
+    <item>
+      <title>hashing std::pair and std::tuple</title>
+      <link>https://www.variadic.xyz/2018/01/15/hashing-stdpair-and-stdtuple/</link>
+      <pubDate>Mon, 15 Jan 2018 22:34:59 -0800</pubDate>
+      
+      <guid>https://www.variadic.xyz/2018/01/15/hashing-stdpair-and-stdtuple/</guid>
+      <description>&lt;p&gt;Lately I have been refactoring some old code &amp;amp; found it littered with all sorts of things. This particular code had a custom hash-table for hashing based off 3 values instead of 1. &lt;code&gt;std::tuple&lt;/code&gt; are the best fit, or probably providing a custom struct with &lt;code&gt;std::hash&lt;/code&gt; specialization would have served as well. What std library provides is &lt;code&gt;std::hash&lt;/code&gt; for basic types, &lt;a href=&#34;http://en.cppreference.com/w/cpp/utility/hash&#34;&gt;reference here&lt;/a&gt;. There is nothing for composite types. Even for &lt;code&gt;std::pair&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;Providing a &lt;code&gt;std::hash&lt;/code&gt; for both &lt;code&gt;std::pair&lt;/code&gt; and &lt;code&gt;std::tuple&lt;/code&gt; is what I want to address with this post.&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Error Handling Links</title>
+      <link>https://www.variadic.xyz/2017/11/06/error-handling-links/</link>
+      <pubDate>Mon, 06 Nov 2017 19:56:41 -0800</pubDate>
+      
+      <guid>https://www.variadic.xyz/2017/11/06/error-handling-links/</guid>
+      <description>&lt;p&gt;One Note dump for reference:&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>appverifier lock stops</title>
+      <link>https://www.variadic.xyz/2017/11/01/appverifier-lock-stops/</link>
+      <pubDate>Wed, 01 Nov 2017 10:54:24 +0200</pubDate>
+      
+      <guid>https://www.variadic.xyz/2017/11/01/appverifier-lock-stops/</guid>
+      <description>Reference: AppVerifier Locks  This is more of a dump from various pages of MSDN for handy reference.
+ A few links i have found useful over time are:
+ application-verifier-for-locks-usage how-to-debug-critical-section-issues-using-appverifier  200: This stop is generated if a thread (thread ID is parameter1) is terminated, suspended or is in a state worker thread finished a work item) in which it cannot hold a critical section. The current thread is the culprit.</description>
+    </item>
+    
+    <item>
+      <title>debugging library load issues on windows</title>
+      <link>https://www.variadic.xyz/2017/10/31/library-loading-issues-windows/</link>
+      <pubDate>Tue, 31 Oct 2017 10:54:24 +0200</pubDate>
+      
+      <guid>https://www.variadic.xyz/2017/10/31/library-loading-issues-windows/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;https://docs.microsoft.com/en-us/windows-hardware/drivers/debugger/gflags&#34;&gt;&lt;code&gt;gflags&lt;/code&gt;&lt;/a&gt; is quite a versatile tool for debugging all low level things.
+I have been using it in particular to debug heap and library load issues.&lt;/p&gt;
+
+&lt;p&gt;one can launch the gui, however i have preferred cmd line usage more often.&lt;/p&gt;
+
+&lt;p&gt;to enable library load debugging:&lt;/p&gt;
+
+&lt;p&gt;&lt;code&gt;gflags -i &amp;lt;your-app.exe&amp;gt; +sls&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>how to choose stl container</title>
+      <link>https://www.variadic.xyz/2017/08/11/choosing-stl-container/</link>
+      <pubDate>Fri, 11 Aug 2017 10:54:24 +0200</pubDate>
+      
+      <guid>https://www.variadic.xyz/2017/08/11/choosing-stl-container/</guid>
+      <description>Found somewhere on internet:  </description>
+    </item>
+    
+    <item>
+      <title>pdbinfo</title>
+      <link>https://www.variadic.xyz/2017/07/18/pdbinfo/</link>
+      <pubDate>Mon, 17 Jul 2017 10:54:24 +0200</pubDate>
+      
+      <guid>https://www.variadic.xyz/2017/07/18/pdbinfo/</guid>
+      <description>&lt;p&gt;Last time I coded &lt;a href=&#34;https://github.com/angeleno/peinfo&#34;&gt;&lt;code&gt;peinfo&lt;/code&gt;, https://github.com/angeleno/peinfo&lt;/a&gt; to get information from a PE file. It listed the guid for pdb file generated alongwith.
+This is helpful as it is, but at times you have pdb file and want to query it&amp;rsquo;s guid.&lt;/p&gt;
+
+&lt;p&gt;I did not find anything handy for it, thus ended up coding one myself.
+Here the &lt;a href=&#34;https://msdn.microsoft.com/en-us/library/x93ctkx8.aspx&#34;&gt;Debug Interface Access SDK&lt;/a&gt; is of great help.&lt;/p&gt;
+
+&lt;p&gt;The idea is pretty simple and straight foward:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;Load PDB as DataSource, &lt;code&gt;IDiaDataSource::LoadDataFromPdb&lt;/code&gt; (Line#72)&lt;/li&gt;
+&lt;li&gt;Open Session, &lt;code&gt;IDiaDataSource::openSession&lt;/code&gt;  (Line#76)&lt;/li&gt;
+&lt;li&gt;Get GlobalScope, &lt;code&gt;IDiaSession::get_global_scope&lt;/code&gt;  (Line#80)&lt;/li&gt;
+&lt;li&gt;Get GUID, &lt;code&gt;IDiaSymbol::get_guid&lt;/code&gt;  (Line#84)&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>adding cmd in visual studio</title>
+      <link>https://www.variadic.xyz/2017/04/07/adding-cmd-in-visual-studio/</link>
+      <pubDate>Sun, 16 Jul 2017 10:54:24 +0200</pubDate>
+      
+      <guid>https://www.variadic.xyz/2017/04/07/adding-cmd-in-visual-studio/</guid>
+      <description>&lt;p&gt;One of the handy commands with VS IDE is to launch &lt;code&gt;cmd&lt;/code&gt;, it was provided by default earlier but lately i have been missing it with VS 2015 &amp;amp; onwards.&lt;/p&gt;
+
+&lt;p&gt;While poking around i found that you could launch &lt;code&gt;cmd&lt;/code&gt; as external tool:&lt;/p&gt;
+
+
+&lt;figure &gt;
+    
+        &lt;img src=&#34;https://www.variadic.xyz/images/vs-tools-externaltools.png&#34; /&gt;
+    
+    
+&lt;/figure&gt;
+
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>patch</title>
+      <link>https://www.variadic.xyz/2017/07/04/patch/</link>
+      <pubDate>Tue, 11 Jul 2017 11:32:04 -0800</pubDate>
+      
+      <guid>https://www.variadic.xyz/2017/07/04/patch/</guid>
+      <description>  </description>
+    </item>
+    
+    <item>
+      <title>C&#43;&#43;11 thread safe statics</title>
+      <link>https://www.variadic.xyz/2017/06/20/cpp11-threadsafe-statics/</link>
+      <pubDate>Tue, 20 Jun 2017 10:54:24 +0200</pubDate>
+      
+      <guid>https://www.variadic.xyz/2017/06/20/cpp11-threadsafe-statics/</guid>
+      <description>&lt;p&gt;My good colleage, Mike.McCarty, put out code for review and stated that statics are thread-safe. As it is, sounded very scary but I trust Mike. Thus started exploring what has been done there.&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;here is the std document for the same: &lt;a href=&#34;http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2008/n2660.htm&#34;&gt;http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2008/n2660.htm&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;First thing wrote some code to dump disassembly in VS2015:&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>github multiple accounts setup notes</title>
+      <link>https://www.variadic.xyz/2017/03/04/github-multiple-accounts-setup-notes/</link>
+      <pubDate>Sat, 04 Mar 2017 11:32:04 -0800</pubDate>
+      
+      <guid>https://www.variadic.xyz/2017/03/04/github-multiple-accounts-setup-notes/</guid>
+      <description>&lt;h2 id=&#34;key-generation-and-registration&#34;&gt;key generation and registration&lt;/h2&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;The way github identifies you is thru your ssh keys (public keys need to be registered at github &amp;amp; private keys live on your machine).
+The way to generate keys is to find &lt;code&gt;ssh-keygen&lt;/code&gt;, it comes handy with &lt;code&gt;git bash&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>generating tracebacks for first chance exceptions</title>
+      <link>https://www.variadic.xyz/2017/02/21/generating-tracebacks-first-chance-exceptions/</link>
+      <pubDate>Tue, 21 Feb 2017 21:36:45 -0800</pubDate>
+      
+      <guid>https://www.variadic.xyz/2017/02/21/generating-tracebacks-first-chance-exceptions/</guid>
+      <description>&lt;p&gt;Recently I was debugging some workflow where it appeared quite slow. As part of debugging i saw it Visual Studio printed debugging information about first chance exceptions thrown.&lt;/p&gt;
+
+&lt;p&gt;Now that &lt;a href=&#34;https://blogs.msdn.microsoft.com/davidklinems/2005/07/12/what-is-a-first-chance-exception/&#34;&gt;David Kline from MS&lt;/a&gt; has made it ample clear that &lt;a href=&#34;http://stackoverflow.com/questions/564681/what-is-a-first-chance-exception&#34;&gt;FirstChance exceptions are normal exceptions just that debugger gets first chance at them&lt;/a&gt;- thus first chance. If debugger chooses not to do anything then application gets a chance to do something about it. If application does not handle it then debugger gets a second chance, thus second chance exceptions. you get the idea.&lt;/p&gt;
+
+&lt;p&gt;Now an application can throw as many exceptions it wants and catch it later. This is fine but exceptions are supposed to exceptional and cost quite a bit. (&lt;a href=&#34;http://stackoverflow.com/questions/13835817/are-exceptions-in-c-really-slow&#34;&gt;link1&lt;/a&gt; &amp;amp; &lt;a href=&#34;http://stackoverflow.com/a/13840188/916549&#34;&gt;link2&lt;/a&gt;)&lt;/p&gt;
+
+&lt;p&gt;I have seen &lt;a href=&#34;http://www.boost.org/doc/libs/1_40_0/libs/conversion/lexical_cast.htm&#34;&gt;lexical_cast&lt;/a&gt; being the one that throws exceptions just to parse strings, with xml parsing this could be a big source of exceptions.
+One of the ways to speed up applications is now to fix or atleast reason about these exceptions being thrown, and having tracebacks makes life lot easier.
+&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>logging off users remotely</title>
+      <link>https://www.variadic.xyz/2017/02/20/logging-off-users-remotely/</link>
+      <pubDate>Mon, 20 Feb 2017 21:12:58 -0800</pubDate>
+      
+      <guid>https://www.variadic.xyz/2017/02/20/logging-off-users-remotely/</guid>
+      <description>&lt;p&gt;I came across this post on stackoverflow about logging off users remotely &amp;amp; found it quite handy at times.
+Thus thought of making a note of it on my blog.&lt;/p&gt;
+
+&lt;p&gt;Link: &lt;a href=&#34;http://superuser.com/questions/650816/log-off-a-disconnected-user-remotely&#34;&gt;http://superuser.com/questions/650816/log-off-a-disconnected-user-remotely&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>memory corruption WideCharToMultiByte</title>
+      <link>https://www.variadic.xyz/2016/12/01/memory-corruption-widechartomultibyte/</link>
+      <pubDate>Thu, 01 Dec 2016 20:24:35 -0800</pubDate>
+      
+      <guid>https://www.variadic.xyz/2016/12/01/memory-corruption-widechartomultibyte/</guid>
+      <description>&lt;p&gt;Recently I have been debugging some memory corruption that happened only after something executed 64 times, &lt;code&gt;free&lt;/code&gt; complained that memory has been corrupted.
+Thus started the usual process of debugging. I started &lt;a href=&#34;https://www.microsoft.com/en-us/download/details.aspx?id=20028&#34;&gt;&lt;code&gt;ApplicationVerifier&lt;/code&gt;&lt;/a&gt; and set the application and enabled the basic checks.&lt;/p&gt;
+
+
+&lt;figure &gt;
+    
+        &lt;img src=&#34;https://www.variadic.xyz/images/ApplicationVerifierBasicTests.png&#34; alt=&#34;Application Verifier- Basic Checks&#34; /&gt;
+    
+    
+    &lt;figcaption&gt;
+        &lt;p&gt;
+        Application Verifier- Basic Checks
+        
+            
+        
+        &lt;/p&gt; 
+    &lt;/figcaption&gt;
+    
+&lt;/figure&gt;
+
+
+&lt;p&gt;Soon my application started failing with access violation during startup, this happened even before I reached the code where memory was corrupted. Now I have two problems to investigate.
+This time I was crashing with call to &lt;a href=&#34;https://msdn.microsoft.com/en-us/library/windows/desktop/dd374130(v=vs.85).aspx&#34;&gt;&lt;code&gt;WideCharToMultiByte&lt;/code&gt;&lt;/a&gt;. Started debugging to see exactly where it was failing:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;  ntdll.dll!RtlUnicodeToUTF8N() Unknown
+  KernelBase.dll!WideCharToMultiByte() Unknown
+  vfbasics.dll!000007fef081cd0c() Unknown
+&amp;gt; heapcorruption.exe!dllNotificationFunction(unsigned long NotificationReason, const _LDR_DLL_NOTIFICATION_DATA * NotificationData, void * Context) Line 64 C++
+  ntdll.dll!string &amp;quot;Enabling heap debug options\n&amp;quot;() Unknown
+  ntdll.dll!LdrpFindOrMapDll() Unknown
+  ntdll.dll!LdrpLoadDll() Unknown
+  ntdll.dll!LdrLoadDll() Unknown
+  vfbasics.dll!000007fef08074de() Unknown
+  KernelBase.dll!LoadLibraryExW() Unknown
+  heapcorruption.exe!main() Line 94 C++
+  heapcorruption.exe!invoke_main() Line 75 C++
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>over to hugo</title>
+      <link>https://www.variadic.xyz/2016/11/27/over-to-hugo/</link>
+      <pubDate>Sun, 27 Nov 2016 16:52:38 -0800</pubDate>
+      
+      <guid>https://www.variadic.xyz/2016/11/27/over-to-hugo/</guid>
+      <description>&lt;p&gt;Have been using octopress for a while now, but one thing i dont like is it&amp;rsquo;s reliance on ruby and time it takes to regenerate. Found that hugo is much better at these. Earlier site regeneration used to take &lt;strong&gt;~5 minutes&lt;/strong&gt; now happens in &lt;strong&gt;~.2 seconds&lt;/strong&gt;!
+Thus came the attraction of moving over- but as i found i am not the first to do so. I have read various posts and these are my steps to port it over:&lt;/p&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;The best part is no more rubydevkit and gem/bundler installs, what a big relief&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Archives</title>
+      <link>https://www.variadic.xyz/archive/</link>
+      <pubDate>Sun, 27 Nov 2016 16:18:02 -0800</pubDate>
+      
+      <guid>https://www.variadic.xyz/archive/</guid>
+      <description>Blog Archive</description>
+    </item>
+    
+    <item>
+      <title>C# yaml config</title>
+      <link>https://www.variadic.xyz/2016/06/24/c-number-yaml-config/</link>
+      <pubDate>Fri, 24 Jun 2016 22:22:39 +0000</pubDate>
+      
+      <guid>https://www.variadic.xyz/2016/06/24/c-number-yaml-config/</guid>
+      <description>yaml is pretty good way to define config for an application rather than xml file. There are many libraries available for parsing yaml in C#. Two of the libraries i tried are: yamlconfig and sharpyaml. I liked the general concept behind yamlconfig but it wasn&amp;rsquo;t that good to just integrate and get started, so I chose sharpyaml over it.
+The thing I liked about sharpyaml is how easy it is to get it going, I did not had much success with yamlconfig.</description>
+    </item>
+    
+    <item>
+      <title>vimrc</title>
+      <link>https://www.variadic.xyz/2016/06/16/vimrc/</link>
+      <pubDate>Thu, 16 Jun 2016 20:44:00 +0000</pubDate>
+      
+      <guid>https://www.variadic.xyz/2016/06/16/vimrc/</guid>
+      <description>&lt;p&gt;These days vim is preferred editor, and have started using it at work and home alike.
+That means my vimrc kept evolving and had to sync at both the sites. Thought would back it up some where I can handily find it when required.&lt;/p&gt;
+
+&lt;p&gt;This post has all the contents of my vimrc as backup
+&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>deleting all matching files recursively</title>
+      <link>https://www.variadic.xyz/2016/06/16/deleting-all-files-recursively/</link>
+      <pubDate>Thu, 16 Jun 2016 18:36:48 +0000</pubDate>
+      
+      <guid>https://www.variadic.xyz/2016/06/16/deleting-all-files-recursively/</guid>
+      <description>&lt;p&gt;I am a big fan of linux command line utils and work with many of those on windows as well. One of the commands I have started to like is &lt;a href=&#34;https://en.wikipedia.org/wiki/Xargs&#34;&gt;xargs&lt;/a&gt;.
+I Like the way you could compose commands with pipes. Have tried using xargs on windows &lt;a href=&#34;https://groups.google.com/forum/#!topic/mintty-discuss/8mCkdAPD-sE&#34;&gt;without much success&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;One of the things I often use this is to clean temp directories of certain log files.
+My linux commands would have been:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;find . -name &amp;quot;*.syslog&amp;quot; | xargs rm
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Now I could have done this on windows as:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;dir /s /b *.syslog | xargs rm
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;but xargs dies with environment being too large, instead had to switch to a less elegant solution:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-bash&#34;&gt;forfiles /s /p . /M *.syslog /c &amp;quot;cmd /c rm @path&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>simple nodejs server</title>
+      <link>https://www.variadic.xyz/2016/06/09/simple-nodejs-server/</link>
+      <pubDate>Thu, 09 Jun 2016 22:33:22 +0000</pubDate>
+      
+      <guid>https://www.variadic.xyz/2016/06/09/simple-nodejs-server/</guid>
+      <description>&lt;p&gt;Been playing with &lt;a href=&#34;https://d3js.org/&#34;&gt;d3js&lt;/a&gt;, now that most of the &lt;a href=&#34;http://stackoverflow.com/questions/10752055/cross-origin-requests-are-only-supported-for-http-error-when-loading-a-local&#34;&gt;browsers won&amp;rsquo;t let me load files from disk&lt;/a&gt;.
+To get around this I am using &lt;a href=&#34;https://nodejs.org/en/&#34;&gt;node&lt;/a&gt; as my local server. But it is very bare bones.&lt;/p&gt;
+
+&lt;p&gt;To make node behave as file server I installed two node-modules: &lt;a href=&#34;https://www.npmjs.com/package/connect&#34;&gt;&lt;code&gt;connect&lt;/code&gt;&lt;/a&gt; and &lt;a href=&#34;https://www.npmjs.com/package/serve-static&#34;&gt;&lt;code&gt;serve-static&lt;/code&gt;&lt;/a&gt;
+Once that is installed code for static server is (server.js):&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>controlling processor frequency</title>
+      <link>https://www.variadic.xyz/2016/06/01/controlling-processor-frequency/</link>
+      <pubDate>Wed, 01 Jun 2016 19:28:33 +0000</pubDate>
+      
+      <guid>https://www.variadic.xyz/2016/06/01/controlling-processor-frequency/</guid>
+      <description>&lt;p&gt;My aging MacBook Pro just got a new life (Apple replaced main-board due to graphics card issue), it worked out pretty good. Thought it is perhaps time to upgrade to Windows 10.
+Now that i have upgraded fans won&amp;rsquo;t stop whizzing, they were running at full speed even when the CPU is idling.&lt;/p&gt;
+
+&lt;p&gt;Seems like some sort of bug, didn&amp;rsquo;t wanted to mess around much hardware setups and did not wanted to install fan speed controlling utility as well.
+Found a cool setting that gave me what i wanted, thing is to clamp down frequency.&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>setting up ghpages on windows</title>
+      <link>https://www.variadic.xyz/2016/01/02/setting-up-ghpages-on-windows/</link>
+      <pubDate>Sat, 02 Jan 2016 19:52:50 +0000</pubDate>
+      
+      <guid>https://www.variadic.xyz/2016/01/02/setting-up-ghpages-on-windows/</guid>
+      <description>&lt;p&gt;Now that i have been using windows regularly thought of moving over the setup to my windows desktop. I was initially skeptical about how octopress and ruby will pan out.
+Here are my setup steps:&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>google drive quota</title>
+      <link>https://www.variadic.xyz/2015/09/03/google-drive-quota/</link>
+      <pubDate>Thu, 03 Sep 2015 18:55:55 +0000</pubDate>
+      
+      <guid>https://www.variadic.xyz/2015/09/03/google-drive-quota/</guid>
+      <description>&lt;p&gt;Google drive while a great service lacks the capability of showing the folder/file sizes. I guess it helps a lot to know the hogs, given you get only 15GB for free.
+I have been looking around for solution to this problem recently and found  some discussion on &lt;a href=&#34;https://productforums.google.com/forum/#!topic/drive/TVtw1_QA6fA&#34;&gt;Google Product Forum&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;To cut the chase: you can browse to this link: &lt;a href=&#34;https://drive.google.com/drive/quota&#34;&gt;https://drive.google.com/drive/quota&lt;/a&gt; and it should list the the files sorted by size.
+Well it is still missing the folder size information, but I feel better using this than some third party plugins.&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>vim-multiple-cursors</title>
+      <link>https://www.variadic.xyz/2015/05/24/vim-multiple-cursors/</link>
+      <pubDate>Sun, 24 May 2015 18:35:39 +0000</pubDate>
+      
+      <guid>https://www.variadic.xyz/2015/05/24/vim-multiple-cursors/</guid>
+      <description>&lt;p&gt;These days most of the editors have some sort of facility to make same edit in multiple lines. With Visual Studio it is &lt;code&gt;Alt + down-arrow&lt;/code&gt;, similarly other decent text editors (sublime-text, atom and brackets) have some built-in support for multiple-cursors.&lt;/p&gt;
+
+&lt;p&gt;I was wondering if &lt;code&gt;vim&lt;/code&gt; has something of this goodness. Well &lt;code&gt;vim&lt;/code&gt; has this support, you just need to check if your copy of &lt;code&gt;vim&lt;/code&gt; was built with &lt;code&gt;visualextra&lt;/code&gt; option or not.&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>vim &amp; cscope</title>
+      <link>https://www.variadic.xyz/2015/05/16/vim/</link>
+      <pubDate>Sat, 16 May 2015 22:36:41 +0000</pubDate>
+      
+      <guid>https://www.variadic.xyz/2015/05/16/vim/</guid>
+      <description>&lt;h2 id=&#34;vim&#34;&gt;vim&lt;/h2&gt;
+
+&lt;p&gt;&lt;code&gt;vim&lt;/code&gt; what an editor! I am yet to find someone who used this editor but is neutral. Either folks love it or hate it. I think that is sign of a truly remarkable product, in sense it connects to core- evoking emotional reaction. It was not long ago i was in &lt;code&gt;vim&lt;/code&gt; WTF camp. But had to spend a few weeks on linux and re-discovered &lt;code&gt;vim&lt;/code&gt;. After about a month of usage &lt;code&gt;vim&lt;/code&gt; is one of my preferred editors for code browsing- even on windows. :)
+Learning and getting used to &lt;code&gt;vim&lt;/code&gt; took some time- especailly it was learning not to fight &lt;code&gt;normal&lt;/code&gt; and &lt;code&gt;insert&lt;/code&gt; mode. One my left little finger developed flesh memory of hitting &lt;code&gt;esc&lt;/code&gt; key every now and then- life became much better with vim.&lt;/p&gt;
+
+&lt;p&gt;The other thing that makes &lt;code&gt;vim&lt;/code&gt; awesome is plugin support and number of plugins available. I have been using &lt;code&gt;ctags&lt;/code&gt; for quite some time- but started using &lt;code&gt;cscope&lt;/code&gt; recently and love it. For mid sized projects it is quite fast and snappy and the code database makes all sorts of queries possible. Now that i found that it integrates well with &lt;code&gt;vim&lt;/code&gt;. This post is about getting &lt;code&gt;cscope&lt;/code&gt; hooked up in &lt;code&gt;vim&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>notes on git</title>
+      <link>https://www.variadic.xyz/2015/05/16/notes-on-git/</link>
+      <pubDate>Sat, 16 May 2015 12:29:54 +0000</pubDate>
+      
+      <guid>https://www.variadic.xyz/2015/05/16/notes-on-git/</guid>
+      <description>&lt;p&gt;Now that I moved my blog to &lt;a href=&#34;https://www.variadic.xyz/&#34;&gt;github-pages&lt;/a&gt; generated by &lt;a href=&#34;http://octopress.org/&#34;&gt;octopress&lt;/a&gt;, using git is the only way to make progress. Rather than digressing about my experiences @migrating from wordpress to octopress- I would rather keep this post as my notes on &lt;code&gt;git&lt;/code&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;getting-started&#34;&gt;getting started&lt;/h2&gt;
+
+&lt;p&gt;I find it interesting to learn by jumping-in rather than reading tons of volumes first. To get started you need to let git know that you are going to be setting a repository, this needs to happen in a particular directory- which contains stuff you want to manage.
+The command is:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git init .
+Initialized empty Git repository in /home/sarangb/learn-git/.git/
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Once an empty git repo is initialized now the next step is to add some content for git to track. Lets start by adding a a script that fetches weather information (just for fun). Once I have the script the next step is to let git know about it.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git add *.sh
+git commit -m &#39;initial commit&#39;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;This will add all &lt;code&gt;sh&lt;/code&gt; files to git, this is two step process:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;code&gt;git add&lt;/code&gt; will add the files to a staging area, more on that shortly&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;git commit&lt;/code&gt; will commit files in git repo&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;Now that scripts have been added. Say you need to tweak the script and recommit the changes.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git add *.sh
+git commit -m &amp;quot;tweaked scripts&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Disclaimer</title>
+      <link>https://www.variadic.xyz/disclaimer/</link>
+      <pubDate>Thu, 14 May 2015 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.variadic.xyz/disclaimer/</guid>
+      <description>All the information provided on this website is provided on an “as is” and “as available” basis and you agree that you use such information entirely at your own risk. I do not speak for my employer.
+I give no warranty and accept no responsibility or liability for the accuracy or the completeness of the information and materials contained in this website. Under no circumstances will I be held responsible or liable in any way for any claims, damages, losses, expenses, costs or liabilities whatsoever (including, without limitation, any direct or indirect damages for loss of profits, business interruption or loss of information) resulting or arising directly or indirectly from your use of or inability to use this website or any websites linked to it, or from your reliance on the information and material on this website, even if I have been advised of the possibility of such damages in advance.</description>
+    </item>
+    
+    <item>
+      <title>about</title>
+      <link>https://www.variadic.xyz/about/</link>
+      <pubDate>Thu, 14 May 2015 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.variadic.xyz/about/</guid>
+      <description>Hello, I am Sarang Baheti. I am a Mechanical Engineer and CAD Developer by profession. C++ is my language of choice, and I am equally procficient in C and C#. I have been developing large-scale C++ software for ~14 years. I have worked on almost all aspects of CAD system- rendering, selection, performance, part load/save, interop with third-party data and standards, &amp;hellip;
+Currenly I am working at Siemens PLM Software Inc developing NX.</description>
+    </item>
+    
+    <item>
+      <title>adding extra swap file on ubuntu</title>
+      <link>https://www.variadic.xyz/2015/05/10/adding-extra-swap-file-on-ubuntu/</link>
+      <pubDate>Sun, 10 May 2015 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.variadic.xyz/2015/05/10/adding-extra-swap-file-on-ubuntu/</guid>
+      <description>&lt;p&gt;Installed Ubuntu 15.04 on my low-key laptop and fire a build for llvm project. After a while ubuntu popped up internal error message. When I checked System Monitor- I ran out of RAM and Swap (4GB). So for sure I need more swap space on machine. &lt;a href=&#34;https://help.ubuntu.com/community/SwapFaq&#34; target=&#34;_blank&#34;&gt;Canonical&lt;/a&gt; as well as &lt;a href=&#34;http://askubuntu.com/questions/178712/how-to-increase-swap-space&#34; target=&#34;_blank&#34;&gt;askubuntu.com&lt;/a&gt; have some good information on how to replace swap-files.
+Rather than replacing files- I am going to with adding another one. This time 16GB. Here are the steps, you will need superuser access- I prefer sudo to su.&lt;/p&gt;
+
+&lt;p&gt;First allocate 16GB memory and mount as 16gb.swap. Also ensure that this file can&amp;rsquo;t be read by anyone and fill it with zeros&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Visual Studio Code Editor</title>
+      <link>https://www.variadic.xyz/2015/04/29/visual-studio-code-editor/</link>
+      <pubDate>Wed, 29 Apr 2015 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.variadic.xyz/2015/04/29/visual-studio-code-editor/</guid>
+      <description>&lt;p&gt;Microsoft jumped into the pool to provide it&amp;#8217;s own &lt;a href=&#34;http://blogs.msdn.com/b/vscode/archive/2015/04/29/announcing-visual-studio-code-preview.aspx&#34; target=&#34;_blank&#34;&gt;Cross Platform Code Editor&lt;/a&gt;. It is called Visual Studio Code, still in preview, and is available for download &lt;a href=&#34;https://code.visualstudio.com/Download&#34; target=&#34;_blank&#34;&gt;here&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;It looks very consistent with SublimeText look and functionality wise, and is quite snappy as compared to Atom for sure. The functionality is sparse and I expect things would get better from here. I have been a fan of SublimeText and Atom&amp;#8217;s fuzzy search feature and VSC also supports the same for file only. Would be good if it would be extensible for searching for symbols.&lt;figure id=&#34;attachment_2907&#34; style=&#34;width: 640px;&#34; class=&#34;wp-caption aligncenter&#34;&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>running as administrator</title>
+      <link>https://www.variadic.xyz/2015/01/02/running-as-administrator/</link>
+      <pubDate>Fri, 02 Jan 2015 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.variadic.xyz/2015/01/02/running-as-administrator/</guid>
+      <description>&lt;p&gt;Recently I was developing an application that required administrator level access on machine to do certain task.
+&amp;gt;   UAC is a feature of Windows Vista and 7 designed to prevent unauthorized changes to your computer. By default, even an administrator account in modern versions of Windows does not have full access to modify system settings and install programs. Thus, if you try to install a program or change critical settings, you may see your desktop fade and show only a prompt window asking if you’re sure you want to do this.  This ensures secure desktop, designed to prevent a program from automatically approving itself.
+&amp;gt;&lt;/p&gt;
+
+&lt;p&gt;In case you are using standard (non-admin) account Windows will ask you to grant permission using admin account. The way to do this with .NET applications is to add a New Item of type Application Manifest File:
+  &lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>RAMDrive and SSD, continued</title>
+      <link>https://www.variadic.xyz/2014/12/31/ramdrive-and-ssd-continued/</link>
+      <pubDate>Wed, 31 Dec 2014 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.variadic.xyz/2014/12/31/ramdrive-and-ssd-continued/</guid>
+      <description>&lt;p style=&#34;text-align: justify;&#34;&gt;
+  This is continuation of previous post &lt;a href=&#34;https://www.variadic.xyz/2014/12/24/ssd-thrashing-and-ramdrive/&#34; target=&#34;_blank&#34;&gt;SSD Thrashing and RAMDrive&lt;/a&gt;, I have created a 512MB RamDrive and mapped it as R Drive. My Temp directories are located on RamDrive and so is the data directory for Chrome. With this arrangement and heavy use of chrome I could see some good benefits- due to holiday season I have spent a lot of time on my laptop (~8-10 hours or usage every day). And have a graph to show about the usage:
+&lt;/p&gt;
+
+&lt;p style=&#34;text-align: justify;&#34;&gt;</description>
+    </item>
+    
+    <item>
+      <title>SSD thrashing and RAMDrive</title>
+      <link>https://www.variadic.xyz/2014/12/24/ssd-thrashing-and-ramdrive/</link>
+      <pubDate>Wed, 24 Dec 2014 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.variadic.xyz/2014/12/24/ssd-thrashing-and-ramdrive/</guid>
+      <description>&lt;p style=&#34;text-align: justify;&#34;&gt;
+  This is continuation of my previous post: &lt;a title=&#34;disabling superfetch, prefetch and indexing&#34; href=&#34;https://www.variadic.xyz/2014/12/22/disabling-superfetch-prefetch-and-indexing/&#34; target=&#34;_blank&#34;&gt;disabling superfetch, prefetch and indexing&lt;/a&gt;
+&lt;/p&gt;
+
+&lt;p style=&#34;text-align: justify;&#34;&gt;
+  After installing SSD I was monitoring how Windows has been using the drive. One of the day I spent quite sometime watching videos over web and the data written to SSD increased by ~35GB. That day I effectively did nothing other than watching videos on youtube and &lt;a href=&#34;http://www.pluralsight.com/&#34; target=&#34;_blank&#34;&gt;pluralsight&lt;/a&gt;. With this in mind I set out to investigate what caused this un-neccessary writes to SSD. &lt;a href=&#34;http://crystalmark.info/software/CrystalDiskInfo/index-e.html&#34; target=&#34;_blank&#34;&gt;Crystal DiskInfo&lt;/a&gt; has been my companion in deciphering the &lt;a href=&#34;http://en.wikipedia.org/wiki/S.M.A.R.T.&#34; target=&#34;_blank&#34;&gt;SMART&lt;/a&gt; data reported.
+&lt;/p&gt;
+
+&lt;p style=&#34;text-align: justify;&#34;&gt;
+  Crystal DiskInfo can read the SMART information quite nicely, it is a bit easier to use as compared to &lt;a href=&#34;http://ocz.com/consumer/download/firmware&#34; target=&#34;_blank&#34;&gt;OCZ&amp;#8217;s toolbox&lt;/a&gt;. The stats of interest here are the Total Host Writes and Total NAND Writes. Host Writes is how much data OS has transferred to SSD to write and NAND writes represents how much controller wrote to SSD (there is compression at play here- I am not losing data :))
+&lt;/p&gt;
+
+&lt;p style=&#34;text-align: justify;&#34;&gt;</description>
+    </item>
+    
+    <item>
+      <title>christmas tree!!</title>
+      <link>https://www.variadic.xyz/2014/12/23/christmas-tree/</link>
+      <pubDate>Tue, 23 Dec 2014 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.variadic.xyz/2014/12/23/christmas-tree/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>disabling superfetch, prefetch and indexing</title>
+      <link>https://www.variadic.xyz/2014/12/22/disabling-superfetch-prefetch-and-indexing/</link>
+      <pubDate>Mon, 22 Dec 2014 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.variadic.xyz/2014/12/22/disabling-superfetch-prefetch-and-indexing/</guid>
+      <description>&lt;p style=&#34;text-align: justify;&#34;&gt;
+  Recently I bought a SSD for my laptop, and after upgrading it feels really fast. Earlier Windows 8.1 used to boot to desktop in about ~100 seconds (5400 RPM HDD) and now it has been reduced to ~6 seconds!!
+&lt;/p&gt;
+
+&lt;p style=&#34;text-align: justify;&#34;&gt;
+  With SSD quite a few of the Windows optimizations are not required- namely search indexing, superfetch and prefetch. Actually disabling these might increase SSD lifetime- as they &lt;a href=&#34;http://en.wikipedia.org/wiki/Flash_memory#NAND_flash&#34; target=&#34;_blank&#34;&gt;reduce un-neccessary writes to SSD.&lt;/a&gt;
+&lt;/p&gt;
+
+&lt;p style=&#34;text-align: justify;&#34;&gt;
+  &lt;a href=&#34;http://windows.microsoft.com/en-us/windows/improve-windows-searches-using-index-faq#1TC=windows-7&#34; target=&#34;_blank&#34;&gt;Search Indexing&lt;/a&gt; was added to compensate for HDD lag while accessing commonly used files. It did has profound effect when I was using 5400 RPM HDD but with SSD no one needs it.
+&lt;/p&gt;
+
+&lt;p style=&#34;text-align: justify;&#34;&gt;</description>
+    </item>
+    
+    <item>
+      <title>curious case of 20GB address space reservation</title>
+      <link>https://www.variadic.xyz/2014/10/19/curious-case-of-20gb-address-space-reservation/</link>
+      <pubDate>Sun, 19 Oct 2014 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.variadic.xyz/2014/10/19/curious-case-of-20gb-address-space-reservation/</guid>
+      <description>&lt;p style=&#34;text-align: justify;&#34;&gt;
+  Recently I have been tracking a case where some code from a third party library was fiddling up with address space of my application. &lt;a href=&#34;http://msdn.microsoft.com/en-us/library/windows/desktop/aa366912(v=vs.85).aspx&#34; target=&#34;_blank&#34;&gt;Address space&lt;/a&gt; was very important back in Win32 days you had only 2GB (3GB for large address aware applications), &lt;a href=&#34;http://msdn.microsoft.com/en-us/library/windows/desktop/aa366778(v=vs.85).aspx&#34; target=&#34;_blank&#34;&gt;but with x64 Windows 7 allows you to reference up to 8TB&lt;/a&gt; (that&amp;#8217;s right 8192GB). Well, no one needs that much address space as of today- but a lot of times it is the first thing you look at when your application is running out of memory.
+&lt;/p&gt;
+
+&lt;p style=&#34;text-align: justify;&#34;&gt;
+  Such thing happened with me: due to some bug in a very thick algorithm, while loop never terminated and kept on allocating memory internally. It allocated so much memory that Windows started having problems with Low Memory Condition and finally had to quit the application. As for investigation I noticed that application reported it&amp;#8217;s address space was ~82GB while Task Manager reported it&amp;#8217;s &lt;a href=&#34;http://msdn.microsoft.com/en-us/library/windows/desktop/cc441804(v=vs.85).aspx&#34; target=&#34;_blank&#34;&gt;Working Set&lt;/a&gt; to be ~48GB- what was puzzling was my application during the run had reserved ~34 GB address space for nothing.
+&lt;/p&gt;
+
+&lt;p style=&#34;text-align: justify;&#34;&gt;</description>
+    </item>
+    
+    <item>
+      <title>origin of endian</title>
+      <link>https://www.variadic.xyz/2014/08/28/origin-of-endian/</link>
+      <pubDate>Thu, 28 Aug 2014 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.variadic.xyz/2014/08/28/origin-of-endian/</guid>
+      <description>While reading about Endian-ness with microprocessor I became curious about how this term came into existence. The terms Big-Endian and Little-Endian come from Part I, Chapter 4, of Jonathan Swift&amp;#8217;s Gulliver&amp;#8217;s Travels. Here is some background what Big and Little mean in here:  The novel further describes an intra-Lilliputian quarrel over the practice of breaking eggs. Traditionally, Lilliputians broke boiled eggs on the larger end; a few generations ago, an Emperor of Lilliput, the Present Emperor&amp;#8217;s great-grandfather, had decreed that all eggs be broken on the smaller end after he cut himself breaking the egg on the larger end.</description>
+    </item>
+    
+    <item>
+      <title>boost with XCode</title>
+      <link>https://www.variadic.xyz/2014/08/20/boost-with-xcode/</link>
+      <pubDate>Wed, 20 Aug 2014 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.variadic.xyz/2014/08/20/boost-with-xcode/</guid>
+      <description>&lt;p style=&#34;text-align: justify;&#34;&gt;
+  Sometime ago I was trying to port one of my experiments on Mac OS X. The application relies on boost library, so there was need to get started with boost on Mac. And I wanted to use XCode all the way along. Coming from Windows meant browsing thru XCode build settings to figure out what goes where. Visual Studio Property Pages and XCode Settings don&amp;#8217;t match really well, from UI point of view.
+&lt;/p&gt;
+
+&lt;p style=&#34;text-align: justify;&#34;&gt;
+  XCode puts the compiler application somewhere in deep guts of \Developer directory, so copying the boost libraries was not really an option. Mac OS X being UNIX underneath meant I had a global include/lib/bin directory where I can put boost libraries once built. What follows next is visual summary of building and installing boost on Mac OS X.
+&lt;/p&gt;
+
+&lt;p style=&#34;text-align: justify;&#34;&gt;
+  It starts with boot-strapping boost build engine:
+&lt;/p&gt;
+
+&lt;p style=&#34;text-align: justify;&#34;&gt;</description>
+    </item>
+    
+    <item>
+      <title>C&#43;&#43; Template Metaprogramming Part 2 of n</title>
+      <link>https://www.variadic.xyz/2014/08/04/c-template-metaprogramming-part-2-of-n/</link>
+      <pubDate>Mon, 04 Aug 2014 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.variadic.xyz/2014/08/04/c-template-metaprogramming-part-2-of-n/</guid>
+      <description>&lt;blockquote&gt;
+&lt;p&gt;Series:&lt;br /&gt;
+1. &lt;a href=&#34;https://www.variadic.xyz/2012/01/07/c-template-metaprogramming/&#34; target=&#34;_blank&#34;&gt;C++ Template Metaprogramming&lt;/a&gt;&lt;br /&gt;
+2. &lt;a href=&#34;https://www.variadic.xyz/2014/08/04/c-template-metaprogramming-part-2-of-n/&#34; target=&#34;_blank&#34;&gt;C++ Template Metaprogramming Part 2 of n&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p style=&#34;text-align: justify;&#34;&gt;
+  This is second in series and I would like to expand on thinking recursively in this part, before than introducing other concepts. For this post lets create a template metaprogram to check if given number is prime or not.
+&lt;/p&gt;
+
+&lt;p style=&#34;text-align: justify;&#34;&gt;
+  This a standard iterative implementation of checking whether the number is prime:
+&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-cpp&#34;&gt;bool isPrime(int number)
+{
+    if(number &amp;lt; 3)
+        throw std::invalid_argument(&amp;quot;numbers less than 3 cannot be primes&amp;quot;);
+
+    //  any even number cannot be a prime
+    bool result = number % 2 != 0;
+
+    for(int divisor = 2; result &amp;amp;&amp;amp; divisor &amp;lt; number/2; ++divisor)
+    {
+        result = number % divisor != 0;
+    }
+
+    return result;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p style=&#34;text-align: justify;&#34;&gt;
+  All highlighted lines have one or more terminating conditions for computation. Line 4 checks for valid input, 7 filters out all even numbers. Line 9 ensures we terminate if have tried a lot of divisors (number/2 is the last thing we want to try) and 11 checks whether number is a multiple of divisor.
+&lt;/p&gt;
+
+&lt;p style=&#34;text-align: justify;&#34;&gt;
+  Given this it is implement a recursive equivalent with said terminating conditions:
+&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-cpp&#34;&gt;bool isPrime_rimpl(int number, int divisor)
+{
+    return  number == divisor ? true :
+            number % divisor == 0 ? false : isPrime_rimpl(number, ++divisor);
+}
+
+bool isPrime_r(int number)
+{
+    if(number &amp;lt; 3)
+        throw std::invalid_argument(&amp;quot;numbers less than 3 cannot be primes&amp;quot;);
+
+    return isPrime_rimpl(number, 2);
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p style=&#34;text-align: justify;&#34;&gt;
+  
+&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>Visual Studio Run Time Error Checks RTC and Performance</title>
+      <link>https://www.variadic.xyz/2014/08/01/visual-studio-run-time-error-checks-rtc-performance/</link>
+      <pubDate>Fri, 01 Aug 2014 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.variadic.xyz/2014/08/01/visual-studio-run-time-error-checks-rtc-performance/</guid>
+      <description>Recently I was analyzing some very computation intensive code. The code was operating on an image and was fiddling with each pixel. For image of size 4000&amp;#215;4000 my function was called ~5 billion times. Since most of the computation depends only on the pixel attributes &amp;#8211; so this problem tended itself very well for data parallel computation, but I was more interested in eliminating bottlenecks in serial code first than running un-optimized code in parallel.</description>
+    </item>
+    
+    <item>
+      <title>screen recording on Mac OS X</title>
+      <link>https://www.variadic.xyz/2014/07/17/screen-recording-on-mac-os-x/</link>
+      <pubDate>Thu, 17 Jul 2014 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.variadic.xyz/2014/07/17/screen-recording-on-mac-os-x/</guid>
+      <description>&lt;p style=&#34;text-align: justify;&#34;&gt;
+  Recently I was participating in a training session over the web and wanted to capture the video and audio stream to create training videos for reference material for in house training. &lt;a href=&#34;http://www.plm.automation.siemens.com/en_us/products/teamcenter/teamcenter-mobility/support-appshare.shtml&#34; target=&#34;_blank&#34;&gt;Appshare&lt;/a&gt; is a very good screen sharing tool, but won&amp;#8217;t allow for audio streaming. So I used my google voice number to call in. Thus I had both video and audio streaming on my laptop.
+&lt;/p&gt;
+
+&lt;p style=&#34;text-align: justify;&#34;&gt;
+  Capturing should be easy now(?), but I hit several snags. First of all, there was this problem where output from speaker would again feedback into mic of laptop and there by creating a hell lot of noise. After trying out enough I realized what I wanted was an aggregate device where I tell system to choose which devices contribute which kind of streams.
+&lt;/p&gt;
+
+&lt;p style=&#34;text-align: justify;&#34;&gt;
+  Recently I happened to purchase a license to &lt;a href=&#34;http://www.globaldelight.com/boom/&#34; target=&#34;_blank&#34;&gt;Boom device&lt;/a&gt; and must say it&amp;#8217;s quite impressive, for others looking for a free sound driver &lt;a href=&#34;http://cycling74.com/products/soundflower/&#34; target=&#34;_blank&#34;&gt;soundflower&lt;/a&gt; is good choice. For this post I will stick with Boom.
+&lt;/p&gt;
+
+&lt;p style=&#34;text-align: justify;&#34;&gt;
+  To create an Aggregate device search for Audio MIDI Setup in spotlight. This is what it looks like for me before creation of aggregate device. At the bottom-left click + button and create a new aggregate device:
+&lt;/p&gt;
+
+&lt;p style=&#34;text-align: justify;&#34;&gt;</description>
+    </item>
+    
+    <item>
+      <title>C&#43;&#43;11 constexpr: computing exp at compile time</title>
+      <link>https://www.variadic.xyz/2014/07/06/c11-constexpr-computing-exp-at-compile-time/</link>
+      <pubDate>Sun, 06 Jul 2014 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.variadic.xyz/2014/07/06/c11-constexpr-computing-exp-at-compile-time/</guid>
+      <description>&lt;p&gt;While trying out constexpr I was wondering what else can I get compiler to compute. I can pretty much do any integral computation with both C++ Template Metaprogramming and constexpr, but can I do some floating point computations? It appears I can!!&lt;/p&gt;
+
+&lt;p&gt;So I set out to compute &lt;code&gt;exp(z)&lt;/code&gt;, using &lt;a href=&#34;http://www.math.sc.edu/~girardi/m142/handouts/10sTaylorPolySeries.pdf&#34; target=&#34;_blank&#34;&gt;Taylor series implementation for exp&lt;/a&gt;:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-cpp&#34;&gt;//  can&#39;t deal with negative powers!!
+//
+constexpr double pow(double x, int y)
+{
+    return y == 0 ? 1.0 : x * pow(x, y-1);
+}
+
+constexpr int factorial(int x)
+{
+    return x == 0 ? 1 : x * factorial(x-1);
+}
+
+constexpr double exp(double x)
+{
+    return 1.0 + x + pow(x,2)/factorial(2) + pow(x, 3)/factorial(3)
+        + pow(x, 4)/factorial(4) + pow(x, 5)/factorial(5)
+        + pow(x,6)/factorial(6) + pow(x, 7)/factorial(7)
+        + pow(x, 8)/factorial(8) + pow(x, 9)/factorial(9);
+}
+
+int main()
+{
+    constexpr double exp1 = exp(1.0);
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;In here I have &lt;code&gt;pow&lt;/code&gt; function to compute powers of a floating point number, mine is bit limited as it can do integral powers only; &lt;code&gt;factorial&lt;/code&gt;  straight forward. &lt;code&gt;exp&lt;/code&gt; function function goes to &lt;code&gt;10&lt;/code&gt; component evaluation. With &lt;code&gt;exp(1)&lt;/code&gt; I do see value of &lt;code&gt;2.7182815255731922&lt;/code&gt; in debug window while &lt;code&gt;cout&lt;/code&gt; prints it to be &lt;code&gt;2.71828&lt;/code&gt;. Since this is floating point value I can&amp;rsquo;t do &lt;code&gt;static_assert&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;Now what&amp;rsquo;s the proof that it was all compile time rather than runtime evaluation, the only way to confirm is to look at what is executed by processor, that&amp;rsquo;s right assembly:&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>C&#43;&#43;11: polymorphic function objects</title>
+      <link>https://www.variadic.xyz/2014/07/01/c11-polymorphic-function-objects/</link>
+      <pubDate>Tue, 01 Jul 2014 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.variadic.xyz/2014/07/01/c11-polymorphic-function-objects/</guid>
+      <description>&lt;p style=&#34;text-align: justify;&#34;&gt;
+  C++ supports various styles of programming and &lt;a title=&#34;Functional Programming For The Rest of Us&#34; href=&#34;https://www.variadic.xyz/2011/06/07/functional-programming-for-the-rest-of-us/&#34; target=&#34;_blank&#34;&gt;functional&lt;/a&gt; is one of them, however functions are not first class concept in C++ and static typing makes it almost impossible to mix or interchange &lt;a title=&#34;callable entity&#34; href=&#34;https://www.variadic.xyz/2011/05/31/callable-entity/&#34; target=&#34;_blank&#34;&gt;callable entities&lt;/a&gt; of different types to be bound to same variable or to form a list of such entities based on calling semantics.
+&lt;/p&gt;
+
+&lt;p style=&#34;text-align: justify;&#34;&gt;
+  Being creative and industrious, we C++ programmers have used/abused various features of language to accomplish this, with either doing away with types completely or (mis)using inheritance and virtual functions to accomplish callbacks or delegates.
+&lt;/p&gt;
+
+&lt;p style=&#34;text-align: justify;&#34;&gt;
+  &lt;a title=&#34;c++11 lambda — having fun with brackets!&#34; href=&#34;https://www.variadic.xyz/2011/10/12/c11-lambda-having-fun-with-brackets/&#34; target=&#34;_blank&#34;&gt;Lambdas&lt;/a&gt; were supposed to solve some of these problems by making it easier to define functions in-place and provide for capturing the environment, managing lifetime of captured variables defining environment is still onto the programmer though, but they are kind of typeless. Thus the variables to capture lamdas have &lt;a title=&#34;C++11: auto&#34; href=&#34;https://www.variadic.xyz/2011/05/04/auto/&#34; target=&#34;_blank&#34;&gt;auto&lt;/a&gt; &lt;a title=&#34;auto and decltype&#34; href=&#34;https://www.variadic.xyz/2011/05/28/auto-and-decltype/&#34; target=&#34;_blank&#34;&gt;type deduction&lt;/a&gt;. All lambdas have is calling semantics and thus the need for polymorphic function objects that don&amp;#8217;t care about types, but just the calling semantics. There by being the &amp;#8220;one type to rule them all&amp;#8221; callable entity.
+&lt;/p&gt;
+
+&lt;p style=&#34;text-align: justify;&#34;&gt;</description>
+    </item>
+    
+    <item>
+      <title>libcxxabi __dynamic_cast and random strings</title>
+      <link>https://www.variadic.xyz/2014/07/01/libcxxabi-__dynamic_cast-random-strings/</link>
+      <pubDate>Tue, 01 Jul 2014 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.variadic.xyz/2014/07/01/libcxxabi-__dynamic_cast-random-strings/</guid>
+      <description>While doing some performance profiling I ran into dynamic_cast being one of the hogs. I do know that dynamic_cast does typeid and string comparison on windows and it sucks. However on gcc it seems quite fast (haven&amp;#8217;t checked the implementation there), became curious how is it implemented in libcxx in Clang.
+Will do a separate post covering my findings soon, this post is about some random strings disassembler showed in XCode, as you can see there are some references to &amp;#8220;Adobe Illustrator&amp;#8221; and &amp;#8220;Adobe Photoshop CS5&amp;#8243;, wonder if this is just garbage.</description>
+    </item>
+    
+    <item>
+      <title>days between dates</title>
+      <link>https://www.variadic.xyz/2014/06/08/days-between-dates/</link>
+      <pubDate>Sun, 08 Jun 2014 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.variadic.xyz/2014/06/08/days-between-dates/</guid>
+      <description>Seems like finding out days between dates is not a trivial task. There is quite a bit of support in tools for adding up dates (date), but literally none for evaluating the difference. Unix systems return time using epoch as reference, thus you need to divide the difference by 86400 (#seconds in a day) to get the #days. However I wanted something portable that would work across all platforms without me having to worry about leap-years and such esoteric stuff.</description>
+    </item>
+    
+    <item>
+      <title>SMART status of disk on Windows</title>
+      <link>https://www.variadic.xyz/2014/05/03/smart-status-of-disk-on-windows/</link>
+      <pubDate>Sat, 03 May 2014 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.variadic.xyz/2014/05/03/smart-status-of-disk-on-windows/</guid>
+      <description>Carrying fromearlier post about SMART status on MAC OS X, with windows the best and easiest way is to use CrystalDiskInfo. As long as it says Good you are all set. It offers whole lot more information about current status and thresholds but has a good visual summary.SMART status using CrystalDiskInfo, Health status is pretty handy summary of status
+&amp;nbsp;</description>
+    </item>
+    
+    <item>
+      <title>cheat-sheets</title>
+      <link>https://www.variadic.xyz/2014/04/28/cheat-sheets/</link>
+      <pubDate>Mon, 28 Apr 2014 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.variadic.xyz/2014/04/28/cheat-sheets/</guid>
+      <description>&lt;p&gt;Recently bumped into this very useful list of cheat-sheets at makeuseof.com. I like the Windows and Linux commands cheat-sheet in particular. For the complete listing &lt;a href=&#34;http://www.makeuseof.com/pages/downloads&#34;&gt;visit this link&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>SMART status of disk on MAC OS X</title>
+      <link>https://www.variadic.xyz/2014/04/20/smart-status-of-disk-on-mac-os-x/</link>
+      <pubDate>Sun, 20 Apr 2014 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.variadic.xyz/2014/04/20/smart-status-of-disk-on-mac-os-x/</guid>
+      <description>&lt;p style=&#34;text-align: justify;&#34;&gt;
+  Recently, I heard clicking noise from my laptop and became suspicious of hard drive status. After all I bought Seagate and &lt;a href=&#34;http://www.pcworld.com/article/2089464/three-year-27-000-drive-study-reveals-the-most-reliable-hard-drive-makers.html&#34;&gt;recent studies have shown Seagate hasn&amp;#8217;t performed upto expectations recently&lt;/a&gt;. The obvious thing to do is to check &lt;a href=&#34;http://en.wikipedia.org/wiki/S.M.A.R.T.&#34;&gt;SMART status&lt;/a&gt; of my drive. Mac Has some good inbuilt capacity to check for HDD health. It allows you to check the status from command-line as well as provides the same in UI. In either case Disk Utility is tool.
+&lt;/p&gt;
+
+&lt;p&gt;Launch Disk Utility, pick Disk you want to check from Left Side Bar and Hit Verify Disk on First Aid Tab. If everything turns out good you should see the message:&lt;/p&gt;</description>
+    </item>
+    
+    <item>
+      <title>srm: securely delete file on Mac OS X Terminal</title>
+      <link>https://www.variadic.xyz/2014/02/06/srm-securely-delete-file-on-mac-os-x-terminal/</link>
+      <pubDate>Thu, 06 Feb 2014 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.variadic.xyz/2014/02/06/srm-securely-delete-file-on-mac-os-x-terminal/</guid>
+      <description>Open Terminal and at the command prompt type srm. Then drag and drop from a Finder window onto the Terminal window/or type the full path of the file you’d like to delete.
+ srm /Users/sarang/Desktop/capture.png 
+Then hit Return to complete the command and erase the file. As with all Terminal commands, if you see no output, then everything has worked fine. Depending on the size of the file, deletion should take no more than a few seconds.</description>
+    </item>
+    
+    <item>
+      <title>removing ubuntu from dual-boot setup without pain</title>
+      <link>https://www.variadic.xyz/2013/07/29/removing-ubuntu-from-dual-boot-setup-without-pain/</link>
+      <pubDate>Mon, 29 Jul 2013 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.variadic.xyz/2013/07/29/removing-ubuntu-from-dual-boot-setup-without-pain/</guid>
+      <description>One of my laptops is always setup with dual boot, Windows and ubuntu. I keep refreshing my laptops every few months and with wubi gone messing up with partitions is that much pain. However there is a simple procedure to remove ubuntu and return machine back to boot with Windows only, basically you don&amp;#8217;t have to worry about removing grub and setting up MBR correctly.
+Steps are:  Get bootsect.exe here Execute this command: bootsect.</description>
+    </item>
+    
+    <item>
+      <title>anatomy of Linux System</title>
+      <link>https://www.variadic.xyz/2013/06/05/anatomy-of-linux-system/</link>
+      <pubDate>Wed, 05 Jun 2013 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.variadic.xyz/2013/06/05/anatomy-of-linux-system/</guid>
+      <description>Source link (www.oreillynet.com)  It wasn&amp;#8217;t until Tim O&amp;#8217;Reilly cut a cross section into an apple that the concept came together. Sitting in the marketing design department at O&amp;#8217;Reilly &amp; Associates one day last year, Tim picked up an X-Acto Knife and, slicing to the apple&amp;#8217;s core, he began to describe how all the disparate components of Linux fit neatly together. At the center is the kernel, and surrounding it is the fruit&amp;#8211;layer upon layer of utilities and applications that make the system a viable whole.</description>
+    </item>
+    
+    <item>
+      <title>command line cheat-sheet</title>
+      <link>https://www.variadic.xyz/2013/06/03/command-line-cheat-sheet/</link>
+      <pubDate>Mon, 03 Jun 2013 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.variadic.xyz/2013/06/03/command-line-cheat-sheet/</guid>
+      <description>OS X Daily posted a link to a cool command line cheat-sheet, here it is:</description>
+    </item>
+    
+    <item>
+      <title>few ubuntu tweaks</title>
+      <link>https://www.variadic.xyz/2013/05/09/few-ubuntu-tweaks/</link>
+      <pubDate>Thu, 09 May 2013 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.variadic.xyz/2013/05/09/few-ubuntu-tweaks/</guid>
+      <description>Ubuntu is a great OS to use, but there are few things that can make life a bit more easier. First and foremost I don&amp;#8217;t like those flash overlaid scroll-bars. Open a terminal and execute this command:
+sudo apt-get remove overlay-scrollbar  and result is pleasing, notice the normal scrollbars
+
+Ubuntu these days is the poster boy of Linux for mere mortals, thus Canonical has cut down on installing build related tools by default.</description>
+    </item>
+    
+    <item>
+      <title>generating stack traces on UNIX/Linux systems</title>
+      <link>https://www.variadic.xyz/2013/04/24/generating-stack-traces-on-unixlinux-systems/</link>
+      <pubDate>Wed, 24 Apr 2013 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.variadic.xyz/2013/04/24/generating-stack-traces-on-unixlinux-systems/</guid>
+      <description>This is follow up on the previous post for generating stack trace. The code demonstrated earlier holds good for both Linux &amp; Mac OS X. However retrieving filename and line numbers is non-trivial. There is no API that can do it. But it&amp;#8217;s hackable. Here are few ways of doing it:  use addr2line for each address and fetch information, this is overkill as for each frame you will have to execute a process   code up something similar to addr2line, but Licenses spoil the party.</description>
+    </item>
+    
+    <item>
+      <title>little-endian</title>
+      <link>https://www.variadic.xyz/2013/04/24/little-endian/</link>
+      <pubDate>Wed, 24 Apr 2013 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.variadic.xyz/2013/04/24/little-endian/</guid>
+      <description>Found this interesting piece of information about why accidentally intel chips are little-endian:  The ia32 is a little-endian architecture. When a chip is designed the choice between these two possibilities is pretty much arbitrary. In the case of the ia32, the decision was forced by considerations of compatibility, since all previous Intel chips are also little-endian, and Intel did not want to have incompatible data layouts between different chips, because otherwise transition from one chip to another would be more complicated.</description>
+    </item>
+    
+    <item>
+      <title>generating stack trace on OS X</title>
+      <link>https://www.variadic.xyz/2013/04/14/generating-stack-trace-on-os-x/</link>
+      <pubDate>Sun, 14 Apr 2013 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.variadic.xyz/2013/04/14/generating-stack-trace-on-os-x/</guid>
+      <description>&lt;p style=&#34;text-align: justify;&#34;&gt;
+  Stack trace is every developer&amp;#8217;s tool when it comes to looking at the path of execution. While investigating assertion or error, I typically prefer looking at stack trace first and then at the code. Back tracing is specific to each OS. Windows defines several functions, I will cover that in another post, while Mac OS X uses BSD style back_trace functions.
+&lt;/p&gt;
+
+&lt;p style=&#34;text-align: justify;&#34;&gt;
+  It&amp;#8217;s fairly easy to code up a class that generates the stack trace on Mac OS X, but has a caveat that line numbers and file-names are not yet there. This is something for me to figure out.
+&lt;/p&gt;
+
+&lt;p style=&#34;text-align: justify;&#34;&gt;
+  Anyway here is the code, you will need C++11 enabled.:</description>
+    </item>
+    
+    <item>
+      <title>Waiting for Background operation to complete</title>
+      <link>https://www.variadic.xyz/2013/02/18/waiting-for-background-operation-to-complete/</link>
+      <pubDate>Mon, 18 Feb 2013 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.variadic.xyz/2013/02/18/waiting-for-background-operation-to-complete/</guid>
+      <description>Recently started using VS2012 and while coding up a proto for some debug extensions concept I ran into this weird VS bug which causes it to hang up.
+VS 2012 freezes with message: &amp;#8220;Waiting for Background operation to complete&amp;#8221;. After searching for a while I bumped into this thread at StackOverflow, and as suggested reset the settings. It so came out that some where my customizations have caused VS to crash: Bug with VS2012 for sure but it&amp;#8217;s good to know the workaround.</description>
+    </item>
+    
+    <item>
+      <title>installing command line tools in Mac OS X</title>
+      <link>https://www.variadic.xyz/2012/12/14/installing-command-line-tools-in-mac-os-x/</link>
+      <pubDate>Fri, 14 Dec 2012 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.variadic.xyz/2012/12/14/installing-command-line-tools-in-mac-os-x/</guid>
+      <description>Earlier (pre Xcode 4.3) toolchains were installed in /usr/bin. But after Xcode has been bundled toolchains installation to /usr/bin is optional and are local to Xcode application. To install toolchain (clang &amp; llvm) as to use them on command line go to Xcode preferences and Download and install. Or other option is to use xcrun </description>
+    </item>
+    
+    <item>
+      <title>installing apps from an unidentified developer</title>
+      <link>https://www.variadic.xyz/2012/12/10/installing-apps-from-an-unidentified-developer/</link>
+      <pubDate>Mon, 10 Dec 2012 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.variadic.xyz/2012/12/10/installing-apps-from-an-unidentified-developer/</guid>
+      <description>With Mountain Lion Apple&amp;#8217;s has started to assert it&amp;#8217;s strong hold on what can be installed on the system. It&amp;#8217;s good in sense that it&amp;#8217;s quite fussy about installing applications from unknown sources (read non-Appstore). From Apple&amp;#8217;s site:  Gatekeeper is a new feature in Mountain Lion and OS X Lion v10.7.5 that builds on OS X&amp;#8217;s existing malware checksto help protect your Mac from malware and misbehaving apps downloaded from the Internet.</description>
+    </item>
+    
+    <item>
+      <title>reclaiming inactive memory in Mac OS X</title>
+      <link>https://www.variadic.xyz/2012/12/10/reclaiming-inactive-memory-in-mac-os-x/</link>
+      <pubDate>Mon, 10 Dec 2012 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.variadic.xyz/2012/12/10/reclaiming-inactive-memory-in-mac-os-x/</guid>
+      <description>Apple says: Mac OS X has very efficient memory management. It will automatically allocate memory and adjust the contents of memory as needed. But at times you will find that your system seems to use lot more RAM that it should. Now this is where we get into understanding how Mac OS X deals with Virtual Memory and Caching. Typically when you close all windows of application you expect application to exit, well that&amp;#8217;s true always in Windows world but may not be true always in Mac OS X world.</description>
+    </item>
+    
+    <item>
+      <title>Implementation-defined behaviour</title>
+      <link>https://www.variadic.xyz/2012/11/07/implementation-defined-behaviour/</link>
+      <pubDate>Wed, 07 Nov 2012 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.variadic.xyz/2012/11/07/implementation-defined-behaviour/</guid>
+      <description>Ran into this excellent post by Eric Lippert on MSDN about implementation defined behavriour. Excerpt:  An example of undefined behaviour in C, C++ and C# is writing to a dereferenced pointer that you have no business writing to. Doing so might cause a fault that crashes the process. But the memory could be valid, and it could be an important data structure of the runtime software. It could be code that you are now overwriting with code that does something else.</description>
+    </item>
+    
+    <item>
+      <title>Creating refresh image for Windows 8</title>
+      <link>https://www.variadic.xyz/2012/11/05/creating-refresh-image-for-windows-8/</link>
+      <pubDate>Mon, 05 Nov 2012 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.variadic.xyz/2012/11/05/creating-refresh-image-for-windows-8/</guid>
+      <description>Yesterday my Windows 8 messed up after I installed AMD CodeAnalyst. I was left with a computer that took ~5 minutes to boot as compared to 18 seconds. First thing that came to mind was Refresh the system, which worked great but I lost all my installed applications as I never had any custom refresh image. Also one of the applications that I wanted is not currently supported to be installed on Windows 8 but works if I upgrade, with refresh that was gone.</description>
+    </item>
+    
+    <item>
+      <title>creating a Universally Unique Identifier (UUID)</title>
+      <link>https://www.variadic.xyz/2012/08/29/creating-a-uuid/</link>
+      <pubDate>Wed, 29 Aug 2012 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.variadic.xyz/2012/08/29/creating-a-uuid/</guid>
+      <description>I was looking for a unique identifier for some work, and UUID (Universally Unique Identifier) comes to mind right away. What makes UUID so special is that practically (not guaranteed :)) they will be unique. This link talks about various ways a UUID can be generated. Now for most of us, we want to generate UUIDs to work along with admiring it&amp;#8217;s rich history. UUID (GUID has more inclination towards MS) can be generated using various ways:  On Internet, obviously using websites   Interactively   Programmatically   For Internet sites you can search and find various sources.</description>
+    </item>
+    
+    <item>
+      <title>Intel&#39;s SDK for OpenCL Applications</title>
+      <link>https://www.variadic.xyz/2012/08/25/intels-sdk-for-opencl-applications/</link>
+      <pubDate>Sat, 25 Aug 2012 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.variadic.xyz/2012/08/25/intels-sdk-for-opencl-applications/</guid>
+      <description>Intel SDK for OpenCL  The Intel SDK for OpenCL Applications 2012 provides development environment for OpenCL applications on Intel Architecture for Windows and Linux operating systems. This SDK includes code samples, development tools, an optimization guide, and support for optimization tools. OpenCL is an open standard for a unified programming model supporting both CPU and processor graphics compute devices. It is designed to be used for highly data-parallel applications and for visual computing applications including video, media, and 3D content.</description>
+    </item>
+    
+    <item>
+      <title>Is the Future Fine-Grained Or Coarse-Grained Parallelism?</title>
+      <link>https://www.variadic.xyz/2012/08/12/is-the-future-fine-grained-or-coarse-grained-parallelism/</link>
+      <pubDate>Sun, 12 Aug 2012 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.variadic.xyz/2012/08/12/is-the-future-fine-grained-or-coarse-grained-parallelism/</guid>
+      <description>By Andrew Binstock of Dr. Dobbs Journal
+ In his current editorial, our esteemed Dr. Dobb&amp;#8217;s Editor-in-Chief Andrew Binstock discusses whether or not parallel programming will ever be taken up by the masses. He comes to the conclusion that (*spoiler alert*) the multiple cores in his devices will be more likely be used to run multiple and separate processes rather than a single, multithreaded process. I can&amp;#8217;t really disagree with his conclusion.</description>
+    </item>
+    
+    <item>
+      <title>Vectorization Series</title>
+      <link>https://www.variadic.xyz/2012/07/09/vectorization-series/</link>
+      <pubDate>Mon, 09 Jul 2012 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.variadic.xyz/2012/07/09/vectorization-series/</guid>
+      <description>Shannon Cepada of Intel is doing a series on Vectorization.
+Here are the links:
+ Vectorization: Find out what it is, find out more Vectorization: Who can use it? Vectorization: What are the benefits?  </description>
+    </item>
+    
+    <item>
+      <title>C&#43;&#43; and explicit constructors</title>
+      <link>https://www.variadic.xyz/2012/04/03/c-and-explicit-constructors/</link>
+      <pubDate>Tue, 03 Apr 2012 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.variadic.xyz/2012/04/03/c-and-explicit-constructors/</guid>
+      <description>Bumped into this informative post on CLCM about why explicit constructors were introduced in C++ language. Here is the excerpt from Daniel Krugler:  Originally there did not exist explicit constructors (not to speak of explicit conversion functions) in C++. It turned out that this could lead to a lot of unexpected conversions with unwanted side-effects. To give a class designer a choice, explicit constructors were invented and their interaction rules with expressions.</description>
+    </item>
+    
+    <item>
+      <title>Mac OS X keyboard shortcuts</title>
+      <link>https://www.variadic.xyz/2012/03/31/mac-os-x-keyboard-shortcuts/</link>
+      <pubDate>Sat, 31 Mar 2012 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.variadic.xyz/2012/03/31/mac-os-x-keyboard-shortcuts/</guid>
+      <description>Apple has a page listing dozens of standard keyboard shortcuts you can use at start-up, with the Finder, and with many applications. If you&amp;#8217;re a keyboard person, rather than a mouse person, you may find some shortcuts here that you didn&amp;#8217;t know. At a minimum, it&amp;#8217;s worth bookmarking this page to have a list of keys to press at startup, if you need to change boot disks, boot in Safe mode or boot from an optical disc (if your Mac still supports that).</description>
+    </item>
+    
+    <item>
+      <title>rules for debugging</title>
+      <link>https://www.variadic.xyz/2012/03/24/rules-for-debugging/</link>
+      <pubDate>Sat, 24 Mar 2012 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.variadic.xyz/2012/03/24/rules-for-debugging/</guid>
+      <description>While going thru my archive I found one of my favorite slide, rules to debug software. Here it is:Debugging Rules</description>
+    </item>
+    
+    <item>
+      <title>handy shortcuts for ubuntu</title>
+      <link>https://www.variadic.xyz/2012/02/19/handy-shortcuts-for-ubuntu/</link>
+      <pubDate>Sun, 19 Feb 2012 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.variadic.xyz/2012/02/19/handy-shortcuts-for-ubuntu/</guid>
+      <description>Here is a list of handy shortcut keys for Ubuntu: General keyboard shortcuts Ctrl + A = Select all
+Ctrl + C = Copy the highlighted content to clipboard
+Ctrl + V = Paste the clipboard content
+Ctrl + N = New (Create a new document, not in terminal)
+Ctrl + O = Open a document
+Ctrl + S = Save the current document
+Ctrl + P = Print the current document</description>
+    </item>
+    
+    <item>
+      <title>controlling number of processor cores on your machine</title>
+      <link>https://www.variadic.xyz/2012/02/13/controlling-number-of-processor-cores-on-your-machine/</link>
+      <pubDate>Mon, 13 Feb 2012 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.variadic.xyz/2012/02/13/controlling-number-of-processor-cores-on-your-machine/</guid>
+      <description>I have a quad-core and oct-core machines and one of the things I generally do is to run my code only on single core. However to do this one needs to boot OS with single core configuration. With windows it is fairly easy to do:  Go to run (Windows + R button) type msconfig press enter MSConfig In boot click Advanced options.. button
+ Check Number of Processors and pick the count Selecting Number of Processors</description>
+    </item>
+    
+    <item>
+      <title>Delete User Caches in Mac OS X</title>
+      <link>https://www.variadic.xyz/2012/01/22/delete-user-caches-in-mac-os-x/</link>
+      <pubDate>Sun, 22 Jan 2012 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.variadic.xyz/2012/01/22/delete-user-caches-in-mac-os-x/</guid>
+      <description>I bumped into this nice article about clearing caches on Mac. Caches are very similar to Temporary folder on Windows (typically used for application and internet temp storage). At times freeing these can speed-up your applications, due to more space availability. Also Mac OS X caches data for applications, for faster load and execution times. Which means if your applications behaves strangely then clearing cache might help. User specific caches can be located at: `~/Library/Caches` folder: Cache Folder in Mac OS X Accessing &amp; Deleting User Cache Files in Mac OS X   From the Mac OS X Desktop, hit Command+Shift+G to bring up “Go To Folder”   Type ~/Library/Caches/    If you want to delete ALL caches, remove everything in this folder – this is generally not recommended   If you want to delete specific app caches, search for the app name and remove it manually    You can select any folder and just hit Command+Delete to send the directory to the trash, otherwise drag it manually   You’ll notice some apps caches are named by “com.</description>
+    </item>
+    
+    <item>
+      <title>C&#43;&#43;11: delegating constructors</title>
+      <link>https://www.variadic.xyz/2012/01/17/c11-delegating-constructors/</link>
+      <pubDate>Tue, 17 Jan 2012 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.variadic.xyz/2012/01/17/c11-delegating-constructors/</guid>
+      <description>Too many initializers/constructors It&amp;#8217;s fairly common to write classes with multiple constructors, but they tend to get messy very soon. One of the biggest problems is initialization of the member variables. You, as programmer, need to ensure that member variables are initialized correctly in each constructor. Ensuring this consistency is quite tedious, boring and very easy to get wrong. For example consider the class Sample: class Sample { public: // // Sample() : r(0), i(0) { } // // Sample(double real) : r(real), i(0) { } // // Sample(double real, double img) : r(real), i(img) { } // // Sample(double data[2]) : r(data[0]), i(data[1]) { } // // Sample(const Sample&amp;) = default; Sample&amp; operator=(const Sample&amp;) = default; ~Sample() = default; // private: double r; double i; };  Sample class has 4 constructors each initializing member variables r and i.</description>
+    </item>
+    
+    <item>
+      <title>C&#43;&#43; Template Metaprogramming</title>
+      <link>https://www.variadic.xyz/2012/01/07/c-template-metaprogramming/</link>
+      <pubDate>Sat, 07 Jan 2012 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.variadic.xyz/2012/01/07/c-template-metaprogramming/</guid>
+      <description>C++ Template Metaprogramming (TMP)  Template metaprogramming is a metaprogramming technique in which templates are used by a compiler to generate temporary source code, which is merged by the compiler with the rest of the source code and then compiled. The output of these templates include compile-time constants, data structures, and complete functions. The use of templates can be thought of as compile-time execution. The use of templates as a metaprogramming technique requires two distinct operations: a template must be defined, and a defined template must be instantiated.</description>
+    </item>
+    
+    <item>
+      <title>Parallel Computing Terms</title>
+      <link>https://www.variadic.xyz/2012/01/06/parallel-computing-terms/</link>
+      <pubDate>Fri, 06 Jan 2012 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.variadic.xyz/2012/01/06/parallel-computing-terms/</guid>
+      <description>I bumped into this excellent article by Susan Morgan, where she explains various terms associated with parallel programming. This article explains the common parallel and multi-threading concepts, and the differences between the hardware and software aspects of parallel processing. It briefly describes the hardware architectures that make parallel processing possible, and presents several popular parallel programming models. </description>
+    </item>
+    
+    <item>
+      <title>C&#43;&#43;11: defaulted and deleted functions</title>
+      <link>https://www.variadic.xyz/2012/01/05/c11-defaulted-and-deleted-functions/</link>
+      <pubDate>Thu, 05 Jan 2012 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.variadic.xyz/2012/01/05/c11-defaulted-and-deleted-functions/</guid>
+      <description>C++ programmers seem to (or at times have to) get along with the current syntax and semantics of the four special member functions since 1983, or so we think. However, library designers often come across stumbling blocks and annoyances that are a direct result of these rules.
+By default, C++ implicitly declares the following four member functions for every class:
+ default constructor (ctor) copy constructor (copy ctor) operator = (assignment operator) destructor (dtor)  In addition, a default global implementation of the following operators are implemented for each class:</description>
+    </item>
+    
+    <item>
+      <title>C&#43;&#43;11: enum classes</title>
+      <link>https://www.variadic.xyz/2012/01/04/enum-classes/</link>
+      <pubDate>Wed, 04 Jan 2012 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.variadic.xyz/2012/01/04/enum-classes/</guid>
+      <description>C++11 along with adding lot of cool stuff is also fixing up most of the ugliness with C++ language. One of my personal favourite is enum class. Enums in C++ are (shouldn&amp;#8217;t I write were :)) not type-safe in-sense they are convertible to and from integers and you can&amp;#8217;t scope them, which at times leads to ugly naming conventions. C++11 addresses this limitation with enum classes, which makes enums strongly typed and scoped: enum class Colour { Red, Green, Blue }; // int main() { // lvalue of type Colour auto var = Colour::Red; // // cannot assign it to an int -- compilation failure int val = var; // // type-inferencing works correctly decltype(var) greenColor = Colour::Green; // // casting will work int val2 = static_cast(var); // // what is Red?</description>
+    </item>
+    
+    <item>
+      <title>A Guide to Undefined Behavior in C and C&#43;&#43;</title>
+      <link>https://www.variadic.xyz/2011/12/30/a-guide-to-undefined-behavior-in-c-and-c/</link>
+      <pubDate>Fri, 30 Dec 2011 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.variadic.xyz/2011/12/30/a-guide-to-undefined-behavior-in-c-and-c/</guid>
+      <description>Bumped into this nice article by John Regehr about undefined behaviour in C and C++. The article is in three parts:  A Guide to Undefined Behavior in C and C++ Part 1 A Guide to Undefined Behavior in C and C++ Part 2 A Guide to Undefined Behavior in C and C++ Part 3  
+ Programming languages typically make a distinction between normal program actions and erroneous actions.</description>
+    </item>
+    
+    <item>
+      <title>Parallel Computing</title>
+      <link>https://www.variadic.xyz/2011/12/28/parallel-computing/</link>
+      <pubDate>Wed, 28 Dec 2011 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.variadic.xyz/2011/12/28/parallel-computing/</guid>
+      <description>Parallel computing is a form of computation in which many calculations are carried out simultaneously, operating on the principle that large problems can often be divided into smaller ones, which are then solved concurrently (&amp;#8220;in parallel&amp;#8221;). There are several different forms of parallel computing: bit-level, instruction level, data, and task parallelism. Parallelism has been employed for many years, mainly in high-performance computing, but interest in it has grown lately due to the physical constraints preventing frequency scaling.</description>
+    </item>
+    
+    <item>
+      <title>concurrency and parallelism</title>
+      <link>https://www.variadic.xyz/2011/12/23/concurrency-and-parallelism/</link>
+      <pubDate>Fri, 23 Dec 2011 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.variadic.xyz/2011/12/23/concurrency-and-parallelism/</guid>
+      <description>Concurrency is concerned with two or more activities happening at the same time, eg., thinking while walking is one form of concurrency. When talking about concurrency in computer programming we mean a single system performing multiple tasks independently. Although it is possible that concurrent tasks may be performed at same time, that&amp;#8217;s where it becomes parallel, but it is not required. Parallelism is concerned with running two or more activities in parallel with explicit goal of increasing the overall performance.</description>
+    </item>
+    
+    <item>
+      <title>library, framework and bundle</title>
+      <link>https://www.variadic.xyz/2011/11/27/library-framework-and-bundle/</link>
+      <pubDate>Sun, 27 Nov 2011 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.variadic.xyz/2011/11/27/library-framework-and-bundle/</guid>
+      <description>library, frameworks, and bundles in Mac OS X are similar in that you can think of them as pre-packaged code meant to be used from within another library or application. They’re all meant to improve or expand the functionality of an executable (including those that are part of the operating system) by making their code available to it. library  The term library has the same meaning on every platform. A library is the most basic form of prepackaged, shared code meant to be reused in multiple applications.</description>
+    </item>
+    
+    <item>
+      <title>Comparing floating point numbers</title>
+      <link>https://www.variadic.xyz/2011/11/25/comparing-floating-point-numbers/</link>
+      <pubDate>Fri, 25 Nov 2011 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.variadic.xyz/2011/11/25/comparing-floating-point-numbers/</guid>
+      <description>Floating point comparisons can be a painful work to achieve. And always must one avoid laziness in doing equality comparisons using inbuilt operator== for floating point numbers. There could be roundings involved and/or infinite decimal expansions that can lead to inaccurate representations or better say, losing of some precision off the number. Owing to that, even though you would expect a number to match a definite expansion that the calculation may have lead to, it may not.</description>
+    </item>
+    
+    <item>
+      <title>Intel Guide for Developing Multithreaded Applications</title>
+      <link>https://www.variadic.xyz/2011/10/16/intel-guide-for-developing-multithreaded-applications/</link>
+      <pubDate>Sun, 16 Oct 2011 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.variadic.xyz/2011/10/16/intel-guide-for-developing-multithreaded-applications/</guid>
+      <description>The Guide provides general advice on multithreaded performance. Hardware-specific optimizations have deliberately been kept to a minimum. In future versions of the Guide, topics covering hardware-specific optimizations will be added for developers willing to sacrifice portability for higher performance.  Application Threading   This chapter covers general topics in parallel performance but occasionally refers to API-specific issues.   1-1 &amp;#8211; Predicting and Measuring Parallel Performance   1-2 &amp;#8211; Loop Modifications to Enhance Data-Parallel Performance   1-3 &amp;#8211; Granularity and Parallel Performance   1-4 &amp;#8211; Load Balance and Parallel Performance   1-5 &amp;#8211; Expose Parallelism by Avoiding or Removing Artificial Dependencies   1-6 &amp;#8211; Using Tasks Instead of Threads   1-7 &amp;#8211; Exploiting Data Parallelism in Ordered Data Streams   Synchronization   The topics in this chapter discuss techniques to mitigate the negative impact of synchronization on performance.</description>
+    </item>
+    
+    <item>
+      <title>x64 Debugging</title>
+      <link>https://www.variadic.xyz/2011/10/16/x64-debugging/</link>
+      <pubDate>Sun, 16 Oct 2011 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.variadic.xyz/2011/10/16/x64-debugging/</guid>
+      <description>Here’s an index of all of the x64 debugging topics covered by Ken Johnson. This series takes you through the experience of doing user mode debugging on x64, including native x64 debugging, Wow64 debugging, and the various different combinations of 32-bit and 64-bit debuggers that you’ll find available to you on a 64-bit machine (and when to use which one):
+&amp;nbsp;
+ Introduction to x64 debugging, part 1 Introduction to x64 debugging, part 2 Introduction to x64 debugging, part 3 Introduction to x64 debugging, part 4 Introduction to x64 debugging, part 5  &amp;nbsp;</description>
+    </item>
+    
+    <item>
+      <title>C&#43;&#43;11 lambda- having fun with brackets!</title>
+      <link>https://www.variadic.xyz/2011/10/12/c11-lambda-having-fun-with-brackets/</link>
+      <pubDate>Wed, 12 Oct 2011 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.variadic.xyz/2011/10/12/c11-lambda-having-fun-with-brackets/</guid>
+      <description>Lambda Breaking a complex problem into smaller chunks has obvious advantages and this true with functions as it is with design. However, sanity turns into insanity when the sheer number of such small function tends to be overwhelming. In addition, the boilerplate code needed to use these functions such as a functor, tend to slow you down considerably.
+Would it not be nice if there were a way to create functions easily on the fly at the point of call?</description>
+    </item>
+    
+    <item>
+      <title>Algorithm is not a four letter word</title>
+      <link>https://www.variadic.xyz/2011/09/30/algorithm-is-not-a-four-letter-word/</link>
+      <pubDate>Fri, 30 Sep 2011 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.variadic.xyz/2011/09/30/algorithm-is-not-a-four-letter-word/</guid>
+      <description>I bumped into this presentation by Jamis Buck about understanding and experimenting with algorithms. I am impressed the way he presented various algorithms for generating mazes and puzzles. Well the intent behind his presentation is to try out something new so that you keep outdoing yourself every now-and-then. &amp;ldquo;Algorithm&amp;rdquo; is not a four letter word</description>
+    </item>
+    
+    <item>
+      <title>Multithreading in C&#43;&#43;11 - part 2</title>
+      <link>https://www.variadic.xyz/2011/09/18/multithreading-in-c11-part-2/</link>
+      <pubDate>Sun, 18 Sep 2011 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.variadic.xyz/2011/09/18/multithreading-in-c11-part-2/</guid>
+      <description>In previous post we saw briefly how to create threads with various constructors. In this post I want to continue along the same lines. In last post we saw how to spawn the threads with simple execution code like functions, functors and labmda functions. In this post we will briefly explore invoking member-functions on objects as execution units of code. Lets start with the simple code to invoke non-virtual member function:</description>
+    </item>
+    
+    <item>
+      <title>Multithreading in C# - part 1</title>
+      <link>https://www.variadic.xyz/2011/09/16/multithreading-in-c-part-1/</link>
+      <pubDate>Fri, 16 Sep 2011 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.variadic.xyz/2011/09/16/multithreading-in-c-part-1/</guid>
+      <description>Here I posted multithreading in C++11. Well I did ran into issues with C++ library. To validate I tried the same dotproduct example in C#.
+Here is the code for the same:
+using System; using System.Collections.Generic; using System.Linq; using System.Text; using System.Threading.Tasks; namespace ConsoleApplication1 { class DotProduct { double[] a; double[] b; double[] res; int id; int numElems; public DotProduct(double[] aa, double[] bb, double[] r, int nElems, int ident) { a = aa; b = bb; res = r; id = ident; numElems = nElems; } public void Evaluate() { res[id] = 0; for (int idx = id * numElems, end = (id + 1) * numElems; idx &amp;amp;lt; end; ++idx) { res[id] += a[idx] * b[idx]; } } } class Program { static void Main(string[] args) { int numElements = 100000; double[] a = new double[numElements]; double[] b = new double[numElements]; for (int idx = 0; idx &amp;amp;lt; numElements; ++idx) { a[idx] = idx; b[idx] = numElements - idx; } double[] result = new double[4]; int numElems = numElements / 4; DotProduct dp1 = new DotProduct(a, b, result, numElems, 0); System.</description>
+    </item>
+    
+    <item>
+      <title>Multithreading in C&#43;&#43;11 - part 1</title>
+      <link>https://www.variadic.xyz/2011/09/16/multithreading-in-c11-part-1/</link>
+      <pubDate>Fri, 16 Sep 2011 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.variadic.xyz/2011/09/16/multithreading-in-c11-part-1/</guid>
+      <description>Concurrency and multithreading is all about running multiple pieces of code in parallel. If you have the hardware for it in the form of a nice shiny multi-core CPU or a multi-processor system then this code can run truly in parallel, otherwise it is interleaved by the operating system — a bit of one task, then a bit of another. This is all very well, but somehow you have to specify what code to run on all these threads.</description>
+    </item>
+    
+    <item>
+      <title>0xCD 0xDD - understanding windows memory codes</title>
+      <link>https://www.variadic.xyz/2011/09/13/0xcd-0xdd-understanding-windows-memory-codes-2/</link>
+      <pubDate>Tue, 13 Sep 2011 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.variadic.xyz/2011/09/13/0xcd-0xdd-understanding-windows-memory-codes-2/</guid>
+      <description>While searching for memory related problems on Windows I bumped into this post at StackOverflow. Author [Michael Burr] has done nice job by preparing a table for various memory address and the fault they represent.
+Here is the table:Memory Values
+Related Reading&amp;#8230;
+ http://www.docsultant.com/site2/articles/debug_codes.html http://www.codesynthesis.com/~boris/blog/2008/10/13/writing-64-bit-safe-code/  OS initialize memory to 0xCD 0xDD  </description>
+    </item>
+    
+    <item>
+      <title>amdhal, moore, brooke and 90-90 - empirical laws of computers</title>
+      <link>https://www.variadic.xyz/2011/08/24/amdhal-moore-brooke-and-90-90-empirical-laws-of-computers/</link>
+      <pubDate>Wed, 24 Aug 2011 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.variadic.xyz/2011/08/24/amdhal-moore-brooke-and-90-90-empirical-laws-of-computers/</guid>
+      <description>Amdhal&amp;#8217;s Law  Amdahl&amp;#8216;s law says a program can run on faster than the time required to execute its sequential sections. The Law is cast in the form of an equation that accounts for the time spent in the parallel (or vectorizable) and sequential parts of the code. The validity of this concept is easy to grasp. If a program is 80% parallelizable and 20% must be executed sequentially, the maximum reductionin execution time is by a factor of five (if the parallelizable code were run in zero time).</description>
+    </item>
+    
+    <item>
+      <title>What Every Data Programmer Needs to Know about Disks</title>
+      <link>https://www.variadic.xyz/2011/08/22/what-every-data-programmer-needs-to-know-about-disks/</link>
+      <pubDate>Mon, 22 Aug 2011 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.variadic.xyz/2011/08/22/what-every-data-programmer-needs-to-know-about-disks/</guid>
+      <description>Here is an excellent presentation on how your application does IO. I have embedded the presentation from Ted Dziuba here:
+ From Session notes:
+ In this session, we will explore everything that goes on from when you call file.write() in your favorite programming language to when the data is finally written to disk. Heavily geared toward Linux programmers, this talk will cover a mix between hardware and software topics, the basics that every programmer who works with data should know.</description>
+    </item>
+    
+    <item>
+      <title>All about 64-bit programming in one place</title>
+      <link>https://www.variadic.xyz/2011/08/15/all-about-64-bit-programming-in-one-place/</link>
+      <pubDate>Mon, 15 Aug 2011 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.variadic.xyz/2011/08/15/all-about-64-bit-programming-in-one-place/</guid>
+      <description>Very comprehensive collection of information about 64-bit programming:
+link to source  By Andrey Karpov,
+In this post I&amp;#8217;ve collected a lot of links on the topic of 64-bit C/C++ software development. These include my articles and articles by my colleagues in the sphere of developing safe and efficient 64-bit code; FAQ&amp;#8217;s and a training course. There are also many reviews of third-party articles on 64-bit software development. Enjoy yourself studying the materials.</description>
+    </item>
+    
+    <item>
+      <title>Parallelism as a First Class Citizen in C and C&#43;&#43;, the time has come</title>
+      <link>https://www.variadic.xyz/2011/08/14/parallelism-as-a-first-class-citizen-in-c-and-c-the-time-has-come/</link>
+      <pubDate>Sun, 14 Aug 2011 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.variadic.xyz/2011/08/14/parallelism-as-a-first-class-citizen-in-c-and-c-the-time-has-come/</guid>
+      <description>Bumped into this nice article by James Reinders about C++ and Parallel Programming options- library vs language extensions, here is the excerpt:
+ It is time to make Parallelism a full First Class Citizen in C and C++. Hardware is once again ahead of software, and we need to close the gap so that application development is better able to utilize the hardware without low level programming. The time has come for high level constructs for task and data parallelism to be explicitly added to C and C++.</description>
+    </item>
+    
+    <item>
+      <title>C&#43;&#43;0x is an international standard</title>
+      <link>https://www.variadic.xyz/2011/08/13/c0x-is-an-international-standard/</link>
+      <pubDate>Sat, 13 Aug 2011 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.variadic.xyz/2011/08/13/c0x-is-an-international-standard/</guid>
+      <description>I am thrilled as C++0x, will be called C++11, is now an international standard, as confirmed by Herb Sutter
+ The final ISO ballot on C++0x closed on Wednesday, and we just received the results: Unanimous approval. The next revision of C++ that we’ve been calling “C++0x” is now an International Standard! Geneva will take several months to publish it, but we hope it will be published well within the year, and then we’ll be able to call it “C++11.</description>
+    </item>
+    
+    <item>
+      <title>building boost libraries</title>
+      <link>https://www.variadic.xyz/2011/07/27/building-boost-libraries/</link>
+      <pubDate>Wed, 27 Jul 2011 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.variadic.xyz/2011/07/27/building-boost-libraries/</guid>
+      <description>boost is mostly header only library, there are a few libraries like file-system, threads, chrono that abstract the OS/Runtime Library concepts, and few have been implemented in cpp files regex for an example. These few libraries need to be built before you can use them. boost comes with its own build engine, bjam, which is configured to build it with relevant dependencies and install the libraries in designated locations. I am not getting into boost-bjam in this post, however I will cover building boost library using bjam with VS 2010 SP1.</description>
+    </item>
+    
+    <item>
+      <title>vector: reserve with care</title>
+      <link>https://www.variadic.xyz/2011/07/26/vector-reserve-with-care/</link>
+      <pubDate>Tue, 26 Jul 2011 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.variadic.xyz/2011/07/26/vector-reserve-with-care/</guid>
+      <description>vectors, std::vector, are contiguous-memory sequential dynamic containers. That means if the vector has to grow then it will re-allocate the required memory to hold elements and then copy these over in the new memory. That is one of the reasons that for any type to be contained in vector must define default, copy constructors and assignment operator. However there is a way to work around this reallocation problem if we know before hand how much the vector is going to grow.</description>
+    </item>
+    
+    <item>
+      <title>finding serial number of your mac</title>
+      <link>https://www.variadic.xyz/2011/07/21/finding-serial-number-of-your-mac/</link>
+      <pubDate>Thu, 21 Jul 2011 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.variadic.xyz/2011/07/21/finding-serial-number-of-your-mac/</guid>
+      <description>To redeem the Mac OS X Lion online I was asked to enter the serial number of my MacBook Pro. Generally these things are hard to find when you need them the most :). Luckily I bumped into Apple&amp;#8217;s information page that made my life easier by helping be locate the serial number. Here is the screen shot of the page:
+[][1]
+Related articles  Bought a Mac Recently? Don&amp;#8217;t Forget You can Download Lion for Free!</description>
+    </item>
+    
+    <item>
+      <title>dissecting any</title>
+      <link>https://www.variadic.xyz/2011/07/07/dissecting-any/</link>
+      <pubDate>Thu, 07 Jul 2011 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.variadic.xyz/2011/07/07/dissecting-any/</guid>
+      <description>Dissecting any In one of the previous posts we saw boost::any, it is one of the very good features to study. It promotes dynamic programming in C++, where you can change types at runtime, alternatively known as type-erasure. It is quite easy to implement and exposes a very nice side of templates. It banks on polymorphism and some cool template usage. Let’s start the dissection, rather lets construct the feature from bottom up.</description>
+    </item>
+    
+    <item>
+      <title>google earth</title>
+      <link>https://www.variadic.xyz/2011/06/14/google-earth/</link>
+      <pubDate>Tue, 14 Jun 2011 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.variadic.xyz/2011/06/14/google-earth/</guid>
+      <description>I was trying to host the google earth in a C# application, using WPF WebBrowser control here is the code, and the result:
+
+Want to see google earth in Visual Studio! Just install the google earth plugin from here and then type this url[http://earth-api-samples.googlecode.com/svn/trunk/demos/desktop-embedded/pluginhost.html] in the visual studio and the result is:</description>
+    </item>
+    
+    <item>
+      <title>Functional Programming For The Rest of Us</title>
+      <link>https://www.variadic.xyz/2011/06/07/functional-programming-for-the-rest-of-us/</link>
+      <pubDate>Tue, 07 Jun 2011 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.variadic.xyz/2011/06/07/functional-programming-for-the-rest-of-us/</guid>
+      <description>Functional Programming for the Rest of Us Programmers are procrastinators. Get in, get some coffee, check the mailbox, read the RSS feeds, read the news, check out latest articles on techie websites, browse through political discussions on the designated sections of the programming forums. Rinse and repeat to make sure nothing is missed. Go to lunch. Come back, stare at the IDE for a few minutes. Check the mailbox. Get some coffee.</description>
+    </item>
+    
+    <item>
+      <title>callable entity</title>
+      <link>https://www.variadic.xyz/2011/05/31/callable-entity/</link>
+      <pubDate>Tue, 31 May 2011 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.variadic.xyz/2011/05/31/callable-entity/</guid>
+      <description>C++ is language of functions – global, instance or class functions. However it is not just functions that are callable. C++ provides an operator() to make even objects behave as if they were functions, affectionately known as functors, function objects to be more precise. With C++11 lambda’s have been added to callable entity’s list.
+Overall here is the summary of the callable objects:
+#include &amp;lt;algorithm&amp;gt; // // template int length(T (&amp;amp;arr)[N] ) { return N; } // // template T* end(T (&amp;amp;arr)[N]) { return arr+N; } // // template struct Comparator { const Type&amp;amp; _comparisonObject; Comparator(const Type&amp;amp; obj) : _comparisonObject(obj) {} bool operator()(const Type&amp;amp; other) const { return other == _comparisonObject; } }; // // int tobefound = 0; // // bool find_function(int val) { return tobefound == val; } // // int main() { // int arr[] = {0,1,2,3,4,5,6,7,8,9}; // using function // tobefound is global variable // // Readability/Maintainability -- (Ok) // tobefound = 5; auto iterator1 = std::find_if(arr, arr + length(arr), find_function); // bool found1 = iterator1 !</description>
+    </item>
+    
+    <item>
+      <title>auto and decltype</title>
+      <link>https://www.variadic.xyz/2011/05/28/auto-and-decltype/</link>
+      <pubDate>Sat, 28 May 2011 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.variadic.xyz/2011/05/28/auto-and-decltype/</guid>
+      <description>auto In one of the previous posts we have explored auto in detail, however there are few places where auto cannot be used. One of them happens to be the function argument and return type:
+Consider some code:
+auto function(auto var) { return var; } int main() { int var = function(4); double d = function(8.9); return 0; }  Here compiler cannot deduce the argument type. As in both the case args are being passed by value, and double is 8 bytes while int is 4 bytes.</description>
+    </item>
+    
+    <item>
+      <title>range based for-loop</title>
+      <link>https://www.variadic.xyz/2011/05/26/range-based-for-loop/</link>
+      <pubDate>Thu, 26 May 2011 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.variadic.xyz/2011/05/26/range-based-for-loop/</guid>
+      <description>In standard C++, iterating over the elements of a container requires a lot of code. Other languages like C# and Java have shortcuts that allow one to write a simple foreach statement that automatically walks the container from start to finish. C++11 has a similar feature. The statement (range-based) for will allow for easy iteration over container of elements:
+#include &amp;lt;iostream&amp;gt; #include &amp;lt;vector&amp;gt; int main() { std::vector&amp;lt;int&amp;gt; vec(10); // // with range-based for loop // for( auto&amp;amp; var : vec) { std::cout &amp;lt;&amp;lt; var &amp;lt;&amp;lt; std::endl; } // with iterators, the old-way // for( auto iter = vec.</description>
+    </item>
+    
+    <item>
+      <title>Calling Convention</title>
+      <link>https://www.variadic.xyz/2011/05/15/calling-convention/</link>
+      <pubDate>Sun, 15 May 2011 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.variadic.xyz/2011/05/15/calling-convention/</guid>
+      <description>The great thing about calling conventions on the x86 platform is that there are so many to choose from! In the 16-bit world, part of the calling convention was fixed by the instruction set: The BP register defaults to the SS selector, whereas the other registers default to the DS selector. So the BP register was necessarily the register used for accessing stack-based parameters.
+The registers for return values were also chosen automatically by the instruction set.</description>
+    </item>
+    
+    <item>
+      <title>tuple</title>
+      <link>https://www.variadic.xyz/2011/05/12/tuple/</link>
+      <pubDate>Thu, 12 May 2011 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.variadic.xyz/2011/05/12/tuple/</guid>
+      <description>The problem with multiple return values C++ is a C based language and keeps it’s limitation of returning a single value from a function. you can’t even return an array of objects from a function. However real life application at times need to return multiple data from a function. Generally this is how we return multiple values from a function:
+struct MultipleReturnValues { double d; int i; char c; }; MultipleReturnValues MultiReturnValueFunction() { // really complicated logic // .</description>
+    </item>
+    
+    <item>
+      <title>boost::any</title>
+      <link>https://www.variadic.xyz/2011/05/10/boostany/</link>
+      <pubDate>Tue, 10 May 2011 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.variadic.xyz/2011/05/10/boostany/</guid>
+      <description>In the last post we briefly saw the concept of type erasure. It is one of the cryptic concepts to understand, but is very useful. Lets drill down into what is means to erase the types! Consider:
+#include &amp;lt;vector&amp;gt; #include &amp;lt;string&amp;gt; int main() { std::vector&amp;lt;int&amp;gt; vec; vec.push_back(1); vec.push_back(std::string(&amp;quot;a&amp;quot;)); return 0; }  The problem here is you cannot add string to a vector of an int. Why? Type safety, obviously and that’s great.</description>
+    </item>
+    
+    <item>
+      <title>Type Erasure</title>
+      <link>https://www.variadic.xyz/2011/05/09/type-erasure/</link>
+      <pubDate>Mon, 09 May 2011 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.variadic.xyz/2011/05/09/type-erasure/</guid>
+      <description>In their book on C++ template metaprogramming, Dave Abrahams and Aleksey Gurtovoy define type erasure as &amp;amp;&amp;ldquo;the process of turning a wide variety of types with a common interface into one type with that same interface.&amp;rdquo; Perhaps the most widely known and used example of type erasure is boost::function. boost::function is a class template that takes one template argument, a function type. Choosing a function type amounts to choosing a return type and a list of argument types for a function.</description>
+    </item>
+    
+    <item>
+      <title>gcc</title>
+      <link>https://www.variadic.xyz/2011/05/07/gcc/</link>
+      <pubDate>Sat, 07 May 2011 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.variadic.xyz/2011/05/07/gcc/</guid>
+      <description>Gnu Compiler Collection The GNU Compiler Collection (GCC) is a compilersystem produced by the GNU Projectsupporting various programming languages. GCC is a key component of theGNU toolchain. As well as being the official compiler of the unfinished GNUoperating system, GCC has been adopted as the standard compiler by most other modern Unix-likecomputer operating systems, including Linux, the BSDfamily and Mac OS X.
+GCC has been portedto a wide variety of processor architectures, and is widely deployed as a tool in commercial, proprietaryand closed source softwaredevelopment environments.</description>
+    </item>
+    
+    <item>
+      <title>template function to determine size of an array</title>
+      <link>https://www.variadic.xyz/2011/05/07/template-function-to-determine-size-of-an-array/</link>
+      <pubDate>Sat, 07 May 2011 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.variadic.xyz/2011/05/07/template-function-to-determine-size-of-an-array/</guid>
+      <description>How do you determine the size of an array? Well obviously for dynamic array you have to know how much memory you allocated but for statically allocated array we have been defining macro NUM_ELEMS like:
+#include &amp;lt;iostream&amp;gt; #define NUM_ELEMS(arr) sizeof((arr))/sizeof((arr[0])) int main() { int arr[] = {1,2,3,4,5,6,7,8,9}; int numElements = NUM_ELEMS(arr); std::cout &amp;lt;&amp;lt; numElements &amp;lt;&amp;lt; std::endl; return 0; }  What if I want to do this using templates?
+template&amp;lt;class T, size_t N&amp;gt; int num_elements(const T (&amp;amp;arr) [N]) { return N; }  Here we have template function that is parametrized for a type and number, and the argument list matches an array of size N.</description>
+    </item>
+    
+    <item>
+      <title>C&#43;&#43;11: auto</title>
+      <link>https://www.variadic.xyz/2011/05/04/auto/</link>
+      <pubDate>Wed, 04 May 2011 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.variadic.xyz/2011/05/04/auto/</guid>
+      <description>C++ does not have any mechanism for querying the type of an expression nor it can initialize a variable without explicitly specifying its type. Specifically to address this limitation two new extensions have been added to C++11: decltype – to query the type of an expression auto – indicate that the compiler should deduce the type of the variable from its initializer expression. In this post I will only cover auto.</description>
+    </item>
+    
+    <item>
+      <title>C&#43;&#43; Templates – An Introduction</title>
+      <link>https://www.variadic.xyz/2011/05/02/c-templates-an-introduction/</link>
+      <pubDate>Mon, 02 May 2011 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.variadic.xyz/2011/05/02/c-templates-an-introduction/</guid>
+      <description>Why we need Templates? Suppose we are writing a function to compare the values of two variables and return the one with greater value, the function would look like this (for an int):
+int max(int a, int b) { return a &amp;amp;gt; b ? a : b; }  what if we would like to support double, long int, char, unsigned int?
+More code
+double max( double a, double b) { return a &amp;amp;gt; b ?</description>
+    </item>
+    
+    <item>
+      <title>static_assert</title>
+      <link>https://www.variadic.xyz/2011/05/02/static_assert/</link>
+      <pubDate>Mon, 02 May 2011 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.variadic.xyz/2011/05/02/static_assert/</guid>
+      <description>Assertions In computer programming an assertion is a predicate placed in a program to indicate that the developer thinks that the predicate is always true at that place. For example:
+int x = 9;  x &amp;gt; 8 always evaluates to true, here x &amp;gt; 8 is a predicate that will evaluate the condition and return either true or false. Ok, so now why do we want to assert? Many assertion implementations will also halt the program&amp;rsquo;s execution — this is useful, since if the program continued to run after an assertion violation occurred it might corrupt its state and make the cause of the problem more difficult to locate.</description>
+    </item>
+    
+    <item>
+      <title>Stack for recent applications</title>
+      <link>https://www.variadic.xyz/2011/04/22/stack-for-recent-applications/</link>
+      <pubDate>Fri, 22 Apr 2011 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.variadic.xyz/2011/04/22/stack-for-recent-applications/</guid>
+      <description>Here is one of the tips to create a stack of recently used applications. Type this on terminal:
+defaults write com.apple.dock persistent-others -array-add ‘{ “tile-data” = { “list-type” = 1; }; “tile-type” = “recents-tile”; }’ killall dock  The result:
+  </description>
+    </item>
+    
+    <item>
+      <title>Full path in Finder windows on Mac OS X</title>
+      <link>https://www.variadic.xyz/2011/04/21/full-path-in-finder-windows-on-mac-os-x/</link>
+      <pubDate>Thu, 21 Apr 2011 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.variadic.xyz/2011/04/21/full-path-in-finder-windows-on-mac-os-x/</guid>
+      <description>To display the full path in finder window type this on terminal:
+defaults write com.apple.finder _FXShowPosixPathInTitle -bool YES killall Finder    </description>
+    </item>
+    
+    <item>
+      <title>Moving files within Finder windows</title>
+      <link>https://www.variadic.xyz/2011/04/21/moving-files-within-finder-windows/</link>
+      <pubDate>Thu, 21 Apr 2011 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.variadic.xyz/2011/04/21/moving-files-within-finder-windows/</guid>
+      <description>Generally if you drag &amp; drop files across disks on Mac Finder window they are copied and not moved. But there is no Ctrl-X Ctrl-V kind of short cut to cut paste the files.
+To cut-paste (move) press Command key and drag &amp; drop files. Related articles  Tutorial: 50 tips to get you started with your new Mac (techradar.com)  Five unexpected uses for Copy and Paste (macworld.com)  Total Finder for the Mac Review (techbookshelf.</description>
+    </item>
+    
+    <item>
+      <title>Adding spacers in Dock</title>
+      <link>https://www.variadic.xyz/2011/04/04/adding-spacers-in-dock/</link>
+      <pubDate>Mon, 04 Apr 2011 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.variadic.xyz/2011/04/04/adding-spacers-in-dock/</guid>
+      <description>To add spacers in dock type this command on terminal:
+defaults write com.apple.dock persistent-apps -array-add ‘{“tile-type”=”spacer-tile”;}’ killall Dock  I typed it thrice to get three spacers as:
+  Its a nice way to group icons on dock</description>
+    </item>
+    
+    <item>
+      <title>Capture Screen Shot on Mac</title>
+      <link>https://www.variadic.xyz/2011/03/06/capture-screen-shot-on-mac/</link>
+      <pubDate>Sun, 06 Mar 2011 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.variadic.xyz/2011/03/06/capture-screen-shot-on-mac/</guid>
+      <description>To capture a screen shot on Mac:
+Capture by region selection:
+&amp;#8211; press command + shift + 4
+&amp;#8211; you will see the mouse cursor change to cross-hairs
+&amp;#8211; define the area, by dragging mouse while your left mouse button is pressed
+&amp;#8211; release the mouse button to capture and save the image on desktop
+  Capture window
+&amp;#8211; press command + shift + 4
+&amp;#8211; you will see the mouse cursor change to cross-hairs</description>
+    </item>
+    
+    <item>
+      <title>Home, End, Backspace keys and more on Mac Book Pro</title>
+      <link>https://www.variadic.xyz/2011/03/06/home-end-backspace-keys-and-more-on-mac-book-pro/</link>
+      <pubDate>Sun, 06 Mar 2011 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.variadic.xyz/2011/03/06/home-end-backspace-keys-and-more-on-mac-book-pro/</guid>
+      <description>I have purchased a Mac Book Pro, MBP henceforth, and I am pretty pleased with the system and Mac OS X Snow Leopard (10.6.6) However within few days I have started missing Home, End and Backspace keys.
+Apple &amp;amp; Macbook Pro Keyboard for reference:
+Apple Keyboard MacBook Pro Unibody Keyboard  &amp;nbsp;  Few key symbols from &amp;amp; related to MBP keyboard:
+  Trying out various combinations I came to know that:</description>
+    </item>
+    
+    <item>
+      <title>Debug…</title>
+      <link>https://www.variadic.xyz/2009/03/01/debug/</link>
+      <pubDate>Sun, 01 Mar 2009 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.variadic.xyz/2009/03/01/debug/</guid>
+      <description>Bruno Terkaly’s blog has 10 lessons on how to debug an application:
+ Lesson 1 – Intro Lesson 2 – Breakpoints in SubExpressions Lesson 3 – BreakPoint HitCount Lesson 4 – Debugging Threads Lesson 5 – Using TracePoints Lesson 6 – Watch and Immediate Windows – Advanced Techniques Lesson 7 – Advanced Techniques – Using Object ID Lesson 8 – The Garbage Collector – GC Lesson 9 – The Set Next Statement Lesson 10 – Debugging Threads  </description>
+    </item>
+    
+    <item>
+      <title>Common multicore programming problems…</title>
+      <link>https://www.variadic.xyz/2009/01/09/common-multicore-programming-problems/</link>
+      <pubDate>Fri, 09 Jan 2009 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.variadic.xyz/2009/01/09/common-multicore-programming-problems/</guid>
+      <description>Here is a four part series on common multicore problems from Shameem Akhter and Jason Roberts of Intel Corp.
+ Threads, data races, deadlocks and live locks Heavily Contended Locks Nonblocking algorithms, ping-ponging and memory reclamation Memory, cache issues and consistency  </description>
+    </item>
+    
+    <item>
+      <title>Books</title>
+      <link>https://www.variadic.xyz/books/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.variadic.xyz/books/</guid>
+      <description>C++  The C++ Programming Language Design and Evolution of C++ Effective C++ More Effective C++ Effective STL Exceptional C++ More Exceptional C++ Modern C++ Design C++ Templates C++ Templates Metaprogramming Beyond C++ Standard Library &amp;#8211; An introduction to BOOST C++ Standard Library &amp;#8211; Tutorial and Reference Large Scale C++ Software Design Thinking in C++, vol 1 and 2 Algorithms and Data Structures in C++ C++ Object Model Scientific and Engineering C++ C++ Cookbook C++ FAQs Multi-paradigm C++  Programming  Thinking in JAVA Windows Internals, 5th Edition Pro C# 2010 &amp;amp; .</description>
+    </item>
+    
+    <item>
+      <title>Bootcamp to Parallel Desktop VM</title>
+      <link>https://www.variadic.xyz/bootcamp-parallel-desktop/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.variadic.xyz/bootcamp-parallel-desktop/</guid>
+      <description>If you Windows installed thru Bootcamp already you can access it from Mac OS X without having to restart in Windows. All you need is Parallels Desktop. Here are the steps to create a Parallels VM from Bootcamp partition:
+Start Parallels Desktop and from File Menu click on New and select Install Windows from DVD or image File:
+
+&amp;nbsp;
+&amp;nbsp;
+&amp;nbsp;
+Continue without disc, we will be using Bootcamp partition later on</description>
+    </item>
+    
+    <item>
+      <title>Mac OS X Resources</title>
+      <link>https://www.variadic.xyz/mac-osx-resource/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.variadic.xyz/mac-osx-resource/</guid>
+      <description>  Bootcamp to Parallel Desktop VM  Sharing Options:                                          </description>
+    </item>
+    
+    <item>
+      <title>Programming Resources</title>
+      <link>https://www.variadic.xyz/programming-resources/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.variadic.xyz/programming-resources/</guid>
+      <description>Articles  Why type systems are intersting. Why Functional Programming matters. Finding Crash information using MAP file Post Mortem debugging Punching holes&amp;#8230; Playing with Stack SUN Sucks Software Engineering Articles Software Engineering Articles Patterns: The Top Ten Misconceptions Private Interface Buffer Overflow Delay Loading dll       Articles from Dr Dobbs Journal    Post Mortem Debugging   Managing That Millstone   Metrics: Understanding the Software Development Process   Checkpointing Multithreaded Programs   Failure Analysis   Compile-Time Assertions &amp; Debugging   Bidirectional Debugging: Coming and Going&amp;#8230;   What&amp;#8217;s Different About Multiprocessor Software: Part 1   What&amp;#8217;s Different About Multiprocessor Software: Part 2   Performance Analysis and Multicore Processors   Static Analysis: Sooner Is Better   Code Quality Improvement   Error Handling &amp;#8212; Part1   Error Handling &amp;#8212; Part2      Thesis    Multi Paradigm Design in C++ by James Coplien   Generative Programming by Krzysztof Czarnecki      C++ Resources    C++ Standard Last Draft   C++0x Partial Draft   Guru of the week &amp;#8212; A must read   C++ Reference Guide &amp;#8212; Really good   C++ Resources at FreeTechBooks   C++ tip of the day   C++ FAQs   How to write an exception class   C++ Application Binary Interface   TONS of C++ resources   &amp;#8220;Pure Virtual Function Called&amp;#8221;: An Explanation   Backyard Hotrodding C++   Bjarne Stroustrup&amp;#8217;s C++ Style and Technique FAQ   Exceptional Design &amp;#8212; A good Read   Empty Base Class Optimization   Counting objects in C++   C++ Implementation Limits   Private Interface   C++0X   From C++ to shining C      C++ Standard Library    C++ TR1 Final Draft   Techincal Report on C++ Std Library Extensions   std::tr1 Namespace Reference   C++ Standard Library Overview &amp;#8211; Dinkumware   C++ Standard Library Overview (VS7.</description>
+    </item>
+    
+    <item>
+      <title>Resources</title>
+      <link>https://www.variadic.xyz/resources/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.variadic.xyz/resources/</guid>
+      <description> Hello! Welcome to my resources page, here I intend to link various references.
+ Programming Resources Photography Resources [under construction] Mac OS X Resources  Sharing Options:                                          </description>
+    </item>
+    
+  </channel>
+</rss>

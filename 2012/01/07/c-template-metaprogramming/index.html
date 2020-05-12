@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+  <title>C&#43;&#43; Template Metaprogramming</title>
+
+  <meta name="author" content="Sarang Baheti" />
+  
+  
+
+  <meta name="generator" content="Hugo 0.30.2" />
+
+  <link rel="alternate" href="https://www.variadic.xyz/index.xml" type="application/rss+xml" title="a few notes">
+
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
+  <link rel="stylesheet" href="https://www.variadic.xyz/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="https://www.variadic.xyz/css/main.css" />
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" />
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" />
+  
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/styles/default.min.css">
+  
+  
+  
+  <meta property="og:title" content="C&#43;&#43; Template Metaprogramming" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="/2012/01/07/c-template-metaprogramming//" />
+  <meta property="og:image" content="" />
+  
+</head>
+
+
+  <body>
+
+    <nav class="navbar navbar-default navbar-fixed-top navbar-custom">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="https://www.variadic.xyz/">a few notes</a>
+    </div>
+
+    <div class="collapse navbar-collapse" id="main-navbar">
+      <ul class="nav navbar-nav navbar-right">
+      
+        
+          <li>
+          <a title="Notes" href="/">Notes</a>
+  	      </li>
+  	    
+      
+        
+          <li>
+          <a title="About" href="/about/">About</a>
+  	      </li>
+  	    
+      
+        
+          <li>
+          <a title="Archive" href="/archive/">Archive</a>
+  	      </li>
+  	    
+      
+        
+          <li>
+          <a title="Books" href="/books/">Books</a>
+  	      </li>
+  	    
+      
+        
+          <li>
+          <a title="Disclaimer" href="/disclaimer/">Disclaimer</a>
+  	      </li>
+  	    
+      
+      </ul>
+    </div>
+
+	<div class="avatar-container">
+	  <div class="avatar-img-border">
+      
+	  </div>
+	</div>
+
+  </div>
+</nav>
+
+
+    <div role="main" class="container main-content">
+
+      
+        
+
+
+
+
+
+<header class="header-section ">
+
+<div class="intro-header no-img">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="post-heading">
+          <h1>C&#43;&#43; Template Metaprogramming</h1>
+      
+      
+      
+      <span class="post-meta">Posted on January 7, 2012</span>
+      
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</header>
+
+
+
+
+<div class="container">
+  <div class="row">
+    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+      <article role="main" class="blog-post">
+          
+
+<h2 style="text-align: justify;">
+  C++ Template Metaprogramming (TMP)
+</h2>
+
+<p style="text-align: justify;">
+  Template metaprogramming is a metaprogramming technique in which templates are used by a compiler to generate temporary source code, which is merged by the compiler with the rest of the source code and then compiled. The output of these templates include compile-time constants, data structures, and complete functions. The use of templates can be thought of as compile-time execution.
+</p>
+
+<p style="text-align: justify;">
+  The use of templates as a metaprogramming technique requires two distinct operations: a template must be defined, and a defined template must be instantiated. The template definition describes the generic form of the generated source code, and the instantiation causes a specific set of source code to be generated from the generic form in the template.
+</p>
+
+<blockquote>
+<p style="text-align: justify;">
+  TMP is generally Turing-complete, meaning that any computation expressible by a computer program can be computed, in some form, by a template metaprogram. TMP have no mutable variables— that is, no variable can change value once it has been initialized, therefore template metaprogramming can be seen as a form of functional programming. In fact many template implementations only implement flow control through recursion.
+</p>
+</blockquote>
+
+<p style="text-align: justify;">
+  
+</p>
+
+<h2 style="text-align: justify;">
+  C++ Template Metaprogramming: fundamentals
+</h2>
+
+<p style="text-align: justify;">
+  One of the key concepts  for writing Template Metaprogramming is to model your algorithm in recursion and it should be immutable. Let&#8217;s take evaluation of factorial, for example. We all know factorial of a number is the product of all positive integers till the number itself.
+</p>
+
+<blockquote>
+<p>factorial(number) = 1 * 2 * 3 * &#8230; * (n-1) * n</p>
+</blockquote>
+
+<p style="text-align: justify;">
+  Now being C++ programmer our first attempt would be to iterate:
+</p>
+
+<pre class="brush: cpp; highlight: [4,6]; title: ; notranslate" title="">static int factorial_imperative(int value)
+{
+    int factorial = 1;
+    for(auto idx = value; idx &gt; 1; --idx )
+    {
+        factorial *= idx;
+    }
+    return factorial;
+}
+</pre>
+
+<p style="text-align: justify;">
+  This works, but has several limitations when it comes to converting it to metaprogram. First and foremost it mutates state, idx and factorial variables at line 4 and 6 respectively. Second it is not recursive, now recursion is primarily required if we want to avoid state mutation.
+</p>
+
+<p style="text-align: justify;">
+  Keeping above considerations in mind, we will write another function that will be recursive in nature. Generally recursions are difficult to model and understand, primarily for two reasons:
+</p>
+
+<ol>
+<li>Very compact code, which is good as well as bad for it can be difficult to understand at times</li>
+<li>Understanding when to stop, specifying termination condition correctly</li>
+</ol>
+
+<p>So here is the recursive and immutable version for evaluating factorial:</p>
+
+<pre class="brush: cpp; highlight: [4]; title: ; notranslate" title="">static int factorial_recursive(int value)
+{
+    return
+            value &lt;= 1 ? 1 :
+            (value * factorial_recursive(value-1));
+}
+</pre>
+
+<p style="text-align: justify;">
+  That was easy :), few observations though:
+</p>
+
+<ol>
+<li>we are not mutating any variable, even though we generate new values due to recursion but we are not mutating</li>
+<li>well defined termination condition, at line 4: <strong><em>value &lt;= 1</em></strong></li>
+</ol>
+
+<p style="text-align: justify;">
+  Once we have recursive & immutable version of algorithm, it is very easy to convert that into TMP. I will first write out the TMP and then walk over various aspects of it and how it relates to previous algorithm.
+</p>
+
+<pre class="brush: cpp; highlight: [5,6,10,18,19,23,31,35,43]; title: ; notranslate" title="">//
+//  in metaprogram every thing is a template-class/struct
+//
+//
+template&lt;int Num&gt;
+struct factorial_c
+{
+enum
+    {
+        value = Num * factorial_c&lt;Num-1&gt;::value
+    };
+};
+//
+//  terminating conditions
+//
+//  factorial of 1 is 1
+//
+template&lt;&gt;
+struct factorial_c&lt;1&gt;
+{
+    enum
+    {
+        value = 1
+    };
+};
+//
+//
+//  factorial of 0 is 1
+//
+template&lt;&gt;
+struct factorial_c&lt;0&gt;
+{
+    enum
+    {
+        value = 1
+    };
+};
+//
+//
+//
+int main()
+{
+    auto factorial_5 = factorial_c&lt;5&gt;::value;
+    std::cout &lt;&lt; "factorial of 5 is "
+              &lt;&lt; factorial_5 &lt;&lt; std::endl;
+    return 0;
+}
+</pre>
+
+<p style="text-align: justify;">
+  The above Template Metaprogram is almost equivalent to the recursive-immutable runtime version we wrote. Few observations:
+</p>
+
+<p><li style="text-align: justify;">
+  Line 5 and 6 define a new template struct <strong><em>factorial_c</em></strong> which is parametrized by integers (C++ Templates can be parameterized by types as well as by integers).  Even though we have defined a template struct we are going to use it as if it were a function, see Line 43 for usage
+</li>
+<li style="text-align: justify;">
+  Line 10: does the evaluation for us. Since C++ TMP  code is evaluated by compiler, which means every thing has to be compile time constant, we are forced to use <strong><em>enum</em></strong> or <em><strong>static const int</strong></em>, I prefer <strong><em>enums</em></strong>
+</li>
+<li style="text-align: justify;">
+  We will be using this <strong><em>factorial_c</em></strong> TMP function (which is a struct as per what you see) whenever we want compiler to evaluate factorial of any number for us
+</li>
+<li style="text-align: justify;">
+  Line 18, 19 &amp; 23: This is where magic begins. Remember we talked about importance of termination conditions, this is our first termination condition for value of 1. What these lines means is we have already defined a general version of <strong><em>factorial_c</em></strong> but whenever compiler needs to evaluate <em><strong>factorial_c</strong></em> with <em><strong>Num</strong></em> being 1 it should pick this version, that&#8217;s why we have defined the enum with value in there, Line 23
+</li>
+<li style="text-align: justify;">
+  Line 31 &amp; 35: Similar to first termination condition we have one more here for evaluating factorial of 0
+</li>
+<li style="text-align: justify;">
+  Line 43: This is where evaluation happens! This can be related to first call to recursive version, which will recurse till it&#8217;s termination conditions are met
+</li></p>
+
+<p><span style="text-align: justify;">Here is how the compiler evaluates the template recusions:</span></p>
+
+<pre class="brush: cpp; highlight: [2,5]; title: ; notranslate" title="">factorial_5 = factorial_c&lt;5&gt;::value;
+factorial_5 = 5 * factorial_c&lt;4&gt;::value;
+factorial_5 = 5 * 4 * factorial_c&lt;3&gt;::value;
+factorial_5 = 5 * 4 * 3 * factorial_c&lt;2&gt;::value;
+factorial_5 = 5 * 4 * 3 * 2 * factorial_c&lt;1&gt;::value;
+factorial_5 = 5 * 4 * 3 * 2 * 1;
+factorial_5 = 120;
+</pre>
+
+<p style="text-align: justify;">
+  It checks what is the number, it is 5 now, so none of special cases, known as template specializations, of factorial are applicable. As the number is not 0 or 1 it goes to general definition, which causes it to recurse as on Line 2. Same process is repeated till the Num with which factorial_c is parameterized is 1, Line 5, in which case the template specialization with Num being 1, Line 18,19 with previous code snippet, is invoked and the recursion stops.
+</p>
+
+<p style="text-align: justify;">
+  One must be wondering we have not reached 0, why do we want template specialization for 0 (Line 31 with previous code snippet), do I like to increase the number of lines of code (few idiots think that it is how one should measure how much you have done, that is sadistic approach to life and programming)? What happens if you want to evaluate factorial of 1 or 0?
+</p>
+
+<h2 style="text-align: justify;">
+  Few More Template Metaprograms
+</h2>
+
+<p style="text-align: justify;">
+  Last section was short introduction to TMP, in this section I would like to put few more TMPs. Even though I am mostly writing algorithmic code here, by no means TMP is restricted to these. TMP is computation with types! not just numbers.
+</p>
+
+<blockquote>
+<p style="text-align: justify;">
+  Note: you cannot write TMPs with floats or doubles.
+</p>
+</blockquote>
+
+<h3 style="text-align: justify;">
+  gcd (greatest common divisor)
+</h3>
+
+<p style="text-align: justify;">
+  In mathematics, the greatest common divisor (gcd), also known as the greatest common factor (gcf), or highest common factor (hcf), of two or more non-zero integers, is the largest positive integer that divides the numbers without a remainder. For example, the GCD of 8 and 12 is 4.
+</p>
+
+<p>Recursive &amp; Immutable runtime code:</p>
+
+<pre class="brush: cpp; title: ; notranslate" title="">static int gcd_recursive(int a, int b)
+{
+    if( a == b )
+    {
+        return a;
+    }
+    //
+    auto max = a &gt; b ? a : b;
+    auto min = a &lt; b ? a : b;
+    //
+    //
+    if( min == 0 )
+    {
+        return max;
+    }
+    return gcd_recursive(min, max % min);
+}
+</pre>
+
+<p>TMP:</p>
+
+<pre class="brush: cpp; title: ; notranslate" title="">//
+//  equivalent to max function
+//
+template&lt;int One, int Two&gt;
+struct  max_c
+{
+    enum
+    {
+        value = One &gt; Two ? One : Two
+    };
+};
+//
+//
+//  equivalent to min function
+//
+template&lt;int One, int Two&gt;
+struct min_c
+{
+    enum
+    {
+        value = One &lt; Two ? One : Two
+    };
+};
+//
+//
+//  TMP version of gcd
+//
+template&lt;int One, int Two&gt;
+struct gcd_c
+{
+    enum
+    {
+        //  equivalent to:
+        //  value = gcd(min, max % min)
+        //
+        value = gcd_c&lt;  min_c&lt;One, Two&gt;::value,
+                        max_c&lt;One, Two&gt;::value %
+                        min_c&lt;One,Two&gt;::value&gt;::value
+    };
+};
+//
+//
+//  template specialization for
+//  Min being 0, this is our
+//  termination condition for recursion
+//
+template&lt;int Max&gt;
+struct gcd_c&lt;Max, 0&gt;
+{
+    enum
+    {
+        value = Max
+    };
+};
+</pre>
+
+<h3 id="lcm-least-common-multiple">lcm (least common multiple)</h3>
+
+<p style="text-align: justify;">
+  In arithmetic and number theory, the least common multiple (also called the lowest common multiple or smallest common multiple) of two integers <em>a</em> and <em>b</em>, usually denoted by LCM(<em>a</em>, <em>b</em>), is the smallest positive integer that is a multiple of both <em>a</em> and <em>b</em>.
+</p>
+
+<blockquote>
+<p style="text-align: justify;">
+  Formula for lcm is:
+</p>
+
+<p style="text-align: justify;">
+  lcm(one, two) = one * two / gcd(one, two)
+</p>
+</blockquote>
+
+<p>Recursive &amp; Immutable runtime code:</p>
+
+<pre class="brush: cpp; title: ; notranslate" title="">static int lcm_r(int one, int two)
+{
+    return one * two / gcd_recursive(one, two);
+}
+</pre>
+
+<p>TMP:</p>
+
+<pre class="brush: cpp; title: ; notranslate" title="">template&lt;int One, int Two&gt;
+struct lcm_c
+{
+    enum
+    {
+        value = One * Two / gcd_c&lt;One, Two&gt;::value
+    };
+};
+</pre>
+
+<p style="text-align: justify;">
+  As LCM can be evaluated using gcd also, we don&#8217;t care about terminating conditions specific to LCM, as it is not recursive at all! Who said that you couldn&#8217;t re-use TMPs. :).
+</p>
+
+<h2 id="parting-thoughts">Parting Thoughts</h2>
+
+<p style="text-align: justify;">
+  Well I don&#8217;t have summary for this post, as it is not yet finished. We have barely scratched the surface of this beast. C++ TMP has a complete language of its own, well thats what <a href="http://www.boost.org/doc/libs/1_48_0/libs/mpl/doc/index.html">Boost.MPL</a> library is all about. I will follow up on TMP with few more posts.
+</p>
+
+<h6 class="zemanta-related-title" style="font-size: 1em;">
+  Related reading
+</h6>
+
+<ul class="zemanta-article-ul">
+  <li class="zemanta-article-ul-li">
+    <a href="http://en.wikipedia.org/wiki/Template_metaprogramming">C++ Template Metaprogramming</a> (en.wikipedia.org)
+  </li>
+  <li class="zemanta-article-ul-li">
+    <a href="http://www.boost.org/doc/libs/1_48_0/libs/mpl/doc/index.html">BOOST MPL</a> (boost.org)
+  </li>
+  <li class="zemanta-article-ul-li">
+    <a href="http://www.d-programming-language.org/templates-revisited.html">Templates Revisited</a> (d-programming-language.org)
+  </li>
+  <li class="zemanta-article-ul-li">
+    <a href="http://www.cs.tut.fi/~kk/webstuff/MetaprogrammingCpp.pdf">Metaprogramming in C++</a> (cs.tut.fi)
+  </li>
+  <li class="zemanta-article-ul-li">
+    <a title="Functional Programming For The Rest of Us" href="/2011/06/07/functional-programming-for-the-rest-of-us/">Functional Programming For The Rest of Us </a>
+  </li>
+</ul>
+
+      </article>
+
+      <ul class="pager blog-pager">
+        
+        <li class="previous">
+          <a href="https://www.variadic.xyz/2012/01/06/parallel-computing-terms/" data-toggle="tooltip" data-placement="top" title="Parallel Computing Terms">&larr; Previous Post</a>
+        </li>
+        
+        
+        <li class="next">
+          <a href="https://www.variadic.xyz/2012/01/17/c11-delegating-constructors/" data-toggle="tooltip" data-placement="top" title="C&#43;&#43;11: delegating constructors">Next Post &rarr;</a>
+        </li>
+        
+      </ul>
+
+      
+
+    </div>
+  </div>
+</div>
+
+      
+
+    </div>
+
+    <footer>
+  <div class="container beautiful-jekyll-footer">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <ul class="list-inline text-center footer-links">
+          
+          
+          
+          <li>
+            <a href="https://github.com/sarangbaheti" title="GitHub">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+		      
+		      
+          <li>
+            <a href="https://linkedin.com/in/sarangbaheti" title="LinkedIn">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+	    	  
+          <li>
+            <a href="https://stackoverflow.com/users/916549/sarang" title="StackOverflow">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-stack-overflow fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+          
+    		  <li>
+      			<a href="https://www.variadic.xyz/index.xml" title="RSS">
+      			  <span class="fa-stack fa-lg">
+        				<i class="fa fa-circle fa-stack-2x"></i>
+        				<i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+      			  </span>
+      			</a>
+    		  </li>		
+
+        </ul>
+        <p class="copyright text-muted">
+    		  Sarang Baheti
+    		  &nbsp;&bull;&nbsp;
+    		  2009 - 2020
+    		  
+    		  
+    		  &nbsp;&bull;&nbsp;
+    		  <a href="https://www.variadic.xyz/">a few notes</a>
+    		  
+  	    </p>
+  	        
+    		<p class="theme-by text-muted">
+    		  Theme by
+    		  <a href="https://github.com/sarangbaheti/bh">bh</a>
+    		</p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="https://www.variadic.xyz/js/jquery-1.11.2.min.js"></script>
+<script src="https://www.variadic.xyz/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/highlight.min.js"></script>
+<script src="https://www.variadic.xyz/js/main.js"></script>
+
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-27935503-1', 'auto');
+ga('send', 'pageview');
+</script>
+
+
+
+  </body>
+</html>

@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+  <title>SSD thrashing and RAMDrive</title>
+
+  <meta name="author" content="Sarang Baheti" />
+  
+  
+
+  <meta name="generator" content="Hugo 0.30.2" />
+
+  <link rel="alternate" href="https://www.variadic.xyz/index.xml" type="application/rss+xml" title="a few notes">
+
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
+  <link rel="stylesheet" href="https://www.variadic.xyz/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="https://www.variadic.xyz/css/main.css" />
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" />
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" />
+  
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/styles/default.min.css">
+  
+  
+  
+  <meta property="og:title" content="SSD thrashing and RAMDrive" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="/2014/12/24/ssd-thrashing-and-ramdrive//" />
+  <meta property="og:image" content="" />
+  
+</head>
+
+
+  <body>
+
+    <nav class="navbar navbar-default navbar-fixed-top navbar-custom">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="https://www.variadic.xyz/">a few notes</a>
+    </div>
+
+    <div class="collapse navbar-collapse" id="main-navbar">
+      <ul class="nav navbar-nav navbar-right">
+      
+        
+          <li>
+          <a title="Notes" href="/">Notes</a>
+  	      </li>
+  	    
+      
+        
+          <li>
+          <a title="About" href="/about/">About</a>
+  	      </li>
+  	    
+      
+        
+          <li>
+          <a title="Archive" href="/archive/">Archive</a>
+  	      </li>
+  	    
+      
+        
+          <li>
+          <a title="Books" href="/books/">Books</a>
+  	      </li>
+  	    
+      
+        
+          <li>
+          <a title="Disclaimer" href="/disclaimer/">Disclaimer</a>
+  	      </li>
+  	    
+      
+      </ul>
+    </div>
+
+	<div class="avatar-container">
+	  <div class="avatar-img-border">
+      
+	  </div>
+	</div>
+
+  </div>
+</nav>
+
+
+    <div role="main" class="container main-content">
+
+      
+        
+
+
+
+
+
+<header class="header-section ">
+
+<div class="intro-header no-img">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="post-heading">
+          <h1>SSD thrashing and RAMDrive</h1>
+      
+      
+      
+      <span class="post-meta">Posted on December 24, 2014</span>
+      
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</header>
+
+
+
+
+<div class="container">
+  <div class="row">
+    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+      <article role="main" class="blog-post">
+          <p style="text-align: justify;">
+  This is continuation of my previous post: <a title="disabling superfetch, prefetch and indexing" href="/2014/12/22/disabling-superfetch-prefetch-and-indexing/" target="_blank">disabling superfetch, prefetch and indexing</a>
+</p>
+
+<p style="text-align: justify;">
+  After installing SSD I was monitoring how Windows has been using the drive. One of the day I spent quite sometime watching videos over web and the data written to SSD increased by ~35GB. That day I effectively did nothing other than watching videos on youtube and <a href="http://www.pluralsight.com/" target="_blank">pluralsight</a>. With this in mind I set out to investigate what caused this un-neccessary writes to SSD. <a href="http://crystalmark.info/software/CrystalDiskInfo/index-e.html" target="_blank">Crystal DiskInfo</a> has been my companion in deciphering the <a href="http://en.wikipedia.org/wiki/S.M.A.R.T." target="_blank">SMART</a> data reported.
+</p>
+
+<p style="text-align: justify;">
+  Crystal DiskInfo can read the SMART information quite nicely, it is a bit easier to use as compared to <a href="http://ocz.com/consumer/download/firmware" target="_blank">OCZ&#8217;s toolbox</a>. The stats of interest here are the Total Host Writes and Total NAND Writes. Host Writes is how much data OS has transferred to SSD to write and NAND writes represents how much controller wrote to SSD (there is compression at play here- I am not losing data :))
+</p>
+
+<p style="text-align: justify;">
+  
+</p><figure id="attachment_2848" style="width: 688px;" class="wp-caption aligncenter">
+
+<img class="size-full wp-image-2848" src="/wp-content/uploads/2014/12/crystaldiskinfo1.png" alt="Crystal Disk Info SMART status" width="688" height="635" /><figcaption class="wp-caption-text">Crystal Disk Info SMART status</figcaption></figure> 
+
+<p style="text-align: justify;">
+  After monitoring the stats from DiskInfo, next I started the Resource Monitor. Some <a href="http://www.howtogeek.com/school/using-windows-admin-tools-like-a-pro/lesson6/all/" target="_blank">good information here</a> about using Resource Monitor to your benefit. I started monitor the processes/services doing disk I/O
+</p><figure id="attachment_2850" style="width: 688px;" class="wp-caption aligncenter">
+
+<img class="size-full wp-image-2850" src="/wp-content/uploads/2014/12/resmon-disk.png" alt="Resource Monitor Disk Usage Tab" width="910" height="600" /><figcaption class="wp-caption-text">Resource Monitor Disk Usage Tab</figcaption></figure> 
+
+<p style="text-align: justify;">
+  In the above image there is no chrome, as i have already fixed it. Firefox I have left alone and thus does read and write to SSD.
+</p>
+
+<p style="text-align: justify;">
+  After filtering for chrome in process I could see it was writing a lot of stuff to cache. Chrome uses cache to temporarily save data for smoother playback and cookies and all sorts of wonderful stuff. But a lot of it is temporary and I would not prefer it doing tons of I/O on my SSD.  If you search online you will find many folks complaining about <a href="https://www.google.com/webhp?gws_rd=ssl#q=google+chrome+disk+thrashing" target="_blank">chrome thrashing the disk</a> badly.
+</p>
+
+<p style="text-align: justify;">
+  Now that I have only one disk in my modest laptop and don&#8217;t want chrome to thrash my SSD neither do I want to give up on the nice speed of SSD- and off course I still want to use chrome- it is a very nice browser. While I can&#8217;t do away with the chrome, I can configure where chrome puts it cache- all you need to do is to start chrome with flags: <strong>&#8211;disk-cache-dir=&#8221;r:\temp&#8221; &#8211;user-data-dir=&#8221;r:\temp&#8221;</strong>, we will get to r:\temp in a bit.
+</p>
+
+<p style="text-align: justify;">
+  Now I need to find a place to cache data- but should be fast enough- what better place to put in RAM! Yes you can take a chunk of RAM and mount it as a disk. There are several ways to get your ramdisk going:
+</p>
+
+<p><li style="text-align: justify;">
+  tweak the <a href="https://code.msdn.microsoft.com/windowshardware/RAMDisk-Storage-Driver-9ce5f699" target="_blank">Microsoft Driver</a> to suit your needs
+</li>
+<li style="text-align: justify;">
+  Pay for one of the softwares
+</li>
+<li style="text-align: justify;">
+  Use <a href="http://www.ltr-data.se/opencode.html/#ImDisk" target="_blank">IMDisk</a>- it is a RAMDisk driver but free- I will be using this one
+</li></p>
+
+<p>I have installed the software and created a RAMDisk with Drive name R of 512MB and this is good enough for use. Have been using google chrome with cache dirs set to R:\temp and it hasn&#8217;t touched my SSD since then.</p>
+      </article>
+
+      <ul class="pager blog-pager">
+        
+        <li class="previous">
+          <a href="https://www.variadic.xyz/2014/12/23/christmas-tree/" data-toggle="tooltip" data-placement="top" title="christmas tree!!">&larr; Previous Post</a>
+        </li>
+        
+        
+        <li class="next">
+          <a href="https://www.variadic.xyz/2014/12/31/ramdrive-and-ssd-continued/" data-toggle="tooltip" data-placement="top" title="RAMDrive and SSD, continued">Next Post &rarr;</a>
+        </li>
+        
+      </ul>
+
+      
+
+    </div>
+  </div>
+</div>
+
+      
+
+    </div>
+
+    <footer>
+  <div class="container beautiful-jekyll-footer">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <ul class="list-inline text-center footer-links">
+          
+          
+          
+          <li>
+            <a href="https://github.com/sarangbaheti" title="GitHub">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+		      
+		      
+          <li>
+            <a href="https://linkedin.com/in/sarangbaheti" title="LinkedIn">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+	    	  
+          <li>
+            <a href="https://stackoverflow.com/users/916549/sarang" title="StackOverflow">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-stack-overflow fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+          
+    		  <li>
+      			<a href="https://www.variadic.xyz/index.xml" title="RSS">
+      			  <span class="fa-stack fa-lg">
+        				<i class="fa fa-circle fa-stack-2x"></i>
+        				<i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+      			  </span>
+      			</a>
+    		  </li>		
+
+        </ul>
+        <p class="copyright text-muted">
+    		  Sarang Baheti
+    		  &nbsp;&bull;&nbsp;
+    		  2009 - 2020
+    		  
+    		  
+    		  &nbsp;&bull;&nbsp;
+    		  <a href="https://www.variadic.xyz/">a few notes</a>
+    		  
+  	    </p>
+  	        
+    		<p class="theme-by text-muted">
+    		  Theme by
+    		  <a href="https://github.com/sarangbaheti/bh">bh</a>
+    		</p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="https://www.variadic.xyz/js/jquery-1.11.2.min.js"></script>
+<script src="https://www.variadic.xyz/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/highlight.min.js"></script>
+<script src="https://www.variadic.xyz/js/main.js"></script>
+
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-27935503-1', 'auto');
+ga('send', 'pageview');
+</script>
+
+
+
+  </body>
+</html>

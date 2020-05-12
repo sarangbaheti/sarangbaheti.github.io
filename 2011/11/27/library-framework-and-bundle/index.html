@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+  <title>library, framework and bundle</title>
+
+  <meta name="author" content="Sarang Baheti" />
+  
+  
+
+  <meta name="generator" content="Hugo 0.30.2" />
+
+  <link rel="alternate" href="https://www.variadic.xyz/index.xml" type="application/rss+xml" title="a few notes">
+
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
+  <link rel="stylesheet" href="https://www.variadic.xyz/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="https://www.variadic.xyz/css/main.css" />
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" />
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" />
+  
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/styles/default.min.css">
+  
+  
+  
+  <meta property="og:title" content="library, framework and bundle" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="/2011/11/27/library-framework-and-bundle//" />
+  <meta property="og:image" content="" />
+  
+</head>
+
+
+  <body>
+
+    <nav class="navbar navbar-default navbar-fixed-top navbar-custom">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="https://www.variadic.xyz/">a few notes</a>
+    </div>
+
+    <div class="collapse navbar-collapse" id="main-navbar">
+      <ul class="nav navbar-nav navbar-right">
+      
+        
+          <li>
+          <a title="Notes" href="/">Notes</a>
+  	      </li>
+  	    
+      
+        
+          <li>
+          <a title="About" href="/about/">About</a>
+  	      </li>
+  	    
+      
+        
+          <li>
+          <a title="Archive" href="/archive/">Archive</a>
+  	      </li>
+  	    
+      
+        
+          <li>
+          <a title="Books" href="/books/">Books</a>
+  	      </li>
+  	    
+      
+        
+          <li>
+          <a title="Disclaimer" href="/disclaimer/">Disclaimer</a>
+  	      </li>
+  	    
+      
+      </ul>
+    </div>
+
+	<div class="avatar-container">
+	  <div class="avatar-img-border">
+      
+	  </div>
+	</div>
+
+  </div>
+</nav>
+
+
+    <div role="main" class="container main-content">
+
+      
+        
+
+
+
+
+
+<header class="header-section ">
+
+<div class="intro-header no-img">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="post-heading">
+          <h1>library, framework and bundle</h1>
+      
+      
+      
+      <span class="post-meta">Posted on November 27, 2011</span>
+      
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</header>
+
+
+
+
+<div class="container">
+  <div class="row">
+    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+      <article role="main" class="blog-post">
+          <p style="text-align: justify;">
+  library, frameworks, and bundles in Mac OS X are similar in that you can think of them as pre-packaged code meant to be used from within another library or application. They’re all meant to improve or expand the functionality of an executable (including those that are part of the operating system) by making their code available to it.
+</p>
+
+<h2 style="text-align: justify;">
+   library
+</h2>
+
+<p style="text-align: justify;">
+  The term library has the same meaning on every platform. A library is the most basic form of prepackaged, shared code meant to be reused in multiple applications. Mac OS and iOS come with a number of standard C libraries and libraries specifc to the operating system. In the Mac and iOS world, static libraries have the .a extension (a static object code library archive), while dynamically loaded libraries have a .dylib extension.
+</p>
+
+<p style="text-align: justify;">
+  Static libraries are linked into the executable by the linker at build time. That is, the code in the library is un-archived and copied into the executable along with your program’s compiled object (.o) files. Static libraries result in a larger executable because the library’s code isn’t shared but merely “available to copy.” An example of a common static library is libc.a, the standard C library.
+</p>
+
+<p style="text-align: justify;">
+  Dynamic libraries can be loaded at launch time or when needed at runtime. The code from the library is shared and is not part of the executable. This gives the potential for faster launch times, smaller executables, and less wasted space (as a result of many executables carrying the same code linked from a static library). An example of a popular dynamic library Cocoa developers use every day (perhaps without realizing it) is libobjc.a.dylib, which contains the Objective-C runtime library.
+</p>
+
+<h2 style="text-align: justify;">
+   framework
+</h2>
+
+<p style="text-align: justify;">
+  A framework is a bundle of files and folders that can contain dynamic shared libraries, Interface Builder files, localized (translated) strings, headers, and media resources. It could contain nothing but a dynamic library or nothing but resources. If you’ve used Cocoa, you’ve used a collection of frameworks already.You’ve likely heard Cocoa being called “the Cocoa frameworks.” That’s because Cocoa.framework actually is an “umbrella framework” that encompasses a number of sub-frameworks. One such sub-framework is Foundation.framework, which gives you basic strings, container classes, and so on. On a Mac, things like windows, buttons, and drawing routines come from AppKit.framework, a Cocoa sub-framework. The same goes for AppKit’s iOS cousin, UIKit.framework. Unless your Cocoa application is fairly simple, it’s likely you’ll be using other frameworks, provided by the system or by third parties, that can be linked against to provide functionality not found in the core Cocoa frameworks themselves. At the very least, you may end up using a Cocoa framework that’s not normally automatically linked. In fact, when you created the TestApp project and specifed it should use Core Data, Xcode automatically included CoreData.framework and added it to the Link Binary With Libraries build phase of the TestApp target.
+</p>
+
+<h2 style="text-align: justify;">
+   bundle
+</h2>
+
+<p style="text-align: justify;">
+  A bundle is a directory structure that appears to the end user as a single file. Applications, frameworks, plug-ins, and kernel extensions are all specifIc kinds of bundles. A loadable bundle contains code and resources that can be loaded and unloaded at runtime. This enables developers to divide up their applications into modules and even provide extensibility in the form of plug-ins. For example, the Spotlight search system comes with a core set of plug-ins that teach it how to index various types of fIles. Third-party developers can create Spotlight importer plug-ins to allow Spotlight to index even more filetypes (usually fIles created by their own applications). Screen savers are another example. Each screen saver is a plug-in (a bundle) that teaches the screen saver application how to display yet another form of eye candy, while the screen saver application itself only takes care of loading the effects or topping when the user moves the mouse (and possibly provides a password to unlock the screen). Xcode comes with a dazzling array of bundle types. There are templates to create plug-ins for Spotlight, Address Book, QuickLook, System Preferences, Automator, Dashboard, and even the kernel. Alternatively, you can just choose the generic Bundle template (found under the Framework & Library template group) and optionally tack on your own extension (such as test app-plugin) to stand out from the crowd.
+</p>
+
+<p style="text-align: justify;">
+  Loadable bundles are like libraries or frameworks that your users can install and remove by drag and drop. Although things like Spotlight plug-ins often come embedded within an application bundle (which Spotlight automatically finds), their power as standalone plug-ins that a user can add or remove themselves is often overlooked. It’s important to be aware that loadable bundles can just as often be a product in themselves as a component embedded in another product.
+</p>
+
+      </article>
+
+      <ul class="pager blog-pager">
+        
+        <li class="previous">
+          <a href="https://www.variadic.xyz/2011/11/25/comparing-floating-point-numbers/" data-toggle="tooltip" data-placement="top" title="Comparing floating point numbers">&larr; Previous Post</a>
+        </li>
+        
+        
+        <li class="next">
+          <a href="https://www.variadic.xyz/2011/12/23/concurrency-and-parallelism/" data-toggle="tooltip" data-placement="top" title="concurrency and parallelism">Next Post &rarr;</a>
+        </li>
+        
+      </ul>
+
+      
+
+    </div>
+  </div>
+</div>
+
+      
+
+    </div>
+
+    <footer>
+  <div class="container beautiful-jekyll-footer">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <ul class="list-inline text-center footer-links">
+          
+          
+          
+          <li>
+            <a href="https://github.com/sarangbaheti" title="GitHub">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+		      
+		      
+          <li>
+            <a href="https://linkedin.com/in/sarangbaheti" title="LinkedIn">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+	    	  
+          <li>
+            <a href="https://stackoverflow.com/users/916549/sarang" title="StackOverflow">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-stack-overflow fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+          
+    		  <li>
+      			<a href="https://www.variadic.xyz/index.xml" title="RSS">
+      			  <span class="fa-stack fa-lg">
+        				<i class="fa fa-circle fa-stack-2x"></i>
+        				<i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+      			  </span>
+      			</a>
+    		  </li>		
+
+        </ul>
+        <p class="copyright text-muted">
+    		  Sarang Baheti
+    		  &nbsp;&bull;&nbsp;
+    		  2009 - 2020
+    		  
+    		  
+    		  &nbsp;&bull;&nbsp;
+    		  <a href="https://www.variadic.xyz/">a few notes</a>
+    		  
+  	    </p>
+  	        
+    		<p class="theme-by text-muted">
+    		  Theme by
+    		  <a href="https://github.com/sarangbaheti/bh">bh</a>
+    		</p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="https://www.variadic.xyz/js/jquery-1.11.2.min.js"></script>
+<script src="https://www.variadic.xyz/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/highlight.min.js"></script>
+<script src="https://www.variadic.xyz/js/main.js"></script>
+
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-27935503-1', 'auto');
+ga('send', 'pageview');
+</script>
+
+
+
+  </body>
+</html>

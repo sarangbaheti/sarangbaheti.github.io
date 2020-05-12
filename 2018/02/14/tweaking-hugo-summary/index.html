@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+  <title>Tweaking Hugo Summary</title>
+
+  <meta name="author" content="Sarang Baheti" />
+  
+  
+
+  <meta name="generator" content="Hugo 0.30.2" />
+
+  <link rel="alternate" href="https://www.variadic.xyz/index.xml" type="application/rss+xml" title="a few notes">
+
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
+  <link rel="stylesheet" href="https://www.variadic.xyz/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="https://www.variadic.xyz/css/main.css" />
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" />
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" />
+  
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/styles/default.min.css">
+  
+  
+  
+  <meta property="og:title" content="Tweaking Hugo Summary" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="/2018/02/14/tweaking-hugo-summary//" />
+  <meta property="og:image" content="" />
+  
+</head>
+
+
+  <body>
+
+    <nav class="navbar navbar-default navbar-fixed-top navbar-custom">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="https://www.variadic.xyz/">a few notes</a>
+    </div>
+
+    <div class="collapse navbar-collapse" id="main-navbar">
+      <ul class="nav navbar-nav navbar-right">
+      
+        
+          <li>
+          <a title="Notes" href="/">Notes</a>
+  	      </li>
+  	    
+      
+        
+          <li>
+          <a title="About" href="/about/">About</a>
+  	      </li>
+  	    
+      
+        
+          <li>
+          <a title="Archive" href="/archive/">Archive</a>
+  	      </li>
+  	    
+      
+        
+          <li>
+          <a title="Books" href="/books/">Books</a>
+  	      </li>
+  	    
+      
+        
+          <li>
+          <a title="Disclaimer" href="/disclaimer/">Disclaimer</a>
+  	      </li>
+  	    
+      
+      </ul>
+    </div>
+
+	<div class="avatar-container">
+	  <div class="avatar-img-border">
+      
+	  </div>
+	</div>
+
+  </div>
+</nav>
+
+
+    <div role="main" class="container main-content">
+
+      
+        
+
+
+
+
+
+<header class="header-section ">
+
+<div class="intro-header no-img">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="post-heading">
+          <h1>Tweaking Hugo Summary</h1>
+      
+      
+      
+      <span class="post-meta">Posted on February 14, 2018</span>
+      
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</header>
+
+
+
+
+<div class="container">
+  <div class="row">
+    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+      <article role="main" class="blog-post">
+          <p>One of the things I find quite annoying with <code>hugo</code> is it auto summary feature. While it is quite handy to limit content on main page as it is- but it&rsquo;s default limit of 70 characters adds more to improvement.</p>
+
+<p>To top that it messes up all the formatting:</p>
+
+
+<figure >
+    
+        <img src="/images/post-render-before-tweaks.png" />
+    
+    
+</figure>
+
+
+<p>One of the work arounds I have found is to use <code>&lt;!-- more --&gt;</code>, <a href="https://gohugo.io/content-management/summaries/">content summaries</a>, to control what sort of summary will be generated, but it still the same that you have in page.</p>
+
+<p>Often I would like to have a short note for the content, which is not part of the content itself. Something like this:</p>
+
+
+<figure >
+    
+        <img src="/images/post-render-after-tweaks.png" />
+    
+    
+</figure>
+
+
+<p></p>
+
+<p>Now peaking around, I found that <code>hugo</code> allows you to configure what lenght of text would be considered summary (or captured by .Summary of page) through <code>summaryLength</code> YAML variable, <a href="https://gohugo.io/getting-started/configuration/">here</a>, but it did not work at all.</p>
+
+<p>However, what I found quite useful is this <a href="https://github.com/rstudio/blogdown/issues/21">issue</a>, where there is a discussion about how to get around 70 word length default for summary:</p>
+
+<pre><code>     {{ if .Description }}
+        {{ .Description }}
+      {{ else }}
+        {{ .Summary | plainify | safeHTML }}
+      {{ end }}
+    {{ if .Truncated }}
+</code></pre>
+
+<p>I took this same to my theme <a href="https://github.com/sarangbaheti/bh">bh</a> and changed the <code>index.html</code> in <code>layouts</code> directory to the same effect.</p>
+
+<p>Now the only thing I have to do is to add a variable <code>Description</code> to the post:</p>
+
+<pre><code>---
+title: &quot;Gcc Headers Dir&quot;
+date: &quot;2018-02-14T17:15:00-08:00&quot;
+Description: &quot;Commands to figure where gcc is looking for system headers&quot;
+---
+</code></pre>
+
+<p>It does look a bit better now, however I had to be specific
+to put linebreaks.</p>
+
+<pre><code>    &lt;div class=&quot;post-entry&quot;&gt;
+    {{ if .Description }}
+        {{ .Description }}
+    {{ else }}
+        {{ .Summary }}
+    {{ end }}
+    
+    &lt;br/&gt;
+    &lt;br/&gt;
+    &lt;a href=&quot;{{ .Permalink }}&quot; class=&quot;post-read-more&quot;&gt;[Read&amp;nbsp;More]&lt;/a&gt;
+    &lt;/div&gt;
+</code></pre>
+
+<p>Overall, this wasn&rsquo;t too bad and I must say I am quite impressed with how extensible hugo and templating is.
+good job!</p>
+      </article>
+
+      <ul class="pager blog-pager">
+        
+        <li class="previous">
+          <a href="https://www.variadic.xyz/2018/02/14/gcc-headers-dir/" data-toggle="tooltip" data-placement="top" title="Gcc Headers Dir">&larr; Previous Post</a>
+        </li>
+        
+        
+        <li class="next">
+          <a href="https://www.variadic.xyz/2018/02/15/gpg-signing-github-commits/" data-toggle="tooltip" data-placement="top" title="gpg signing github commits">Next Post &rarr;</a>
+        </li>
+        
+      </ul>
+
+      
+
+    </div>
+  </div>
+</div>
+
+      
+
+    </div>
+
+    <footer>
+  <div class="container beautiful-jekyll-footer">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <ul class="list-inline text-center footer-links">
+          
+          
+          
+          <li>
+            <a href="https://github.com/sarangbaheti" title="GitHub">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+		      
+		      
+          <li>
+            <a href="https://linkedin.com/in/sarangbaheti" title="LinkedIn">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+	    	  
+          <li>
+            <a href="https://stackoverflow.com/users/916549/sarang" title="StackOverflow">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-stack-overflow fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+          
+    		  <li>
+      			<a href="https://www.variadic.xyz/index.xml" title="RSS">
+      			  <span class="fa-stack fa-lg">
+        				<i class="fa fa-circle fa-stack-2x"></i>
+        				<i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+      			  </span>
+      			</a>
+    		  </li>		
+
+        </ul>
+        <p class="copyright text-muted">
+    		  Sarang Baheti
+    		  &nbsp;&bull;&nbsp;
+    		  2009 - 2020
+    		  
+    		  
+    		  &nbsp;&bull;&nbsp;
+    		  <a href="https://www.variadic.xyz/">a few notes</a>
+    		  
+  	    </p>
+  	        
+    		<p class="theme-by text-muted">
+    		  Theme by
+    		  <a href="https://github.com/sarangbaheti/bh">bh</a>
+    		</p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="https://www.variadic.xyz/js/jquery-1.11.2.min.js"></script>
+<script src="https://www.variadic.xyz/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/highlight.min.js"></script>
+<script src="https://www.variadic.xyz/js/main.js"></script>
+
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-27935503-1', 'auto');
+ga('send', 'pageview');
+</script>
+
+
+
+  </body>
+</html>

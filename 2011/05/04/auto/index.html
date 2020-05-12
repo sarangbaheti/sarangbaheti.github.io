@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+  <title>C&#43;&#43;11: auto</title>
+
+  <meta name="author" content="Sarang Baheti" />
+  
+  
+
+  <meta name="generator" content="Hugo 0.30.2" />
+
+  <link rel="alternate" href="https://www.variadic.xyz/index.xml" type="application/rss+xml" title="a few notes">
+
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
+  <link rel="stylesheet" href="https://www.variadic.xyz/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="https://www.variadic.xyz/css/main.css" />
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" />
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" />
+  
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/styles/default.min.css">
+  
+  
+  
+  <meta property="og:title" content="C&#43;&#43;11: auto" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="/2011/05/04/auto//" />
+  <meta property="og:image" content="" />
+  
+</head>
+
+
+  <body>
+
+    <nav class="navbar navbar-default navbar-fixed-top navbar-custom">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="https://www.variadic.xyz/">a few notes</a>
+    </div>
+
+    <div class="collapse navbar-collapse" id="main-navbar">
+      <ul class="nav navbar-nav navbar-right">
+      
+        
+          <li>
+          <a title="Notes" href="/">Notes</a>
+  	      </li>
+  	    
+      
+        
+          <li>
+          <a title="About" href="/about/">About</a>
+  	      </li>
+  	    
+      
+        
+          <li>
+          <a title="Archive" href="/archive/">Archive</a>
+  	      </li>
+  	    
+      
+        
+          <li>
+          <a title="Books" href="/books/">Books</a>
+  	      </li>
+  	    
+      
+        
+          <li>
+          <a title="Disclaimer" href="/disclaimer/">Disclaimer</a>
+  	      </li>
+  	    
+      
+      </ul>
+    </div>
+
+	<div class="avatar-container">
+	  <div class="avatar-img-border">
+      
+	  </div>
+	</div>
+
+  </div>
+</nav>
+
+
+    <div role="main" class="container main-content">
+
+      
+        
+
+
+
+
+
+<header class="header-section ">
+
+<div class="intro-header no-img">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="post-heading">
+          <h1>C&#43;&#43;11: auto</h1>
+      
+      
+      
+      <span class="post-meta">Posted on May 4, 2011</span>
+      
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</header>
+
+
+
+
+<div class="container">
+  <div class="row">
+    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+      <article role="main" class="blog-post">
+          
+
+<p>C++ does not have any mechanism for querying the type of an expression nor it can initialize a variable without explicitly specifying its type. Specifically to address this limitation two new extensions have been added to C++11:
+<code>decltype</code> – to query the type of an expression
+<code>auto</code> – indicate that the compiler should deduce the type of the variable from its initializer expression. In this post I will only cover <code>auto</code>.</p>
+
+<p><code>auto</code> keyword was used in C as storage specifier and was supposed to indicate that qualified variable is local. With C++ this became optional.</p>
+
+<p>For ex:</p>
+
+<pre><code class="language-cpp">int main()
+{
+    // localvar is of type int
+    auto int localvar = 9;
+    return 0;
+}
+</code></pre>
+
+<p>This code will compile fine in VS 2008 or C++2003, here storage qualifier <code>auto</code> is neglected as the variable localvar has local scope. With C++11 this has changed. <code>auto</code> has been redefined to indicate automatic type deduction by compiler, so this code fails to compile with error: <code>auto cannot be combined with any other type specifier</code></p>
+
+<h2 id="auto-101">auto 101</h2>
+
+<hr />
+
+<p>Lets look at some of the simpler auto deductions:</p>
+
+<pre><code class="language-cpp">// i is of type int
+auto i = 9;
+//
+//
+// d is of type double
+auto d = 0.9;
+//
+//
+// iptr1 is of type int*
+auto iptr1 = &amp;i;
+//
+//
+// iptr2 is of type int*
+ auto* iptr2 = &amp;i;
+//
+//
+// iptr3 is of type int*
+ auto iptr3 = iptr2;
+ //
+ //
+ // iref1 is of type int&amp;
+ auto&amp; iref1 = i;
+//
+//
+// iref2 is of type const int&amp;
+const auto&amp; iref2 = iref1;
+//
+//
+// i2 is of type int
+auto i2 = iref2;
+//
+//
+// c1 is char
+auto c1 = ‘a’;
+//
+//
+// s1 is const char*
+auto s1 = “auto”;
+</code></pre>
+
+<p>you can use <code>auto</code> to deduce types of multiple declarations, but the base type of these should be same:</p>
+
+<pre><code class="language-cpp">// i1 and i2 are of type int
+// while i3 is of type int&amp;
+//
+auto i1 = 0, i2 = 1, &amp;i3 = i1;
+//
+//
+// v is of type int* while u is of type int
+// u and v has same base type (int)
+//
+auto *v = &amp;i, u = 6;
+//
+//
+// all the variables must have same base-type
+// here a is an int, b a float
+// and c is double*
+// this line of code fails to compile with error message:
+// &quot;in a declarator list auto must always deduce to same type&quot;
+//
+auto a = 10, b = 3.f , * c = new double;
+//
+</code></pre>
+
+<p>How about initializing array?
+Please see this <a href="http://groups.google.com/group/comp.lang.c++.moderated/browse_thread/thread/e912927e704e1960/d0c2beb388d1b204#d0c2beb388d1b204">link</a> why type can’t be deduced in case of an array.</p>
+
+<pre><code class="language-cpp">// cannot deduce an array of elements with auto
+// fails to compile with error message:
+// &quot;the element type of an array cannot be a type that contains 'auto'&quot;
+auto arr1[] = {'a','b','c'};
+//
+//
+// too many initializers auto arr2 = {'a','b','c'};
+// cannot deduce type for auto* from char
+// cannot convert from char to int*
+auto* arr3 = {'a','b','c'};
+</code></pre>
+
+<p><code>auto</code> can deduce the types from return types of functions, after all it is an expression:</p>
+
+<pre><code class="language-cpp">double SomeFunction()
+{
+    return 0.0;
+}
+//
+//
+int main()
+{
+    // retval is of type double
+    auto retval = SomeFunction();
+    //
+    //
+    return 0;
+}
+</code></pre>
+
+<p>How does auto behaves with implicit conversion?</p>
+
+<p>Consider a <code>class AutoDemo</code>, its instance can be readily converted to <code>double</code>, but during deduction as in first statement in <code>main</code>, <code>autoVar1</code> is deduced to be of type <code>AutoDemo</code>, rather than <code>double</code>. But if you want it to be <code>double</code> then you will have to explicitly convert it to <code>double</code> as with second statement.</p>
+
+<pre><code class="language-cpp">class AutoDemo
+{
+public:
+    AutoDemo()
+    {}
+    operator double()
+    {
+        return 8.0;
+    }
+};
+
+int main()
+{
+    // autoVar1 is of type AutoDemo
+    auto autoVar1 = AutoDemo();
+    //
+    //
+    // autoVar2 is of type double
+    auto autoVar2 = static_cast&lt;double&gt;(autoVar1);
+    //
+    //
+    return 0;
+}
+</code></pre>
+
+<p>one more example of type deduction with operators: Here <code>Vector</code> class defines a <code>operator*</code> to multiply two vectors and returns <code>double</code>, again with <code>auto</code> compiler is smart enough to figure out that the expression will result in <code>double</code></p>
+
+<pre><code class="language-cpp">class Vector
+{
+public:
+    double operator*(const Vector&amp; other) const {
+        return 0.0;
+    }
+};
+//
+//
+int main()
+{
+    Vector v1;
+    Vector v2;
+    //
+    // dotProd is of type double
+    auto dotProd = v1 * v2;
+    //
+    //
+    return 0;
+}
+</code></pre>
+
+<p>So far so good how about references with classes in a hierarchy?
+I have two classes <code>A</code> &amp; <code>B</code>, where <code>B</code> publicly derives from <code>A</code> and is polymorphic.</p>
+
+<pre><code class="language-cpp">#include &lt;iostream&gt;
+//
+class A
+{
+    int a;
+public:
+    A() : a(0)
+    {}
+    //
+    A(const A&amp; other) : a(other.a)
+    {}
+    //
+    virtual ~A()
+    {}
+    //
+    //
+    virtual void Print()
+    {
+        std::cout &lt;&lt; &quot;Calling from A::Print&quot; &lt;&lt; std::endl;
+    }
+};
+//
+//
+class B : public A
+{
+    double d;
+public:
+    B() : d(0.0)
+    {}
+    //
+    B(const B&amp; other) : d(other.d)
+    {}
+    //
+    virtual ~B()
+    {}
+    //
+    //
+    virtual void Print()
+    {
+        std::cout &lt;&lt; &quot;Calling from B::Print&quot; &lt;&lt; std::endl;
+    }
+};
+//
+//
+//
+int main()
+{
+    A* bptr = new B;
+    // a is of type A
+    // no polymorphic behaviour is preserved
+    // object-slicing, as it happens today
+    //
+    auto a = *bptr;
+    //
+    //
+    a.Print();
+    //
+    //
+    bptr-&gt;Print();
+    //
+    //
+    return 0;
+}
+</code></pre>
+
+<p>what would be the output of the two print statements?
+In case of pointer it would be polymorphic, and <code>Print</code> function on <code>class B</code> would be invoked, however in case of <code>a</code>, this is not polymorphic. Why?
+<code>bptr</code> has been defined as <code>A</code>, and since C++ is a statically typed language, <code>bptr</code> will be converted to <code>A</code> rather than <code>B</code>. This complies with existing behaviour, otherwise knows as object slicing.
+Had it been reference, it would have been polymorphic</p>
+
+<pre><code class="language-cpp">auto&amp; b = *bptr;
+b.Print();
+</code></pre>
+
+<h2 id="using-auto">Using auto</h2>
+
+<hr />
+
+<p>Consider the simplest example, looping over a <code>vector</code> and printing it’s contents to console:</p>
+
+<pre><code class="language-cpp">#include &lt;iostream&gt;
+#include &lt;vector&gt;
+//
+//
+ int main()
+{
+    std::vector&lt;int&gt; vec(10);
+    // pre-auto this would have looked like:
+    for( std::vector&lt;int&gt;::iterator iter = vec.begin(), endIter = vec.end();
+        iter != endIter; ++iter )
+    {
+        std::cout &lt;&lt; *iter &lt;&lt; std::endl;
+    }
+    //
+    //
+    // with auto:
+    for( auto iter = vec.begin(), end = vec.end();
+        iter != end; ++iter )
+    {
+        std::cout &lt;&lt; *iter &lt;&lt; std::endl;
+    }
+    //
+    //
+    //
+    return 0;
+}
+</code></pre>
+
+<p>same example using functors, lambda and comparing all versions:
+(<a href="/2011/10/12/c11-lambda-having-fun-with-brackets/">here for more on C++11 lambda functions</a>)</p>
+
+<pre><code class="language-cpp">#include &lt;iostream&gt;
+#include &lt;vector&gt;
+#include &lt;algorithm&gt;
+//
+//
+struct PrintFunction
+{
+    void operator()(int val)
+    {
+        std::cout &lt;&lt; val &lt;&lt; std::endl;
+    }
+};
+//
+//
+//
+int main()
+{
+    std::vector&lt;int&gt; vec(10);
+    //
+    //
+    // pre-auto this would have looked like:
+    for( std::vector&lt;int&gt;::iterator iter = vec.begin(), endIter = vec.end();
+        iter != endIter; ++iter )
+    {
+        std::cout &lt;&lt; *iter &lt;&lt; std::endl;
+    }
+    //
+    //
+    // with auto:
+    for( auto iter = vec.begin(), end = vec.end();
+        iter != end; ++iter )
+    {
+        std::cout &lt;&lt; *iter &lt;&lt; std::endl;
+    }
+    //
+    //
+    // with functor with hand-written for loop:
+    PrintFunction printFunction;
+    for( std::vector&lt;int&gt;::iterator iter = vec.begin(), endIter = vec.end();
+        iter != endIter; ++iter )
+    {
+        printFunction(*iter);
+    }
+    //
+    //
+    // using functor with for_each algorithm
+    std::for_each(vec.begin(), vec.end(), printFunction);
+    //
+    //
+    // using lambda:
+    // type of printFunctionLambda is --&gt; void printFunctionLambda(int)
+    auto printFunctionLambda = [](int val){std::cout &lt;&lt; val &lt;&lt; std::endl;};
+    //
+    //
+    // with lambda with hand-written for loop:
+    for( auto iter = vec.begin(), endIter = vec.end();
+        iter != endIter; ++iter )
+    {
+        printFunctionLambda(*iter);
+    }
+    //
+    // using functor with for_each algorithm:
+    std::for_each(vec.begin(), vec.end(), printFunctionLambda);
+    //
+    //
+    //
+    return 0;
+}
+</code></pre>
+
+<p>Thus <code>auto</code> is syntactic sugar, but as sugar it is sweet. It will help to write much more readable code.
+I hope this post will be good to get you started with auto. In future we will be using <code>auto</code> extensively. All the code can be tried out in VS 2010 SP1.</p>
+
+      </article>
+
+      <ul class="pager blog-pager">
+        
+        <li class="previous">
+          <a href="https://www.variadic.xyz/2011/05/02/c-templates-an-introduction/" data-toggle="tooltip" data-placement="top" title="C&#43;&#43; Templates – An Introduction">&larr; Previous Post</a>
+        </li>
+        
+        
+        <li class="next">
+          <a href="https://www.variadic.xyz/2011/05/07/template-function-to-determine-size-of-an-array/" data-toggle="tooltip" data-placement="top" title="template function to determine size of an array">Next Post &rarr;</a>
+        </li>
+        
+      </ul>
+
+      
+
+    </div>
+  </div>
+</div>
+
+      
+
+    </div>
+
+    <footer>
+  <div class="container beautiful-jekyll-footer">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <ul class="list-inline text-center footer-links">
+          
+          
+          
+          <li>
+            <a href="https://github.com/sarangbaheti" title="GitHub">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+		      
+		      
+          <li>
+            <a href="https://linkedin.com/in/sarangbaheti" title="LinkedIn">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+	    	  
+          <li>
+            <a href="https://stackoverflow.com/users/916549/sarang" title="StackOverflow">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-stack-overflow fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+          
+    		  <li>
+      			<a href="https://www.variadic.xyz/index.xml" title="RSS">
+      			  <span class="fa-stack fa-lg">
+        				<i class="fa fa-circle fa-stack-2x"></i>
+        				<i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+      			  </span>
+      			</a>
+    		  </li>		
+
+        </ul>
+        <p class="copyright text-muted">
+    		  Sarang Baheti
+    		  &nbsp;&bull;&nbsp;
+    		  2009 - 2020
+    		  
+    		  
+    		  &nbsp;&bull;&nbsp;
+    		  <a href="https://www.variadic.xyz/">a few notes</a>
+    		  
+  	    </p>
+  	        
+    		<p class="theme-by text-muted">
+    		  Theme by
+    		  <a href="https://github.com/sarangbaheti/bh">bh</a>
+    		</p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="https://www.variadic.xyz/js/jquery-1.11.2.min.js"></script>
+<script src="https://www.variadic.xyz/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/highlight.min.js"></script>
+<script src="https://www.variadic.xyz/js/main.js"></script>
+
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-27935503-1', 'auto');
+ga('send', 'pageview');
+</script>
+
+
+
+  </body>
+</html>

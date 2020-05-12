@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+  <title>gcc</title>
+
+  <meta name="author" content="Sarang Baheti" />
+  
+  
+
+  <meta name="generator" content="Hugo 0.30.2" />
+
+  <link rel="alternate" href="https://www.variadic.xyz/index.xml" type="application/rss+xml" title="a few notes">
+
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
+  <link rel="stylesheet" href="https://www.variadic.xyz/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="https://www.variadic.xyz/css/main.css" />
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" />
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" />
+  
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/styles/default.min.css">
+  
+  
+  
+  <meta property="og:title" content="gcc" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="/2011/05/07/gcc//" />
+  <meta property="og:image" content="" />
+  
+</head>
+
+
+  <body>
+
+    <nav class="navbar navbar-default navbar-fixed-top navbar-custom">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="https://www.variadic.xyz/">a few notes</a>
+    </div>
+
+    <div class="collapse navbar-collapse" id="main-navbar">
+      <ul class="nav navbar-nav navbar-right">
+      
+        
+          <li>
+          <a title="Notes" href="/">Notes</a>
+  	      </li>
+  	    
+      
+        
+          <li>
+          <a title="About" href="/about/">About</a>
+  	      </li>
+  	    
+      
+        
+          <li>
+          <a title="Archive" href="/archive/">Archive</a>
+  	      </li>
+  	    
+      
+        
+          <li>
+          <a title="Books" href="/books/">Books</a>
+  	      </li>
+  	    
+      
+        
+          <li>
+          <a title="Disclaimer" href="/disclaimer/">Disclaimer</a>
+  	      </li>
+  	    
+      
+      </ul>
+    </div>
+
+	<div class="avatar-container">
+	  <div class="avatar-img-border">
+      
+	  </div>
+	</div>
+
+  </div>
+</nav>
+
+
+    <div role="main" class="container main-content">
+
+      
+        
+
+
+
+
+
+<header class="header-section ">
+
+<div class="intro-header no-img">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="post-heading">
+          <h1>gcc</h1>
+      
+      
+      
+      <span class="post-meta">Posted on May 7, 2011</span>
+      
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</header>
+
+
+
+
+<div class="container">
+  <div class="row">
+    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+      <article role="main" class="blog-post">
+          
+
+<h2 id="span-style-font-family-calibri-gnu-compiler-collection-span"><span style="font-family: Calibri;">Gnu Compiler Collection</span></h2>
+
+<p><span style="font-family: Calibri; font-size: small;">The <strong><a href="http://gcc.gnu.org/">GNU Compiler Collection</a></strong> (<strong>GCC</strong>) is a </span><a href="http://en.wikipedia.org/wiki/Compiler"><span style="font-family: Calibri; font-size: small;">compiler</span></a><span style="font-family: Calibri; font-size: small;"> system produced by the </span><a href="http://en.wikipedia.org/wiki/GNU_Project"><span style="font-family: Calibri; font-size: small;">GNU Project</span></a><span style="font-family: Calibri; font-size: small;"> supporting various </span><a href="http://en.wikipedia.org/wiki/Programming_language"><span style="font-family: Calibri; font-size: small;">programming languages</span></a><span style="font-family: Calibri; font-size: small;">. GCC is a key component of the</span><a href="http://en.wikipedia.org/wiki/GNU_toolchain"><span style="font-family: Calibri; font-size: small;">GNU toolchain</span></a><span style="font-family: Calibri; font-size: small;">. As well as being the official compiler of the unfinished </span><a href="http://en.wikipedia.org/wiki/GNU"><span style="font-family: Calibri; font-size: small;">GNU</span></a><span style="font-family: Calibri; font-size: small;"> operating system, GCC has been adopted as the standard compiler by most other modern </span><a href="http://en.wikipedia.org/wiki/Unix-like"><span style="font-family: Calibri; font-size: small;">Unix-like</span></a><span style="font-family: Calibri; font-size: small;"> computer </span><a href="http://en.wikipedia.org/wiki/Operating_system"><span style="font-family: Calibri; font-size: small;">operating systems</span></a><span style="font-family: Calibri; font-size: small;">, including </span><a href="http://en.wikipedia.org/wiki/Linux"><span style="font-family: Calibri; font-size: small;">Linux</span></a><span style="font-family: Calibri; font-size: small;">, the </span><a href="http://en.wikipedia.org/wiki/Berkeley_Software_Distribution"><span style="font-family: Calibri; font-size: small;">BSD</span></a><span style="font-family: Calibri; font-size: small;"> family and </span><a href="http://en.wikipedia.org/wiki/Mac_OS_X"><span style="font-family: Calibri; font-size: small;">Mac OS X</span></a><span style="font-family: Calibri; font-size: small;">.</span></p>
+
+<p><span style="font-family: Calibri; font-size: small;">GCC has been </span><a href="http://en.wikipedia.org/wiki/Porting"><span style="font-family: Calibri; font-size: small;">ported</span></a><span style="font-family: Calibri; font-size: small;"> to a wide variety of </span><a href="http://en.wikipedia.org/wiki/Processor_architecture"><span style="font-family: Calibri; font-size: small;">processor architectures</span></a><span style="font-family: Calibri; font-size: small;">, and is widely deployed as a tool in commercial, </span><a href="http://en.wikipedia.org/wiki/Proprietary_software"><span style="font-family: Calibri; font-size: small;">proprietary</span></a><span style="font-family: Calibri; font-size: small;"> and </span><a href="http://en.wikipedia.org/wiki/Closed_source_software"><span style="font-family: Calibri; font-size: small;">closed source software</span></a><span style="font-family: Calibri; font-size: small;"> development environments. GCC is also available for most embedded platforms, for example </span><a href="http://en.wikipedia.org/wiki/Symbian"><span style="font-family: Calibri; font-size: small;">Symbian</span></a><span style="font-family: Calibri; font-size: small;"> (called <em>gcce</em>), </span><a href="http://en.wikipedia.org/wiki/Applied_Micro_Circuits_Corporation"><span style="font-family: Calibri; font-size: small;">AMCC</span></a><span style="font-family: Calibri; font-size: small;"> and </span><a href="http://en.wikipedia.org/wiki/Freescale"><span style="font-family: Calibri; font-size: small;">Freescale</span></a><a href="http://en.wikipedia.org/wiki/Power_Architecture"><span style="font-family: Calibri; font-size: small;">Power Architecture</span></a><span style="font-family: Calibri; font-size: small;">-based chips.The compiler can target a wide variety of platforms, including </span><a href="http://en.wikipedia.org/wiki/Videogame_consoles"><span style="font-family: Calibri; font-size: small;">videogame consoles</span></a><span style="font-family: Calibri; font-size: small;"> such as the </span><a href="http://en.wikipedia.org/wiki/PlayStation_2"><span style="font-family: Calibri; font-size: small;">PlayStation 2</span></a><span style="font-family: Calibri; font-size: small;"> and </span><a href="http://en.wikipedia.org/wiki/Dreamcast"><span style="font-family: Calibri; font-size: small;">Dreamcast</span></a><span style="font-family: Calibri; font-size: small;">. Several companies make a business out of supplying and supporting GCC ports to various platforms, and chip manufacturers today consider a GCC port almost essential to the success of an architecture.</span></p>
+
+<p><span style="font-family: Calibri; font-size: small;">Originally named the <strong>GNU C Compiler</strong>, because it only handled the </span><a href="http://en.wikipedia.org/wiki/C_(programming_language)"><span style="font-family: Calibri; font-size: small;">C programming language</span></a><span style="font-family: Calibri; font-size: small;">, GCC 1.0 was released in 1987, and the compiler was extended to compile </span><a href="http://en.wikipedia.org/wiki/C%2B%2B"><span style="font-family: Calibri; font-size: small;">C++</span></a><span style="font-family: Calibri; font-size: small;"> in December of that year. </span><a href="http://en.wikipedia.org/wiki/Compiler#Front_end"><span style="font-family: Calibri; font-size: small;">Front ends</span></a><span style="font-family: Calibri; font-size: small;"> were later developed for </span><a href="http://en.wikipedia.org/wiki/Fortran"><span style="font-family: Calibri; font-size: small;">Fortran</span></a><span style="font-family: Calibri; font-size: small;">, </span><a href="http://en.wikipedia.org/wiki/Pascal_(programming_language)"><span style="font-family: Calibri; font-size: small;">Pascal</span></a><span style="font-family: Calibri; font-size: small;">, </span><a href="http://en.wikipedia.org/wiki/Objective-C"><span style="font-family: Calibri; font-size: small;">Objective-C</span></a><span style="font-family: Calibri; font-size: small;">, </span><a href="http://en.wikipedia.org/wiki/Java_(programming_language)"><span style="font-family: Calibri; font-size: small;">Java</span></a><span style="font-family: Calibri; font-size: small;">, and </span><a href="http://en.wikipedia.org/wiki/Ada_(programming_language)"><span style="font-family: Calibri; font-size: small;">Ada</span></a><span style="font-family: Calibri; font-size: small;">, among others.</span></p>
+
+<p><span style="font-family: Calibri; font-size: small;">More on <a href="http://en.wikipedia.org/wiki/GNU_Compiler_Collection">wikipedia</a>…</span></p>
+
+<h1 id="span-style-font-family-calibri-g-span"><span style="font-family: Calibri;">g++</span></h1>
+
+<p><span style="font-family: Calibri; font-size: small;">g++ is the traditional nickname of GNU C++, a freely redistributable C++ compiler. It is part of GCC, the GNU compiler suite, and is currently part of that distribution.</span></p>
+
+<p><span style="font-family: Calibri; font-size: small;">A lot of C++0x features are not available in VS 2010 SP1 but can be tried out in GCC 4.6</span></p>
+
+<p><span style="font-family: Calibri; font-size: small;">In this post I want to cover installation of GCC 4.6 on windows and how to get started with it. Hence forth we will see code on both the compilers, g++ and cl.</span></p>
+
+<h1 id="span-style-font-family-calibri-getting-gcc-code-blocks-ide-span"><span style="font-family: Calibri;">Getting GCC &amp; Code Blocks IDE</span></h1>
+
+<p><span style="font-family: Calibri; font-size: small;">Please download the windows binary from: </span><a href="ftp://ftp.equation.com/gcc"><span style="text-decoration: underline;"><span style="color: #0066cc; font-family: Calibri; font-size: small;">ftp://ftp.equation.com/gcc</span></span></a><span style="font-family: Calibri; font-size: small;">, at the point of writing this post latest one is </span><a href="ftp://ftp.equation.com/gcc/gcc-4.6.0-64.exe"><span style="font-family: Calibri; font-size: small;">gcc-4.6.0-64.exe</span></a><span style="font-family: Calibri; font-size: small;">, this GCC 4.6 64bits binary.</span></p>
+
+<p><span style="font-family: Calibri; font-size: small;">After downloading install it to some convenient location, for eg: c:gcc, after completing the installation  now download CodeBlocks IDE from <a href="http://www.codeblocks.org/">here</a>. Please download the bare-minimum since we have our own compiler.</span></p>
+
+<h1 id="span-style-font-family-calibri-setting-up-code-blocks-span"><span style="font-family: Calibri;">Setting up Code Blocks</span></h1>
+
+<p><span style="font-family: Calibri; font-size: small;">Launch Code Blocks and go to Settings menu –&gt; Compiler &amp; debugger settings:</span></p>
+
+<p><a href="/wp-content/uploads/2011/05/image1.png"><img style="background-image: none; padding-left: 0; padding-right: 0; display: inline; padding-top: 0; border-width: 0;" title="image" src="/wp-content/uploads/2011/05/image_thumb1.png" alt="image" width="549" height="542" border="0" /></a></p>
+
+<p><span style="font-family: Calibri; font-size: small;">Specify the location of compiler, in my case it is J:gccgcc4.6 but yours can be different</span></p>
+
+<p><span style="font-family: Calibri; font-size: small;">To compile code with C++0x extensions we need to pass an option to compiler during compilation, this can be specified as:</span></p>
+
+<p><a href="/wp-content/uploads/2011/05/image2.png"><img style="background-image: none; padding-left: 0; padding-right: 0; display: inline; padding-top: 0; border-width: 0;" title="image" src="/wp-content/uploads/2011/05/image_thumb2.png" alt="image" width="552" height="545" border="0" /></a></p>
+
+<p><span style="font-family: Calibri; font-size: small;">Click on Add and type <em>std</em> for Key and <em>c++0x</em> for value, note case is important.</span></p>
+
+<p><span style="font-family: Calibri; font-size: small;">And now you are all set for some serious C++0x development.</span></p>
+
+      </article>
+
+      <ul class="pager blog-pager">
+        
+        <li class="previous">
+          <a href="https://www.variadic.xyz/2011/05/07/template-function-to-determine-size-of-an-array/" data-toggle="tooltip" data-placement="top" title="template function to determine size of an array">&larr; Previous Post</a>
+        </li>
+        
+        
+        <li class="next">
+          <a href="https://www.variadic.xyz/2011/05/09/type-erasure/" data-toggle="tooltip" data-placement="top" title="Type Erasure">Next Post &rarr;</a>
+        </li>
+        
+      </ul>
+
+      
+
+    </div>
+  </div>
+</div>
+
+      
+
+    </div>
+
+    <footer>
+  <div class="container beautiful-jekyll-footer">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <ul class="list-inline text-center footer-links">
+          
+          
+          
+          <li>
+            <a href="https://github.com/sarangbaheti" title="GitHub">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+		      
+		      
+          <li>
+            <a href="https://linkedin.com/in/sarangbaheti" title="LinkedIn">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+	    	  
+          <li>
+            <a href="https://stackoverflow.com/users/916549/sarang" title="StackOverflow">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-stack-overflow fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+          
+    		  <li>
+      			<a href="https://www.variadic.xyz/index.xml" title="RSS">
+      			  <span class="fa-stack fa-lg">
+        				<i class="fa fa-circle fa-stack-2x"></i>
+        				<i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+      			  </span>
+      			</a>
+    		  </li>		
+
+        </ul>
+        <p class="copyright text-muted">
+    		  Sarang Baheti
+    		  &nbsp;&bull;&nbsp;
+    		  2009 - 2020
+    		  
+    		  
+    		  &nbsp;&bull;&nbsp;
+    		  <a href="https://www.variadic.xyz/">a few notes</a>
+    		  
+  	    </p>
+  	        
+    		<p class="theme-by text-muted">
+    		  Theme by
+    		  <a href="https://github.com/sarangbaheti/bh">bh</a>
+    		</p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="https://www.variadic.xyz/js/jquery-1.11.2.min.js"></script>
+<script src="https://www.variadic.xyz/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/highlight.min.js"></script>
+<script src="https://www.variadic.xyz/js/main.js"></script>
+
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-27935503-1', 'auto');
+ga('send', 'pageview');
+</script>
+
+
+
+  </body>
+</html>

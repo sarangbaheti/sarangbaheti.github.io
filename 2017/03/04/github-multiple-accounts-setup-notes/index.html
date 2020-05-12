@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+  <title>github multiple accounts setup notes</title>
+
+  <meta name="author" content="Sarang Baheti" />
+  
+  
+
+  <meta name="generator" content="Hugo 0.30.2" />
+
+  <link rel="alternate" href="https://www.variadic.xyz/index.xml" type="application/rss+xml" title="a few notes">
+
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
+  <link rel="stylesheet" href="https://www.variadic.xyz/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="https://www.variadic.xyz/css/main.css" />
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" />
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" />
+  
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/styles/default.min.css">
+  
+  
+  
+  <meta property="og:title" content="github multiple accounts setup notes" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="/2017/03/04/github-multiple-accounts-setup-notes/" />
+  <meta property="og:image" content="" />
+  
+</head>
+
+
+  <body>
+
+    <nav class="navbar navbar-default navbar-fixed-top navbar-custom">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="https://www.variadic.xyz/">a few notes</a>
+    </div>
+
+    <div class="collapse navbar-collapse" id="main-navbar">
+      <ul class="nav navbar-nav navbar-right">
+      
+        
+          <li>
+          <a title="Notes" href="/">Notes</a>
+  	      </li>
+  	    
+      
+        
+          <li>
+          <a title="About" href="/about/">About</a>
+  	      </li>
+  	    
+      
+        
+          <li>
+          <a title="Archive" href="/archive/">Archive</a>
+  	      </li>
+  	    
+      
+        
+          <li>
+          <a title="Books" href="/books/">Books</a>
+  	      </li>
+  	    
+      
+        
+          <li>
+          <a title="Disclaimer" href="/disclaimer/">Disclaimer</a>
+  	      </li>
+  	    
+      
+      </ul>
+    </div>
+
+	<div class="avatar-container">
+	  <div class="avatar-img-border">
+      
+	  </div>
+	</div>
+
+  </div>
+</nav>
+
+
+    <div role="main" class="container main-content">
+
+      
+        
+
+
+
+
+
+<header class="header-section ">
+
+<div class="intro-header no-img">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="post-heading">
+          <h1>github multiple accounts setup notes</h1>
+      
+      
+      
+      <span class="post-meta">Posted on March 4, 2017</span>
+      
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</header>
+
+
+
+
+<div class="container">
+  <div class="row">
+    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+      <article role="main" class="blog-post">
+          <h2 id="key-generation-and-registration">key generation and registration</h2>
+
+<hr />
+
+<p>The way github identifies you is thru your ssh keys (public keys need to be registered at github &amp; private keys live on your machine).
+The way to generate keys is to find <code>ssh-keygen</code>, it comes handy with <code>git bash</code></p>
+
+<p></p>
+
+<pre><code>$ ssh-keygen -t rsa -C &quot;tempuser1@gmail.com&quot;
+Generating public/private rsa key pair.
+Enter file in which to save the key (/c/Users/sarangb/.ssh/id_rsa): id_rsa_tempuser1
+Enter passphrase (empty for no passphrase):
+Enter same passphrase again:
+Your identification has been saved in id_rsa_tempuser1.
+Your public key has been saved in id_rsa_tempuser1.pub.
+The key fingerprint is:
+SHA256:qB2/s3LWTdGZS2yF/TqVOeh0JPAWnIpDR7ES12Si4j8 tempuser1@gmail.com
+The key's randomart image is:
++---[RSA 2048]----+
+|         ..**+.o |
+|         .+.==o.o|
+|       ..oo..=+++|
+|      ...o..ooB=o|
+|      o.S . o+.+.|
+|     o o.   ..+  |
+|    . . .E o   . |
+|      . +.o .    |
+|       +oo       |
++----[SHA256]-----+
+</code></pre>
+
+<p>And now i have new keys in my <code>~/</code> directory, on windows that translate to user-home directory.
+i moved the keys to <code>~/.ssh</code> directory just to be consistent:</p>
+
+<pre><code>$ ls -lrt ~/.ssh/
+total 28
+-rw-r--r-- 1 sarangb 197121  803 Nov 27 21:10 known_hosts
+-rw-r--r-- 1 sarangb 197121  203 Mar  4 11:21 config
+-rw-r--r-- 1 sarangb 197121 1766 Mar  4 11:36 id_rsa_tempuser1
+-rw-r--r-- 1 sarangb 197121  400 Mar  4 11:36 id_rsa_tempuser1.pub
+</code></pre>
+
+<p>Now to here <code>id_rsa_tempuser1</code> has private key and <code>id_rsa_tempuser1.pub</code> has public key portion.
+Head over to github.com, in your profile settings register the public keys with appropriate caption.</p>
+
+<pre><code>clip &lt; ~\.ssh\id_rsa_tempuser1.pub
+</code></pre>
+
+<p>The best way to do so is to use <code>clip</code> command in <code>git-bash</code> (note copy only public keys), this would copy it on clipboard.</p>
+
+<h2 id="setting-up-config-files">setting up config files</h2>
+
+<hr />
+
+<p>Now that we have multiple keys generated, it is time to associate keys with accounts in <code>config</code> file.
+vim to <code>\.ssh\config</code> or create one at location if it does not exists already and add your keys to your user.
+Here i have added a temporary Host <code>github-repositories-tempuser1</code> with user <code>tempuser1</code>.
+Note you can have multiple users to same hostname</p>
+
+<pre><code>Host github-repositories-tempuser1
+    HostName github.com
+    User tempuser1
+    IdentityFile ~/.ssh/id_rsa_tempuser1
+
+Host github-angeleno
+    HostName github.com
+    User angeleno
+    IdentityFile ~/.ssh/id_rsa_angeleno
+</code></pre>
+
+<p>Once you setup <code>user.name</code> and <code>user.email</code> to appropriate user and setup remote url properly:
+<code>git remote add origin git@github-repositories-tempuser1:tempuser1/repository1.git</code>
+you should be able to push changes as designated user.</p>
+
+<h2 id="reference">reference:</h2>
+
+<hr />
+
+<ul>
+<li><a href="https://code.tutsplus.com/tutorials/quick-tip-how-to-work-with-github-and-multiple-accounts--net-22574">how-to-work-with-github-and-multiple-accounts</a></li>
+<li><a href="http://stackoverflow.com/questions/7927750/specify-an-ssh-key-for-git-push-for-a-given-domain">specify-an-ssh-key-for-git-push-for-a-given-domain</a></li>
+<li><a href="https://gist.github.com/jexchan/2351996">gist.github.com/jexchan/2351996</a></li>
+<li><a href="https://www.keybits.net/post/automatically-use-correct-ssh-key-for-remote-git-repo/">automatically-use-correct-ssh-key-for-remote-git-repo</a></li>
+<li><a href="https://help.github.com/articles/adding-a-new-ssh-key-to-your-github-account/">adding-a-new-ssh-key-to-your-github-account</a></li>
+<li><a href="https://help.github.com/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent/">generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent</a></li>
+<li><a href="https://help.ubuntu.com/community/SSH/OpenSSH/Keys">ubuntu OpenSSH/Keys</a></li>
+</ul>
+      </article>
+
+      <ul class="pager blog-pager">
+        
+        <li class="previous">
+          <a href="https://www.variadic.xyz/2017/02/21/generating-tracebacks-first-chance-exceptions/" data-toggle="tooltip" data-placement="top" title="generating tracebacks for first chance exceptions">&larr; Previous Post</a>
+        </li>
+        
+        
+        <li class="next">
+          <a href="https://www.variadic.xyz/2017/06/20/cpp11-threadsafe-statics/" data-toggle="tooltip" data-placement="top" title="C&#43;&#43;11 thread safe statics">Next Post &rarr;</a>
+        </li>
+        
+      </ul>
+
+      
+
+    </div>
+  </div>
+</div>
+
+      
+
+    </div>
+
+    <footer>
+  <div class="container beautiful-jekyll-footer">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <ul class="list-inline text-center footer-links">
+          
+          
+          
+          <li>
+            <a href="https://github.com/sarangbaheti" title="GitHub">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+		      
+		      
+          <li>
+            <a href="https://linkedin.com/in/sarangbaheti" title="LinkedIn">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+	    	  
+          <li>
+            <a href="https://stackoverflow.com/users/916549/sarang" title="StackOverflow">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-stack-overflow fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+          
+    		  <li>
+      			<a href="https://www.variadic.xyz/index.xml" title="RSS">
+      			  <span class="fa-stack fa-lg">
+        				<i class="fa fa-circle fa-stack-2x"></i>
+        				<i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+      			  </span>
+      			</a>
+    		  </li>		
+
+        </ul>
+        <p class="copyright text-muted">
+    		  Sarang Baheti
+    		  &nbsp;&bull;&nbsp;
+    		  2009 - 2020
+    		  
+    		  
+    		  &nbsp;&bull;&nbsp;
+    		  <a href="https://www.variadic.xyz/">a few notes</a>
+    		  
+  	    </p>
+  	        
+    		<p class="theme-by text-muted">
+    		  Theme by
+    		  <a href="https://github.com/sarangbaheti/bh">bh</a>
+    		</p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="https://www.variadic.xyz/js/jquery-1.11.2.min.js"></script>
+<script src="https://www.variadic.xyz/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/highlight.min.js"></script>
+<script src="https://www.variadic.xyz/js/main.js"></script>
+
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-27935503-1', 'auto');
+ga('send', 'pageview');
+</script>
+
+
+
+  </body>
+</html>

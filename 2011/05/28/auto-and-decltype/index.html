@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+  <title>auto and decltype</title>
+
+  <meta name="author" content="Sarang Baheti" />
+  
+  
+
+  <meta name="generator" content="Hugo 0.30.2" />
+
+  <link rel="alternate" href="https://www.variadic.xyz/index.xml" type="application/rss+xml" title="a few notes">
+
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
+  <link rel="stylesheet" href="https://www.variadic.xyz/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="https://www.variadic.xyz/css/main.css" />
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" />
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" />
+  
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/styles/default.min.css">
+  
+  
+  
+  <meta property="og:title" content="auto and decltype" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="/2011/05/28/auto-and-decltype//" />
+  <meta property="og:image" content="" />
+  
+</head>
+
+
+  <body>
+
+    <nav class="navbar navbar-default navbar-fixed-top navbar-custom">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="https://www.variadic.xyz/">a few notes</a>
+    </div>
+
+    <div class="collapse navbar-collapse" id="main-navbar">
+      <ul class="nav navbar-nav navbar-right">
+      
+        
+          <li>
+          <a title="Notes" href="/">Notes</a>
+  	      </li>
+  	    
+      
+        
+          <li>
+          <a title="About" href="/about/">About</a>
+  	      </li>
+  	    
+      
+        
+          <li>
+          <a title="Archive" href="/archive/">Archive</a>
+  	      </li>
+  	    
+      
+        
+          <li>
+          <a title="Books" href="/books/">Books</a>
+  	      </li>
+  	    
+      
+        
+          <li>
+          <a title="Disclaimer" href="/disclaimer/">Disclaimer</a>
+  	      </li>
+  	    
+      
+      </ul>
+    </div>
+
+	<div class="avatar-container">
+	  <div class="avatar-img-border">
+      
+	  </div>
+	</div>
+
+  </div>
+</nav>
+
+
+    <div role="main" class="container main-content">
+
+      
+        
+
+
+
+
+
+<header class="header-section ">
+
+<div class="intro-header no-img">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="post-heading">
+          <h1>auto and decltype</h1>
+      
+      
+      
+      <span class="post-meta">Posted on May 28, 2011</span>
+      
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</header>
+
+
+
+
+<div class="container">
+  <div class="row">
+    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+      <article role="main" class="blog-post">
+          
+
+<h2 id="auto">auto</h2>
+
+<hr />
+
+<p>In one of the <a href="/2011/05/04/auto/">previous posts</a> we have explored <code>auto</code> in detail, however there are few places where <code>auto</code> cannot be used. One of them happens to be the function argument and return type:</p>
+
+<p>Consider some code:</p>
+
+<pre><code class="language-cpp">auto function(auto var)
+{
+    return var;
+}
+
+int main()
+{
+    int var = function(4);
+    double d = function(8.9);
+
+    return 0;
+}
+</code></pre>
+
+<p>Here compiler cannot deduce the argument type. As in both the case args are being passed by value, and <code>double</code> is <code>8 bytes</code> while <code>int</code> is <code>4 bytes</code>. This cannot work as compiler needs to allocate memory for args passed by value and they have to be of same type (or convertible) but in case of <code>auto</code> compiler won’t look for implicit conversion. If your intention was to write a generic function that can deduce the argument and return type then better go with templates.</p>
+
+<h2 id="decltype">decltype</h2>
+
+<hr />
+
+<p><code>decltype</code> and <code>auto</code> go hand-in-hand. <code>auto</code> means compiler should infer the type, while <code>decltype</code> means I already have an expression now deduce it’s type. Now here expression can be something that is a valid statement in C++, actually that evaluates to something.</p>
+
+<pre><code class="language-cpp">int main()
+{
+    int i = 0;
+
+    //  now j is of type int
+    decltype(i) j = i;
+
+    const int&amp; k = i;
+
+    //  var is of type const int&amp;
+    decltype(k) var = k;
+
+    return 0;
+}
+</code></pre>
+
+<p><code>decltype</code> does not evaluate expression, rather it checks for the type of the expression.</p>
+
+<pre><code class="language-cpp">#include &lt;vector&gt;
+#include &lt;set&gt;
+
+std::vector&lt;int&gt; ToVector(const std::set&lt;int&gt;&amp; vals)
+{
+    return std::vector&lt;int&gt;(vals.cbegin(), vals.cend());
+}
+
+int main()
+{
+    std::set&lt;int&gt; vals;
+    
+    //  here ToVector(vals) is an expression -- resulting in std::vector&lt;int&gt;
+    //  
+    decltype(ToVector(vals)) vec = ToVector(vals);
+
+    //  also you could have written:
+    //  fails to compile with error: &quot;illegal use of this type as an expression&quot;
+    //
+    decltype(ToVector(std::set&lt;int&gt;)) vec1 = ToVector(vals);
+
+    //  however this would work:
+    //  std::set&lt;int&gt;() is an expression
+    //
+    decltype(ToVector(std::set&lt;int&gt;())) vec2 = ToVector(vals);
+
+    //  all of this can be achieved using auto as well
+    //
+    auto vec3 = ToVector(vals);
+
+    return 0;
+}
+</code></pre>
+
+<p>So what is the difference between <code>decltype</code> and <code>auto</code>? <code>auto</code> makes compiler infer types while <code>decltype</code> makes compiler evaluate type of an expression.
+consider: (<code>AutoDemo</code> class comes from post on <a href="/2011/05/04/auto/">auto</a>)</p>
+
+<pre><code class="language-cpp">class AutoDemo
+{
+public:
+    AutoDemo()
+    {}
+
+    operator double()
+    {
+        return 8.0;
+    }
+};
+
+int main()
+{
+    //  autoVar1 is of type AutoDemo
+    auto autoVar1 = AutoDemo();
+
+    //  autoVar2 is of type double
+    //
+    auto autoVar2 = static_cast&lt;double&gt;(autoVar1);
+
+    //  don't have to cast explicity to get the required type
+    //  here double() is an expression as it default constructs
+    //  a double on the fly and it's type evaluates to double
+    //  so doubleVar is of type double and perator double() kicks in
+    //
+    decltype(double()) doubleVar = autoVar1;
+
+    return 0;
+}
+</code></pre>
+
+<h2 id="decltype-unleashed">decltype unleashed</h2>
+
+<hr />
+
+<p>Codes described above are simple examples to demonstrate decltype functionality, lets tackle one of the C++ Meta Programming problems to see the real power of decltype with templates.</p>
+
+<p>Problem:
+return <code>true</code> if the type has function <code>push_back</code> else <code>false</code>.</p>
+
+<p>We are familiar with <code>vector</code> and <code>list</code>, both of these STL containers are sequential and have <code>push_back</code> function, while set is an associative container and does not have any function named <code>push_back</code>. We want to write program such that given a type we want to know if it has function named <code>push_back</code> or not. It should not fail to compile!</p>
+
+<p>See <a href="https://groups.google.com/forum/#!topic/comp.lang.c++.moderated/QrT_BEdl0Uo">comp.lang.c++.moderated</a> for the problem</p>
+
+<pre><code class="language-cpp">#include &lt;iterator&gt;
+#include &lt;vector&gt;
+#include &lt;iostream&gt;
+#include &lt;set&gt;
+#include &lt;list&gt;
+
+template&lt;class Cont&gt;
+struct has_back_insertion
+{
+    template &lt;class U&gt;
+    static double test(...);
+
+    //  this is equivalent to:
+    //  
+    //  static char test(void* ptr) 
+    //  as vector::push_back returns void
+    //  so does list::push_back
+    //  
+    //  have fun reading and making sense of this decltype declaration
+    //
+    template&lt;class U&gt;
+    static char test(decltype(U().push_back(
+                    decltype(typename std::iterator_traits&lt;
+                    decltype(U().begin())&gt;::value_type())()))* ptr);
+
+    enum
+    {
+        //  if the Cont has push_back function, then
+        //  char test(void* ptr)  is preferred over double test(...);
+        //  
+        value = sizeof(test&lt;Cont&gt;(nullptr)) == sizeof(char)
+    };
+};
+
+
+int main()
+{
+    //  vechasback -- true
+    //
+    bool vechasback = has_back_insertion&lt;std::vector&lt;int&gt;&gt;::value;
+
+    //  sethasback -- false
+    //
+    bool sethasback = has_back_insertion&lt;std::set&lt;int&gt;&gt;::value;
+    
+    //  listhasback -- true
+    //
+    bool listhasback = has_back_insertion&lt;std::list&lt;int&gt;&gt;::value;
+
+    //  doublehasback -- false
+    //
+    bool doublehasback = has_back_insertion&lt;double&gt;::value;
+
+    std::cin.ignore();
+
+    return 0;
+}
+</code></pre>
+
+<p>Dissecting function matching code:</p>
+
+<pre><code class="language-cpp">//  U is the container being passed as types dont work with decltype
+//  we create an object with U()
+//  we want to enquire that push_back function is availabe so 
+//  call push_back on U()
+//
+decltype(U().push_back(decltype(typename std::iterator_traits&lt;
+decltype(U().begin())&gt;::value_type())()))* ptr);
+
+//  but push_back function takes in 
+//  value as well so 
+//  typename because we are using generic type in a template
+//  then we query the value_type from iterator, that's why
+//  iterator_traits
+//
+decltype(typename std::iterator_traits&lt;decltype(U().begin())&gt;::value_type())
+
+//  but it needs iterator type 
+//  and again decltype comes in picture with
+//  here we U().begin() returns U::iterator
+//  again decltype does not work with types so expression
+//
+decltype(U().begin())
+</code></pre>
+
+<p>I have covered <code>decltype</code> and <code>auto</code> in sufficient detail for further exploration. <code>has_back_insertion</code> template uses a very powerful technique, overload-resolution, for use in C++ Templates and C++ Template Metaprogramming. We will see some of these in details in later posts.</p>
+
+<p>Till then have fun…</p>
+
+      </article>
+
+      <ul class="pager blog-pager">
+        
+        <li class="previous">
+          <a href="https://www.variadic.xyz/2011/05/26/range-based-for-loop/" data-toggle="tooltip" data-placement="top" title="range based for-loop">&larr; Previous Post</a>
+        </li>
+        
+        
+        <li class="next">
+          <a href="https://www.variadic.xyz/2011/05/31/callable-entity/" data-toggle="tooltip" data-placement="top" title="callable entity">Next Post &rarr;</a>
+        </li>
+        
+      </ul>
+
+      
+
+    </div>
+  </div>
+</div>
+
+      
+
+    </div>
+
+    <footer>
+  <div class="container beautiful-jekyll-footer">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <ul class="list-inline text-center footer-links">
+          
+          
+          
+          <li>
+            <a href="https://github.com/sarangbaheti" title="GitHub">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+		      
+		      
+          <li>
+            <a href="https://linkedin.com/in/sarangbaheti" title="LinkedIn">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+	    	  
+          <li>
+            <a href="https://stackoverflow.com/users/916549/sarang" title="StackOverflow">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-stack-overflow fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+          
+    		  <li>
+      			<a href="https://www.variadic.xyz/index.xml" title="RSS">
+      			  <span class="fa-stack fa-lg">
+        				<i class="fa fa-circle fa-stack-2x"></i>
+        				<i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+      			  </span>
+      			</a>
+    		  </li>		
+
+        </ul>
+        <p class="copyright text-muted">
+    		  Sarang Baheti
+    		  &nbsp;&bull;&nbsp;
+    		  2009 - 2020
+    		  
+    		  
+    		  &nbsp;&bull;&nbsp;
+    		  <a href="https://www.variadic.xyz/">a few notes</a>
+    		  
+  	    </p>
+  	        
+    		<p class="theme-by text-muted">
+    		  Theme by
+    		  <a href="https://github.com/sarangbaheti/bh">bh</a>
+    		</p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="https://www.variadic.xyz/js/jquery-1.11.2.min.js"></script>
+<script src="https://www.variadic.xyz/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/highlight.min.js"></script>
+<script src="https://www.variadic.xyz/js/main.js"></script>
+
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-27935503-1', 'auto');
+ga('send', 'pageview');
+</script>
+
+
+
+  </body>
+</html>

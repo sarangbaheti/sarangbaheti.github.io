@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+  <title>C&#43;&#43; Template Metaprogramming Part 2 of n</title>
+
+  <meta name="author" content="Sarang Baheti" />
+  
+  
+
+  <meta name="generator" content="Hugo 0.30.2" />
+
+  <link rel="alternate" href="https://www.variadic.xyz/index.xml" type="application/rss+xml" title="a few notes">
+
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
+  <link rel="stylesheet" href="https://www.variadic.xyz/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="https://www.variadic.xyz/css/main.css" />
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" />
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" />
+  
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/styles/default.min.css">
+  
+  
+  
+  <meta property="og:title" content="C&#43;&#43; Template Metaprogramming Part 2 of n" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="/2014/08/04/c-template-metaprogramming-part-2-of-n//" />
+  <meta property="og:image" content="" />
+  
+</head>
+
+
+  <body>
+
+    <nav class="navbar navbar-default navbar-fixed-top navbar-custom">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="https://www.variadic.xyz/">a few notes</a>
+    </div>
+
+    <div class="collapse navbar-collapse" id="main-navbar">
+      <ul class="nav navbar-nav navbar-right">
+      
+        
+          <li>
+          <a title="Notes" href="/">Notes</a>
+  	      </li>
+  	    
+      
+        
+          <li>
+          <a title="About" href="/about/">About</a>
+  	      </li>
+  	    
+      
+        
+          <li>
+          <a title="Archive" href="/archive/">Archive</a>
+  	      </li>
+  	    
+      
+        
+          <li>
+          <a title="Books" href="/books/">Books</a>
+  	      </li>
+  	    
+      
+        
+          <li>
+          <a title="Disclaimer" href="/disclaimer/">Disclaimer</a>
+  	      </li>
+  	    
+      
+      </ul>
+    </div>
+
+	<div class="avatar-container">
+	  <div class="avatar-img-border">
+      
+	  </div>
+	</div>
+
+  </div>
+</nav>
+
+
+    <div role="main" class="container main-content">
+
+      
+        
+
+
+
+
+
+<header class="header-section ">
+
+<div class="intro-header no-img">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="post-heading">
+          <h1>C&#43;&#43; Template Metaprogramming Part 2 of n</h1>
+      
+      
+      
+      <span class="post-meta">Posted on August 4, 2014</span>
+      
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</header>
+
+
+
+
+<div class="container">
+  <div class="row">
+    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+      <article role="main" class="blog-post">
+          <blockquote>
+<p>Series:<br />
+1. <a href="/2012/01/07/c-template-metaprogramming/" target="_blank">C++ Template Metaprogramming</a><br />
+2. <a href="/2014/08/04/c-template-metaprogramming-part-2-of-n/" target="_blank">C++ Template Metaprogramming Part 2 of n</a></p>
+</blockquote>
+
+<p style="text-align: justify;">
+  This is second in series and I would like to expand on thinking recursively in this part, before than introducing other concepts. For this post lets create a template metaprogram to check if given number is prime or not.
+</p>
+
+<p style="text-align: justify;">
+  This a standard iterative implementation of checking whether the number is prime:
+</p>
+
+<pre><code class="language-cpp">bool isPrime(int number)
+{
+    if(number &lt; 3)
+        throw std::invalid_argument(&quot;numbers less than 3 cannot be primes&quot;);
+
+    //  any even number cannot be a prime
+    bool result = number % 2 != 0;
+
+    for(int divisor = 2; result &amp;&amp; divisor &lt; number/2; ++divisor)
+    {
+        result = number % divisor != 0;
+    }
+
+    return result;
+}
+</code></pre>
+
+<p style="text-align: justify;">
+  All highlighted lines have one or more terminating conditions for computation. Line 4 checks for valid input, 7 filters out all even numbers. Line 9 ensures we terminate if have tried a lot of divisors (number/2 is the last thing we want to try) and 11 checks whether number is a multiple of divisor.
+</p>
+
+<p style="text-align: justify;">
+  Given this it is implement a recursive equivalent with said terminating conditions:
+</p>
+
+<pre><code class="language-cpp">bool isPrime_rimpl(int number, int divisor)
+{
+    return  number == divisor ? true :
+            number % divisor == 0 ? false : isPrime_rimpl(number, ++divisor);
+}
+
+bool isPrime_r(int number)
+{
+    if(number &lt; 3)
+        throw std::invalid_argument(&quot;numbers less than 3 cannot be primes&quot;);
+
+    return isPrime_rimpl(number, 2);
+}
+</code></pre>
+
+<p style="text-align: justify;">
+  
+</p>
+
+<p style="text-align: justify;">
+  The terminating conditions are similar, in here one is less optimal I am not checking for divisor being half of number, but all the way to the number. This does not has any impact on the result. Will compute a bit more.
+</p>
+
+<p style="text-align: justify;">
+  Now that we have a working recursive implementation, coming up with template metaprogram is trivial. First of all the impl portion is very specific to evaluation so this is moved inside the template isPrime_c
+</p>
+
+<pre><code class="language-cpp">template&lt;int number&gt;
+struct isPrime_c
+{
+private:
+
+    template&lt;int number1&gt;
+    struct isEven_c
+    {
+        static const bool value = number1 % 2 == 0;
+    };
+
+    template&lt;int number1, int divisor&gt;
+    struct isPrime_cimpl
+    {
+        static const bool value = number1 % divisor == 0 ? false
+        : isPrime_cimpl&lt;number1, divisor + 1&gt;::value;
+    };
+
+    template&lt;int number1&gt;
+    struct isPrime_cimpl&lt;number1, number1&gt;
+    {
+        static const bool value = true;
+    };
+
+public:
+    static_assert(number &gt; 2, &quot;numbers less than 3 cannot be primes&quot;);
+    static const bool value = isEven_c&lt;number&gt;::value ? false
+    : isPrime_cimpl&lt;number,2&gt;::value;
+
+};
+</code></pre>
+
+<p style="text-align: justify;">
+  Checking for even number is an optimization &#8211; isEven_c. At line 15 we check that whether the number is multiple of divisor or not. There is a subtle difference here as compared to recursive implementation: in runtime-recursive impl we checked for number being equal to divisor, else number % divisor would be 0. But in templates we have a partial specialization for this case &#8211; line 20-23.<br /> Finally for consistency with recursive implementation, there is a complie-time error if the number is less than 3 &#8211; Line 26.
+</p>
+
+<p style="text-align: justify;">
+  One thing to note is if you put in large number like 991 (yes it&#8217;s a prime number), then your code may fail to compile due to compiler crashing or some other non-sensical error message. Typically what this means is your compiler has exceeded template instantiation depth (we are doing recursion here..). The way around this is to compile using <strong><em>-ftemplate-depth-4096</em></strong> option to gcc or clang. I haven&#8217;t checked this on Visual Studio, but I am sure there would be some way to extend template instantiation depth there as well.
+</p>
+
+<p style="text-align: justify;">
+  On parting thought I would throw in a Template MetaProgram to evaluate fibnoacci sequence:
+</p>
+
+<pre><code class="language-cpp">template&lt;int idx&gt;
+struct fib_c
+{
+    static const int value = fib_c&lt;idx-1&gt;::value + fib_c&lt;idx-2&gt;::value;
+};
+
+template&lt;&gt;
+struct fib_c&lt;0&gt;
+{
+    static const int value = 0;
+};
+
+template&lt;&gt;
+struct fib_c&lt;1&gt;
+{
+    static const int value = 1;
+};
+
+#include &lt;iostream&gt;
+
+int main()
+{
+    std::cout &lt;&lt; fib_c&lt;0&gt;::value &lt;&lt; std::endl;
+    std::cout &lt;&lt; fib_c&lt;1&gt;::value &lt;&lt; std::endl;
+    std::cout &lt;&lt; fib_c&lt;2&gt;::value &lt;&lt; std::endl;
+    std::cout &lt;&lt; fib_c&lt;3&gt;::value &lt;&lt; std::endl;
+    std::cout &lt;&lt; fib_c&lt;4&gt;::value &lt;&lt; std::endl;
+    std::cout &lt;&lt; fib_c&lt;5&gt;::value &lt;&lt; std::endl;
+
+    return 0;
+}
+</code></pre>
+
+<p style="text-align: justify;">
+  This is pretty much all I have for this post.
+</p>
+
+<p>&nbsp;</p>
+
+<p style="text-align: justify;">
+  Related Reading
+</p>
+
+<p style="text-align: justify;">
+  <a title="C++ Templates – An Introduction" href="/2011/05/02/c-templates-an-introduction/" target="_blank">C++ Templates</a> 
+</p>
+      </article>
+
+      <ul class="pager blog-pager">
+        
+        <li class="previous">
+          <a href="https://www.variadic.xyz/2014/08/01/visual-studio-run-time-error-checks-rtc-performance/" data-toggle="tooltip" data-placement="top" title="Visual Studio Run Time Error Checks RTC and Performance">&larr; Previous Post</a>
+        </li>
+        
+        
+        <li class="next">
+          <a href="https://www.variadic.xyz/2014/08/20/boost-with-xcode/" data-toggle="tooltip" data-placement="top" title="boost with XCode">Next Post &rarr;</a>
+        </li>
+        
+      </ul>
+
+      
+
+    </div>
+  </div>
+</div>
+
+      
+
+    </div>
+
+    <footer>
+  <div class="container beautiful-jekyll-footer">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <ul class="list-inline text-center footer-links">
+          
+          
+          
+          <li>
+            <a href="https://github.com/sarangbaheti" title="GitHub">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+		      
+		      
+          <li>
+            <a href="https://linkedin.com/in/sarangbaheti" title="LinkedIn">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+	    	  
+          <li>
+            <a href="https://stackoverflow.com/users/916549/sarang" title="StackOverflow">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-stack-overflow fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+          
+    		  <li>
+      			<a href="https://www.variadic.xyz/index.xml" title="RSS">
+      			  <span class="fa-stack fa-lg">
+        				<i class="fa fa-circle fa-stack-2x"></i>
+        				<i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+      			  </span>
+      			</a>
+    		  </li>		
+
+        </ul>
+        <p class="copyright text-muted">
+    		  Sarang Baheti
+    		  &nbsp;&bull;&nbsp;
+    		  2009 - 2020
+    		  
+    		  
+    		  &nbsp;&bull;&nbsp;
+    		  <a href="https://www.variadic.xyz/">a few notes</a>
+    		  
+  	    </p>
+  	        
+    		<p class="theme-by text-muted">
+    		  Theme by
+    		  <a href="https://github.com/sarangbaheti/bh">bh</a>
+    		</p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="https://www.variadic.xyz/js/jquery-1.11.2.min.js"></script>
+<script src="https://www.variadic.xyz/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/highlight.min.js"></script>
+<script src="https://www.variadic.xyz/js/main.js"></script>
+
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-27935503-1', 'auto');
+ga('send', 'pageview');
+</script>
+
+
+
+  </body>
+</html>

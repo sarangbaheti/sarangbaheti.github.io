@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+  <title>C&#43;&#43;11: polymorphic function objects</title>
+
+  <meta name="author" content="Sarang Baheti" />
+  
+  
+
+  <meta name="generator" content="Hugo 0.30.2" />
+
+  <link rel="alternate" href="https://www.variadic.xyz/index.xml" type="application/rss+xml" title="a few notes">
+
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
+  <link rel="stylesheet" href="https://www.variadic.xyz/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="https://www.variadic.xyz/css/main.css" />
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" />
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" />
+  
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/styles/default.min.css">
+  
+  
+  
+  <meta property="og:title" content="C&#43;&#43;11: polymorphic function objects" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="/2014/07/01/c11-polymorphic-function-objects//" />
+  <meta property="og:image" content="" />
+  
+</head>
+
+
+  <body>
+
+    <nav class="navbar navbar-default navbar-fixed-top navbar-custom">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="https://www.variadic.xyz/">a few notes</a>
+    </div>
+
+    <div class="collapse navbar-collapse" id="main-navbar">
+      <ul class="nav navbar-nav navbar-right">
+      
+        
+          <li>
+          <a title="Notes" href="/">Notes</a>
+  	      </li>
+  	    
+      
+        
+          <li>
+          <a title="About" href="/about/">About</a>
+  	      </li>
+  	    
+      
+        
+          <li>
+          <a title="Archive" href="/archive/">Archive</a>
+  	      </li>
+  	    
+      
+        
+          <li>
+          <a title="Books" href="/books/">Books</a>
+  	      </li>
+  	    
+      
+        
+          <li>
+          <a title="Disclaimer" href="/disclaimer/">Disclaimer</a>
+  	      </li>
+  	    
+      
+      </ul>
+    </div>
+
+	<div class="avatar-container">
+	  <div class="avatar-img-border">
+      
+	  </div>
+	</div>
+
+  </div>
+</nav>
+
+
+    <div role="main" class="container main-content">
+
+      
+        
+
+
+
+
+
+<header class="header-section ">
+
+<div class="intro-header no-img">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="post-heading">
+          <h1>C&#43;&#43;11: polymorphic function objects</h1>
+      
+      
+      
+      <span class="post-meta">Posted on July 1, 2014</span>
+      
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</header>
+
+
+
+
+<div class="container">
+  <div class="row">
+    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+      <article role="main" class="blog-post">
+          <p style="text-align: justify;">
+  C++ supports various styles of programming and <a title="Functional Programming For The Rest of Us" href="/2011/06/07/functional-programming-for-the-rest-of-us/" target="_blank">functional</a> is one of them, however functions are not first class concept in C++ and static typing makes it almost impossible to mix or interchange <a title="callable entity" href="/2011/05/31/callable-entity/" target="_blank">callable entities</a> of different types to be bound to same variable or to form a list of such entities based on calling semantics.
+</p>
+
+<p style="text-align: justify;">
+  Being creative and industrious, we C++ programmers have used/abused various features of language to accomplish this, with either doing away with types completely or (mis)using inheritance and virtual functions to accomplish callbacks or delegates.
+</p>
+
+<p style="text-align: justify;">
+  <a title="c++11 lambda — having fun with brackets!" href="/2011/10/12/c11-lambda-having-fun-with-brackets/" target="_blank">Lambdas</a> were supposed to solve some of these problems by making it easier to define functions in-place and provide for capturing the environment, managing lifetime of captured variables defining environment is still onto the programmer though, but they are kind of typeless. Thus the variables to capture lamdas have <a title="C++11: auto" href="/2011/05/04/auto/" target="_blank">auto</a> <a title="auto and decltype" href="/2011/05/28/auto-and-decltype/" target="_blank">type deduction</a>. All lambdas have is calling semantics and thus the need for polymorphic function objects that don&#8217;t care about types, but just the calling semantics. There by being the &#8220;one type to rule them all&#8221; callable entity.
+</p>
+
+<p style="text-align: justify;">
+  
+</p>
+
+<p style="text-align: justify;">
+  Technically polymorphic function objects, just function objects henceforth, use <a title="Type Erasure" href="/2011/05/09/type-erasure/" target="_blank">type-erasure</a> technic. But unlike <a title="dissecting any" href="/2011/07/07/dissecting-any/" target="_blank">any</a> they are selective, in sense they do enforce calling semantics. Lets consider the following code to see what this is all about, well the beauty of function objects is that you don&#8217;t need to know how they work &#8211; just that they work and are very easy to use.
+</p>
+
+<pre class="brush: cpp; highlight: [1,26,36,39,43,49]; title: ; notranslate" title="">#include &lt;functional&gt;
+#include &lt;iostream&gt;
+#include &lt;cassert&gt;
+
+static void PrintFunction()
+{
+    std::cout &lt;&lt; "PrintFunction" &lt;&lt; std::endl;
+}
+
+struct PrintFunctor
+{
+    void operator()() const
+    {
+        std::cout &lt;&lt; "PrintFunctor::operator()()"&lt;&lt; std::endl;
+    }
+};
+
+int main()
+{
+
+     auto lambda1 = []()-&gt;void
+                    {
+                        std::cout &lt;&lt; "lambda.. " &lt;&lt; std::endl;
+                    };
+
+    std::function&lt;void()&gt; func1;
+
+    //  since this is supposed to simulate a function
+    //  you can check if this has been assigned to a
+    //  callable entity or not by checking it as a boolean
+    //  expression or comparing it with nullptr
+    //
+    assert(!func1)
+    assert(func1 == nullptr);
+
+    func1 = lambda1;
+    func1();
+
+    func1 = PrintFunction;
+    func1();
+
+    PrintFunctor printer;
+    func1 = printer;
+    func1();
+
+    typedef void(*SimpleFunction_t)();
+    SimpleFunction_t functionPtr = PrintFunction;
+
+    func1 = functionPtr;
+    func1();
+
+    return 0;
+}
+</pre>
+
+<p style="text-align: justify;">
+  The function objects are defined in functional header, line 1. Since they enforce calling semantics you need to specialize the template with the signature of the call, in this case void(), line 26. As this it simulates function, you must ensure that function object has been initialized with a callable entity before calling, else it will throw an exception of type <a href="http://en.cppreference.com/w/cpp/utility/functional/bad_function_call" target="_blank">bad_function_call</a>. Lines 36, 39, 43 and 49 highlight the <em>selective type-erasure;</em> entities with different types have been assigned to func1, but they all are callable with the same signature (try assigning variable of type int or double, in case you want to check the selective type-erasure).
+</p>
+
+<p style="text-align: justify;">
+  I think this covers pretty much everything required to start using function object. I will do a separate post later on, about how they are implemented.
+</p>
+
+<h6 class="zemanta-related-title" style="font-size: 1em;">
+  Related articles
+</h6>
+
+<ul class="zemanta-article-ul">
+  <li class="zemanta-article-ul-li">
+    <a href="/2011/10/12/c11-lambda-having-fun-with-brackets/">c++11 lambda &#8211; having fun with brackets!</a> 
+  </li>
+  <li class="zemanta-article-ul-li">
+    <a href="http://stackoverflow.com/questions/8845022/understanding-inheritance-and-polymorphism">understanding Inheritance and Polymorphism</a> (stackoverflow.com)
+  </li>
+  <li class="zemanta-article-ul-li">
+    <a title="callable entity" href="/2011/05/31/callable-entity/">Callable Entities</a> 
+  </li>
+  <li class="zemanta-article-ul-li">
+    <a href="http://www.drdobbs.com/common-knowledge-polymorphic-function-ob/184401346" target="_blank">function objects</a> (drdobbs.com)
+  </li>
+  <li class="zemanta-article-ul-li">
+    <a href="http://en.cppreference.com/w/cpp/utility/functional/function" target="_blank">std::function</a> (cppreference.com)
+  </li>
+</ul>
+      </article>
+
+      <ul class="pager blog-pager">
+        
+        <li class="previous">
+          <a href="https://www.variadic.xyz/2014/07/01/libcxxabi-__dynamic_cast-random-strings/" data-toggle="tooltip" data-placement="top" title="libcxxabi __dynamic_cast and random strings">&larr; Previous Post</a>
+        </li>
+        
+        
+        <li class="next">
+          <a href="https://www.variadic.xyz/2014/07/06/c11-constexpr-computing-exp-at-compile-time/" data-toggle="tooltip" data-placement="top" title="C&#43;&#43;11 constexpr: computing exp at compile time">Next Post &rarr;</a>
+        </li>
+        
+      </ul>
+
+      
+
+    </div>
+  </div>
+</div>
+
+      
+
+    </div>
+
+    <footer>
+  <div class="container beautiful-jekyll-footer">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <ul class="list-inline text-center footer-links">
+          
+          
+          
+          <li>
+            <a href="https://github.com/sarangbaheti" title="GitHub">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+		      
+		      
+          <li>
+            <a href="https://linkedin.com/in/sarangbaheti" title="LinkedIn">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+	    	  
+          <li>
+            <a href="https://stackoverflow.com/users/916549/sarang" title="StackOverflow">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-stack-overflow fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+          
+    		  <li>
+      			<a href="https://www.variadic.xyz/index.xml" title="RSS">
+      			  <span class="fa-stack fa-lg">
+        				<i class="fa fa-circle fa-stack-2x"></i>
+        				<i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+      			  </span>
+      			</a>
+    		  </li>		
+
+        </ul>
+        <p class="copyright text-muted">
+    		  Sarang Baheti
+    		  &nbsp;&bull;&nbsp;
+    		  2009 - 2020
+    		  
+    		  
+    		  &nbsp;&bull;&nbsp;
+    		  <a href="https://www.variadic.xyz/">a few notes</a>
+    		  
+  	    </p>
+  	        
+    		<p class="theme-by text-muted">
+    		  Theme by
+    		  <a href="https://github.com/sarangbaheti/bh">bh</a>
+    		</p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="https://www.variadic.xyz/js/jquery-1.11.2.min.js"></script>
+<script src="https://www.variadic.xyz/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/highlight.min.js"></script>
+<script src="https://www.variadic.xyz/js/main.js"></script>
+
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-27935503-1', 'auto');
+ga('send', 'pageview');
+</script>
+
+
+
+  </body>
+</html>

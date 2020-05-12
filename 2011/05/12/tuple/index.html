@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+  <title>tuple</title>
+
+  <meta name="author" content="Sarang Baheti" />
+  
+  
+
+  <meta name="generator" content="Hugo 0.30.2" />
+
+  <link rel="alternate" href="https://www.variadic.xyz/index.xml" type="application/rss+xml" title="a few notes">
+
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
+  <link rel="stylesheet" href="https://www.variadic.xyz/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="https://www.variadic.xyz/css/main.css" />
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" />
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" />
+  
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/styles/default.min.css">
+  
+  
+  
+  <meta property="og:title" content="tuple" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="/2011/05/12/tuple//" />
+  <meta property="og:image" content="" />
+  
+</head>
+
+
+  <body>
+
+    <nav class="navbar navbar-default navbar-fixed-top navbar-custom">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="https://www.variadic.xyz/">a few notes</a>
+    </div>
+
+    <div class="collapse navbar-collapse" id="main-navbar">
+      <ul class="nav navbar-nav navbar-right">
+      
+        
+          <li>
+          <a title="Notes" href="/">Notes</a>
+  	      </li>
+  	    
+      
+        
+          <li>
+          <a title="About" href="/about/">About</a>
+  	      </li>
+  	    
+      
+        
+          <li>
+          <a title="Archive" href="/archive/">Archive</a>
+  	      </li>
+  	    
+      
+        
+          <li>
+          <a title="Books" href="/books/">Books</a>
+  	      </li>
+  	    
+      
+        
+          <li>
+          <a title="Disclaimer" href="/disclaimer/">Disclaimer</a>
+  	      </li>
+  	    
+      
+      </ul>
+    </div>
+
+	<div class="avatar-container">
+	  <div class="avatar-img-border">
+      
+	  </div>
+	</div>
+
+  </div>
+</nav>
+
+
+    <div role="main" class="container main-content">
+
+      
+        
+
+
+
+
+
+<header class="header-section ">
+
+<div class="intro-header no-img">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="post-heading">
+          <h1>tuple</h1>
+      
+      
+      
+      <span class="post-meta">Posted on May 12, 2011</span>
+      
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</header>
+
+
+
+
+<div class="container">
+  <div class="row">
+    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+      <article role="main" class="blog-post">
+          
+
+<h2 id="the-problem-with-multiple-return-values">The problem with multiple return values</h2>
+
+<hr />
+
+<p>C++ is a C based language and keeps it’s limitation of returning a single value from a function. you can’t even return an array of objects from a function. However real life application at times need to return multiple data from a function.
+Generally this is how we return multiple values from a function:</p>
+
+<pre><code class="language-cpp">struct MultipleReturnValues
+{
+    double d;
+    int i;
+    char c;
+};
+
+MultipleReturnValues MultiReturnValueFunction()
+{
+    //  really complicated logic
+    //  ...
+    MultipleReturnValues retval;
+    return retval;
+}
+
+int MultiReturnValueFunction2(double* d, char* c)
+{
+    return 0;
+}
+
+int main()
+{
+    MultipleReturnValues retVal = MultiReturnValueFunction();
+    double d;
+    char c;
+    int i = MultiReturnValueFunction2(&amp;d, &amp;c);
+    
+    return 0;
+}
+</code></pre>
+
+<p>Which implies we define a new structure every time we have to return more than one value or increase the number of parameters to the function. Both of these are painful in long run, creating and maintaining a struct is at times tedious and with so many variables to a function it is very difficult to understand what each parameter does.</p>
+
+<h2 id="std-pair">std::pair</h2>
+
+<hr />
+
+<p>standard library has a utility to group two values together also knows as <code>std::pair</code>, it is a template that takes in two values. It is used extensively with standard containers to return a pair of values from functions. Lets see how we can use it to return multiple values:</p>
+
+<pre><code class="language-cpp">#include  &lt;utility&gt;
+
+typedef std::pair&lt;int, int&gt; TwoInts;
+
+TwoInts TwoIntsFunction()
+{
+    return TwoInts();
+}
+
+void TwoIntsFunction_Demo()
+{
+    TwoInts twoInts = TwoIntsFunction();
+    //  accessing values
+    int firstInt = twoInts.first;
+    int secondInt = twoInts.second;
+}
+
+//  what if you want to send in different types
+//  pair can be very useful since it is templated
+//  you dont need to define a new struct everytime
+//
+typedef std::pair&lt;double, double&gt; TwoDoubles;
+
+TwoDoubles TwoDoublesFunction()
+{
+    return TwoDoubles();
+}
+
+void TwoDoublesFunction_Demo()
+{
+    TwoDoubles twoDoubles = TwoDoublesFunction();
+    //  accessing values
+    double firstDouble = twoDoubles.first;
+    double secondDouble = twoDoubles.second;
+}
+
+//  what if three doubles??
+//  pair is really convinient for two values
+//  but is manageable with three
+//
+typedef std::pair&lt;double, std::pair&lt;double, double&gt;&gt; ThreeDoubles;
+
+ThreeDoubles ThreeDoublesFunction()
+{
+    return ThreeDoubles();
+}
+
+void ThreeDoublesFunction_Demo()
+{
+    ThreeDoubles threeDoubles = ThreeDoublesFunction();
+    //  accessing values
+    //  little ugly but manageable
+    //
+    double firstDouble = threeDoubles.first;
+    double secondDouble = threeDoubles.second.first;
+    double thirdDouble = threeDoubles.second.second;
+}
+
+//  real life is not so cool, that you want to return just
+//  2-3 things, at times you need to return 5 values
+//  lets see how the pair looks for 5 arguments
+//
+class C
+{};
+
+//  pretty cool huh, I feel like double right shifted!
+//
+typedef std::pair&lt;double, std::pair&lt;int,
+std::pair&lt; char, std::pair&lt;C,float&gt;&gt;&gt;&gt; FiveRetVals;
+
+
+FiveRetVals FiveRetValsFunction()
+{
+    return FiveRetVals();
+}
+
+void FiveRetValsFunction_Demo()
+{
+    FiveRetVals fiveRetVals = FiveRetValsFunction();
+    //  accessing values
+    //
+    //  good
+    double first = fiveRetVals.first;
+    //  Ok
+    int second = fiveRetVals.second.first;
+    //  huh??
+    char third = fiveRetVals.second.second.first;
+    //  what??
+    C fourth = fiveRetVals.second.second.second.first;
+    //  forget it!
+    float fifth = fiveRetVals.second.second.second.second;
+}
+
+int main()
+{
+    TwoIntsFunction_Demo();
+    ThreeDoublesFunction_Demo();
+    FiveRetValsFunction_Demo();
+    return 0;
+}
+</code></pre>
+
+<p>As it is evident pair is not a really good solution if you want to group more that 2 values together. What is really required is an extension of pair that can take in n number of values.
+BTW if you observe closely you will notice that pair is actually a specialization of <a href="http://en.wikipedia.org/wiki/Tuple">tuple</a>.</p>
+
+<h2 id="using-tuple">using tuple</h2>
+
+<hr />
+
+<p>In previous example:
+ThreeDoubles –&gt; tuple with 3 elements
+FiveRetVals –&gt; tuple with 5 elements
+in all of the above cases what we really want is a tuple with varying number of elements
+such a construct was added to TR1 named tuple</p>
+
+<p>Above code with tuples instead of pairs:</p>
+
+<pre><code class="language-cpp">#include &lt;tuple&gt;
+//
+//
+//  for three doubles??
+//  pair is really convinient for two values
+//  tuple for any number of values
+//
+typedef std::tr1::tuple&lt;double, double, double&gt; ThreeDoubles;
+//
+ThreeDoubles ThreeDoublesFunction()
+{
+    return ThreeDoubles();
+}
+//
+void ThreeDoublesFunction_Demo()
+{
+    ThreeDoubles threeDoubles = ThreeDoublesFunction();
+    //  accessing values
+    //  lot better than nested pairs
+    //
+    double firstDouble = std::tr1::get&lt;0&gt;(threeDoubles);
+    double secondDouble = std::tr1::get&lt;1&gt;(threeDoubles);
+    double thirdDouble = std::tr1::get&lt;2&gt;(threeDoubles);
+}
+//
+//  real life is not so cool, that you want to return just
+//  2-3 things, at times you need to return 5 values
+//  lets see how the tuple looks for 5 arguments
+//
+class C
+{};
+//  pretty cool huh, I don’t feel like double right shifted!
+//
+typedef std::tr1::tuple&lt;double, int, char, C, float&gt; FiveRetVals;
+//
+//
+FiveRetVals FiveRetValsFunction()
+{
+    return FiveRetVals();
+}
+//
+void FiveRetValsFunction_Demo()
+{
+    FiveRetVals fiveRetVals = FiveRetValsFunction();
+    //  accessing values
+    //
+    //  ok
+    double first = std::tr1::get&lt;0&gt;(fiveRetVals);
+    //  nice
+    int second = std::tr1::get&lt;1&gt;(fiveRetVals);
+    //  good
+    char third = std::tr1::get&lt;2&gt;(fiveRetVals);
+    //  better
+    C fourth = std::tr1::get&lt;3&gt;(fiveRetVals);
+    //  wow
+    float fifth = std::tr1::get&lt;4&gt;(fiveRetVals);;
+}
+//
+//
+//
+int main()
+{
+    ThreeDoublesFunction_Demo();
+    FiveRetValsFunction_Demo();
+    return 0;
+}
+</code></pre>
+
+<h2 id="tuple-101">tuple 101</h2>
+
+<hr />
+
+<p>Primarily <code>tuple</code> started off to address multiple return values, however it can be used to keep grouped data together, as an alternative to locally created structures. At the end we will see an example, although contrived, how to use tuples.</p>
+
+<blockquote>
+<p><code>tuple</code> was initially introduced by Jakko Jarvi in boost library ~2001. Later it was selected as one of the components to C++ TR1. As part of C++ TR1 tuple has been placed in <code>std::tr1</code> namespace. However with <code>C++11</code> it has been moved to <code>std</code> namespace.
+The code in this post is written in VS 2010 SP1. Same code can be compiled using GCC 4.6, but you will have to replace <code>std::tr1</code> with <code>std</code>.</p>
+</blockquote>
+
+<p>Basic usage of tuple:</p>
+
+<pre><code class="language-cpp">// include tuple for tuple related functionality
+//
+#include &lt;tuple&gt;
+#include &lt;iostream&gt;
+//
+//
+// class that is convertible to-and-from double
+// to demonstrate the tuple assignment and comparison
+//
+class Double
+{
+    double d;
+public:
+    Double(double d_) : d(d_)
+    {}
+    //
+    Double&amp; operator=(const Double&amp; other)
+    {
+        if( this != &amp;other )
+        {
+            d = other.d;
+        }
+        return *this;
+    }
+    //
+    Double&amp; operator=(double dd)
+    {
+        this-&gt;d = dd;
+        return *this;
+    }
+    //
+    operator double() const
+    {
+        return d;
+    }
+};
+//
+//
+//
+int main()
+{
+    // tuple of two ints, assigned by combining two values
+    // make_tuple is equivalent of std::make_pair
+    //
+    std::tr1::tuple&lt;int,int&gt; twoInts1 = std::tr1::make_tuple(4,5);
+    //
+    //
+    // direct initialization
+    //
+    std::tr1::tuple&lt;int,int&gt; twoInts2(4,5);
+    //
+    //
+    // default construction
+    std::tr1::tuple&lt;int,int&gt; twoInts3;
+    //
+    //
+    // now twoInts2 is twoInts3
+    twoInts2 = twoInts3;
+    //
+    //
+    std::tr1::tuple&lt;double, double&gt; twoDoubles1 =
+    std::tr1::make_tuple(4.0,5.0);
+    //
+    //
+    // int to double conversion is allowed
+    // if you have conversion defined, tuples of different
+    // types can be assigned
+    //
+    twoDoubles1 = twoInts3;
+    //
+    //
+    // Double class defines conversion to-and-from double
+    Double dbl(10.0);
+    double d = dbl;
+    //
+    //
+    // due to conversion operator such assignments are feasible
+    std::tr1::tuple&lt;Double,Double&gt; doubles =
+    std::tr1::make_tuple(9.0,8.0);
+    twoDoubles1 = doubles;
+    //
+    //
+    // querying the elements of a tuple:
+    // get the first element of
+    double d = std::tr1::get&lt;0&gt;(doubles);
+    //
+    // get the second element
+    d = std::tr1::get&lt;1&gt;(doubles);
+    //
+    //
+    // fails to compile as there is no 3rd element for this tuple
+    // declaration
+    // lots of ugly error messages
+    d = std::tr1::get&lt;3&gt;(doubles);
+    //
+    //
+    // checking for equality is supported
+    // it's like checking dbl == d
+    // if one of the types in tuple does not provide == operator
+    // the code fails to compile
+    if( doubles == twoDoubles1 )
+    {
+        std::cout &lt;&lt; &quot;values are same&quot; &lt;&lt; std::endl;
+    }
+    //
+    //
+    if( !(doubles != twoDoubles1) )
+    {
+        std::cout &lt;&lt; &quot;values are same&quot; &lt;&lt; std::endl;
+    }
+    //
+    //
+    // operator &lt;, &gt;, &lt;=, &gt;= are supported if the types specified
+    // in tuple support these
+    bool boolean = doubles &lt; twoDoubles1 || doubles &gt; twoDoubles1;
+    boolean = doubles &lt;= twoDoubles1 || twoDoubles1 &gt;= doubles;
+    //
+    //
+    // streaming operators are not supported with tuples
+    std::cout &lt;&lt; twoDoubles1 &lt;&lt; std::endl;
+    //
+    //
+    // tie is a utility function can help you get the values out
+    // of tuple in local variables easily
+    // so its a painless way of getting results from a
+    // tuple_returning method.
+    int a = 0;
+    int b = 0;
+    std::tr1::tie(a,b) = twoInts1;
+    //
+    //
+    return 0;
+}
+</code></pre>
+
+<h2 id="contrived-implementation-using-tuple-events-delegate">contrived implementation using tuple (events-delegate)</h2>
+
+<hr />
+
+<p>As promised here is the contrived implementation of event-delegate mechanism in C++ using tuples.</p>
+
+<pre><code class="language-cpp">// implementing a simple event/delegate mechanism
+// note this is contrived code to demonstrate the usage of tuple
+//
+#include &lt;tuple&gt;
+#include &lt;vector&gt;
+#include &lt;iostream&gt;
+//
+//
+// base class of all delegates
+// derive to implement custom notification functionality
+class Delegate
+{
+protected:
+    //
+    // listener to notification
+    virtual int NotifyCore() = 0;
+    //
+    // second type of listener to notification
+    virtual int Notify2Core() = 0;
+    //
+public:
+    Delegate()
+    {}
+    virtual ~Delegate()
+    {}
+    //
+    int Notify()
+    {
+        return NotifyCore();
+    }
+    //
+    int Notify2()
+    {
+        return Notify2Core();
+    }
+};
+//
+//
+// implementes the both types of listeners to notification
+//
+class MyDelegate : public Delegate
+{
+public:
+    MyDelegate() : Delegate()
+    {}
+    virtual ~MyDelegate()
+    {}
+    //
+protected:
+    //
+    int NotifyCore()
+    {
+        std::cout &lt;&lt; &quot;Calling from MyDelegate::NotifyCore&quot;
+        &lt;&lt; std::endl;
+        return 0;
+    }
+    //
+    int Notify2Core()
+    {
+        std::cout &lt;&lt; &quot;Calling from MyDelegate::Notify2Core&quot;
+        &lt;&lt; std::endl;
+        return 0;
+    }
+};
+//
+// class to fire notification to all listeners when some-thing
+// interesting happens
+//
+class Event
+{
+    // notification function
+    // type of function on Delegate that will be called to notify
+    // certain event has taken place
+    //
+    typedef int(Delegate::*NotificationFunc)(void);
+    //
+    // object on which the notification function will be invoked
+    //
+    typedef std::tr1::tuple&lt;Delegate*, NotificationFunc&gt;
+    CallbackType;
+    //
+    // n numbers of listeners can be registerd with an event
+    //
+    std::vector&lt;CallbackType&gt; delegates;
+    //
+public:
+    Event()
+    {}
+    //
+    void RegisterDelegate(Delegate* delg, NotificationFunc f )
+    {
+        this-&gt;delegates.push_back(std::tr1::make_tuple(delg, f));
+    }
+    //
+    void DeRegisterDelegate(Delegate* delg)
+    {
+        // some code to un-register the delegate
+    }
+    //
+    void Fire()
+    {
+        // loop over all the delegates and start notifying each of
+        // the events
+        //
+        for(auto iter = this-&gt;delegates.begin(),
+           end = this-&gt;delegates.end();
+           iter != end; ++iter )
+        {
+           // really unreadable, good if you want to show off                //
+          (std::tr1::get&lt;0&gt;(*iter)-&gt;*(std::tr1::get&lt;1&gt;(*iter)))();
+          // here is the equivalent version:
+          //
+          // Delegate* delg = std::tr1::get&lt;0&gt;(*iter);
+          // DelegateFunc f= std::tr1::get&lt;1&gt;(*iter);
+          // we have a pointer to member function
+          //
+          // (delg-&gt;*f)();
+          //
+       }
+    }
+};
+
+int main()
+{
+    MyDelegate* delg = new MyDelegate();
+    Event evt;
+    evt.RegisterDelegate(delg, &amp;Delegate::Notify);
+    evt.RegisterDelegate(delg, &amp;Delegate::Notify2);
+    evt.Fire();
+    delete delg;
+    
+    return 0;
+}
+</code></pre>
+
+<h2 id="summary">Summary</h2>
+
+<hr />
+
+<p><code>tuple</code> were introduced to address the maintainability issues with <code>pair</code> they can be used to return multiple values from function can be used to group local data together rather than defining a local struct I hope this will get you started with tuples! happy tuppleing :)</p>
+
+      </article>
+
+      <ul class="pager blog-pager">
+        
+        <li class="previous">
+          <a href="https://www.variadic.xyz/2011/05/10/boostany/" data-toggle="tooltip" data-placement="top" title="boost::any">&larr; Previous Post</a>
+        </li>
+        
+        
+        <li class="next">
+          <a href="https://www.variadic.xyz/2011/05/15/calling-convention/" data-toggle="tooltip" data-placement="top" title="Calling Convention">Next Post &rarr;</a>
+        </li>
+        
+      </ul>
+
+      
+
+    </div>
+  </div>
+</div>
+
+      
+
+    </div>
+
+    <footer>
+  <div class="container beautiful-jekyll-footer">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <ul class="list-inline text-center footer-links">
+          
+          
+          
+          <li>
+            <a href="https://github.com/sarangbaheti" title="GitHub">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+		      
+		      
+          <li>
+            <a href="https://linkedin.com/in/sarangbaheti" title="LinkedIn">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+	    	  
+          <li>
+            <a href="https://stackoverflow.com/users/916549/sarang" title="StackOverflow">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-stack-overflow fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+          
+    		  <li>
+      			<a href="https://www.variadic.xyz/index.xml" title="RSS">
+      			  <span class="fa-stack fa-lg">
+        				<i class="fa fa-circle fa-stack-2x"></i>
+        				<i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+      			  </span>
+      			</a>
+    		  </li>		
+
+        </ul>
+        <p class="copyright text-muted">
+    		  Sarang Baheti
+    		  &nbsp;&bull;&nbsp;
+    		  2009 - 2020
+    		  
+    		  
+    		  &nbsp;&bull;&nbsp;
+    		  <a href="https://www.variadic.xyz/">a few notes</a>
+    		  
+  	    </p>
+  	        
+    		<p class="theme-by text-muted">
+    		  Theme by
+    		  <a href="https://github.com/sarangbaheti/bh">bh</a>
+    		</p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="https://www.variadic.xyz/js/jquery-1.11.2.min.js"></script>
+<script src="https://www.variadic.xyz/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/highlight.min.js"></script>
+<script src="https://www.variadic.xyz/js/main.js"></script>
+
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-27935503-1', 'auto');
+ga('send', 'pageview');
+</script>
+
+
+
+  </body>
+</html>

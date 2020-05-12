@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+  <title>vim &amp; cscope</title>
+
+  <meta name="author" content="Sarang Baheti" />
+  
+  
+
+  <meta name="generator" content="Hugo 0.30.2" />
+
+  <link rel="alternate" href="https://www.variadic.xyz/index.xml" type="application/rss+xml" title="a few notes">
+
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
+  <link rel="stylesheet" href="https://www.variadic.xyz/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="https://www.variadic.xyz/css/main.css" />
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" />
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" />
+  
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/styles/default.min.css">
+  
+  
+  
+  <meta property="og:title" content="vim &amp; cscope" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="/2015/05/16/vim//" />
+  <meta property="og:image" content="" />
+  
+</head>
+
+
+  <body>
+
+    <nav class="navbar navbar-default navbar-fixed-top navbar-custom">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="https://www.variadic.xyz/">a few notes</a>
+    </div>
+
+    <div class="collapse navbar-collapse" id="main-navbar">
+      <ul class="nav navbar-nav navbar-right">
+      
+        
+          <li>
+          <a title="Notes" href="/">Notes</a>
+  	      </li>
+  	    
+      
+        
+          <li>
+          <a title="About" href="/about/">About</a>
+  	      </li>
+  	    
+      
+        
+          <li>
+          <a title="Archive" href="/archive/">Archive</a>
+  	      </li>
+  	    
+      
+        
+          <li>
+          <a title="Books" href="/books/">Books</a>
+  	      </li>
+  	    
+      
+        
+          <li>
+          <a title="Disclaimer" href="/disclaimer/">Disclaimer</a>
+  	      </li>
+  	    
+      
+      </ul>
+    </div>
+
+	<div class="avatar-container">
+	  <div class="avatar-img-border">
+      
+	  </div>
+	</div>
+
+  </div>
+</nav>
+
+
+    <div role="main" class="container main-content">
+
+      
+        
+
+
+
+
+
+<header class="header-section ">
+
+<div class="intro-header no-img">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="post-heading">
+          <h1>vim &amp; cscope</h1>
+      
+      
+      
+      <span class="post-meta">Posted on May 16, 2015</span>
+      
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</header>
+
+
+
+
+<div class="container">
+  <div class="row">
+    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+      <article role="main" class="blog-post">
+          <h2 id="vim">vim</h2>
+
+<p><code>vim</code> what an editor! I am yet to find someone who used this editor but is neutral. Either folks love it or hate it. I think that is sign of a truly remarkable product, in sense it connects to core- evoking emotional reaction. It was not long ago i was in <code>vim</code> WTF camp. But had to spend a few weeks on linux and re-discovered <code>vim</code>. After about a month of usage <code>vim</code> is one of my preferred editors for code browsing- even on windows. :)
+Learning and getting used to <code>vim</code> took some time- especailly it was learning not to fight <code>normal</code> and <code>insert</code> mode. One my left little finger developed flesh memory of hitting <code>esc</code> key every now and then- life became much better with vim.</p>
+
+<p>The other thing that makes <code>vim</code> awesome is plugin support and number of plugins available. I have been using <code>ctags</code> for quite some time- but started using <code>cscope</code> recently and love it. For mid sized projects it is quite fast and snappy and the code database makes all sorts of queries possible. Now that i found that it integrates well with <code>vim</code>. This post is about getting <code>cscope</code> hooked up in <code>vim</code>.</p>
+
+<p></p>
+
+<h2 id="cscope">cscope</h2>
+
+<p>As I said I discovered <code>cscope</code> a few weeks ago, ya i was living under a rock. For the efficieny with which it makes source browsing possible I don&rsquo;t think now i can live without it. It is one of the plugins that integrates so well with <code>vim</code>. Other similar plugin is <code>ctags</code> but <code>cscope</code> is it&rsquo;s superset thus makes sense to go with it.
+Steps to set up <code>cscope</code> with <code>vim</code></p>
+
+<pre><code class="language-sh">$ cscope -bqk
+$ cd ~\.vim\plugins
+$ wget http://cscope.sourceforge.net/cscope_maps.vim
+</code></pre>
+
+<p>We are ensuring that cscope.out has been generated already in your project directory, <code>cscope -bqk</code> command does that. Then go to <code>vim</code> plugins directory, create one if it does not exists, and <code>wget</code> the <code>cscope_maps.vim</code> there. Once you have this start <code>vim</code> go to your <code>vimrc</code>, which should be located at <code>~\.vimrc</code> and add following lines:</p>
+
+<pre><code class="language-sh">if has('cscope')
+    set cscopetag cscopeverbose
+
+    if has('quickfix')
+        set cscopequickfix=s-,c-,d-,i-,t-,e-
+    endif
+
+    cnoreabbrev csa cs add
+    cnoreabbrev csf cs find
+    cnoreabbrev csk cs kill
+    cnoreabbrev csr cs reset
+    cnoreabbrev css cs show
+    cnoreabbrev csh cs help
+
+    command -nargs=0 Cscope cs add $VIMSRC/src/cscope.out $VIMSRC/src
+endif
+
+</code></pre>
+
+<p>restart <code>vim</code> and you are all set now. For demo i have git repository checked out and i would like to surf some code. Once i add <code>cscope</code> database <code>vim</code> will use that for symbol navigation. The way to add symbol database, assuming it is named <code>cscope.out</code>, in <code>vim</code> is to</p>
+
+<pre><code class="language-sh">:cscope add cscope.out
+</code></pre>
+
+<p>After this once you move cursor over a function you would like to see it definition just press <code>Ctrl+]</code> and voila it will be opened for you. To get back to previous location press <code>Ctrl+T</code>
+See <a href="http://cscope.sourceforge.net/cscope_vim_tutorial.html">this link</a> and <a href="http://mylinuxbook.com/cscope/">this one</a> for further details and the <a href="http://cscope.sourceforge.net/cscope_maps.vim"><code>cscopes_map.vim</code></a> file has wealth of information about key mappings.</p>
+      </article>
+
+      <ul class="pager blog-pager">
+        
+        <li class="previous">
+          <a href="https://www.variadic.xyz/2015/05/16/notes-on-git/" data-toggle="tooltip" data-placement="top" title="notes on git">&larr; Previous Post</a>
+        </li>
+        
+        
+        <li class="next">
+          <a href="https://www.variadic.xyz/2015/05/24/vim-multiple-cursors/" data-toggle="tooltip" data-placement="top" title="vim-multiple-cursors">Next Post &rarr;</a>
+        </li>
+        
+      </ul>
+
+      
+
+    </div>
+  </div>
+</div>
+
+      
+
+    </div>
+
+    <footer>
+  <div class="container beautiful-jekyll-footer">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <ul class="list-inline text-center footer-links">
+          
+          
+          
+          <li>
+            <a href="https://github.com/sarangbaheti" title="GitHub">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+		      
+		      
+          <li>
+            <a href="https://linkedin.com/in/sarangbaheti" title="LinkedIn">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+	    	  
+          <li>
+            <a href="https://stackoverflow.com/users/916549/sarang" title="StackOverflow">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-stack-overflow fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+          
+    		  <li>
+      			<a href="https://www.variadic.xyz/index.xml" title="RSS">
+      			  <span class="fa-stack fa-lg">
+        				<i class="fa fa-circle fa-stack-2x"></i>
+        				<i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+      			  </span>
+      			</a>
+    		  </li>		
+
+        </ul>
+        <p class="copyright text-muted">
+    		  Sarang Baheti
+    		  &nbsp;&bull;&nbsp;
+    		  2009 - 2020
+    		  
+    		  
+    		  &nbsp;&bull;&nbsp;
+    		  <a href="https://www.variadic.xyz/">a few notes</a>
+    		  
+  	    </p>
+  	        
+    		<p class="theme-by text-muted">
+    		  Theme by
+    		  <a href="https://github.com/sarangbaheti/bh">bh</a>
+    		</p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="https://www.variadic.xyz/js/jquery-1.11.2.min.js"></script>
+<script src="https://www.variadic.xyz/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/highlight.min.js"></script>
+<script src="https://www.variadic.xyz/js/main.js"></script>
+
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-27935503-1', 'auto');
+ga('send', 'pageview');
+</script>
+
+
+
+  </body>
+</html>

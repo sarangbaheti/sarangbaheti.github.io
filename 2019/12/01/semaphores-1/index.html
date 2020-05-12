@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+  <title>notes on semaphores, part 1</title>
+
+  <meta name="author" content="Sarang Baheti" />
+  
+  
+  <meta name="description" content="notes on semaphores, part 1">
+  
+
+  <meta name="generator" content="Hugo 0.30.2" />
+
+  <link rel="alternate" href="https://www.variadic.xyz/index.xml" type="application/rss+xml" title="a few notes">
+
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
+  <link rel="stylesheet" href="https://www.variadic.xyz/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="https://www.variadic.xyz/css/main.css" />
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" />
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" />
+  
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/styles/default.min.css">
+  
+  
+  
+  <meta property="og:title" content="notes on semaphores, part 1" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="/2019/12/01/semaphores-1//" />
+  <meta property="og:image" content="" />
+  
+</head>
+
+
+  <body>
+
+    <nav class="navbar navbar-default navbar-fixed-top navbar-custom">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="https://www.variadic.xyz/">a few notes</a>
+    </div>
+
+    <div class="collapse navbar-collapse" id="main-navbar">
+      <ul class="nav navbar-nav navbar-right">
+      
+        
+          <li>
+          <a title="Notes" href="/">Notes</a>
+  	      </li>
+  	    
+      
+        
+          <li>
+          <a title="About" href="/about/">About</a>
+  	      </li>
+  	    
+      
+        
+          <li>
+          <a title="Archive" href="/archive/">Archive</a>
+  	      </li>
+  	    
+      
+        
+          <li>
+          <a title="Books" href="/books/">Books</a>
+  	      </li>
+  	    
+      
+        
+          <li>
+          <a title="Disclaimer" href="/disclaimer/">Disclaimer</a>
+  	      </li>
+  	    
+      
+      </ul>
+    </div>
+
+	<div class="avatar-container">
+	  <div class="avatar-img-border">
+      
+	  </div>
+	</div>
+
+  </div>
+</nav>
+
+
+    <div role="main" class="container main-content">
+
+      
+        
+
+
+
+
+
+<header class="header-section ">
+
+<div class="intro-header no-img">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="post-heading">
+          <h1>notes on semaphores, part 1</h1>
+      
+      
+      
+      <span class="post-meta">Posted on December 1, 2019</span>
+      
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</header>
+
+
+
+
+<div class="container">
+  <div class="row">
+    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+      <article role="main" class="blog-post">
+          
+
+<blockquote>
+<p>Reference: The Little Book of Semaphores by Allen B. Downey
+<a href="https://variadic.xyz/pdfs/LittleBookOfSemaphores.pdf">Link1</a>
+<a href="http://greenteapress.com/semaphores/LittleBookOfSemaphores.pdf">Link2</a></p>
+</blockquote>
+
+<h3 id="synchronization">Synchronization</h3>
+
+<hr />
+
+<p>Synchronization (synch) is about making 2 things happen at same time, however it is a little more general in programming. It refers to relationship among events (any number and any kind).</p>
+
+<p>Synch constraints:<br />
+  - Serialization: <code>EventA</code> <strong>must</strong> happen before <code>EventB</code><br />
+  - Mutual Exclusion: <code>EventA</code> and <code>EventB</code> <strong>must</strong> not happen at the same time</p>
+
+<p>So what are the complications in developing concurrent software?<br />
+ - Multiple Threads<br />
+ - Multiple Processors</p>
+
+<p>Due to OS scheduling and pre-empting threads, programmer has no control over how threads are run and how instructions are evaluated. Thus, both the cases are equivalent from introducing synch coordination</p>
+
+<h3 id="serialization-with-messages">Serialization with messages</h3>
+
+<hr />
+
+<pre><code>            Alice                   Bob
+       1    Eat BreakFast       1   Eat BreakFast
+       2    Work                2   Wait for Call from ThreadA 
+       3    Eat Lunch           3   Eat Lunch
+       4    Call B
+</code></pre>
+
+<blockquote>
+<p>order of events: <code>A &lt; B</code> implies <code>A</code> happens before <code>B</code></p>
+</blockquote>
+
+<p>Here order of events is:</p>
+
+<pre><code>A1 &lt; A2 &lt; A3 &lt; A4
+B1 &lt; B2 &lt; B3
+</code></pre>
+
+<p>What we want is: that Alice should EatLunch before Bob, <code>B2 &lt; A4 &lt; B3</code>. To make this happens some sort of coordination/synchronization is needed. The constraint is for a set of activities, other activities can happen <code>concurrently</code> and no relationship exists between them, ie: <code>A1 &lt; A2</code> and <code>B1 &lt; B2</code> can happen in whenever and are not related.</p>
+
+<blockquote>
+<p>Two events are concurrent, if we cannot tell by looking at the program which will happen first. Well this contributes to the non-deterministic execution of program, at least the concurrent execution</p>
+</blockquote>
+
+<h3 id="shared-variables">Shared variables</h3>
+
+<hr />
+
+<p>Most of the times variables are thread-local/thread-specific, however some of those might be shared between threads. In such cases threads communicate/interact with each other thru them. In c/c++ language- global or heap allocated memory/variables are shared between threads (as threads are running in same process- these things make life fun in shared-memory parallel programming&hellip;)</p>
+
+<h3 id="concurrent-updates">Concurrent Updates</h3>
+
+<hr />
+
+<h4 id="writes">Writes</h4>
+
+<pre><code>x = 0
+
+        ThreadA             ThreadB
+    1   x = 5           1   x = 7
+    2   print x
+</code></pre>
+
+<p>possible executions:</p>
+
+<pre><code>            1                   2                   3
+        x = 5               x = 5               x = 7
+        print x             x = 7               x = 5
+        x = 7               print x             print x
+</code></pre>
+
+<p>Here:<br />
+<code>{A1 &lt; A2} and B1</code> are the event orderings.</p>
+
+<blockquote>
+<p>Assuming, there is sequential consistency such that <code>A1 &lt; A2</code> and that updates to <code>x</code> are atomic and not values are not read from caches</p>
+</blockquote>
+
+<h4 id="read-update-modify">Read, Update, Modify:</h4>
+
+<pre><code>x = 0
+        ThreadA               ThreadB
+        x = x + 1             x = x + 1
+                      |
+                      |
+                      V
+     1  tempA = x          1  tempB = x
+     2  x = tempA + 1      2  x = tempB + 1
+</code></pre>
+
+<p>possible executions:</p>
+
+<pre><code>1                       2                       3                       4
+(A1 &lt; B1 &lt; A2 &lt; B2)     (A1 &lt; B1 &lt; A2 &lt; B2)     (A1 &lt; B1 &lt; A2 &lt; B2)     (A1 &lt; B1 &lt; A2 &lt; B2)
+-&gt; 1                    -&gt; 2                    -&gt; 2                    -&gt; 1
+</code></pre>
+
+<p>Correct answer to this is <code>2</code> and will be evaluated to it only when operations are serlized:<br />
+<code>(A1 &lt; A2) &lt; (B1 &lt; B2)</code> or <code>(B1 &lt; B2) &lt; (A1 &lt; A2)</code>. Basically increments need to be atomic or mutually exclusive</p>
+
+<p>How would it behave for following code, when it is executed by <code>100 threads</code> concurrently:</p>
+
+<pre><code>    for i in range (0..100):
+        temp = count
+        count = temp + 1
+</code></pre>
+
+<p>There is a ton of race-conditions here. Question Dr. Downey posed is what is the <code>max</code> and <code>min</code> value this can have. I think <code>max</code> value will be observed when threads run in convoy, one after another, with no contention and race and the value will be 10000.<br />
+The <code>min</code> value is a bit tricky and multiple threads could run and same time could be pre-empted and <code>temp</code> being a thread-local it will stomp on <code>count</code> value as it moves forward. I think the <code>min</code> value has to be <code>100</code>.</p>
+
+<pre><code>Smallest value:
+    
+    for i in range (0..100):
+        # Thread0 Starts executing..
+        temp =  count # when count was 0 to being with
+        
+        # temp = 0
+        # Thread0 -&gt; preempts
+        # Thread1-Thread99 are scheduled and finish executing
+        # Thread0 &lt;- schedule again
+        
+        count = temp + 1
+</code></pre>
+
+      </article>
+
+      <ul class="pager blog-pager">
+        
+        <li class="previous">
+          <a href="https://www.variadic.xyz/2019/11/21/windbg-crashdump-analysis-1/" data-toggle="tooltip" data-placement="top" title="windbg crashdump 1">&larr; Previous Post</a>
+        </li>
+        
+        
+        <li class="next">
+          <a href="https://www.variadic.xyz/2019/12/27/cellphones/" data-toggle="tooltip" data-placement="top" title="Are cell phones destroying the college classroom">Next Post &rarr;</a>
+        </li>
+        
+      </ul>
+
+      
+
+    </div>
+  </div>
+</div>
+
+      
+
+    </div>
+
+    <footer>
+  <div class="container beautiful-jekyll-footer">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <ul class="list-inline text-center footer-links">
+          
+          
+          
+          <li>
+            <a href="https://github.com/sarangbaheti" title="GitHub">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+		      
+		      
+          <li>
+            <a href="https://linkedin.com/in/sarangbaheti" title="LinkedIn">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+	    	  
+          <li>
+            <a href="https://stackoverflow.com/users/916549/sarang" title="StackOverflow">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-stack-overflow fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+          
+    		  <li>
+      			<a href="https://www.variadic.xyz/index.xml" title="RSS">
+      			  <span class="fa-stack fa-lg">
+        				<i class="fa fa-circle fa-stack-2x"></i>
+        				<i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+      			  </span>
+      			</a>
+    		  </li>		
+
+        </ul>
+        <p class="copyright text-muted">
+    		  Sarang Baheti
+    		  &nbsp;&bull;&nbsp;
+    		  2009 - 2020
+    		  
+    		  
+    		  &nbsp;&bull;&nbsp;
+    		  <a href="https://www.variadic.xyz/">a few notes</a>
+    		  
+  	    </p>
+  	        
+    		<p class="theme-by text-muted">
+    		  Theme by
+    		  <a href="https://github.com/sarangbaheti/bh">bh</a>
+    		</p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="https://www.variadic.xyz/js/jquery-1.11.2.min.js"></script>
+<script src="https://www.variadic.xyz/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/highlight.min.js"></script>
+<script src="https://www.variadic.xyz/js/main.js"></script>
+
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-27935503-1', 'auto');
+ga('send', 'pageview');
+</script>
+
+
+
+  </body>
+</html>

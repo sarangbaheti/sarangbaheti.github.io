@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+  <title>RAMDrive and SSD, continued</title>
+
+  <meta name="author" content="Sarang Baheti" />
+  
+  
+
+  <meta name="generator" content="Hugo 0.30.2" />
+
+  <link rel="alternate" href="https://www.variadic.xyz/index.xml" type="application/rss+xml" title="a few notes">
+
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
+  <link rel="stylesheet" href="https://www.variadic.xyz/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="https://www.variadic.xyz/css/main.css" />
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" />
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" />
+  
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/styles/default.min.css">
+  
+  
+  
+  <meta property="og:title" content="RAMDrive and SSD, continued" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="/2014/12/31/ramdrive-and-ssd-continued//" />
+  <meta property="og:image" content="" />
+  
+</head>
+
+
+  <body>
+
+    <nav class="navbar navbar-default navbar-fixed-top navbar-custom">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="https://www.variadic.xyz/">a few notes</a>
+    </div>
+
+    <div class="collapse navbar-collapse" id="main-navbar">
+      <ul class="nav navbar-nav navbar-right">
+      
+        
+          <li>
+          <a title="Notes" href="/">Notes</a>
+  	      </li>
+  	    
+      
+        
+          <li>
+          <a title="About" href="/about/">About</a>
+  	      </li>
+  	    
+      
+        
+          <li>
+          <a title="Archive" href="/archive/">Archive</a>
+  	      </li>
+  	    
+      
+        
+          <li>
+          <a title="Books" href="/books/">Books</a>
+  	      </li>
+  	    
+      
+        
+          <li>
+          <a title="Disclaimer" href="/disclaimer/">Disclaimer</a>
+  	      </li>
+  	    
+      
+      </ul>
+    </div>
+
+	<div class="avatar-container">
+	  <div class="avatar-img-border">
+      
+	  </div>
+	</div>
+
+  </div>
+</nav>
+
+
+    <div role="main" class="container main-content">
+
+      
+        
+
+
+
+
+
+<header class="header-section ">
+
+<div class="intro-header no-img">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="post-heading">
+          <h1>RAMDrive and SSD, continued</h1>
+      
+      
+      
+      <span class="post-meta">Posted on December 31, 2014</span>
+      
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</header>
+
+
+
+
+<div class="container">
+  <div class="row">
+    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+      <article role="main" class="blog-post">
+          <p style="text-align: justify;">
+  This is continuation of previous post <a href="/2014/12/24/ssd-thrashing-and-ramdrive/" target="_blank">SSD Thrashing and RAMDrive</a>, I have created a 512MB RamDrive and mapped it as R Drive. My Temp directories are located on RamDrive and so is the data directory for Chrome. With this arrangement and heavy use of chrome I could see some good benefits- due to holiday season I have spent a lot of time on my laptop (~8-10 hours or usage every day). And have a graph to show about the usage:
+</p>
+
+<p style="text-align: justify;">
+  
+</p><figure id="attachment_2895" style="width: 1275px;" class="wp-caption aligncenter">
+
+[<img class="size-full wp-image-2895" src="/wp-content/uploads/2014/12/ssd-usage2.png" alt="SSD Usage over 2 weeks" width="1275" height="441" />][1]<figcaption class="wp-caption-text">SSD Usage over 2 weeks</figcaption></figure> 
+
+<p style="text-align: justify;">
+  I installed Windows8.1 on 19 Dec, so starting with ~55 GB Host Writes and then followed by various updates and Visual Studio installation and internet browsing (youtube and pluralsight) till 22-Dec. On 23-Dec I installed RAMDrive but continued my trend of internet access and you can see the how the Host Writes dropped. Today (31-Dec) was 3 attempts at installing a big Windows update (~800 MB each time), thus the increase in Host Writes.
+</p>
+
+<p style="text-align: justify;">
+  Anyway the point is: using RamDrive saves un-necessary SSD thrashing and you can feel browsers being very snappy (much snappier than what it was on SSD). For comparison here are the results for data transfer speed between HDD RAM (Laptop DDR3L and Desktop DDR3) and SSD.
+</p><figure id="attachment_2864" style="width: 406px;" class="wp-caption aligncenter">
+
+<img class="wp-image-2864 size-full" src="/wp-content/uploads/2014/12/wd-diskmark.png" alt="WD Blue 1TB 7200 RPM DiskMark Results" width="406" height="369" /><figcaption class="wp-caption-text"><a href="http://www.amazon.com/WD-Blue-Desktop-Hard-Drive/dp/B0088PUEPK" target="_blank">WD Blue 1TB 7200 RPM</a> DiskMark Results</figcaption></figure> <figure id="attachment_2859" style="width: 406px;" class="wp-caption aligncenter"><img class="wp-image-2859 size-full" src="/wp-content/uploads/2014/12/ssd-diskmark.png" alt="OCZ ARC 100 SSD DiskMark Results" width="406" height="369" /><figcaption class="wp-caption-text"><a href="http://www.newegg.com/Product/Product.aspx?Item=N82E16820228116" target="_blank">OCZ ARC 100</a> SSD DiskMark Results</figcaption></figure> <figure id="attachment_2858" style="width: 406px;" class="wp-caption aligncenter"><img class="size-full wp-image-2858" src="/wp-content/uploads/2014/12/ramdrive-diskmark.png" alt="DiskMark Results on my Modest Laptop’s DDR3L RAM" width="406" height="369" /><figcaption class="wp-caption-text">DiskMark Results on my Modest Laptop’s DDR3L RAM</figcaption></figure> <figure id="attachment_2865" style="width: 406px;" class="wp-caption aligncenter"><img class="size-full wp-image-2865" src="/wp-content/uploads/2014/12/gskill-ram-diskmark.png" alt="DiskMark Results on my DDR3 Desktop RAM" width="406" height="369" /><figcaption class="wp-caption-text">DiskMark Results on my <a href="http://www.newegg.com/Product/Product.aspx?Item=N82E16820231568" target="_blank">DDR3 Desktop RAM</a></figcaption></figure> 
+
+<p style="text-align: justify;">
+  Look at the difference for yourself. Also note 4K results are very important in real life- as OS/Browsers keep writing/reading small chunks of data consistently- here RAMDrive is almost order of magnitude faster.
+</p>
+
+<p style="text-align: justify;">
+  This turned out pretty good so far on Windows. I had mixed results on OS X Yosemite. One of the bigger issues as it turned out is <a href="https://www.google.com/search?q=kext%20signing%20yosemite" target="_blank">kext signing</a>. Since OCZ ARC 100 is not supported/sold by Apple (or I did not paid Apple Tax for SSD), TRIM is disabled on Yosemite. <a href="http://arstechnica.com/feature-series/the-ssd-revolution/" target="_blank">These ArsTechnica articles</a> have good information about why TRIM is so important. After spending quite some time investigating how to enable TRIM natively (and running for a week with disabling kext signing) I eventually decided to go back to my old <a href="http://www.amazon.com/Seagate-Momentus-7200RPM-Hybrid-ST750LX003/dp/B00691WMJG/" target="_blank">Seagate Momentus XT</a> HDD.
+</p>
+      </article>
+
+      <ul class="pager blog-pager">
+        
+        <li class="previous">
+          <a href="https://www.variadic.xyz/2014/12/24/ssd-thrashing-and-ramdrive/" data-toggle="tooltip" data-placement="top" title="SSD thrashing and RAMDrive">&larr; Previous Post</a>
+        </li>
+        
+        
+        <li class="next">
+          <a href="https://www.variadic.xyz/2015/01/02/running-as-administrator/" data-toggle="tooltip" data-placement="top" title="running as administrator">Next Post &rarr;</a>
+        </li>
+        
+      </ul>
+
+      
+
+    </div>
+  </div>
+</div>
+
+      
+
+    </div>
+
+    <footer>
+  <div class="container beautiful-jekyll-footer">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <ul class="list-inline text-center footer-links">
+          
+          
+          
+          <li>
+            <a href="https://github.com/sarangbaheti" title="GitHub">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+		      
+		      
+          <li>
+            <a href="https://linkedin.com/in/sarangbaheti" title="LinkedIn">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+	    	  
+          <li>
+            <a href="https://stackoverflow.com/users/916549/sarang" title="StackOverflow">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-stack-overflow fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+          
+    		  <li>
+      			<a href="https://www.variadic.xyz/index.xml" title="RSS">
+      			  <span class="fa-stack fa-lg">
+        				<i class="fa fa-circle fa-stack-2x"></i>
+        				<i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+      			  </span>
+      			</a>
+    		  </li>		
+
+        </ul>
+        <p class="copyright text-muted">
+    		  Sarang Baheti
+    		  &nbsp;&bull;&nbsp;
+    		  2009 - 2020
+    		  
+    		  
+    		  &nbsp;&bull;&nbsp;
+    		  <a href="https://www.variadic.xyz/">a few notes</a>
+    		  
+  	    </p>
+  	        
+    		<p class="theme-by text-muted">
+    		  Theme by
+    		  <a href="https://github.com/sarangbaheti/bh">bh</a>
+    		</p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="https://www.variadic.xyz/js/jquery-1.11.2.min.js"></script>
+<script src="https://www.variadic.xyz/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/highlight.min.js"></script>
+<script src="https://www.variadic.xyz/js/main.js"></script>
+
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-27935503-1', 'auto');
+ga('send', 'pageview');
+</script>
+
+
+
+  </body>
+</html>

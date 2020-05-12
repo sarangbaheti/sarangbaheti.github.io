@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+  <title>windbg crashdump 1</title>
+
+  <meta name="author" content="Sarang Baheti" />
+  
+  
+  <meta name="description" content="analyzing an abort in windbg">
+  
+
+  <meta name="generator" content="Hugo 0.30.2" />
+
+  <link rel="alternate" href="https://www.variadic.xyz/index.xml" type="application/rss+xml" title="a few notes">
+
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
+  <link rel="stylesheet" href="https://www.variadic.xyz/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="https://www.variadic.xyz/css/main.css" />
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" />
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" />
+  
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/styles/default.min.css">
+  
+  
+  
+  <meta property="og:title" content="windbg crashdump 1" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="/2019/11/21/windbg-crashdump-analysis-1//" />
+  <meta property="og:image" content="" />
+  
+</head>
+
+
+  <body>
+
+    <nav class="navbar navbar-default navbar-fixed-top navbar-custom">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="https://www.variadic.xyz/">a few notes</a>
+    </div>
+
+    <div class="collapse navbar-collapse" id="main-navbar">
+      <ul class="nav navbar-nav navbar-right">
+      
+        
+          <li>
+          <a title="Notes" href="/">Notes</a>
+  	      </li>
+  	    
+      
+        
+          <li>
+          <a title="About" href="/about/">About</a>
+  	      </li>
+  	    
+      
+        
+          <li>
+          <a title="Archive" href="/archive/">Archive</a>
+  	      </li>
+  	    
+      
+        
+          <li>
+          <a title="Books" href="/books/">Books</a>
+  	      </li>
+  	    
+      
+        
+          <li>
+          <a title="Disclaimer" href="/disclaimer/">Disclaimer</a>
+  	      </li>
+  	    
+      
+      </ul>
+    </div>
+
+	<div class="avatar-container">
+	  <div class="avatar-img-border">
+      
+	  </div>
+	</div>
+
+  </div>
+</nav>
+
+
+    <div role="main" class="container main-content">
+
+      
+        
+
+
+
+
+
+<header class="header-section ">
+
+<div class="intro-header no-img">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="post-heading">
+          <h1>windbg crashdump 1</h1>
+      
+      
+      
+      <span class="post-meta">Posted on November 21, 2019</span>
+      
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</header>
+
+
+
+
+<div class="container">
+  <div class="row">
+    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+      <article role="main" class="blog-post">
+          
+<figure >
+    
+        <img src="/images/windbg1-img1-opencrashdump.png" alt="open crash dump in windbg" />
+    
+    
+    <figcaption>
+        <p>
+        open crash dump in windbg
+        
+            
+        
+        </p> 
+    </figcaption>
+    
+</figure>
+
+
+<pre><code class="language-sh">Windows 10 Version 18362 MP (4 procs) Free x64
+Product: WinNt, suite: SingleUserTS
+Built by: 10.0.18362.329 (WinBuild.160101.0800)
+Machine Name:
+Debug session time: Thu Nov 21 18:32:37.000 2019 (UTC - 8:00)
+System Uptime: 3 days 22:27:41.943
+Process Uptime: 0 days 0:00:01.000
+............
+This dump file has an exception of interest stored in it.
+The stored exception information can be accessed via .ecxr.
+(62c.2a10): Security check failure or stack buffer overrun - code c0000409 (first/second chance not available)
+ucrtbase!abort+0x4e:
+00007ffb`5997db8e cd29            int     29h
+</code></pre>
+
+<p>First thing read thru this text, it often provides good enough information. Here windbg is warning you stored exception information in <code>.excr</code>.
+Generally you start with either <code>.excr</code> command or start with <a href="https://docs.microsoft.com/en-us/windows-hardware/drivers/debugger/using-the--analyze-extension"><code>!analyze -v</code> extension</a>.</p>
+
+<blockquote>
+<p><code>.cls</code> command clears the window if gets too cluttered</p>
+</blockquote>
+
+<p><code>!analyze -v</code> dumps a lot of text, lets take it step by step:</p>
+
+<pre><code class="language-sh">0:009&gt; !analyze -v
+*******************************************************************************
+*                                                                             *
+*                        Exception Analysis                                   *
+*                                                                             *
+*******************************************************************************
+
+*** WARNING: Unable to verify checksum for tbb-expt.exe
+*** WARNING: Unable to verify checksum for tbb.dll
+
+DUMP_CLASS: 2
+
+DUMP_QUALIFIER: 400
+
+CONTEXT:  (.ecxr)
+rax=0000000000000001 rbx=00000073bc0ff5e0 rcx=0000000000000007
+rdx=000000000000000f rsi=00000073bc0fec50 rdi=00007ff7b3a24710
+rip=00007ffb5997db8e rsp=00000073bc0fe410 rbp=00000073bc0fe570
+ r8=000001f14807e5f0  r9=00007ffb59a31ec0 r10=0000000000000014
+r11=000001f148080180 r12=00000073bc0fe690 r13=00000073bc0fee00
+r14=00000000ffffffff r15=00000073bc0fee10
+iopl=0         nv up ei pl nz na pe nc
+cs=0033  ss=002b  ds=002b  es=002b  fs=0053  gs=002b             efl=00000202
+ucrtbase!abort+0x4e:
+00007ffb`5997db8e cd29            int     29h
+Resetting default scope
+
+FAULTING_IP: 
+ucrtbase!abort+4e
+00007ffb`5997db8e cd29            int     29h
+
+EXCEPTION_RECORD:  (.exr -1)
+ExceptionAddress: 00007ffb5997db8e (ucrtbase!abort+0x000000000000004e)
+   ExceptionCode: c0000409 (Security check failure or stack buffer overrun)
+  ExceptionFlags: 00000001
+NumberParameters: 1
+   Parameter[0]: 0000000000000007
+Subcode: 0x7 FAST_FAIL_FATAL_APP_EXIT
+</code></pre>
+
+<p>Here is clearly highlighted that <code>.excr</code> at <code>line 15</code> has expection information. <code>Lines 16-23</code> have register contents dumped. These are often helpful to make sense of what was being executed at the moment of error. With some basic assembly knowledge and patterns of code generated it can help pin-point the root cause in mins.</p>
+
+<p><code>Line 24</code> points to the last stack-frame: <code>ucrtbase!abort+0x4e:</code>, the error was thrown from function <code>abort</code> in <code>ucrtbase</code> and offset <code>0x4e</code> in that fn. The executed at that line is <code>int 29h</code>, which is an instruction defined by <a href="https://docs.microsoft.com/en-us/cpp/intrinsics/fastfail?view=vs-2019"><code>__fastfail</code> intrinsic</a></p>
+
+<p>Now it <code>analyze</code> extension tries to classify the error per MS classification system. Here it listed error as <code>FATAL_APP_EXIT</code>, however the error code <code>0xc0000409</code> specified is not really what happened with this application. This is a case of unhandled exception from a background thread, eventually crashing the process not a stack-based buffer overflow.</p>
+
+<pre><code class="language-sh">BUGCHECK_STR:  FATAL_APP_EXIT
+
+DEFAULT_BUCKET_ID:  FATAL_APP_EXIT
+
+PROCESS_NAME:  tbb-expt.exe
+
+ERROR_CODE: (NTSTATUS) 0xc0000409 - The system detected an overrun of a stack-based buffer in this application. This overrun could potentially allow a malicious user to gain control of this application.
+
+EXCEPTION_CODE: (NTSTATUS) 0xc0000409 - The system detected an overrun of a stack-based buffer in this application. This overrun could potentially allow a malicious user to gain control of this application.
+
+EXCEPTION_CODE_STR:  c0000409
+
+EXCEPTION_PARAMETER1:  0000000000000007
+</code></pre>
+
+<p>I have posted the entire output of this <code>analyze -v</code> command here on <a href="https://gist.github.com/angeleno/3827926fbd35842049217107695a00e1">gist.github.com</a>. Towards the end of <code>analyze</code> output it prints the call-stack for the thread from which the error was cached in <code>.excr</code>. However that is just 1 thread.</p>
+
+<p>To further check what is going on, I am going to query threads in this dump with command <code>~</code>:</p>
+
+<blockquote>
+<p><a href="https://docs.microsoft.com/en-us/windows-hardware/drivers/debugger/---thread-status-">Thread status command</a></p>
+</blockquote>
+
+<pre><code>0:009&gt; ~
+   0  Id: 62c.1084 Suspend: 1 Teb: 00000073`bacb7000 Unfrozen
+   1  Id: 62c.3a48 Suspend: 1 Teb: 00000073`bacb9000 Unfrozen
+   2  Id: 62c.2828 Suspend: 1 Teb: 00000073`bacbb000 Unfrozen
+   3  Id: 62c.2850 Suspend: 1 Teb: 00000073`bacbd000 Unfrozen
+   4  Id: 62c.2b28 Suspend: 1 Teb: 00000073`bacbf000 Unfrozen
+   5  Id: 62c.41a0 Suspend: 1 Teb: 00000073`bacc1000 Unfrozen
+   6  Id: 62c.40c Suspend: 0 Teb: 00000073`bacc3000 Unfrozen
+   7  Id: 62c.854 Suspend: 0 Teb: 00000073`bacc5000 Unfrozen
+   8  Id: 62c.2ef4 Suspend: 0 Teb: 00000073`bacc7000 Unfrozen
+.  9  Id: 62c.2a10 Suspend: 0 Teb: 00000073`bacc9000 Unfrozen
+  10  Id: 62c.1a58 Suspend: 0 Teb: 00000073`baccb000 Unfrozen
+  11  Id: 62c.890 Suspend: 0 Teb: 00000073`baccd000 Unfrozen
+  12  Id: 62c.17f0 Suspend: 0 Teb: 00000073`baccf000 Unfrozen
+</code></pre>
+
+<p>Here <code>62c</code> is process-id and <code>1084</code>, <code>3a48</code> and so on are thread-ids.</p>
+
+<p>to check stack of thread <code>3a48</code>  Thread#1, execute command: <code>~1 KB</code>:</p>
+
+<pre><code>0:009&gt; ~1 KB
+ # RetAddr           : Args to Child                                                           : Call Site
+00 00007ffb`5c9b4060 : 00000000`00000000 00000000`00000000 000001f1`480639d0 00000000`00000002 : ntdll!NtWaitForWorkViaWorkerFactory+0x14
+01 00007ffb`5afc7bd4 : 00000000`00000000 00000000`00000000 00000000`00000000 00000000`00000000 : ntdll!TppWorkerThread+0x300
+02 00007ffb`5c9eced1 : 00000000`00000000 00000000`00000000 00000000`00000000 00000000`00000000 : kernel32!BaseThreadInitThunk+0x14
+03 00000000`00000000 : 00000000`00000000 00000000`00000000 00000000`00000000 00000000`00000000 : ntdll!RtlUserThreadStart+0x21
+</code></pre>
+
+<p>To check stack of (upto 25 frames):</p>
+
+<ul>
+<li>all threads, execute command: <code>~* KB 25</code></li>
+<li>thread that caused exception: <code>~# K 25</code></li>
+<li><code>~# kP 25</code> provides with lot more information to browse thru</li>
+</ul>
+
+<blockquote>
+<p>Note: <a href="https://docs.microsoft.com/en-us/windows-hardware/drivers/debugger/k--kb--kc--kd--kp--kp--kv--display-stack-backtrace-"><code>K</code> command</a> takes various parameters and prints stack with various level of details. I have found kP to be quite verbose and browsable, but for blog posts <code>KC</code> option works best</p>
+</blockquote>
+
+<p>Looking at call-stack:</p>
+
+<pre><code>0:009&gt; ~# KC 25
+ # Call Site
+00 ucrtbase!abort
+01 ucrtbase!terminate
+02 VCRUNTIME140!FindHandler&lt;__FrameHandler3&gt;
+03 VCRUNTIME140!__InternalCxxFrameHandler&lt;__FrameHandler3&gt;
+04 VCRUNTIME140!__CxxFrameHandler3
+05 ntdll!RtlpExecuteHandlerForException
+06 ntdll!RtlDispatchException
+07 ntdll!RtlRaiseException
+08 KERNELBASE!RaiseException
+09 VCRUNTIME140!_CxxThrowException
+0a msvcp140!std::_Xout_of_range
+0b tbb_expt!std::vector&lt;int,std::allocator&lt;int&gt; &gt;::_Xrange
+0c tbb_expt!std::vector&lt;int,std::allocator&lt;int&gt; &gt;::at
+0d tbb_expt!parallelFor::__l5::&lt;lambda_66c7355d0edda6973d22642add3a91c2&gt;::operator()
+0e tbb_expt!std::_For_each_ivdep
+0f tbb_expt!std::_Static_partitioned_for_each2&lt;int *,__int64,&lt;lambda_66c7355d0edda6973d22642add3a91c2&gt; &gt;::_Process_chunk
+10 tbb_expt!std::_Run_available_chunked_work&lt;std::_Static_partitioned_for_each2&lt;int *,__int64,&lt;lambda_66c7355d0edda6973d22642add3a91c2&gt; &gt; &gt;
+11 tbb_expt!std::_Static_partitioned_for_each2&lt;int *,__int64,&lt;lambda_66c7355d0edda6973d22642add3a91c2&gt; &gt;::_Threadpool_callback
+12 ntdll!TppWorkpExecuteCallback
+13 ntdll!TppWorkerThread
+14 kernel32!BaseThreadInitThunk
+15 ntdll!RtlUserThreadStart
+</code></pre>
+
+<p>we can safely say that <code>std::vector&lt;int&gt;::at()</code> threw an exception of for out of range: <code>_Xout_of_range</code> (Frame <code>0c</code> and <code>0a</code>). This raised an error <code>_CxxThrowException</code> at frame <code>09</code> and eventually lead to it trying to find exception handler to be executed: <code>FindHandler&lt;__FrameHandler3&gt;</code> at frame <code>02</code>, which we did not register in first place: thus it called <code>terminate</code>.</p>
+
+<p>The code is to this effect:</p>
+
+<pre><code class="language-cpp">#include &lt;iostream&gt;
+#include &lt;vector&gt;
+#include &lt;atomic&gt;
+#include &lt;utility&gt;
+#include &lt;algorithm&gt;
+#include &lt;execution&gt;
+
+constexpr int StepSize = 2;
+constexpr int Start = 0;
+constexpr int End = 9;
+
+static void parallelFor()
+{
+    std::vector&lt;int&gt; vec{0,1,2,3,4,5,6,7,8};
+    vec.reserve(50);
+    
+    try
+    {
+    
+    std::for_each(std::execution::par_unseq, vec.begin(), vec.end(),
+            [&amp;vec](int idx) -&gt; void
+            {
+                std::cout &lt;&lt; vec.at(idx * 3) &lt;&lt; std::endl;          
+            });
+    }
+    catch (std::exception&amp; ex)
+    {
+        // this will never be called- as unhandled exception from background
+        // thread will terminate application
+    }
+}
+
+int main()
+{
+    parallelFor();
+    return 0;
+}
+</code></pre>
+
+<p>Now the funny thing is: even if you change the execution policy to <code>std::execution::seq</code> from <code>std::execution::par_unseq</code>, it will still crash the application. The rational behind this decision is to keep behavior consistent for API whether you are running parallel or not..</p>
+
+<p>That&rsquo;s it for now..</p>
+
+      </article>
+
+      <ul class="pager blog-pager">
+        
+        <li class="previous">
+          <a href="https://www.variadic.xyz/2019/11/20/vs-squiggly/" data-toggle="tooltip" data-placement="top" title="VS squiggly lines">&larr; Previous Post</a>
+        </li>
+        
+        
+        <li class="next">
+          <a href="https://www.variadic.xyz/2019/12/01/semaphores-1/" data-toggle="tooltip" data-placement="top" title="notes on semaphores, part 1">Next Post &rarr;</a>
+        </li>
+        
+      </ul>
+
+      
+
+    </div>
+  </div>
+</div>
+
+      
+
+    </div>
+
+    <footer>
+  <div class="container beautiful-jekyll-footer">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <ul class="list-inline text-center footer-links">
+          
+          
+          
+          <li>
+            <a href="https://github.com/sarangbaheti" title="GitHub">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+		      
+		      
+          <li>
+            <a href="https://linkedin.com/in/sarangbaheti" title="LinkedIn">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+	    	  
+          <li>
+            <a href="https://stackoverflow.com/users/916549/sarang" title="StackOverflow">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-stack-overflow fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+          
+    		  <li>
+      			<a href="https://www.variadic.xyz/index.xml" title="RSS">
+      			  <span class="fa-stack fa-lg">
+        				<i class="fa fa-circle fa-stack-2x"></i>
+        				<i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+      			  </span>
+      			</a>
+    		  </li>		
+
+        </ul>
+        <p class="copyright text-muted">
+    		  Sarang Baheti
+    		  &nbsp;&bull;&nbsp;
+    		  2009 - 2020
+    		  
+    		  
+    		  &nbsp;&bull;&nbsp;
+    		  <a href="https://www.variadic.xyz/">a few notes</a>
+    		  
+  	    </p>
+  	        
+    		<p class="theme-by text-muted">
+    		  Theme by
+    		  <a href="https://github.com/sarangbaheti/bh">bh</a>
+    		</p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="https://www.variadic.xyz/js/jquery-1.11.2.min.js"></script>
+<script src="https://www.variadic.xyz/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/highlight.min.js"></script>
+<script src="https://www.variadic.xyz/js/main.js"></script>
+
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-27935503-1', 'auto');
+ga('send', 'pageview');
+</script>
+
+
+
+  </body>
+</html>

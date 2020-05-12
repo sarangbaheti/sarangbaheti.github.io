@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+  <title>C&#43;&#43;11 lambda- having fun with brackets!</title>
+
+  <meta name="author" content="Sarang Baheti" />
+  
+  
+
+  <meta name="generator" content="Hugo 0.30.2" />
+
+  <link rel="alternate" href="https://www.variadic.xyz/index.xml" type="application/rss+xml" title="a few notes">
+
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
+  <link rel="stylesheet" href="https://www.variadic.xyz/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="https://www.variadic.xyz/css/main.css" />
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" />
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" />
+  
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/styles/default.min.css">
+  
+  
+  
+  <meta property="og:title" content="C&#43;&#43;11 lambda- having fun with brackets!" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="/2011/10/12/c11-lambda-having-fun-with-brackets//" />
+  <meta property="og:image" content="" />
+  
+</head>
+
+
+  <body>
+
+    <nav class="navbar navbar-default navbar-fixed-top navbar-custom">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="https://www.variadic.xyz/">a few notes</a>
+    </div>
+
+    <div class="collapse navbar-collapse" id="main-navbar">
+      <ul class="nav navbar-nav navbar-right">
+      
+        
+          <li>
+          <a title="Notes" href="/">Notes</a>
+  	      </li>
+  	    
+      
+        
+          <li>
+          <a title="About" href="/about/">About</a>
+  	      </li>
+  	    
+      
+        
+          <li>
+          <a title="Archive" href="/archive/">Archive</a>
+  	      </li>
+  	    
+      
+        
+          <li>
+          <a title="Books" href="/books/">Books</a>
+  	      </li>
+  	    
+      
+        
+          <li>
+          <a title="Disclaimer" href="/disclaimer/">Disclaimer</a>
+  	      </li>
+  	    
+      
+      </ul>
+    </div>
+
+	<div class="avatar-container">
+	  <div class="avatar-img-border">
+      
+	  </div>
+	</div>
+
+  </div>
+</nav>
+
+
+    <div role="main" class="container main-content">
+
+      
+        
+
+
+
+
+
+<header class="header-section ">
+
+<div class="intro-header no-img">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="post-heading">
+          <h1>C&#43;&#43;11 lambda- having fun with brackets!</h1>
+      
+      
+      
+      <span class="post-meta">Posted on October 12, 2011</span>
+      
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</header>
+
+
+
+
+<div class="container">
+  <div class="row">
+    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+      <article role="main" class="blog-post">
+          
+
+<h2 id="lambda">Lambda</h2>
+
+<p>Breaking a complex problem into smaller chunks has obvious advantages and this true with functions as it is with design. However, sanity turns into insanity when the sheer number of such small function tends to be overwhelming. In addition, the boilerplate code needed to use these functions such as a functor, tend to slow you down considerably.</p>
+
+<p>Would it not be nice if there were a way to create functions easily on the fly at the point of call?</p>
+
+<p>Anonymous functions (Lambda functions) have existed for long time in some of the popular languages such as Javascript, C#, python, ruby and most of the functional languages. C++ however, never had such concept of inner functions; and a workaround would be to define local classes (read classes defined in function scope) or to use the famous boost lambda library; but both of these approaches were workarounds to simulate lambda. The new standard C++11 specification includes Lambda Expressions and most of the commercial grade compilers support it. In this article I would be making a flying pass thru this new cool feature.</p>
+
+<blockquote>
+<p><strong><em>Note:</em></strong><br />
+Lambda expressions are supported in VS2010 SP1 &amp; GCC 4.5 onwards</p>
+</blockquote>
+
+<p><br/></p>
+
+<h2 id="hello-lambda">Hello Lambda</h2>
+
+<p>As has been the tradition let’s start with hello lambda:</p>
+
+<pre><code class="language-cpp">#include &lt;string&gt;
+#include &lt;iostream&gt;
+
+int main()
+{
+    //  signature of lambda is void lambda(const std::string&amp; str);
+    auto lambda = [](const std::string&amp; str) -&gt; void
+    {
+        std::cout &lt;&lt; str &lt;&lt; std::endl;
+    };
+
+    std::string hello(&quot;Hello Lambda!&quot;);
+    lambda(hello);
+
+    std::cin.ignore();
+    return 0;
+}
+</code></pre>
+
+<p>The highlighted piece of code is a lambda function definition. An astute user would notice that it is similar to a functor definition:</p>
+
+<pre><code class="language-cpp">struct LambdaFunctor
+{
+    void operator()(const std::string&amp; str)
+    {
+        std::cout &lt;&lt; str &lt;&lt; std::endl;
+    }
+};
+LambdaFunctor lambda;
+</code></pre>
+
+<p><br/></p>
+
+<h2 id="lambda-expression-anatomy">Lambda Expression Anatomy</h2>
+
+<p style="text-align: center;">
+  <a href="/wp-content/uploads/2011/10/lambda_expression.png"><img class="aligncenter size-full wp-image-1202" title="Lambda Expression Anatomy" src="/wp-content/uploads/2011/10/lambda_expression.png" alt="" width="850" height="428" /></a>
+</p>
+
+<h3 id="capture-clause">Capture Clause:</h3>
+
+<p>A lambda expression can access any variable that has automatic storage duration and that can be accessed in the enclosing scope. The capture clause specifies whether the body of the lambda expression accesses variables in the enclosing scope by value or by reference: variables that have the ampersand (<code>&amp;</code>) prefix are accessed by reference and variables that do not have the <code>&amp;</code> prefix are accessed by value. The empty capture clause, <code>[]</code>, indicates that the body of the lambda expression accesses no variables from the enclosing scope.</p>
+
+<p>A variable is explicitly captured if it appears in capture clause, else it is implicitly captured. The body of lambda uses the default capture mode to access variables that are implicitly captured.</p>
+
+<h3 id="parameter-list">Parameter List:</h3>
+
+<p>Parameter list for lambda is same as that for any function but with few constraints:</p>
+
+<ol>
+<li>No default arguments</li>
+<li>No variable length arguments</li>
+<li>No unnamed parameters</li>
+</ol>
+
+<p>Parameter list for lambdas is optional if you are not going to pass-in any parameter, but keeping it there ensures sane code.</p>
+
+<h3 id="mutable-specification">Mutable Specification:</h3>
+
+<p>It enables the function body to modify the values that have been captured by values. It is optional.</p>
+
+<h3 id="exception-specification">Exception Specification:</h3>
+
+<p>As with functions you can have exception specifications with lambdas, I would recommend not using them, but it’s really your call whether you want them. It is optional.</p>
+
+<h3 id="return-type">Return Type:</h3>
+
+<p>Return type for lambda is specified by <strong><em>-&gt; return_type</em></strong>, it is optional only if lambda body contains exactly one statement. However it is good practice to specify return types.</p>
+
+<h3 id="lambda-body">Lambda Body:</h3>
+
+<p>It’s just like regular function body, can contain anything that an ordinary function would contain; you can define nested lambda expressions as well. Lambda expression can access:</p>
+
+<ol>
+<li>Parameters from parameter list</li>
+<li>Captured variables from enclosing scope</li>
+<li>Class data members, when defined inside a class (behaves like a member function)</li>
+<li>Any global variables</li>
+</ol>
+
+<blockquote>
+<p>Generic lambdas are now supported with C++17</p>
+</blockquote>
+
+<p><br/></p>
+
+<h2 id="lambdas-all-the-way">Lambdas all the way</h2>
+
+<h3 id="lambda-currying-captures">Lambda – currying, captures</h3>
+
+<p>In hello world example lambda did not referred to any variable, thus its capture clause was empty. Capture clause is really powerful, flexible as it lets you capture on variables from enclosing scope and is the most important factor for lambda’s coolness. Let’s see a contrived example where you have been given an array of numbers and have been asked to find if some number exists in it. Here is the first take, off course we will use STL, let’s assume we are looking for number 10:</p>
+
+<pre><code class="language-cpp">struct Comparator
+{
+    bool operator()(double a) const
+    {
+        return a == 10;
+    }
+};
+auto iter = std::find_if(numbers.begin(), numbers.end(), Comparator());
+</code></pre>
+
+<p>This works, but is not flexible; we will have to code comparator for each number that we want to find. Second approach is to make comparator take two double values but we still want to use STL:</p>
+
+<pre><code class="language-cpp">struct Comparator2 : std::binary_function&lt;double, double, bool&gt;
+{
+    bool operator()(double a, double b) const
+    {
+        return a == b;
+    }
+};
+
+auto numberToFind = 10.0;
+Comparator2 comparator;
+auto iter2 = std::find_if(numbers.begin(), numbers.end(),
+             std::bind1st(comparator, numberToFind));
+</code></pre>
+
+<p><code>find_if</code> function takes predicate, here comparator object, which takes only one parameter but our Comparator takes 2 parameters, for flexibility. Somehow we need to convert this comparator to take only 1 parameter. This is where <code>bind1st</code> comes into picture, what it does is it creates a wrapper functor taking 1 parameter, and binds 1st argument of <code>comparator</code> to the specified value. Note for this to work you must derive <code>Comparator2</code> from <code>binary_function</code>. You can imagine how tedious this will become when your comparator takes 3 or more parameters.</p>
+
+<p>Binder were first shot at introducing some kind of closure (variable capturing) support with STL. There are quite a few <a href="http://cpp-next.com/archive/2010/11/expressive-c-fun-with-function-composition/">examples</a> and libraries, like <a href="http://www.boost.org/doc/libs/1_47_0/doc/html/lambda.html">Boost.Lambda</a> and <a href="http://www.cc.gatech.edu/~yannis/fc++/">FC++</a> for higher order function programming, however lambda expressions are coolest as they are language feature. Well this is how the above code will look with lambda:</p>
+
+<pre><code class="language-cpp">auto numberToFind = 10.0;
+
+//  numberToFind is captured by value from enclosing scope
+//  this is an excellent example of closures, as the lambda has two variables
+//  one from input argument and other from enclosing scope
+//  as the enclosing scope variable is kind of fixed, lambda expression
+//  is said to be closed for that variable and open to input argument
+//
+auto lambda = [numberToFind](double a) -&gt; bool
+{
+    return a == numberToFind;
+};
+auto iter_l = std::find_if(numbers.begin(), numbers.end(), lambda);
+</code></pre>
+
+<p>This is so elegant to code. No need to write boiler-plate functors just to enable such semantics.</p>
+
+<h3 id="lambda-inside-a-member-function">Lambda – inside a member function</h3>
+
+<p>As discussed earlier, you can define lambdas in member function and they will act as if they were member functions! Here is another contrived Sample class that calculates hypotenuse of array of numbers using lambda:</p>
+
+<pre><code class="language-cpp">#include &lt;vector&gt;
+#include &lt;algorithm&gt;
+#include &lt;iostream&gt;
+
+class Sample
+{
+    std::vector&lt;double&gt; hypotenuse;
+public:
+    Sample() : hypotenuse()
+    {}
+
+    template&lt;class Func&gt;
+    void ApplyToAll(Func func) const
+    {
+        std::for_each(hypotenuse.begin(), hypotenuse.end(), func);
+    }
+
+    void operator()(const std::vector&lt;double&gt;&amp; x,
+                    const std::vector&lt;double&gt;&amp; y)
+    {
+        //  'this' is captured by value
+        //  x and y are capture by reference
+        //  no-implicit capture
+        //
+        auto evaluate = [this, &amp;x, &amp;y]()-&gt;void
+        {
+            if( x.size() != y.size())
+            {
+                return;
+            }
+
+            this-&gt;hypotenuse.reserve(x.size());
+            for( auto idx = 0U; idx &lt; x.size(); ++idx )
+            {
+                auto xx = x[idx];
+                auto yy = y[idx];
+
+                //  capture implicitly by value
+                //  since it is single statement I have
+                //  skipped the return type
+                //
+                auto hypotenuseFunc = [=](){return xx*xx + yy*yy;};
+                this-&gt;hypotenuse.push_back(hypotenuseFunc());
+            }
+        };
+
+        evaluate();
+    }
+};
+
+int main()
+{
+
+    static const size_t NumElements = 10;
+    std::vector&lt;double&gt; x(NumElements);
+    std::vector&lt;double&gt; y(NumElements);
+    std::vector&lt;double&gt; z(NumElements);
+
+    for( auto idx = 0U;idx &lt; x.size(); ++idx )
+    {
+        x[idx] = idx;
+        y[idx] = idx;
+    }
+
+    Sample smpl;
+    smpl(x,y);
+
+    smpl.ApplyToAll([](double dbl) -&gt;void
+                    {std::cout &lt;&lt; dbl &lt;&lt; std::endl;});
+
+    std::cin.ignore();
+    return 0;
+}
+</code></pre>
+
+<p>In this class, <code>evaluate</code> is the lambda expression, it captures <code>this</code> by value and <code>x</code>, <code>y</code> by reference. Lines 68-69 demonstrate anonymous function; the function being passed to <code>ApplyToAll</code> is un-named function.</p>
+
+<p>Few observations related to usage of lambdas in member functions:</p>
+
+<ol>
+<li>They mimic member functions, but are not member functions</li>
+<li>They cannot be defined virtual, so can’t be overridden</li>
+<li>Lambda defined in const function cannot mutate, or change, any member variable, unless that member variable is marked mutable explicitly</li>
+<li>Can be passed to any other higher order function, a function that takes function as one of the input parameters, as they are not member functions
+<br /></li>
+</ol>
+
+<h3 id="recursion">Recursion:</h3>
+
+<p>Lambdas can be recursive as ordinary functions are; however you need to name lambdas to make recursion work. Here is simple example of recursive lambda to calculate factorial:</p>
+
+<pre><code class="language-cpp">#include &lt;iostream&gt;
+#include &lt;functional&gt;
+
+int main()
+{
+    //  function factorial needs to be captured as we are going to call it
+    //  recursively
+    //
+    //  we could have code like:
+    //  auto factorial = lambda_expression
+    //
+    //  but standard requires auto to be defined completely before it is
+    //  used, and in case of lambda expression definition is not complete
+    //  till you define the entire body, which cannot use itself again
+    //  unless it is named thus we capture lambda expression with a
+    //  std::function object and then use it
+    //
+    std::function&lt;int(int)&gt; factorial = [&amp;factorial](int val)-&gt;int
+    {
+        if( val &lt;= 1 )
+        {
+            return 1;
+        }
+        else
+        {
+            return val * factorial(val-1);
+        }
+    };
+
+    for( auto idx = 0; idx &lt; 10; ++idx )
+    {
+        //  either we can just capture everything, read [&amp;], or just the required stuff,
+        //  in this case read [&amp;factorial], either is ok
+        //  I prefer to be explicit on what needs to be captured
+        //  so that there are no surprises
+        //
+        auto printFn = [&amp;](int idx){std::cout &lt;&lt; &quot;Factorial of &quot;
+                        &lt;&lt; idx &lt;&lt; &quot; is &quot;&lt;&lt; factorial(idx) &lt;&lt; std::endl;};
+        printFn(idx);
+    }
+
+    std::cin.ignore();
+    return 0;
+}
+</code></pre>
+
+<p><br/></p>
+
+<h2 id="summary">Summary</h2>
+
+<p>Lambdas (<a href="http://en.wikipedia.org/wiki/Lambda_calculus">Lambda Calculus</a>) were first introduced by <a href="http://en.wikipedia.org/wiki/Alonzo_Church">Alonzo Church</a> as a formal system for function definition, application and recursion. It was proved that Lambda Calculus is <a href="http://en.wikipedia.org/wiki/Turing_completeness">Turing complete</a>, there by making it <a href="http://en.wikipedia.org/wiki/Theory_of_computation">theory of computation</a> and then it made its way into <a href="http://en.wikipedia.org/wiki/Functional_programming">functional languages</a>.</p>
+
+<p>Since then Lambda Expressions have been extensively studied, pure functional languages are all lambda based. However hybrid languages, like javascript, lisp and perl, did incorporate functional features like <a href="http://en.wikipedia.org/wiki/Function_composition">function composition</a> (<a href="http://en.wikipedia.org/wiki/Higher-order_function">higher order functions</a>), <a href="http://en.wikipedia.org/wiki/Closure_(computer_science)">captures</a>, <a href="http://en.wikipedia.org/wiki/Currying">currying</a>.</p>
+
+<p>C++ STL did introduce some functional concepts like higher order functions, std::find_if taking a predicate, but it has been of very limited form. With C++11 language support now for the first time function objects are truly first class concept in C++.</p>
+
+<p>I have tried to cover most of the aspects of lambda expressions in C++11, but this is not all. I will post as and when I find something to share.</p>
+
+<p>Reading Material:</p>
+
+<ul>
+<li><a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2008/n2550.pdf">Lambda Expressions and Closures</a> (open-std.org)</li>
+<li><a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2006/n1958.pdf">A proposal to add lambda functions to the C++ standard</a> (open-std.org)</li>
+<li><a href="https://parasol.tamu.edu/~jarvi/papers/n1968.pdf">Lambda expressions and closures for C++</a> (open-std.org)</li>
+<li><a href="http://www.open-std.org/JTC1/SC22/WG21/docs/papers/2009/n2927.pdf">New wording for C++0x Lambdas</a> (open-std.org)</li>
+<li><a href="http://groups.google.com/group/comp.std.c++/browse_thread/thread/6a6f94bb32695be6/794ff3838dd524b9?q=lambda&amp;lnk=ol&amp;">lambda functions proposal</a> (<a href="http://groups.google.com/group/comp.std.c++">comp.std.c++</a>)</li>
+<li><a href="http://groups.google.com/group/comp.std.c++/browse_thread/thread/3fdd0839174646d7/13ccd6abca37fecf?lnk=gst&amp;q=lambda#13ccd6abca37fecf">Lambda parameters must have names</a> (<a href="http://groups.google.com/group/comp.std.c++">comp.std.c++</a>)</li>
+<li><a href="/tag/functional-programming/">functional programming</a></li>
+<li><a href="/2011/05/31/callable-entity/">callable entity</a></li>
+<li><a href="http://groups.google.com/group/comp.std.c++/browse_thread/thread/f793f8438c179326/441c64e85cb2ea89?lnk=gst&amp;q=lambda#441c64e85cb2ea89">C++0x: Protected/private member access from lambda functions</a> (comp.std.c++)</li>
+<li><a href="http://groups.google.com/group/comp.lang.c++/browse_thread/thread/e25a47b482c4eef5/9aace8a003b25d81?lnk=gst&amp;q=lambda#9aace8a003b25d81">lambda non-parameter variable binding</a> (<a href="http://groups.google.com/group/comp.std.c++">comp.std.c++</a>)</li>
+<li><a href="http://groups.google.com/group/comp.lang.functional/browse_thread/thread/abc50043de42f46c/79508ee17ec46b2a?lnk=gst&amp;q=lambda#79508ee17ec46b2a">Lambda abstractions in C++ vs. Scheme</a> (comp.lang.functional)</li>
+<li><a href="http://groups.google.com/group/comp.lang.c++.moderated/browse_thread/thread/126ae08d2b9fdf09/d5a127a65844e613?lnk=gst&amp;q=lambda#d5a127a65844e613">lambda Functions???</a> (comp.lang.c++.moderated)</li>
+<li><a href="http://groups.google.com/group/comp.lang.c++.moderated/browse_thread/thread/1a76788eacee6b54/56b146ca7522e342?lnk=gst&amp;q=lambda#56b146ca7522e342">Lambda expressions (i.e. anonymous functions) in C++</a> (comp.lang.c++.moderated)</li>
+<li><a href="http://groups.google.com/group/comp.lang.c++.moderated/browse_thread/thread/3ef4d0834efcf0b3/55a0013f0f3e8162?lnk=gst&amp;q=lambda#55a0013f0f3e8162">Templated Lambda Functions?</a> (comp.lang.c++.moderated)</li>
+</ul>
+
+      </article>
+
+      <ul class="pager blog-pager">
+        
+        <li class="previous">
+          <a href="https://www.variadic.xyz/2011/09/30/algorithm-is-not-a-four-letter-word/" data-toggle="tooltip" data-placement="top" title="Algorithm is not a four letter word">&larr; Previous Post</a>
+        </li>
+        
+        
+        <li class="next">
+          <a href="https://www.variadic.xyz/2011/10/16/x64-debugging/" data-toggle="tooltip" data-placement="top" title="x64 Debugging">Next Post &rarr;</a>
+        </li>
+        
+      </ul>
+
+      
+
+    </div>
+  </div>
+</div>
+
+      
+
+    </div>
+
+    <footer>
+  <div class="container beautiful-jekyll-footer">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <ul class="list-inline text-center footer-links">
+          
+          
+          
+          <li>
+            <a href="https://github.com/sarangbaheti" title="GitHub">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+		      
+		      
+          <li>
+            <a href="https://linkedin.com/in/sarangbaheti" title="LinkedIn">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+	    	  
+          <li>
+            <a href="https://stackoverflow.com/users/916549/sarang" title="StackOverflow">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-stack-overflow fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+          
+    		  <li>
+      			<a href="https://www.variadic.xyz/index.xml" title="RSS">
+      			  <span class="fa-stack fa-lg">
+        				<i class="fa fa-circle fa-stack-2x"></i>
+        				<i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+      			  </span>
+      			</a>
+    		  </li>		
+
+        </ul>
+        <p class="copyright text-muted">
+    		  Sarang Baheti
+    		  &nbsp;&bull;&nbsp;
+    		  2009 - 2020
+    		  
+    		  
+    		  &nbsp;&bull;&nbsp;
+    		  <a href="https://www.variadic.xyz/">a few notes</a>
+    		  
+  	    </p>
+  	        
+    		<p class="theme-by text-muted">
+    		  Theme by
+    		  <a href="https://github.com/sarangbaheti/bh">bh</a>
+    		</p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="https://www.variadic.xyz/js/jquery-1.11.2.min.js"></script>
+<script src="https://www.variadic.xyz/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/highlight.min.js"></script>
+<script src="https://www.variadic.xyz/js/main.js"></script>
+
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-27935503-1', 'auto');
+ga('send', 'pageview');
+</script>
+
+
+
+  </body>
+</html>

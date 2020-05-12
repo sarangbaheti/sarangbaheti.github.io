@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+  <title>vim-multiple-cursors</title>
+
+  <meta name="author" content="Sarang Baheti" />
+  
+  
+
+  <meta name="generator" content="Hugo 0.30.2" />
+
+  <link rel="alternate" href="https://www.variadic.xyz/index.xml" type="application/rss+xml" title="a few notes">
+
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
+  <link rel="stylesheet" href="https://www.variadic.xyz/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="https://www.variadic.xyz/css/main.css" />
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" />
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" />
+  
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/styles/default.min.css">
+  
+  
+  
+  <meta property="og:title" content="vim-multiple-cursors" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="/2015/05/24/vim-multiple-cursors//" />
+  <meta property="og:image" content="" />
+  
+</head>
+
+
+  <body>
+
+    <nav class="navbar navbar-default navbar-fixed-top navbar-custom">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="https://www.variadic.xyz/">a few notes</a>
+    </div>
+
+    <div class="collapse navbar-collapse" id="main-navbar">
+      <ul class="nav navbar-nav navbar-right">
+      
+        
+          <li>
+          <a title="Notes" href="/">Notes</a>
+  	      </li>
+  	    
+      
+        
+          <li>
+          <a title="About" href="/about/">About</a>
+  	      </li>
+  	    
+      
+        
+          <li>
+          <a title="Archive" href="/archive/">Archive</a>
+  	      </li>
+  	    
+      
+        
+          <li>
+          <a title="Books" href="/books/">Books</a>
+  	      </li>
+  	    
+      
+        
+          <li>
+          <a title="Disclaimer" href="/disclaimer/">Disclaimer</a>
+  	      </li>
+  	    
+      
+      </ul>
+    </div>
+
+	<div class="avatar-container">
+	  <div class="avatar-img-border">
+      
+	  </div>
+	</div>
+
+  </div>
+</nav>
+
+
+    <div role="main" class="container main-content">
+
+      
+        
+
+
+
+
+
+<header class="header-section ">
+
+<div class="intro-header no-img">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="post-heading">
+          <h1>vim-multiple-cursors</h1>
+      
+      
+      
+      <span class="post-meta">Posted on May 24, 2015</span>
+      
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</header>
+
+
+
+
+<div class="container">
+  <div class="row">
+    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+      <article role="main" class="blog-post">
+          <p>These days most of the editors have some sort of facility to make same edit in multiple lines. With Visual Studio it is <code>Alt + down-arrow</code>, similarly other decent text editors (sublime-text, atom and brackets) have some built-in support for multiple-cursors.</p>
+
+<p>I was wondering if <code>vim</code> has something of this goodness. Well <code>vim</code> has this support, you just need to check if your copy of <code>vim</code> was built with <code>visualextra</code> option or not.</p>
+
+<p></p>
+
+<p>```sh checking vim information
+$ vim &ndash;version
+VIM - Vi IMproved 7.4 (2013 Aug 10, compiled Dec  9 2014 17:36:18)
+Included patches: 1-488
+Modified by pkg-vim-maintainers@lists.alioth.debian.org
+Compiled by buildd@
+Huge version without GUI.  Features included (+) or not (-):
+-text trimmmed-
++conceal         +libcall         +profile         +visualextra
+-text trimmmed-</p>
+
+<pre><code>
+We are looking for presence of `+visualextra` option here, if present you can go into visual mode and add multiple cursors.
+To get this going open a file in vim, and position the cursor from where you want to start doing multiline edits.
+I would my cursor over to `&lt;` at first line and then press `Ctrl+V` (assuming it is not mapped to paste) to move to block selection mode. Then press `j` key `10` times (i want to comment 10 lines) or press `down-arrow` key so many times. While doing all this `vim` will show that i am in `VISUAL BLOCK` selecion mode:
+
+```sh vim with file multiple-cursors-demo.rb open
+&lt;book id=&quot;bk111&quot;&gt;
+   &lt;author&gt;O'Brien, Tim&lt;/author&gt;
+   &lt;title&gt;MSXML3: A Comprehensive Guide&lt;/title&gt;
+   &lt;genre&gt;Computer&lt;/genre&gt;
+   &lt;price&gt;36.95&lt;/price&gt;
+   &lt;publish_date&gt;2000-12-01&lt;/publish_date&gt;
+   &lt;description&gt;The Microsoft MSXML3 parser is covered in 
+   detail, with attention to XML DOM interfaces, XSLT processing, 
+   SAX and more.&lt;/description&gt;
+&lt;/book&gt;
+~                                                                               
+~                                                                                
+-- VISUAL BLOCK --                                             1,1           All
+</code></pre>
+
+<p>Once you have 10 lines highlighted, press <code>I</code> character to go into insert mode (<code>-- VISUAL BLOCK --</code> should change to <code>-- INSERT --</code>) and enter <code>#</code> character and then hit <code>Esc</code> key.
+All lines will be commented out, now you can do multiline comment in ruby with <code>=begin</code> and <code>=end</code>, so this was contrived example- but there are many situations where you want to append or prepend some text to existing variable- there it comes handy.</p>
+
+<p>Note: vim can insert multiple cursors anywhere (as you specify with motion commands).
+That&rsquo;s all for now</p>
+
+<p><a href="http://stackoverflow.com/questions/11784408/vim-multiline-editing-like-in-sublimetext">StackOverflow</a> and <a href="http://vim.wikia.com/wiki/Inserting_text_in_multiple_lines">Vim Wikia</a> are generally pretty handy about such things.</p>
+      </article>
+
+      <ul class="pager blog-pager">
+        
+        <li class="previous">
+          <a href="https://www.variadic.xyz/2015/05/16/vim/" data-toggle="tooltip" data-placement="top" title="vim &amp; cscope">&larr; Previous Post</a>
+        </li>
+        
+        
+        <li class="next">
+          <a href="https://www.variadic.xyz/2015/09/03/google-drive-quota/" data-toggle="tooltip" data-placement="top" title="google drive quota">Next Post &rarr;</a>
+        </li>
+        
+      </ul>
+
+      
+
+    </div>
+  </div>
+</div>
+
+      
+
+    </div>
+
+    <footer>
+  <div class="container beautiful-jekyll-footer">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <ul class="list-inline text-center footer-links">
+          
+          
+          
+          <li>
+            <a href="https://github.com/sarangbaheti" title="GitHub">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+		      
+		      
+          <li>
+            <a href="https://linkedin.com/in/sarangbaheti" title="LinkedIn">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+	    	  
+          <li>
+            <a href="https://stackoverflow.com/users/916549/sarang" title="StackOverflow">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-stack-overflow fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+          
+    		  <li>
+      			<a href="https://www.variadic.xyz/index.xml" title="RSS">
+      			  <span class="fa-stack fa-lg">
+        				<i class="fa fa-circle fa-stack-2x"></i>
+        				<i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+      			  </span>
+      			</a>
+    		  </li>		
+
+        </ul>
+        <p class="copyright text-muted">
+    		  Sarang Baheti
+    		  &nbsp;&bull;&nbsp;
+    		  2009 - 2020
+    		  
+    		  
+    		  &nbsp;&bull;&nbsp;
+    		  <a href="https://www.variadic.xyz/">a few notes</a>
+    		  
+  	    </p>
+  	        
+    		<p class="theme-by text-muted">
+    		  Theme by
+    		  <a href="https://github.com/sarangbaheti/bh">bh</a>
+    		</p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="https://www.variadic.xyz/js/jquery-1.11.2.min.js"></script>
+<script src="https://www.variadic.xyz/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/highlight.min.js"></script>
+<script src="https://www.variadic.xyz/js/main.js"></script>
+
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-27935503-1', 'auto');
+ga('send', 'pageview');
+</script>
+
+
+
+  </body>
+</html>

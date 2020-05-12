@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+  <title>pdbinfo</title>
+
+  <meta name="author" content="Sarang Baheti" />
+  
+  
+
+  <meta name="generator" content="Hugo 0.30.2" />
+
+  <link rel="alternate" href="https://www.variadic.xyz/index.xml" type="application/rss+xml" title="a few notes">
+
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
+  <link rel="stylesheet" href="https://www.variadic.xyz/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="https://www.variadic.xyz/css/main.css" />
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" />
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" />
+  
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/styles/default.min.css">
+  
+  
+  
+  <meta property="og:title" content="pdbinfo" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="/2017/07/18/pdbinfo/" />
+  <meta property="og:image" content="" />
+  
+</head>
+
+
+  <body>
+
+    <nav class="navbar navbar-default navbar-fixed-top navbar-custom">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="https://www.variadic.xyz/">a few notes</a>
+    </div>
+
+    <div class="collapse navbar-collapse" id="main-navbar">
+      <ul class="nav navbar-nav navbar-right">
+      
+        
+          <li>
+          <a title="Notes" href="/">Notes</a>
+  	      </li>
+  	    
+      
+        
+          <li>
+          <a title="About" href="/about/">About</a>
+  	      </li>
+  	    
+      
+        
+          <li>
+          <a title="Archive" href="/archive/">Archive</a>
+  	      </li>
+  	    
+      
+        
+          <li>
+          <a title="Books" href="/books/">Books</a>
+  	      </li>
+  	    
+      
+        
+          <li>
+          <a title="Disclaimer" href="/disclaimer/">Disclaimer</a>
+  	      </li>
+  	    
+      
+      </ul>
+    </div>
+
+	<div class="avatar-container">
+	  <div class="avatar-img-border">
+      
+	  </div>
+	</div>
+
+  </div>
+</nav>
+
+
+    <div role="main" class="container main-content">
+
+      
+        
+
+
+
+
+
+<header class="header-section ">
+
+<div class="intro-header no-img">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="post-heading">
+          <h1>pdbinfo</h1>
+      
+      
+      
+      <span class="post-meta">Posted on July 17, 2017</span>
+      
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</header>
+
+
+
+
+<div class="container">
+  <div class="row">
+    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+      <article role="main" class="blog-post">
+          <p>Last time I coded <a href="https://github.com/angeleno/peinfo"><code>peinfo</code>, https://github.com/angeleno/peinfo</a> to get information from a PE file. It listed the guid for pdb file generated alongwith.
+This is helpful as it is, but at times you have pdb file and want to query it&rsquo;s guid.</p>
+
+<p>I did not find anything handy for it, thus ended up coding one myself.
+Here the <a href="https://msdn.microsoft.com/en-us/library/x93ctkx8.aspx">Debug Interface Access SDK</a> is of great help.</p>
+
+<p>The idea is pretty simple and straight foward:</p>
+
+<ol>
+<li>Load PDB as DataSource, <code>IDiaDataSource::LoadDataFromPdb</code> (Line#72)</li>
+<li>Open Session, <code>IDiaDataSource::openSession</code>  (Line#76)</li>
+<li>Get GlobalScope, <code>IDiaSession::get_global_scope</code>  (Line#80)</li>
+<li>Get GUID, <code>IDiaSymbol::get_guid</code>  (Line#84)</li>
+</ol>
+
+<p></p>
+
+<pre><code class="language-cpp">#include &lt;atlbase.h&gt;
+#include &lt;dia2.h&gt;
+
+#include &lt;exception&gt;
+#include &lt;iostream&gt;
+#include &lt;string&gt;
+
+//------------------------------------------------------------------------------
+static void Fatal(const char* msg)
+{
+    std::cout &lt;&lt; msg &lt;&lt; std::endl;
+    throw std::exception(msg);
+}
+
+//------------------------------------------------------------------------------
+class ComInitializer
+{
+public:
+    ComInitializer()
+    {
+        HRESULT hr = CoInitialize(NULL);
+        m_initialized = SUCCEEDED(hr);
+    }
+    
+    ~ComInitializer()
+    {
+        CoUninitialize();
+    }
+    
+    bool IsInitialized() const
+    {
+        return m_initialized;
+    }
+    
+private:
+    bool m_initialized{false};
+};
+
+//------------------------------------------------------------------------------
+//  https://stackoverflow.com/a/22848342/916549
+//
+static std::string ToString(GUID* guid) 
+{
+    char guid_string[37]; // 32 hex chars + 4 hyphens + null terminator
+    
+    snprintf(guid_string, sizeof(guid_string) / sizeof(guid_string[0]),
+             &quot;%08x-%04x-%04x-%02x%02x-%02x%02x%02x%02x%02x%02x&quot;,
+             guid-&gt;Data1, guid-&gt;Data2, guid-&gt;Data3,
+             guid-&gt;Data4[0], guid-&gt;Data4[1], guid-&gt;Data4[2],
+             guid-&gt;Data4[3], guid-&gt;Data4[4], guid-&gt;Data4[5],
+             guid-&gt;Data4[6], guid-&gt;Data4[7]);
+             
+    return guid_string;
+}
+
+//------------------------------------------------------------------------------
+int main(int argc, char* argv[])
+{
+    if (argc != 2)
+        Fatal(&quot;invalid #arguments passed, 1 arg expected&quot;);
+
+    ComInitializer initializer;
+    if (initializer.IsInitialized())
+    {
+        CComPtr&lt;IDiaDataSource&gt; pSource;
+        HRESULT hr;
+        hr = CoCreateInstance(CLSID_DiaSource, NULL, CLSCTX_INPROC_SERVER, 
+                              __uuidof(IDiaDataSource), (void**)&amp;pSource);
+
+        wchar_t wszFilename[_MAX_PATH];
+        mbstowcs(wszFilename, argv[1], _MAX_PATH);
+        if (FAILED(pSource-&gt;loadDataFromPdb(wszFilename)))
+            Fatal(&quot;loadDataFromPdb failed&quot;);
+
+        CComPtr&lt;IDiaSession&gt; pSession;
+        if (FAILED(pSource-&gt;openSession(&amp;pSession)))
+            Fatal(&quot;failed to open Session&quot;);
+
+        CComPtr&lt;IDiaSymbol&gt; pSymbol;
+        if (FAILED(pSession-&gt;get_globalScope(&amp;pSymbol)))
+            Fatal(&quot;failed to get globalScope&quot;);
+
+        GUID pdbGuid;
+        if (FAILED(pSymbol-&gt;get_guid(&amp;pdbGuid)))
+            Fatal(&quot;failed to get guid&quot;);
+        
+        OLECHAR szGUID[64] = { 0 };
+        StringFromGUID2(pdbGuid, szGUID, 64);
+        
+        std::cout &lt;&lt; &quot;PDB file: &quot; &lt;&lt; argv[1] &lt;&lt; std::endl;
+        std::cout &lt;&lt; &quot;GUID is: &quot; &lt;&lt; ToString(&amp;pdbGuid) &lt;&lt; std::endl;
+    }
+    
+    return 0;
+}
+
+</code></pre>
+
+<p><br/>
+There are other tools that provide similar information:</p>
+
+<ul>
+<li><a href="https://www.codeproject.com/Articles/37456/How-To-Inspect-the-Content-of-a-Program-Database-P">PDB Inspector, https://www.codeproject.com/Articles/37456/How-To-Inspect-the-Content-of-a-Program-Database-P</a></li>
+<li><a href="http://www.debuginfo.com/tools/chkmatch.html">chkmatch, http://www.debuginfo.com/tools/chkmatch.html</a></li>
+</ul>
+      </article>
+
+      <ul class="pager blog-pager">
+        
+        <li class="previous">
+          <a href="https://www.variadic.xyz/2017/04/07/adding-cmd-in-visual-studio/" data-toggle="tooltip" data-placement="top" title="adding cmd in visual studio">&larr; Previous Post</a>
+        </li>
+        
+        
+        <li class="next">
+          <a href="https://www.variadic.xyz/2017/08/11/choosing-stl-container/" data-toggle="tooltip" data-placement="top" title="how to choose stl container">Next Post &rarr;</a>
+        </li>
+        
+      </ul>
+
+      
+
+    </div>
+  </div>
+</div>
+
+      
+
+    </div>
+
+    <footer>
+  <div class="container beautiful-jekyll-footer">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <ul class="list-inline text-center footer-links">
+          
+          
+          
+          <li>
+            <a href="https://github.com/sarangbaheti" title="GitHub">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+		      
+		      
+          <li>
+            <a href="https://linkedin.com/in/sarangbaheti" title="LinkedIn">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+	    	  
+          <li>
+            <a href="https://stackoverflow.com/users/916549/sarang" title="StackOverflow">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-stack-overflow fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+          
+    		  <li>
+      			<a href="https://www.variadic.xyz/index.xml" title="RSS">
+      			  <span class="fa-stack fa-lg">
+        				<i class="fa fa-circle fa-stack-2x"></i>
+        				<i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+      			  </span>
+      			</a>
+    		  </li>		
+
+        </ul>
+        <p class="copyright text-muted">
+    		  Sarang Baheti
+    		  &nbsp;&bull;&nbsp;
+    		  2009 - 2020
+    		  
+    		  
+    		  &nbsp;&bull;&nbsp;
+    		  <a href="https://www.variadic.xyz/">a few notes</a>
+    		  
+  	    </p>
+  	        
+    		<p class="theme-by text-muted">
+    		  Theme by
+    		  <a href="https://github.com/sarangbaheti/bh">bh</a>
+    		</p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="https://www.variadic.xyz/js/jquery-1.11.2.min.js"></script>
+<script src="https://www.variadic.xyz/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/highlight.min.js"></script>
+<script src="https://www.variadic.xyz/js/main.js"></script>
+
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-27935503-1', 'auto');
+ga('send', 'pageview');
+</script>
+
+
+
+  </body>
+</html>

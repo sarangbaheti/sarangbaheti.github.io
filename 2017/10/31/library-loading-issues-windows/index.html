@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+  <title>debugging library load issues on windows</title>
+
+  <meta name="author" content="Sarang Baheti" />
+  
+  
+
+  <meta name="generator" content="Hugo 0.30.2" />
+
+  <link rel="alternate" href="https://www.variadic.xyz/index.xml" type="application/rss+xml" title="a few notes">
+
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
+  <link rel="stylesheet" href="https://www.variadic.xyz/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="https://www.variadic.xyz/css/main.css" />
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" />
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" />
+  
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/styles/default.min.css">
+  
+  
+  
+  <meta property="og:title" content="debugging library load issues on windows" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="/2017/10/31/library-loading-issues-windows/" />
+  <meta property="og:image" content="" />
+  
+</head>
+
+
+  <body>
+
+    <nav class="navbar navbar-default navbar-fixed-top navbar-custom">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="https://www.variadic.xyz/">a few notes</a>
+    </div>
+
+    <div class="collapse navbar-collapse" id="main-navbar">
+      <ul class="nav navbar-nav navbar-right">
+      
+        
+          <li>
+          <a title="Notes" href="/">Notes</a>
+  	      </li>
+  	    
+      
+        
+          <li>
+          <a title="About" href="/about/">About</a>
+  	      </li>
+  	    
+      
+        
+          <li>
+          <a title="Archive" href="/archive/">Archive</a>
+  	      </li>
+  	    
+      
+        
+          <li>
+          <a title="Books" href="/books/">Books</a>
+  	      </li>
+  	    
+      
+        
+          <li>
+          <a title="Disclaimer" href="/disclaimer/">Disclaimer</a>
+  	      </li>
+  	    
+      
+      </ul>
+    </div>
+
+	<div class="avatar-container">
+	  <div class="avatar-img-border">
+      
+	  </div>
+	</div>
+
+  </div>
+</nav>
+
+
+    <div role="main" class="container main-content">
+
+      
+        
+
+
+
+
+
+<header class="header-section ">
+
+<div class="intro-header no-img">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="post-heading">
+          <h1>debugging library load issues on windows</h1>
+      
+      
+      
+      <span class="post-meta">Posted on October 31, 2017</span>
+      
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</header>
+
+
+
+
+<div class="container">
+  <div class="row">
+    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+      <article role="main" class="blog-post">
+          <p><a href="https://docs.microsoft.com/en-us/windows-hardware/drivers/debugger/gflags"><code>gflags</code></a> is quite a versatile tool for debugging all low level things.
+I have been using it in particular to debug heap and library load issues.</p>
+
+<p>one can launch the gui, however i have preferred cmd line usage more often.</p>
+
+<p>to enable library load debugging:</p>
+
+<p><code>gflags -i &lt;your-app.exe&gt; +sls</code></p>
+
+<p></p>
+
+<p>then launch &amp; attach debugger to your app, or start it from debugger- it should provide you wealth of information about how library loads happen on windows.</p>
+
+<p>Here is one such output taken from <code>windbg</code>, towards the end of listing it identified LoadLibrary failed as exported symbol could not be located.</p>
+
+<pre><code>14ad0:7084 @ 540581859 - LdrLoadDll - ENTER: DLL name: xmlExtensions
+14ad0:7084 @ 540581859 - LdrpLoadDllInternal - ENTER: DLL name: xmlExtensions.DLL
+14ad0:7084 @ 540581859 - LdrpLoadDllInternal - RETURN: Status: 0x00000000
+14ad0:7084 @ 540581859 - LdrLoadDll - RETURN: Status: 0x00000000
+14ad0:7084 @ 540581859 - LdrpGetProcedureAddress - INFO: Locating procedure &quot;...&quot; by name
+14ad0:7084 @ 540581859 - LdrGetDllHandleEx - ENTER: DLL name: xmlAdapter
+14ad0:7084 @ 540581859 - LdrpFindLoadedDllInternal - RETURN: Status: 0xc0000135
+14ad0:7084 @ 540581859 - LdrGetDllHandleEx - RETURN: Status: 0xc0000135
+14ad0:7084 @ 540581859 - LdrLoadDll - ENTER: DLL name: D:\workdir\wntx64\lib\xmlAdapter.dll
+14ad0:7084 @ 540581859 - LdrpLoadDllInternal - ENTER: DLL name: D:\workdir\wntx64\lib\xmlAdapter.dll
+14ad0:7084 @ 540581859 - LdrpResolveDllName - ENTER: DLL name: D:\workdir\wntx64\lib\xmlAdapter.dll
+14ad0:7084 @ 540581859 - LdrpResolveDllName - RETURN: Status: 0x00000000
+14ad0:7084 @ 540581859 - LdrpMapViewOfSection - ENTER: DLL name: D:\workdir\wntx64\lib\xmlAdapter.dll
+ModLoad: 00007ffa`05ad0000 00007ffa`05faf000   D:\workdir\wntx64\lib\xmlAdapter.dll
+14ad0:7084 @ 540581859 - LdrpMapViewOfSection - RETURN: Status: 0x00000000
+14ad0:7084 @ 540581859 - LdrpFindDllActivationContext - INFO: Probing for the manifest of DLL &quot;D:\workdir\wntx64\lib\xmlAdapter.dll&quot; failed with status 0xc000008a
+14ad0:7084 @ 540581859 - LdrpFindKnownDll - ENTER: DLL name: Tk100.dll
+14ad0:7084 @ 540581859 - LdrpFindKnownDll - RETURN: Status: 0xc0000135
+14ad0:1f750 @ 540581859 - LdrpSearchPath - ENTER: DLL name: Tk100.dll
+14ad0:7084 @ 540581859 - LdrpPreprocessDllName - INFO: DLL api-ms-win-crt-runtime-l1-1-0.dll was redirected to C:\WINDOWS\SYSTEM32\ucrtbase.dll by API set
+14ad0:7084 @ 540581859 - LdrpPreprocessDllName - INFO: DLL api-ms-win-crt-heap-l1-1-0.dll was redirected to C:\WINDOWS\SYSTEM32\ucrtbase.dll by API set
+14ad0:7084 @ 540581859 - LdrpPreprocessDllName - INFO: DLL api-ms-win-crt-convert-l1-1-0.dll was redirected to C:\WINDOWS\SYSTEM32\ucrtbase.dll by API set
+14ad0:7084 @ 540581859 - LdrpPreprocessDllName - INFO: DLL api-ms-win-crt-stdio-l1-1-0.dll was redirected to C:\WINDOWS\SYSTEM32\ucrtbase.dll by API set
+14ad0:7084 @ 540581859 - LdrpPreprocessDllName - INFO: DLL api-ms-win-crt-filesystem-l1-1-0.dll was redirected to C:\WINDOWS\SYSTEM32\ucrtbase.dll by API set
+14ad0:7084 @ 540581859 - LdrpPreprocessDllName - INFO: DLL api-ms-win-crt-locale-l1-1-0.dll was redirected to C:\WINDOWS\SYSTEM32\ucrtbase.dll by API set
+14ad0:7084 @ 540581859 - LdrpPreprocessDllName - INFO: DLL api-ms-win-crt-math-l1-1-0.dll was redirected to C:\WINDOWS\SYSTEM32\ucrtbase.dll by API set
+14ad0:7084 @ 540581859 - LdrpPreprocessDllName - INFO: DLL api-ms-win-crt-environment-l1-1-0.dll was redirected to C:\WINDOWS\SYSTEM32\ucrtbase.dll by API set
+14ad0:7084 @ 540581859 - LdrpPreprocessDllName - INFO: DLL api-ms-win-crt-time-l1-1-0.dll was redirected to C:\WINDOWS\SYSTEM32\ucrtbase.dll by API set
+14ad0:7084 @ 540581859 - LdrpPreprocessDllName - INFO: DLL api-ms-win-crt-string-l1-1-0.dll was redirected to C:\WINDOWS\SYSTEM32\ucrtbase.dll by API set
+14ad0:1f750 @ 540581859 - LdrpComputeLazyDllPath - INFO: DLL search path computed: D:\workdir\;C:\WINDOWS\SYSTEM32;C:\WINDOWS\system;C:\WINDOWS;.;D:\workdir\wntx64\lib;C:\apps\Java\jre8x64\bin;C:\windbg
+14ad0:1f750 @ 540581859 - LdrpResolveDllName - ENTER: DLL name: D:\workdir\Tk100.dll
+14ad0:1f750 @ 540581859 - LdrpResolveDllName - RETURN: Status: 0xc0000135
+14ad0:1f750 @ 540581859 - LdrpResolveDllName - ENTER: DLL name: C:\WINDOWS\SYSTEM32\Tk100.dll
+14ad0:1f750 @ 540581859 - LdrpResolveDllName - RETURN: Status: 0xc0000135
+14ad0:1f750 @ 540581859 - LdrpResolveDllName - ENTER: DLL name: C:\WINDOWS\system\Tk100.dll
+14ad0:1f750 @ 540581859 - LdrpResolveDllName - RETURN: Status: 0xc0000135
+14ad0:1f750 @ 540581859 - LdrpResolveDllName - ENTER: DLL name: C:\WINDOWS\Tk100.dll
+14ad0:1f750 @ 540581859 - LdrpResolveDllName - RETURN: Status: 0xc0000135
+14ad0:1f750 @ 540581859 - LdrpResolveDllName - ENTER: DLL name: .\Tk100.dll
+14ad0:1f750 @ 540581859 - LdrpResolveDllName - RETURN: Status: 0xc0000135
+14ad0:1f750 @ 540581859 - LdrpResolveDllName - ENTER: DLL name: D:\workdir\wntx64\lib\Tk100.dll
+14ad0:1f750 @ 540581859 - LdrpResolveDllName - RETURN: Status: 0x00000000
+14ad0:1f750 @ 540581859 - LdrpSearchPath - RETURN: Status: 0x00000000
+14ad0:1f750 @ 540581859 - LdrpMapViewOfSection - ENTER: DLL name: D:\workdir\wntx64\lib\Tk100.dll
+ModLoad: 00000000`77840000 00000000`77ffd000   D:\workdir\wntx64\lib\Tk100.dll
+14ad0:1f750 @ 540581859 - LdrpMapViewOfSection - RETURN: Status: 0x00000000
+14ad0:de9c @ 540581859 - LdrpNameToOrdinal - WARNING: Procedure &quot;?eAnnLineSymbol@xml60@@3VeAnnLineSymbol@1@A&quot; could not be located in DLL at base 0x00007FFA065A0000.
+14ad0:de9c @ 540581859 - LdrpReportError - ERROR: Locating export &quot;?eAnnLineSymbol@plmxml60@@3VeAnnLineSymbol@1@A&quot; for DLL &quot;D:\workdir\wntx64\lib\xmlAdapter.dll&quot; failed with status: 0xc0000139.
+(14ad0.de9c): Unknown exception - code c0000139 (first chance)
+14ad0:de9c @ 540581859 - LdrpGenericExceptionFilter - ERROR: Function LdrpSnapModule raised exception 0xc0000139
+Exception record: .exr 0000000000D9EE70
+Context record: .cxr 0000000000D9E980
+</code></pre>
+      </article>
+
+      <ul class="pager blog-pager">
+        
+        <li class="previous">
+          <a href="https://www.variadic.xyz/2017/08/11/choosing-stl-container/" data-toggle="tooltip" data-placement="top" title="how to choose stl container">&larr; Previous Post</a>
+        </li>
+        
+        
+        <li class="next">
+          <a href="https://www.variadic.xyz/2017/11/01/appverifier-lock-stops/" data-toggle="tooltip" data-placement="top" title="appverifier lock stops">Next Post &rarr;</a>
+        </li>
+        
+      </ul>
+
+      
+
+    </div>
+  </div>
+</div>
+
+      
+
+    </div>
+
+    <footer>
+  <div class="container beautiful-jekyll-footer">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <ul class="list-inline text-center footer-links">
+          
+          
+          
+          <li>
+            <a href="https://github.com/sarangbaheti" title="GitHub">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+		      
+		      
+          <li>
+            <a href="https://linkedin.com/in/sarangbaheti" title="LinkedIn">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+	    	  
+          <li>
+            <a href="https://stackoverflow.com/users/916549/sarang" title="StackOverflow">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-stack-overflow fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+          
+    		  <li>
+      			<a href="https://www.variadic.xyz/index.xml" title="RSS">
+      			  <span class="fa-stack fa-lg">
+        				<i class="fa fa-circle fa-stack-2x"></i>
+        				<i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+      			  </span>
+      			</a>
+    		  </li>		
+
+        </ul>
+        <p class="copyright text-muted">
+    		  Sarang Baheti
+    		  &nbsp;&bull;&nbsp;
+    		  2009 - 2020
+    		  
+    		  
+    		  &nbsp;&bull;&nbsp;
+    		  <a href="https://www.variadic.xyz/">a few notes</a>
+    		  
+  	    </p>
+  	        
+    		<p class="theme-by text-muted">
+    		  Theme by
+    		  <a href="https://github.com/sarangbaheti/bh">bh</a>
+    		</p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="https://www.variadic.xyz/js/jquery-1.11.2.min.js"></script>
+<script src="https://www.variadic.xyz/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/highlight.min.js"></script>
+<script src="https://www.variadic.xyz/js/main.js"></script>
+
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-27935503-1', 'auto');
+ga('send', 'pageview');
+</script>
+
+
+
+  </body>
+</html>

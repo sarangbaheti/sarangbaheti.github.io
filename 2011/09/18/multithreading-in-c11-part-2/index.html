@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+  <title>Multithreading in C&#43;&#43;11 - part 2</title>
+
+  <meta name="author" content="Sarang Baheti" />
+  
+  
+
+  <meta name="generator" content="Hugo 0.30.2" />
+
+  <link rel="alternate" href="https://www.variadic.xyz/index.xml" type="application/rss+xml" title="a few notes">
+
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
+  <link rel="stylesheet" href="https://www.variadic.xyz/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="https://www.variadic.xyz/css/main.css" />
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" />
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" />
+  
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/styles/default.min.css">
+  
+  
+  
+  <meta property="og:title" content="Multithreading in C&#43;&#43;11 - part 2" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="/2011/09/18/multithreading-in-c11-part-2//" />
+  <meta property="og:image" content="" />
+  
+</head>
+
+
+  <body>
+
+    <nav class="navbar navbar-default navbar-fixed-top navbar-custom">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="https://www.variadic.xyz/">a few notes</a>
+    </div>
+
+    <div class="collapse navbar-collapse" id="main-navbar">
+      <ul class="nav navbar-nav navbar-right">
+      
+        
+          <li>
+          <a title="Notes" href="/">Notes</a>
+  	      </li>
+  	    
+      
+        
+          <li>
+          <a title="About" href="/about/">About</a>
+  	      </li>
+  	    
+      
+        
+          <li>
+          <a title="Archive" href="/archive/">Archive</a>
+  	      </li>
+  	    
+      
+        
+          <li>
+          <a title="Books" href="/books/">Books</a>
+  	      </li>
+  	    
+      
+        
+          <li>
+          <a title="Disclaimer" href="/disclaimer/">Disclaimer</a>
+  	      </li>
+  	    
+      
+      </ul>
+    </div>
+
+	<div class="avatar-container">
+	  <div class="avatar-img-border">
+      
+	  </div>
+	</div>
+
+  </div>
+</nav>
+
+
+    <div role="main" class="container main-content">
+
+      
+        
+
+
+
+
+
+<header class="header-section ">
+
+<div class="intro-header no-img">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="post-heading">
+          <h1>Multithreading in C&#43;&#43;11 - part 2</h1>
+      
+      
+      
+      <span class="post-meta">Posted on September 18, 2011</span>
+      
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</header>
+
+
+
+
+<div class="container">
+  <div class="row">
+    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+      <article role="main" class="blog-post">
+          
+
+<p>In <a href="http://www.nullptr.me/2011/09/16/multithreading-in-c11-part-1/">previous</a> post we saw briefly how to create threads with various constructors. In this post I want to continue along the same lines.
+In last post we saw how to spawn the threads with simple execution code like functions, functors and labmda functions. In this post we will briefly explore invoking member-functions on objects as execution units of code.
+Lets start with the simple code to invoke non-virtual member function:</p>
+
+<pre><code class="language-cpp">#include &lt;iostream&gt;
+#include &lt;thread&gt;
+
+class Object
+{
+private:
+    double d;
+public:
+    Object(double val = 10) : d(val)
+    {}
+
+    void Invoke() const
+    {
+        std::cout &lt;&lt; &quot;From thread 1: val of d is - &quot; &lt;&lt; this-&gt;d &lt;&lt; std::endl;
+    }
+
+};
+
+int main()
+{
+    Object obj(25);
+
+    //  here we specify the function to be invoked on the object
+    //
+    std::thread t(&amp;Object::Invoke, &amp;obj);
+
+    t.join();
+
+    std::cin.ignore();
+    return 0;
+}
+</code></pre>
+
+<p>It seemed nice to be able to invoke member functions on objects. But lets try to be a bit more adventurous and see how to invoke virtual member functions:</p>
+
+<pre><code class="language-cpp">#include &lt;iostream&gt;
+#include &lt;thread&gt;
+
+class Base
+{
+public:
+    virtual void Invoke() const
+    {
+        std::cout &lt;&lt; &quot;From thread 1 -- Base::Invoke&quot; &lt;&lt; std::endl;
+    }
+};
+
+class Derived : public Base
+{
+public:
+    virtual void Invoke() const
+    {
+        std::cout &lt;&lt; &quot;From thread 1 -- Derived::Invoke&quot; &lt;&lt; std::endl;
+    }
+};
+
+int main()
+{
+    Derived obj;
+
+    std::thread t(&amp;Base::Invoke, &amp;obj);
+
+    t.join();
+
+    std::cin.ignore();
+    return 0;
+}
+</code></pre>
+
+<p>Here is one more version to compute the dot product of two vectors, but this time by invoking the member function and using a shared variable. Each thread computes the dot product for the assigned segment and updates the shared dot-product variable atomically.</p>
+
+<p>Here is the code:</p>
+
+<pre><code class="language-cpp">#include &lt;iostream&gt;
+#include &lt;thread&gt;
+#include &lt;atomic&gt;
+
+class DotProduct
+{
+private:
+
+    //  the arrays for which dot product is to
+    //  be calculated
+    //
+    double* a;
+    double* b;
+
+    //  number of elements in array
+    size_t numElems;
+
+    //  assignment to this variables is atomic
+    //  this is very nice way to ensure data consistency,
+    //  when data shared between threads is updated
+    //  concurrently
+    //
+    std::atomic&lt;double&gt; sum;
+
+public:
+    DotProduct(double* aa, double* bb, size_t numElems) :
+      a(aa), b(bb), numElems(numElems), sum(0)
+      {}
+
+      double GetValue() const
+      {
+          return sum;
+      }
+
+      void Evaluate(int segmentId)
+      {
+          //    based on segment we will pick the range in array
+          //    to operate on
+          //
+
+          //    I mean we assume there are 4 threads
+          //
+          size_t increment = numElems/4;
+          size_t startIdx = segmentId * increment;
+          size_t endIdx = (segmentId + 1) * increment;
+
+          //    for now we can have local variable for accumulating
+          //    the dot-product and then we will add it to the global
+          //    sum, this ensures we are trying to avoid accessing
+          //    shared memory to minimum, which leads to better
+          //    performance
+          //
+          double dpSum = 0.0;
+          for( size_t idx = startIdx; idx &lt; endIdx; ++idx )
+          {
+              dpSum += a[idx] * b[idx];
+          }
+
+          //    once we are done just add the value to shared sum
+          //
+          sum =  sum + dpSum;
+      }
+};
+
+int main()
+{
+    static const int NUMELEMENTS = 10000;
+    double* a = new double[NUMELEMENTS];
+    double* b = new double[NUMELEMENTS];
+
+    for( size_t idx = 0; idx &lt; NUMELEMENTS; ++idx )
+    {
+        a[idx] = idx;
+        b[idx] = NUMELEMENTS - idx;
+    }
+
+    DotProduct dotProd(a,b,NUMELEMENTS);
+
+    //  invoke Evaluate method on dotProd object
+    //  and also pass 0 as the segmentId to the method
+    //  similarly for others
+    //
+    std::thread t0(&amp;DotProduct::Evaluate, &amp;dotProd, 0);
+    std::thread t1(&amp;DotProduct::Evaluate, &amp;dotProd, 1);
+    std::thread t2(&amp;DotProduct::Evaluate, &amp;dotProd, 2);
+    std::thread t3(&amp;DotProduct::Evaluate, &amp;dotProd, 3);
+
+    //  now wait for threads to finish the work
+    //
+    t0.join();
+    t1.join();
+    t2.join();
+    t3.join();
+
+    //  we are done here, and it is safe to take the value
+    //  from dotProd object
+    //
+    std::cout &lt;&lt; &quot;Dot product is: &quot; &lt;&lt; dotProd.GetValue() &lt;&lt; std::endl;
+
+    delete[] a;
+    delete[] b;
+
+    std::cin.ignore();
+    return 0;
+}
+</code></pre>
+
+<p>Again I ran into <a href="https://connect.microsoft.com/VisualStudio/feedback/details/688797/std-thread-crashes-with-error-f-dd-vctools-crt-bld-self-x86-crt-src-thr-mutex-cpp-206-unlock-of-unowned-mutex">ugly assertions about mutex unlock</a> at times, as in <a href="http://www.nullptr.me/2011/09/16/multithreading-in-c11-part-1/">previous post</a></p>
+
+<blockquote>
+<p>Update: This problem has been resolved in the latest version of Visual Studio (VS 2011 Beta at this point of time)</p>
+</blockquote>
+
+<h2 id="related-articles">Related articles</h2>
+
+<ul class="zemanta-article-ul">
+  <li class="zemanta-article-ul-li">
+    <a href="http://www.nullptr.me/2011/09/16/multithreading-in-c11-part-1/">Multithreading in C++11 &#8211; part 1</a> (nullptr.me)
+  </li>
+  <li class="zemanta-article-ul-li">
+    <a href="http://www.nullptr.me/2011/09/16/multithreading-in-c-part-1/">Multithreading in C# &#8211; part 1</a> (nullptr.me)
+  </li>
+  <li class="zemanta-article-ul-li">
+    <a href="http://tranphuochung.wordpress.com/2011/08/27/the-syntax-of-c-and-c-function-pointers/">The Syntax of C and C++ Function Pointers</a> (tranphuochung.wordpress.com)
+  </li>
+  <li class="zemanta-article-ul-li">
+    <a href="http://www.nullptr.me/2011/09/15/visual-studio-2011-developer-preview/">Visual Studio 2011 &#8211; Developer Preview</a> (nullptr.me)
+  </li>
+</ul>
+
+      </article>
+
+      <ul class="pager blog-pager">
+        
+        <li class="previous">
+          <a href="https://www.variadic.xyz/2011/09/16/multithreading-in-c-part-1/" data-toggle="tooltip" data-placement="top" title="Multithreading in C# - part 1">&larr; Previous Post</a>
+        </li>
+        
+        
+        <li class="next">
+          <a href="https://www.variadic.xyz/2011/09/30/algorithm-is-not-a-four-letter-word/" data-toggle="tooltip" data-placement="top" title="Algorithm is not a four letter word">Next Post &rarr;</a>
+        </li>
+        
+      </ul>
+
+      
+
+    </div>
+  </div>
+</div>
+
+      
+
+    </div>
+
+    <footer>
+  <div class="container beautiful-jekyll-footer">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <ul class="list-inline text-center footer-links">
+          
+          
+          
+          <li>
+            <a href="https://github.com/sarangbaheti" title="GitHub">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+		      
+		      
+          <li>
+            <a href="https://linkedin.com/in/sarangbaheti" title="LinkedIn">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+	    	  
+          <li>
+            <a href="https://stackoverflow.com/users/916549/sarang" title="StackOverflow">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-stack-overflow fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+          
+    		  <li>
+      			<a href="https://www.variadic.xyz/index.xml" title="RSS">
+      			  <span class="fa-stack fa-lg">
+        				<i class="fa fa-circle fa-stack-2x"></i>
+        				<i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+      			  </span>
+      			</a>
+    		  </li>		
+
+        </ul>
+        <p class="copyright text-muted">
+    		  Sarang Baheti
+    		  &nbsp;&bull;&nbsp;
+    		  2009 - 2020
+    		  
+    		  
+    		  &nbsp;&bull;&nbsp;
+    		  <a href="https://www.variadic.xyz/">a few notes</a>
+    		  
+  	    </p>
+  	        
+    		<p class="theme-by text-muted">
+    		  Theme by
+    		  <a href="https://github.com/sarangbaheti/bh">bh</a>
+    		</p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="https://www.variadic.xyz/js/jquery-1.11.2.min.js"></script>
+<script src="https://www.variadic.xyz/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/highlight.min.js"></script>
+<script src="https://www.variadic.xyz/js/main.js"></script>
+
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-27935503-1', 'auto');
+ga('send', 'pageview');
+</script>
+
+
+
+  </body>
+</html>

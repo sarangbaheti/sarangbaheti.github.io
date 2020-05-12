@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+  <title>com apartments</title>
+
+  <meta name="author" content="Sarang Baheti" />
+  
+  
+  <meta name="description" content="I often wondered what the STA was and what COM Apartments were, found a good summary by Raymond Chen">
+  
+
+  <meta name="generator" content="Hugo 0.30.2" />
+
+  <link rel="alternate" href="https://www.variadic.xyz/index.xml" type="application/rss+xml" title="a few notes">
+
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
+  <link rel="stylesheet" href="https://www.variadic.xyz/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="https://www.variadic.xyz/css/main.css" />
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" />
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" />
+  
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/styles/default.min.css">
+  
+  
+  
+  <meta property="og:title" content="com apartments" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="/2020/04/24/com-apartments//" />
+  <meta property="og:image" content="" />
+  
+</head>
+
+
+  <body>
+
+    <nav class="navbar navbar-default navbar-fixed-top navbar-custom">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="https://www.variadic.xyz/">a few notes</a>
+    </div>
+
+    <div class="collapse navbar-collapse" id="main-navbar">
+      <ul class="nav navbar-nav navbar-right">
+      
+        
+          <li>
+          <a title="Notes" href="/">Notes</a>
+  	      </li>
+  	    
+      
+        
+          <li>
+          <a title="About" href="/about/">About</a>
+  	      </li>
+  	    
+      
+        
+          <li>
+          <a title="Archive" href="/archive/">Archive</a>
+  	      </li>
+  	    
+      
+        
+          <li>
+          <a title="Books" href="/books/">Books</a>
+  	      </li>
+  	    
+      
+        
+          <li>
+          <a title="Disclaimer" href="/disclaimer/">Disclaimer</a>
+  	      </li>
+  	    
+      
+      </ul>
+    </div>
+
+	<div class="avatar-container">
+	  <div class="avatar-img-border">
+      
+	  </div>
+	</div>
+
+  </div>
+</nav>
+
+
+    <div role="main" class="container main-content">
+
+      
+        
+
+
+
+
+
+<header class="header-section ">
+
+<div class="intro-header no-img">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="post-heading">
+          <h1>com apartments</h1>
+      
+      
+      
+      <span class="post-meta">Posted on April 24, 2020</span>
+      
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</header>
+
+
+
+
+<div class="container">
+  <div class="row">
+    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+      <article role="main" class="blog-post">
+          
+
+<p>I often wondered what the STA was and what COM Apartments were, found a good summary by Raymond Chen here
+<a href="https://devblogs.microsoft.com/oldnewthing/20191125-00/?p=103135">Original article link</a></p>
+
+<hr />
+
+<h2 id="a-slightly-less-brief-introduction-to-com-apartments-but-it-s-still-brief">A slightly less brief introduction to COM apartments (but it’s still brief)</h2>
+
+<p>The Component Object Model (COM) has this thing called apartments. What are they?</p>
+
+<p>I’m going to explain them by going into the history.</p>
+
+<p>In the beginning, we had 16-bit Windows. Each process had only one thread. Code took advantage of this by assuming single-threaded operation.</p>
+
+<p>If you wanted to make a call from one process to another, the call was marshaled: The parameters to the call were serialized into a memory buffer, that memory buffer was sent to the receiving process, which deserialized them back into the parameters. This works out fine for parameters that are pass-by-value, like integers and strings.</p>
+
+<p>For parameters that are pass-by-reference, deserializing the object isn’t enough. If somebody makes a mutating method call, that mutating method call must go back to the original object, not to a copy. The way COM did this was to create a fake object on the recipient side (a proxy). If the recipient of the call invoked a method on the proxy, we recursively marshaled a call back to the original process.</p>
+
+<p>The idea behind marshaling was that you can treat every object as if it were local. If the object happens not to be local, the proxy steps in and forwards the call to the actual object in some other process.</p>
+
+<p>Okay, so far we have single-threaded processes and marshaling between processes.</p>
+
+<p>Windows NT introduced multithreading. Now processes could have multiple threads. But there are all these components that assumed single-threaded operation. The solution was to treat each thread as if it were its own process. Communicating between threads was done the same way as communicating between processes: Calls between threads and cross-thread object references are marshaled.</p>
+
+<p>Each “single-threaded pseudo-process” was called an apartment.</p>
+
+<p>A little while later, COM introduced the concept of the multi-threaded apartment (MTA), and the old-timey “single-threaded pseudo-process” apartments were renamed single-threaded apartments (STA).¹ The multi-threaded apartment is one in which all the threads can share objects freely among each other without requiring marshaling.² Of course, in order for this to work, the objects themselves must support multi-threaded operation, which usually means lots of mutexes to protect internal state. (And lots of mutexes create the opportunity for lots of deadlocks.)</p>
+
+<p>Every process that uses COM consists of zero or more single-threaded apartments, plus exactly one multi-threaded apartment. The multi-threaded apartment consists of every thread that isn’t in a single-threaded apartment. This could happen because the thread explicitly asked to be part of the multi-threaded apartment (by passing the COINIT_MULTI­THREADED flag to Co­Initialize­Ex), or because the thread never expressed any opinion and merely defaulted to the multi-threaded apartment, a situation which is known as being part of the “implicit multi-threaded apartment“.</p>
+
+<p>In general, writing single-threaded objects is easier because you don’t have to deal with all the race conditions inherent in multi-threaded programming. Multi-threaded objects will typically use locks, and waiting for a lock from a UI thread is a great way to make your UI appear to hang. Furthermore, UI operations are single-threaded, so any component that displays UI or interacts with user interface objects will necessarily be single-threaded.</p>
+
+<p>Windows 2000 introduced the concept of the neutral-threaded apartment (NTA). This apartment doesn’t have a dedicated thread. Instead, when a call is made into a neutral-threaded object, the current thread is temporary commandeered by the neutral apartment for the duration of the call. Neutral-threaded apartments were cool back in the day, but you don’t see them much any more, and most people have forgotten that they even exist. Let us not talk about the neutral-threaded apartment again.</p>
+
+<p>Windows 8 introduced a variant of the single-threaded apartment known as the application single-threaded apartment (ASTA). It’s basically the same as the STA, except that it blocks reentrancy to avoid certain categories of reentrancy bugs and deadlocks.</p>
+
+<p>So that’s the quick introduction to apartments. An apartment is a thread or group of threads that can share objects freely among each other. As far as COM is concerned, all threads in an apartment are equivalent. Things get interesting only if you need to communicate between apartments.</p>
+
+<p>Now that I gave you a crash course in apartments, I’m going to confuse matters by introducing contexts. Next time.</p>
+
+<p>¹ There is some optimization opportunity available if the marshaling is within a process. For example, pointers can be marshaled by simply copying them.</p>
+
+<p>² The C++ language took a different approach: Objects can be shared freely among threads, provided that only one thread performs a non-const operation at a time, and no non-const operation can occur at the same time as a const operation. This basically allows the component to abdicate responsibility for the problem and instead puts the responsibility on the callers.</p>
+
+<p>Applying this rule to the COM world is difficult because it is common for a single component to be referenced by multiple other components, none of which know about each other. For example, there could be multiple clients all with a reference to the same Excel spreadsheet. One add-in is inspecting the data for inconsistencies. Another is cleaning up the data by removing leading and trailing spaces. Another client is monitoring the spreadsheet for changes. And a final client is manipulating data inside the spreadsheet as part of a complex custom calculation. These components have no way of coordinating their actions since they don’t know about each other. The only thing they have in common is the Excel spreadsheet itself.</p>
+
+<hr />
+
+      </article>
+
+      <ul class="pager blog-pager">
+        
+        <li class="previous">
+          <a href="https://www.variadic.xyz/2020/04/15/encode-vids/" data-toggle="tooltip" data-placement="top" title="encode videos">&larr; Previous Post</a>
+        </li>
+        
+        
+        <li class="next">
+          <a href="https://www.variadic.xyz/2020/05/07/removing-files-dirs-from-git-history/" data-toggle="tooltip" data-placement="top" title="purging stuff from git">Next Post &rarr;</a>
+        </li>
+        
+      </ul>
+
+      
+
+    </div>
+  </div>
+</div>
+
+      
+
+    </div>
+
+    <footer>
+  <div class="container beautiful-jekyll-footer">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <ul class="list-inline text-center footer-links">
+          
+          
+          
+          <li>
+            <a href="https://github.com/sarangbaheti" title="GitHub">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+		      
+		      
+          <li>
+            <a href="https://linkedin.com/in/sarangbaheti" title="LinkedIn">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+	    	  
+          <li>
+            <a href="https://stackoverflow.com/users/916549/sarang" title="StackOverflow">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-stack-overflow fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+          
+    		  <li>
+      			<a href="https://www.variadic.xyz/index.xml" title="RSS">
+      			  <span class="fa-stack fa-lg">
+        				<i class="fa fa-circle fa-stack-2x"></i>
+        				<i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+      			  </span>
+      			</a>
+    		  </li>		
+
+        </ul>
+        <p class="copyright text-muted">
+    		  Sarang Baheti
+    		  &nbsp;&bull;&nbsp;
+    		  2009 - 2020
+    		  
+    		  
+    		  &nbsp;&bull;&nbsp;
+    		  <a href="https://www.variadic.xyz/">a few notes</a>
+    		  
+  	    </p>
+  	        
+    		<p class="theme-by text-muted">
+    		  Theme by
+    		  <a href="https://github.com/sarangbaheti/bh">bh</a>
+    		</p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="https://www.variadic.xyz/js/jquery-1.11.2.min.js"></script>
+<script src="https://www.variadic.xyz/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/highlight.min.js"></script>
+<script src="https://www.variadic.xyz/js/main.js"></script>
+
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-27935503-1', 'auto');
+ga('send', 'pageview');
+</script>
+
+
+
+  </body>
+</html>

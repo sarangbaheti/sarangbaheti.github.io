@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+  <title>dissecting any</title>
+
+  <meta name="author" content="Sarang Baheti" />
+  
+  
+
+  <meta name="generator" content="Hugo 0.30.2" />
+
+  <link rel="alternate" href="https://www.variadic.xyz/index.xml" type="application/rss+xml" title="a few notes">
+
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
+  <link rel="stylesheet" href="https://www.variadic.xyz/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="https://www.variadic.xyz/css/main.css" />
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" />
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" />
+  
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/styles/default.min.css">
+  
+  
+  
+  <meta property="og:title" content="dissecting any" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="/2011/07/07/dissecting-any//" />
+  <meta property="og:image" content="" />
+  
+</head>
+
+
+  <body>
+
+    <nav class="navbar navbar-default navbar-fixed-top navbar-custom">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="https://www.variadic.xyz/">a few notes</a>
+    </div>
+
+    <div class="collapse navbar-collapse" id="main-navbar">
+      <ul class="nav navbar-nav navbar-right">
+      
+        
+          <li>
+          <a title="Notes" href="/">Notes</a>
+  	      </li>
+  	    
+      
+        
+          <li>
+          <a title="About" href="/about/">About</a>
+  	      </li>
+  	    
+      
+        
+          <li>
+          <a title="Archive" href="/archive/">Archive</a>
+  	      </li>
+  	    
+      
+        
+          <li>
+          <a title="Books" href="/books/">Books</a>
+  	      </li>
+  	    
+      
+        
+          <li>
+          <a title="Disclaimer" href="/disclaimer/">Disclaimer</a>
+  	      </li>
+  	    
+      
+      </ul>
+    </div>
+
+	<div class="avatar-container">
+	  <div class="avatar-img-border">
+      
+	  </div>
+	</div>
+
+  </div>
+</nav>
+
+
+    <div role="main" class="container main-content">
+
+      
+        
+
+
+
+
+
+<header class="header-section ">
+
+<div class="intro-header no-img">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="post-heading">
+          <h1>dissecting any</h1>
+      
+      
+      
+      <span class="post-meta">Posted on July 7, 2011</span>
+      
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</header>
+
+
+
+
+<div class="container">
+  <div class="row">
+    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+      <article role="main" class="blog-post">
+          
+
+<h2 id="dissecting-any">Dissecting any</h2>
+
+<hr />
+
+<p>In one of the <a href="/2011/05/10/boostany/">previous posts</a> we saw <a href="http://www.boost.org/doc/libs/1_46_1/doc/html/any.html"><code>boost::any</code></a>, it is one of the very good features to study. It promotes dynamic programming in C++, where you can change types at runtime, alternatively known as type-erasure.
+It is quite easy to implement and exposes a very nice side of templates. It banks on polymorphism and some cool template usage. Let’s start the dissection, rather lets construct the feature from bottom up.</p>
+
+<h2 id="implementing-any">implementing any</h2>
+
+<hr />
+
+<p>We know that any derived class can go as base class (public base class in C++). This is also know as principle of substitution, see <a href="http://en.wikipedia.org/wiki/Liskov_substitution_principle">here</a> and <a href="http://www.objectmentor.com/resources/articles/lsp.pdf">here</a> for more details. This also applies for templated derived classes. Here is what I mean:</p>
+
+<pre><code class="language-cpp">class Base
+{
+protected:
+    Base()
+    {}
+
+public:
+    
+    virtual int NumOfTemplateParameters() const = 0;
+    
+    virtual ~Base()
+    {}
+};
+
+template&lt;typename T&gt;
+class DerivedType1 : public Base
+{
+public:
+    DerivedType1()
+    {}
+
+    //  even if this is not called, being virtual code for this method
+    //  will be generated
+    //
+    int NumOfTemplateParameters() const
+    {
+        return 1;
+    }
+
+    //  unless called code for this method will not be generated
+    //  optimization with templates
+    //
+    template&lt;typename U&gt;
+    void Print()
+    {}
+};
+
+template&lt;typename T1, typename T2&gt;
+class DerivedType2 : public Base
+{
+public:
+    DerivedType2()
+    {}
+
+    int NumOfTemplateParameters() const
+    {
+        return 2;
+    }
+};
+
+int main()
+{
+    Base* b1_1 = new DerivedType1&lt;int&gt;();
+    Base* b1_2 = new DerivedType1&lt;double&gt;();
+
+    Base* b2_1 = new DerivedType2&lt;int,int&gt;();
+    Base* b2_2 = new DerivedType2&lt;int,double&gt;();
+    Base* b2_3 = new DerivedType2&lt;double,int&gt;();
+    Base* b2_4 = new DerivedType2&lt;double,double&gt;();
+
+    delete b1_1;
+    delete b1_2;
+    delete b2_1;
+    delete b2_2;
+    delete b2_3;
+    delete b2_4;
+    
+    return 0;
+}
+</code></pre>
+
+<p><code>DerivedType1</code> and <code>DerivedType2</code> template classes are subclasses of <code>Base</code>. But after template instantiation they behave as normal classes. However there are few things to note: any template function that is not called is not generated during template instantiation, i.e., template function <code>Print</code> is not called, so the method is not instantiated when <code>DerivedType1</code> class with <code>int</code> parameter is generated. But the <code>virtual</code> function <code>NumOfTemplateParameters</code> is always generated, whether it is called or not, why? <code>virtual</code> functions are stored in vtable and their address is required so they need to be generated.
+Ok so the aftermath is any non-templated class can be subtyped by a templated class. This gives us a very powerful way to have any kind of data in a structured hierarchy. Also a class can have a templated constructor, hence it can be created with any kind of data, like:</p>
+
+<pre><code class="language-cpp">class NCtors
+{
+public:
+    template&lt;typename T&gt;
+    NCtors(const T&amp;)
+    {}
+
+    template&lt;typename T1, typename T2&gt;
+    NCtors(const T1&amp;, const T2&amp;)
+    {}
+
+};
+
+int main()
+{    
+    int i = 0;
+    double d = 0;
+    char c = 'a';
+    float f = 1.0;
+
+    NCtors n1_1(i);
+    NCtors n1_2(d);
+    NCtors n1_3(c);
+    NCtors n1_4(f);
+
+    NCtors n2_1(i,i);
+    NCtors n2_2(i,d);
+    NCtors n2_3(d,i);
+    NCtors n2_4(i,c);
+    NCtors n2_5(f,c);
+    // and so-on
+
+    return 0;
+}
+</code></pre>
+
+<p><code>NCtors</code> has templated constructors, with one and two parameters, but it is not a <code>template class</code>, hence it can be created with any type of objects as shown above. <code>any</code> should be able to take in any type and store it without being templated. With templates it would have been quite easy to implement <code>any</code>, but we want it to stay as non-template since it is just a wrapper class that encapsulates any and every kind of data. So now lets compose the two bits we saw together to construct any!</p>
+
+<pre><code class="language-cpp">//  required for typeid
+#include &lt;typeinfo&gt;
+#include &lt;iostream&gt;
+
+class any
+{
+    class any_holder_base
+    {
+    public:
+        friend class any;
+        any_holder_base()
+        {}
+
+        virtual ~any_holder_base()
+        {}
+
+        virtual bool has_value(const std::type_info&amp; typeInfo) const = 0;
+    };
+
+    template&lt;typename T&gt;
+    class any_holder : public any_holder_base
+    {
+        friend class any;
+        T t;
+    public:
+        any_holder(const T&amp; val) : t(val)
+        {}
+
+        virtual bool has_value(const std::type_info&amp; typeInfo) const
+        {
+            return typeInfo == typeid(T);
+        }
+    };
+
+
+    //  pointer to base class, so that any derived can fit here
+    //
+    any_holder_base* impl;
+
+public:
+
+    template&lt;typename T&gt;
+    any(const T&amp; t) : impl( new any_holder&lt;T&gt;(t) )
+    {
+    }
+
+    ~any()
+    {
+        delete impl;
+    }
+
+    //  accessing values:
+    //
+    template&lt;typename T&gt;
+    bool has_value() const
+    {
+        return impl-&gt;has_value(typeid(T));
+    }
+
+    template&lt;typename T&gt;
+    T get_value() const
+    {
+        if( this-&gt;has_value&lt;T&gt;() )
+        {
+            any_holder&lt;T&gt;* holder = static_cast&lt;any_holder&lt;T&gt;*&gt;(impl);
+            return holder-&gt;t;
+        }
+
+        throw std::exception(&quot;bad casting&quot;);
+    }
+};
+</code></pre>
+
+<p><code>any</code> acts as wrapper class, and <code>any_holder_base</code> acts as the base of the data container <code>any_holder</code>. <code>any</code>’s constructor is templated, there by taking any type of object and forwarding it to <code>any_holder</code>. The other interesting things are: about getting type of object stored and retrieving the object with correct type. Functions <code>has_value</code> and <code>get_value</code> do the job with the help of <code>typeid operator</code> and some <code>static_casting</code>.</p>
+
+<p>Using the recently baked any:</p>
+
+<pre><code class="language-cpp">int main()
+{
+    any any_int(1);
+    any any_dbl(2.5);
+
+    std::cout &lt;&lt; &quot;any_int has value of type int -- &quot; &lt;&lt; 
+                std::boolalpha &lt;&lt; any_int.has_value&lt;int&gt;() &lt;&lt;std::endl;
+    std::cout &lt;&lt; &quot;any_int has value of type double -- &quot; &lt;&lt; 
+                std::boolalpha &lt;&lt; any_int.has_value&lt;double&gt;() &lt;&lt;std::endl;
+
+    std::cout &lt;&lt; &quot;any_int has value &quot; &lt;&lt; any_int.get_value&lt;int&gt;() &lt;&lt; std::endl;
+    std::cout &lt;&lt; &quot;any_dbl has value &quot; &lt;&lt; any_dbl.get_value&lt;double&gt;() &lt;&lt; std::endl;
+
+    try
+    {
+        std::cout &lt;&lt; &quot;any_dbl has value &quot; &lt;&lt; any_dbl.get_value&lt;int&gt;() &lt;&lt; std::endl;
+    }
+    catch(std::exception&amp; err)
+    {
+        std::cout &lt;&lt; err.what() &lt;&lt; std::endl;
+    }
+
+    std::cin.ignore();
+    return 0;
+}
+</code></pre>
+
+<p>Well this is not production level code, cause we have not handled assigning and creating empty <code>any</code> objects. One way to do this is to use <code>shared_ptr</code> for impl and most of this behaviour comes for free, other way is to write lot of code to manage the memory and other cases. I would go for <code>shared_ptr</code> usage.
+<code>any</code>, literally, takes anything. But at times you may want to constrain it to just specific usage, like any thing that is callable, should get in there by subverting the type-system but honoring the semantics. <code>polymorphic function objects</code> in C++ is a great example of this technique. May be in next post we will implement basic polymorphic function objects. Till then see you.</p>
+
+      </article>
+
+      <ul class="pager blog-pager">
+        
+        <li class="previous">
+          <a href="https://www.variadic.xyz/2011/06/14/google-earth/" data-toggle="tooltip" data-placement="top" title="google earth">&larr; Previous Post</a>
+        </li>
+        
+        
+        <li class="next">
+          <a href="https://www.variadic.xyz/2011/07/21/finding-serial-number-of-your-mac/" data-toggle="tooltip" data-placement="top" title="finding serial number of your mac">Next Post &rarr;</a>
+        </li>
+        
+      </ul>
+
+      
+
+    </div>
+  </div>
+</div>
+
+      
+
+    </div>
+
+    <footer>
+  <div class="container beautiful-jekyll-footer">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <ul class="list-inline text-center footer-links">
+          
+          
+          
+          <li>
+            <a href="https://github.com/sarangbaheti" title="GitHub">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+		      
+		      
+          <li>
+            <a href="https://linkedin.com/in/sarangbaheti" title="LinkedIn">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+	    	  
+          <li>
+            <a href="https://stackoverflow.com/users/916549/sarang" title="StackOverflow">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-stack-overflow fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+          
+    		  <li>
+      			<a href="https://www.variadic.xyz/index.xml" title="RSS">
+      			  <span class="fa-stack fa-lg">
+        				<i class="fa fa-circle fa-stack-2x"></i>
+        				<i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+      			  </span>
+      			</a>
+    		  </li>		
+
+        </ul>
+        <p class="copyright text-muted">
+    		  Sarang Baheti
+    		  &nbsp;&bull;&nbsp;
+    		  2009 - 2020
+    		  
+    		  
+    		  &nbsp;&bull;&nbsp;
+    		  <a href="https://www.variadic.xyz/">a few notes</a>
+    		  
+  	    </p>
+  	        
+    		<p class="theme-by text-muted">
+    		  Theme by
+    		  <a href="https://github.com/sarangbaheti/bh">bh</a>
+    		</p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="https://www.variadic.xyz/js/jquery-1.11.2.min.js"></script>
+<script src="https://www.variadic.xyz/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/highlight.min.js"></script>
+<script src="https://www.variadic.xyz/js/main.js"></script>
+
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-27935503-1', 'auto');
+ga('send', 'pageview');
+</script>
+
+
+
+  </body>
+</html>

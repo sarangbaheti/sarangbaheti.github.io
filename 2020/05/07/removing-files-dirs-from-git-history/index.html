@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+  <title>purging stuff from git</title>
+
+  <meta name="author" content="Sarang Baheti" />
+  
+  
+  <meta name="description" content="how to permanently remove files/directories from git">
+  
+
+  <meta name="generator" content="Hugo 0.30.2" />
+
+  <link rel="alternate" href="https://www.variadic.xyz/index.xml" type="application/rss+xml" title="a few notes">
+
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
+  <link rel="stylesheet" href="https://www.variadic.xyz/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="https://www.variadic.xyz/css/main.css" />
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" />
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" />
+  
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/styles/default.min.css">
+  
+  
+  
+  <meta property="og:title" content="purging stuff from git" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="/2020/05/07/removing-files-dirs-from-git-history//" />
+  <meta property="og:image" content="" />
+  
+</head>
+
+
+  <body>
+
+    <nav class="navbar navbar-default navbar-fixed-top navbar-custom">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="https://www.variadic.xyz/">a few notes</a>
+    </div>
+
+    <div class="collapse navbar-collapse" id="main-navbar">
+      <ul class="nav navbar-nav navbar-right">
+      
+        
+          <li>
+          <a title="Notes" href="/">Notes</a>
+  	      </li>
+  	    
+      
+        
+          <li>
+          <a title="About" href="/about/">About</a>
+  	      </li>
+  	    
+      
+        
+          <li>
+          <a title="Archive" href="/archive/">Archive</a>
+  	      </li>
+  	    
+      
+        
+          <li>
+          <a title="Books" href="/books/">Books</a>
+  	      </li>
+  	    
+      
+        
+          <li>
+          <a title="Disclaimer" href="/disclaimer/">Disclaimer</a>
+  	      </li>
+  	    
+      
+      </ul>
+    </div>
+
+	<div class="avatar-container">
+	  <div class="avatar-img-border">
+      
+	  </div>
+	</div>
+
+  </div>
+</nav>
+
+
+    <div role="main" class="container main-content">
+
+      
+        
+
+
+
+
+
+<header class="header-section ">
+
+<div class="intro-header no-img">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="post-heading">
+          <h1>purging stuff from git</h1>
+      
+      
+      
+      <span class="post-meta">Posted on May 7, 2020</span>
+      
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</header>
+
+
+
+
+<div class="container">
+  <div class="row">
+    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+      <article role="main" class="blog-post">
+          <p>Wanted to remove entire pdfs directory from and rewrite git history to remove all traces from it.
+First i deleted the directory manually and commited those changes.</p>
+
+<pre><code>rmdir /s /q pdfs
+git add -u
+git commit -m &quot;delete pdfs&quot;
+</code></pre>
+
+<p>The went about cleaning up git history thru <code>filter-branch</code> command. There are ample of warnings online about it being horribly slow (it was slow for me as well, took over ~2 hours to purge 2 directories).</p>
+
+<pre><code>git filter-branch --index-filter &quot;git rm -rf --cached --ignore-unmatch pdfs/&quot; HEAD
+Rewrite e59e7d42e69ad0cde259b32f63b43a70730f231b (1048/1097) (3254 seconds passed, remaining 152 predicted)
+rm 'pdfs/NX-bit.pdf'
+rm 'pdfs/OziMem08B.pdf'
+rm 'pdfs/PointersAndMemory.pdf'
+rm 'pdfs/Reinders_1045.pdf'
+rm 'pdfs/Reinders_1300.pdf'
+rm 'pdfs/Reinders_930.pdf'
+...
+rm 'pdfs/virtualization.pdf'
+rm 'pdfs/whymb.2010.07.23a.pdf'
+Rewrite eb2743f0f1f1c8375a5bd265a4acad1f2fb4adc3 (1097/1097) (3332 seconds passed, remaining 0 predicted)
+Ref 'refs/heads/source' was rewritten
+</code></pre>
+
+<p>Once done then ensured that <code>git</code> does gc and helps reduce size</p>
+
+<pre><code>git update-ref -d refs/original/refs/heads/source
+git reflog expire --expire=now --all
+git gc --prune=now --aggressive
+git push -f
+</code></pre>
+
+<hr />
+
+<ul>
+<li><a href="https://git-scm.com/docs/git-filter-branch">https://git-scm.com/docs/git-filter-branch</a></li>
+<li><a href="https://www.atlassian.com/git/tutorials/refs-and-the-reflog">https://www.atlassian.com/git/tutorials/refs-and-the-reflog</a></li>
+<li><a href="https://silentinfotech.com/blog/remove-deleted-files-from-git-repository-history/">https://silentinfotech.com/blog/remove-deleted-files-from-git-repository-history/</a></li>
+<li><a href="https://stackoverflow.com/questions/492558/removing-multiple-files-from-a-git-repo-that-have-already-been-deleted-from-disk">https://stackoverflow.com/questions/492558/removing-multiple-files-from-a-git-repo-that-have-already-been-deleted-from-disk</a></li>
+<li><a href="https://stackoverflow.com/questions/13931099/git-remove-all-deleted-files-from-entire-history">https://stackoverflow.com/questions/13931099/git-remove-all-deleted-files-from-entire-history</a></li>
+<li><a href="https://stackoverflow.com/questions/12179611/proper-way-to-remove-unwanted-files-with-git-filter-branch-without-git-rm-failin">https://stackoverflow.com/questions/12179611/proper-way-to-remove-unwanted-files-with-git-filter-branch-without-git-rm-failin</a></li>
+<li><a href="https://dalibornasevic.com/posts/2-permanently-remove-files-and-folders-from-git-repo">https://dalibornasevic.com/posts/2-permanently-remove-files-and-folders-from-git-repo</a></li>
+<li><a href="https://www.deployhq.com/git/faqs/removing-large-files-from-git-history">https://www.deployhq.com/git/faqs/removing-large-files-from-git-history</a></li>
+<li><a href="https://stackoverflow.com/questions/2100907/how-to-remove-delete-a-large-file-from-commit-history-in-git-repository">https://stackoverflow.com/questions/2100907/how-to-remove-delete-a-large-file-from-commit-history-in-git-repository</a></li>
+<li><a href="https://rtyley.github.io/bfg-repo-cleaner/">https://rtyley.github.io/bfg-repo-cleaner/</a></li>
+<li><a href="https://itextpdf.com/en/blog/technical-notes/how-completely-remove-file-git-repository">https://itextpdf.com/en/blog/technical-notes/how-completely-remove-file-git-repository</a></li>
+<li><a href="https://myopswork.com/how-remove-files-completely-from-git-repository-history-47ed3e0c4c35">https://myopswork.com/how-remove-files-completely-from-git-repository-history-47ed3e0c4c35</a></li>
+<li><a href="http://gitready.com/advanced/2009/03/23/whats-inside-your-git-directory.html">http://gitready.com/advanced/2009/03/23/whats-inside-your-git-directory.html</a></li>
+</ul>
+
+      </article>
+
+      <ul class="pager blog-pager">
+        
+        <li class="previous">
+          <a href="https://www.variadic.xyz/2020/04/24/com-apartments/" data-toggle="tooltip" data-placement="top" title="com apartments">&larr; Previous Post</a>
+        </li>
+        
+        
+        <li class="next">
+          <a href="https://www.variadic.xyz/2020/05/11/apple-self-congratulatory-behavior/" data-toggle="tooltip" data-placement="top" title="magic keyboard">Next Post &rarr;</a>
+        </li>
+        
+      </ul>
+
+      
+
+    </div>
+  </div>
+</div>
+
+      
+
+    </div>
+
+    <footer>
+  <div class="container beautiful-jekyll-footer">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <ul class="list-inline text-center footer-links">
+          
+          
+          
+          <li>
+            <a href="https://github.com/sarangbaheti" title="GitHub">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+		      
+		      
+          <li>
+            <a href="https://linkedin.com/in/sarangbaheti" title="LinkedIn">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+	    	  
+          <li>
+            <a href="https://stackoverflow.com/users/916549/sarang" title="StackOverflow">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-stack-overflow fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+          
+    		  <li>
+      			<a href="https://www.variadic.xyz/index.xml" title="RSS">
+      			  <span class="fa-stack fa-lg">
+        				<i class="fa fa-circle fa-stack-2x"></i>
+        				<i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+      			  </span>
+      			</a>
+    		  </li>		
+
+        </ul>
+        <p class="copyright text-muted">
+    		  Sarang Baheti
+    		  &nbsp;&bull;&nbsp;
+    		  2009 - 2020
+    		  
+    		  
+    		  &nbsp;&bull;&nbsp;
+    		  <a href="https://www.variadic.xyz/">a few notes</a>
+    		  
+  	    </p>
+  	        
+    		<p class="theme-by text-muted">
+    		  Theme by
+    		  <a href="https://github.com/sarangbaheti/bh">bh</a>
+    		</p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="https://www.variadic.xyz/js/jquery-1.11.2.min.js"></script>
+<script src="https://www.variadic.xyz/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/highlight.min.js"></script>
+<script src="https://www.variadic.xyz/js/main.js"></script>
+
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-27935503-1', 'auto');
+ga('send', 'pageview');
+</script>
+
+
+
+  </body>
+</html>
