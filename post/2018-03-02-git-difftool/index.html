@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+  <title>git diff</title>
+
+  <meta name="author" content="Sarang Baheti" />
+  
+  
+
+  <meta name="generator" content="Hugo 0.70.0" />
+
+  <link rel="alternate" href="https://www.variadic.xyz/index.xml" type="application/rss+xml" title="a few notes">
+
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
+  <link rel="stylesheet" href="https://www.variadic.xyz/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="https://www.variadic.xyz/css/main.css" />
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" />
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" />
+  
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/styles/default.min.css">
+  
+  
+  
+  <meta property="og:title" content="git diff" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="/post/2018-03-02-git-difftool//" />
+  <meta property="og:image" content="" />
+  
+</head>
+
+
+  <body>
+
+    <nav class="navbar navbar-default navbar-fixed-top navbar-custom">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="https://www.variadic.xyz/">a few notes</a>
+    </div>
+
+    <div class="collapse navbar-collapse" id="main-navbar">
+      <ul class="nav navbar-nav navbar-right">
+      
+        
+          <li>
+          <a title="Notes" href="/">Notes</a>
+  	      </li>
+  	    
+      
+        
+          <li>
+          <a title="About" href="/about/">About</a>
+  	      </li>
+  	    
+      
+        
+          <li>
+          <a title="Archive" href="/archive/">Archive</a>
+  	      </li>
+  	    
+      
+        
+          <li>
+          <a title="Books" href="/books/">Books</a>
+  	      </li>
+  	    
+      
+        
+          <li>
+          <a title="Disclaimer" href="/disclaimer/">Disclaimer</a>
+  	      </li>
+  	    
+      
+      </ul>
+    </div>
+
+	<div class="avatar-container">
+	  <div class="avatar-img-border">
+      
+	  </div>
+	</div>
+
+  </div>
+</nav>
+
+
+    <div role="main" class="container main-content">
+
+      
+        
+
+
+
+
+
+<header class="header-section ">
+
+<div class="intro-header no-img">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="post-heading">
+          <h1>git diff</h1>
+      
+      
+      
+      <span class="post-meta">Posted on March 2, 2018</span>
+      
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</header>
+
+
+
+
+<div class="container">
+  <div class="row">
+    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+      <article role="main" class="blog-post">
+          <p>By default <code>git</code> usually launches <code>vimdiff</code> for diffs and merges, but I would rather prefer <code>kdiff3</code> gui for merges/diffs.
+Here are some of my notes about how to set it up.</p>
+<blockquote>
+<p>For a detailed list of options that <code>git diff</code> supports visit <a href="https://git-scm.com/docs/git-diff">this link</a></p>
+</blockquote>
+<p><code>git</code> supports various tools for merge and diff, here is a partial list:</p>
+<ul>
+<li><a href="http://kdiff3.sourceforge.net/">kdiff3</a> &amp; <a href="http://kdiff3.sourceforge.net/doc/kdiff3_en.pdf">documentation</a></li>
+<li><a href="https://sourceforge.net/projects/tkdiff/files/">tkdiff</a></li>
+<li><a href="http://meldmerge.org/">meld</a></li>
+<li><a href="https://stackoverflow.com/questions/27832630/merge-changes-using-vimdiff">vimdiff</a></li>
+<li><a href="https://linux.die.net/man/1/gvimdiff">gvimdiff</a></li>
+</ul>
+<p>You can setup <code>kdiff3</code> by default as diff tool by executing follow command:</p>
+<pre><code>git config --global diff.tool kdiff3
+</code></pre><blockquote>
+<p>for other tools see here: <a href="https://stackoverflow.com/a/17541084/916549">Viewing all git diffs with vimdiff</a></p>
+</blockquote>
+<p>Following commands setup the kdiff3 as the global default <code>diff</code> and <code>merge</code> tool.
+(reference <a href="https://stackoverflow.com/q/33308482/916549">https://stackoverflow.com/q/33308482/916549</a>)</p>
+<pre><code>git config --global --add merge.tool kdiff3
+git config --global --add mergetool.kdiff3.path &quot;C:\\inpath\\kdiff3.exe&quot;
+git config --global --add mergetool.kdiff3.trustExitCode false
+
+git config --global --add diff.guitool kdiff3
+git config --global --add difftool.kdiff3.path &quot;C:\\inpath\\kdiff3.exe&quot;
+git config --global --add difftool.kdiff3.trustExitCode false
+</code></pre><p>Alternatively one can modify the config file in repository to use specific tools for a certain repository
+(reference: <a href="https://stackoverflow.com/a/40817348/916549">https://stackoverflow.com/a/40817348/916549</a>)</p>
+<pre><code>[merge]
+    tool = kdiff3
+[mergetool &quot;kdiff3&quot;]
+    path = C:\\inpath\\kdiff3.exe
+    trustExitCode = false
+[diff]
+    guitool = kdiff3
+[difftool &quot;kdiff3&quot;]
+    path = C:\\inpath\\kdiff3.exe
+    trustExitCode = false
+</code></pre><p>One of the things i found a bit annoying was that git always prompts to launch difftool, default behavior.
+(reference <a href="https://stackoverflow.com/q/7897517/916549y">https://stackoverflow.com/q/7897517/916549y</a>)</p>
+<pre><code>git config --global difftool.prompt false
+</code></pre><p>or tweak the <code>config</code> file for repo:</p>
+<pre><code>[difftool]
+  prompt = false
+</code></pre><p>One the things I wanted to do was to diff a file between commits, following command achieves the same effect
+(reference <a href="https://stackoverflow.com/q/11673434/916549">https://stackoverflow.com/q/11673434/916549</a>)</p>
+<pre><code>git difftool HEAD~3 HEAD~2 path/to/file
+git difftool HEAD~2 HEAD~1 path/to/file
+git difftool HEAD~1 HEAD path/to/file
+</code></pre>
+      </article>
+
+      <ul class="pager blog-pager">
+        
+        <li class="previous">
+          <a href="https://www.variadic.xyz/post/2018-03-02-error-handling-links/" data-toggle="tooltip" data-placement="top" title="Error Handling Links">&larr; Previous Post</a>
+        </li>
+        
+        
+        <li class="next">
+          <a href="https://www.variadic.xyz/post/2018-03-10-pwsh/" data-toggle="tooltip" data-placement="top" title="pwsh and openssh on windows">Next Post &rarr;</a>
+        </li>
+        
+      </ul>
+
+      
+
+    </div>
+  </div>
+</div>
+
+      
+
+    </div>
+
+    <footer>
+  <div class="container beautiful-jekyll-footer">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <ul class="list-inline text-center footer-links">
+          
+          
+          
+          <li>
+            <a href="https://github.com/sarangbaheti" title="GitHub">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+		      
+		      
+          <li>
+            <a href="https://linkedin.com/in/sarangbaheti" title="LinkedIn">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+	    	  
+          <li>
+            <a href="https://stackoverflow.com/users/916549/sarang" title="StackOverflow">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-stack-overflow fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+          
+    		  <li>
+      			<a href="https://www.variadic.xyz/index.xml" title="RSS">
+      			  <span class="fa-stack fa-lg">
+        				<i class="fa fa-circle fa-stack-2x"></i>
+        				<i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+      			  </span>
+      			</a>
+    		  </li>		
+
+        </ul>
+        <p class="copyright text-muted">
+    		  Sarang Baheti
+    		  &nbsp;&bull;&nbsp;
+    		  2009 - 2020
+    		  
+    		  
+    		  &nbsp;&bull;&nbsp;
+    		  <a href="https://www.variadic.xyz/">a few notes</a>
+    		  
+  	    </p>
+  	        
+    		<p class="theme-by text-muted">
+    		  Theme by
+    		  <a href="https://github.com/sarangbaheti/bh">bh</a>
+    		</p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="https://www.variadic.xyz/js/jquery-1.11.2.min.js"></script>
+<script src="https://www.variadic.xyz/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/highlight.min.js"></script>
+<script src="https://www.variadic.xyz/js/main.js"></script>
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-27935503-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+
+
+
+  </body>
+</html>

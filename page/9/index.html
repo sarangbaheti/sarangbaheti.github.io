@@ -113,6 +113,44 @@
             
             
             <article class="post-preview">
+              <a href="https://www.variadic.xyz/2017/07/18/pdbinfo/">
+          	  <h2 class="post-title">pdbinfo</h2>
+          	
+          	    
+              </a>
+
+              <p class="post-meta">
+                Posted on July 17, 2017
+              </p>
+            
+              <div class="post-entry">
+                
+                    <p>Last time I coded <a href="https://github.com/angeleno/peinfo"><code>peinfo</code>, https://github.com/angeleno/peinfo</a> to get information from a PE file. It listed the guid for pdb file generated alongwith.
+This is helpful as it is, but at times you have pdb file and want to query it&rsquo;s guid.</p>
+
+<p>I did not find anything handy for it, thus ended up coding one myself.
+Here the <a href="https://msdn.microsoft.com/en-us/library/x93ctkx8.aspx">Debug Interface Access SDK</a> is of great help.</p>
+
+<p>The idea is pretty simple and straight foward:</p>
+
+<ol>
+<li>Load PDB as DataSource, <code>IDiaDataSource::LoadDataFromPdb</code> (Line#72)</li>
+<li>Open Session, <code>IDiaDataSource::openSession</code>  (Line#76)</li>
+<li>Get GlobalScope, <code>IDiaSession::get_global_scope</code>  (Line#80)</li>
+<li>Get GUID, <code>IDiaSymbol::get_guid</code>  (Line#84)</li>
+</ol>
+
+<p></p>
+                
+
+                <br/>
+                <br/>
+                <a href="https://www.variadic.xyz/2017/07/18/pdbinfo/" class="post-read-more">[Read&nbsp;More]</a>
+              </div>
+            
+             </article>
+            
+            <article class="post-preview">
               <a href="https://www.variadic.xyz/2017/04/07/adding-cmd-in-visual-studio/">
           	  <h2 class="post-title">adding cmd in visual studio</h2>
           	
@@ -228,37 +266,6 @@ The way to generate keys is to find <code>ssh-keygen</code>, it comes handy with
                 <br/>
                 <br/>
                 <a href="https://www.variadic.xyz/2017/03/04/github-multiple-accounts-setup-notes/" class="post-read-more">[Read&nbsp;More]</a>
-              </div>
-            
-             </article>
-            
-            <article class="post-preview">
-              <a href="https://www.variadic.xyz/2017/02/21/generating-tracebacks-first-chance-exceptions/">
-          	  <h2 class="post-title">generating tracebacks for first chance exceptions</h2>
-          	
-          	    
-              </a>
-
-              <p class="post-meta">
-                Posted on February 21, 2017
-              </p>
-            
-              <div class="post-entry">
-                
-                    <p>Recently I was debugging some workflow where it appeared quite slow. As part of debugging i saw it Visual Studio printed debugging information about first chance exceptions thrown.</p>
-
-<p>Now that <a href="https://blogs.msdn.microsoft.com/davidklinems/2005/07/12/what-is-a-first-chance-exception/">David Kline from MS</a> has made it ample clear that <a href="http://stackoverflow.com/questions/564681/what-is-a-first-chance-exception">FirstChance exceptions are normal exceptions just that debugger gets first chance at them</a>- thus first chance. If debugger chooses not to do anything then application gets a chance to do something about it. If application does not handle it then debugger gets a second chance, thus second chance exceptions. you get the idea.</p>
-
-<p>Now an application can throw as many exceptions it wants and catch it later. This is fine but exceptions are supposed to exceptional and cost quite a bit. (<a href="http://stackoverflow.com/questions/13835817/are-exceptions-in-c-really-slow">link1</a> &amp; <a href="http://stackoverflow.com/a/13840188/916549">link2</a>)</p>
-
-<p>I have seen <a href="http://www.boost.org/doc/libs/1_40_0/libs/conversion/lexical_cast.htm">lexical_cast</a> being the one that throws exceptions just to parse strings, with xml parsing this could be a big source of exceptions.
-One of the ways to speed up applications is now to fix or atleast reason about these exceptions being thrown, and having tracebacks makes life lot easier.
-</p>
-                
-
-                <br/>
-                <br/>
-                <a href="https://www.variadic.xyz/2017/02/21/generating-tracebacks-first-chance-exceptions/" class="post-read-more">[Read&nbsp;More]</a>
               </div>
             
              </article>

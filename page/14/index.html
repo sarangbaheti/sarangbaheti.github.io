@@ -113,6 +113,41 @@
             
             
             <article class="post-preview">
+              <a href="https://www.variadic.xyz/2014/12/22/disabling-superfetch-prefetch-and-indexing/">
+          	  <h2 class="post-title">disabling superfetch, prefetch and indexing</h2>
+          	
+          	    
+              </a>
+
+              <p class="post-meta">
+                Posted on December 22, 2014
+              </p>
+            
+              <div class="post-entry">
+                
+                    <p style="text-align: justify;">
+  Recently I bought a SSD for my laptop, and after upgrading it feels really fast. Earlier Windows 8.1 used to boot to desktop in about ~100 seconds (5400 RPM HDD) and now it has been reduced to ~6 seconds!!
+</p>
+
+<p style="text-align: justify;">
+  With SSD quite a few of the Windows optimizations are not required- namely search indexing, superfetch and prefetch. Actually disabling these might increase SSD lifetime- as they <a href="http://en.wikipedia.org/wiki/Flash_memory#NAND_flash" target="_blank">reduce un-neccessary writes to SSD.</a>
+</p>
+
+<p style="text-align: justify;">
+  <a href="http://windows.microsoft.com/en-us/windows/improve-windows-searches-using-index-faq#1TC=windows-7" target="_blank">Search Indexing</a> was added to compensate for HDD lag while accessing commonly used files. It did has profound effect when I was using 5400 RPM HDD but with SSD no one needs it.
+</p>
+
+<p style="text-align: justify;">
+                
+
+                <br/>
+                <br/>
+                <a href="https://www.variadic.xyz/2014/12/22/disabling-superfetch-prefetch-and-indexing/" class="post-read-more">[Read&nbsp;More]</a>
+              </div>
+            
+             </article>
+            
+            <article class="post-preview">
               <a href="https://www.variadic.xyz/2014/10/19/curious-case-of-20gb-address-space-reservation/">
           	  <h2 class="post-title">curious case of 20GB address space reservation</h2>
           	
@@ -276,29 +311,6 @@ bool isPrime_r(int number)
                 <br/>
                 <br/>
                 <a href="https://www.variadic.xyz/2014/08/04/c-template-metaprogramming-part-2-of-n/" class="post-read-more">[Read&nbsp;More]</a>
-              </div>
-            
-             </article>
-            
-            <article class="post-preview">
-              <a href="https://www.variadic.xyz/2014/08/01/visual-studio-run-time-error-checks-rtc-performance/">
-          	  <h2 class="post-title">Visual Studio Run Time Error Checks RTC and Performance</h2>
-          	
-          	    
-              </a>
-
-              <p class="post-meta">
-                Posted on August 1, 2014
-              </p>
-            
-              <div class="post-entry">
-                
-                    Recently I was analyzing some very computation intensive code. The code was operating on an image and was fiddling with each pixel. For image of size 4000&#215;4000 my function was called ~5 billion times. Since most of the computation depends only on the pixel attributes &#8211; so this problem tended itself very well for data parallel computation, but I was more interested in eliminating bottlenecks in serial code first than running un-optimized code in parallel.
-                
-
-                <br/>
-                <br/>
-                <a href="https://www.variadic.xyz/2014/08/01/visual-studio-run-time-error-checks-rtc-performance/" class="post-read-more">[Read&nbsp;More]</a>
               </div>
             
              </article>

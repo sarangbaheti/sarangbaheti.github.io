@@ -6,10 +6,21 @@
     <description>Recent content on a few notes</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 11 May 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 14 May 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://www.variadic.xyz/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>cmd line concurrency tools</title>
+      <link>https://www.variadic.xyz/2020/05/14/concurrency-visualizer/</link>
+      <pubDate>Thu, 14 May 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.variadic.xyz/2020/05/14/concurrency-visualizer/</guid>
+      <description>Tracing and Analyzing application from within VS2019 using Concurrency Visualizer often keeps crashing for me. Also, I have been looking into some sort of cmd line support to make it seamless with automated workflows.
+  Found that there is a Concurrency Visualizer Cmd utility and even though it is versioned as VS2015 it still works just fine.
+Typically it will be installed in c:\program files\Microsoft Concurrency Visualizer Collection Tools\ directory, so getting in path with those spaces is a pain, but that&amp;rsquo;s what it is.</description>
+    </item>
     
     <item>
       <title>magic keyboard</title>

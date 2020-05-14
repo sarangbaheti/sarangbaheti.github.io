@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+  <title>hashing std::pair and std::tuple</title>
+
+  <meta name="author" content="Sarang Baheti" />
+  
+  
+
+  <meta name="generator" content="Hugo 0.70.0" />
+
+  <link rel="alternate" href="https://www.variadic.xyz/index.xml" type="application/rss+xml" title="a few notes">
+
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
+  <link rel="stylesheet" href="https://www.variadic.xyz/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="https://www.variadic.xyz/css/main.css" />
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" />
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" />
+  
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/styles/default.min.css">
+  
+  
+  
+  <meta property="og:title" content="hashing std::pair and std::tuple" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="/post/2018-01-15-hashing-tuples//" />
+  <meta property="og:image" content="" />
+  
+</head>
+
+
+  <body>
+
+    <nav class="navbar navbar-default navbar-fixed-top navbar-custom">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="https://www.variadic.xyz/">a few notes</a>
+    </div>
+
+    <div class="collapse navbar-collapse" id="main-navbar">
+      <ul class="nav navbar-nav navbar-right">
+      
+        
+          <li>
+          <a title="Notes" href="/">Notes</a>
+  	      </li>
+  	    
+      
+        
+          <li>
+          <a title="About" href="/about/">About</a>
+  	      </li>
+  	    
+      
+        
+          <li>
+          <a title="Archive" href="/archive/">Archive</a>
+  	      </li>
+  	    
+      
+        
+          <li>
+          <a title="Books" href="/books/">Books</a>
+  	      </li>
+  	    
+      
+        
+          <li>
+          <a title="Disclaimer" href="/disclaimer/">Disclaimer</a>
+  	      </li>
+  	    
+      
+      </ul>
+    </div>
+
+	<div class="avatar-container">
+	  <div class="avatar-img-border">
+      
+	  </div>
+	</div>
+
+  </div>
+</nav>
+
+
+    <div role="main" class="container main-content">
+
+      
+        
+
+
+
+
+
+<header class="header-section ">
+
+<div class="intro-header no-img">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="post-heading">
+          <h1>hashing std::pair and std::tuple</h1>
+      
+      
+      
+      <span class="post-meta">Posted on January 15, 2018</span>
+      
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</header>
+
+
+
+
+<div class="container">
+  <div class="row">
+    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+      <article role="main" class="blog-post">
+          <p>Lately I have been refactoring some old code &amp; found it littered with all sorts of things. This particular code had a custom hash-table for hashing based off 3 values instead of 1. <code>std::tuple</code> are the best fit, or probably providing a custom struct with <code>std::hash</code> specialization would have served as well. What std library provides is <code>std::hash</code> for basic types, <a href="http://en.cppreference.com/w/cpp/utility/hash">reference here</a>. There is nothing for composite types. Even for <code>std::pair</code>.</p>
+<p>Providing a <code>std::hash</code> for both <code>std::pair</code> and <code>std::tuple</code> is what I want to address with this post.</p>
+<h3 id="hashing-a-stdpair">hashing a <code>std::pair</code></h3>
+<hr>
+<p>A pair has two elements, thus it is quite straight forward to specialize the <code>hash</code>, just have to use a special <code>hash_combine</code>:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">   <span style="color:#75715e">//  on why XOR is not a good choice for hash-combining:
+</span><span style="color:#75715e"></span>   <span style="color:#75715e">//  https://stackoverflow.com/questions/5889238/why-is-xor-the-default-way-to-combine-hashes
+</span><span style="color:#75715e"></span>   <span style="color:#75715e">//  
+</span><span style="color:#75715e"></span>   <span style="color:#75715e">//  this is from boost
+</span><span style="color:#75715e"></span>   <span style="color:#75715e">//
+</span><span style="color:#75715e"></span>   <span style="color:#66d9ef">template</span><span style="color:#f92672">&lt;</span><span style="color:#66d9ef">typename</span> T<span style="color:#f92672">&gt;</span>
+   <span style="color:#66d9ef">inline</span> <span style="color:#66d9ef">void</span> hash_combine(std<span style="color:#f92672">::</span>size_t<span style="color:#f92672">&amp;</span> seed, <span style="color:#66d9ef">const</span> T<span style="color:#f92672">&amp;</span> val)
+   {
+       std<span style="color:#f92672">::</span>hash<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span> hasher;
+       seed <span style="color:#f92672">^=</span> hasher(val) <span style="color:#f92672">+</span> <span style="color:#ae81ff">0x9e3779b9</span> <span style="color:#f92672">+</span> (seed <span style="color:#f92672">&lt;&lt;</span> <span style="color:#ae81ff">6</span>) <span style="color:#f92672">+</span> (seed <span style="color:#f92672">&gt;&gt;</span> <span style="color:#ae81ff">2</span>);
+   }
+
+   <span style="color:#75715e">//  taken from https://stackoverflow.com/a/7222201/916549
+</span><span style="color:#75715e"></span>   <span style="color:#75715e">//
+</span><span style="color:#75715e"></span>   <span style="color:#66d9ef">template</span><span style="color:#f92672">&lt;</span><span style="color:#66d9ef">typename</span> S, <span style="color:#66d9ef">typename</span> T<span style="color:#f92672">&gt;</span>
+   <span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">hash</span><span style="color:#f92672">&lt;</span>std<span style="color:#f92672">::</span>pair<span style="color:#f92672">&lt;</span>S, T<span style="color:#f92672">&gt;&gt;</span>
+   {
+       <span style="color:#66d9ef">inline</span> size_t <span style="color:#a6e22e">operator</span>()(<span style="color:#66d9ef">const</span> std<span style="color:#f92672">::</span>pair<span style="color:#f92672">&lt;</span>S, T<span style="color:#f92672">&gt;&amp;</span> val) <span style="color:#66d9ef">const</span>
+       {
+           size_t seed <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+           hash_combine(seed, val.first);
+           hash_combine(seed, val.second);
+           <span style="color:#66d9ef">return</span> seed;
+       }
+   };
+</code></pre></div><p><code>hash_combine</code> is from <code>boost</code>, so that helps and <a href="https://stackoverflow.com/questions/5889238/why-is-xor-the-default-way-to-combine-hashes">the link</a> has pretty good explanation for this algorithm.</p>
+<p>For <code>std::pair</code> just call it twice and be done with it.
+The complexity comes with <code>std::tuple</code> and how do you handle <code>#types</code> to be hashed without specialization for <code>arity</code> of types.</p>
+<h3 id="hashing-a-stdtuple">hashing a <code>std::tuple</code></h3>
+<hr>
+<p>Now along similar lines, here is the specialization of <code>hash</code>, but in this case we need something that iterates/recurses over all the types.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">
+    <span style="color:#66d9ef">template</span><span style="color:#f92672">&lt;</span><span style="color:#66d9ef">class</span><span style="color:#960050;background-color:#1e0010">... </span><span style="color:#a6e22e">TupleArgs</span><span style="color:#f92672">&gt;</span>
+    <span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">std</span><span style="color:#f92672">::</span>hash<span style="color:#f92672">&lt;</span>std<span style="color:#f92672">::</span>tuple<span style="color:#f92672">&lt;</span>TupleArgs...<span style="color:#f92672">&gt;&gt;</span>
+    {
+        size_t <span style="color:#a6e22e">operator</span>()(std<span style="color:#f92672">::</span>tuple<span style="color:#f92672">&lt;</span>TupleArgs...<span style="color:#f92672">&gt;</span> tupleValue) <span style="color:#66d9ef">const</span>
+        {
+            size_t seed <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+            hash_combine_tup(seed, tupleValue);
+            <span style="color:#66d9ef">return</span> seed;
+        }
+    };
+
+</code></pre></div><p>I want to reuse <code>hash_combine</code> from before, yet want to define a way to iterate over the types of <code>std::tuple</code> and compute new hash using <code>std::hash</code> and <code>hash_combine</code>. Since I am fiddling with types here this calls for <code>recursion</code> instead of <code>iteration</code>.</p>
+<p>There are various ways to do this, one could be to construct a new <code>std::tuple</code> with fewer elements and pass to the specialization or other is to increase/decrease the type index. I would go with type-index as it avoids copying business.</p>
+<p>To achieve this we need:</p>
+<ol>
+<li>termination function, that does nothing- stops recursion</li>
+</ol>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">
+    <span style="color:#75715e">//  this is a termination condition
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">//  N == sizeof...(TupleTypes)
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">//
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">template</span><span style="color:#f92672">&lt;</span>size_t Idx, <span style="color:#66d9ef">typename</span>... TupleTypes<span style="color:#f92672">&gt;</span>
+    <span style="color:#66d9ef">inline</span> <span style="color:#66d9ef">typename</span> std<span style="color:#f92672">::</span>enable_if<span style="color:#f92672">&lt;</span>Idx <span style="color:#f92672">==</span> <span style="color:#66d9ef">sizeof</span>...(TupleTypes), <span style="color:#66d9ef">void</span><span style="color:#f92672">&gt;::</span>type
+    hash_combine_tup(size_t<span style="color:#f92672">&amp;</span> seed, <span style="color:#66d9ef">const</span> std<span style="color:#f92672">::</span>tuple<span style="color:#f92672">&lt;</span>TupleTypes...<span style="color:#f92672">&gt;&amp;</span> tup)
+    {        
+    }
+</code></pre></div><ol start="2">
+<li>and a function that computes hash &amp; recurses to termination</li>
+</ol>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">   <span style="color:#75715e">//  this is the computation workhorse
+</span><span style="color:#75715e"></span>   <span style="color:#75715e">//  N &lt; sizeof...(TupleTypes)
+</span><span style="color:#75715e"></span>   <span style="color:#75715e">//
+</span><span style="color:#75715e"></span>   <span style="color:#66d9ef">template</span><span style="color:#f92672">&lt;</span>size_t Idx, <span style="color:#66d9ef">typename</span>... TupleTypes<span style="color:#f92672">&gt;</span>
+   <span style="color:#66d9ef">inline</span> <span style="color:#66d9ef">typename</span> std<span style="color:#f92672">::</span>enable_if<span style="color:#f92672">&lt;</span>Idx <span style="color:#f92672">&lt;</span> <span style="color:#66d9ef">sizeof</span>...(TupleTypes), <span style="color:#66d9ef">void</span><span style="color:#f92672">&gt;::</span>type
+   hash_combine_tup(size_t<span style="color:#f92672">&amp;</span> seed, <span style="color:#66d9ef">const</span> std<span style="color:#f92672">::</span>tuple<span style="color:#f92672">&lt;</span>TupleTypes...<span style="color:#f92672">&gt;&amp;</span> tup)
+   {
+       hash_combine(seed, std<span style="color:#f92672">::</span>get<span style="color:#f92672">&lt;</span>Idx<span style="color:#f92672">&gt;</span>(tup));
+
+       <span style="color:#75715e">//  on to next element
+</span><span style="color:#75715e"></span>       hash_combine_tup<span style="color:#f92672">&lt;</span>Idx<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span><span style="color:#f92672">&gt;</span>(seed, tup);
+   }
+</code></pre></div><p>Putting all of this together:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp">
+    <span style="color:#66d9ef">template</span> <span style="color:#f92672">&lt;</span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">T</span><span style="color:#f92672">&gt;</span>
+    <span style="color:#66d9ef">inline</span> <span style="color:#66d9ef">void</span> hash_combine(std<span style="color:#f92672">::</span>size_t<span style="color:#f92672">&amp;</span> seed, T v)
+    {
+        seed <span style="color:#f92672">^=</span> std<span style="color:#f92672">::</span>hash<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span>()(v) <span style="color:#f92672">+</span> <span style="color:#ae81ff">0x9e3779b9</span> <span style="color:#f92672">+</span> (seed <span style="color:#f92672">&lt;&lt;</span> <span style="color:#ae81ff">6</span>) <span style="color:#f92672">+</span> (seed <span style="color:#f92672">&gt;&gt;</span> <span style="color:#ae81ff">2</span>);
+    }
+
+    <span style="color:#66d9ef">template</span><span style="color:#f92672">&lt;</span><span style="color:#66d9ef">class</span><span style="color:#960050;background-color:#1e0010">... </span><span style="color:#a6e22e">TupleArgs</span><span style="color:#f92672">&gt;</span>
+    <span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">std</span><span style="color:#f92672">::</span>hash<span style="color:#f92672">&lt;</span>std<span style="color:#f92672">::</span>tuple<span style="color:#f92672">&lt;</span>TupleArgs...<span style="color:#f92672">&gt;&gt;</span>
+    {
+    <span style="color:#66d9ef">private</span><span style="color:#f92672">:</span>
+        <span style="color:#75715e">//  this is a termination condition
+</span><span style="color:#75715e"></span>        <span style="color:#75715e">//  N == sizeof...(TupleTypes)
+</span><span style="color:#75715e"></span>        <span style="color:#75715e">//
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">template</span><span style="color:#f92672">&lt;</span>size_t Idx <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>, <span style="color:#66d9ef">typename</span>... TupleTypes<span style="color:#f92672">&gt;</span>
+        <span style="color:#66d9ef">inline</span> <span style="color:#66d9ef">typename</span> std<span style="color:#f92672">::</span>enable_if<span style="color:#f92672">&lt;</span>N <span style="color:#f92672">==</span> <span style="color:#66d9ef">sizeof</span>...(TupleTypes), <span style="color:#66d9ef">void</span><span style="color:#f92672">&gt;::</span>type
+        hash_combine_tup(size_t<span style="color:#f92672">&amp;</span> seed, <span style="color:#66d9ef">const</span> std<span style="color:#f92672">::</span>tuple<span style="color:#f92672">&lt;</span>TupleTypes...<span style="color:#f92672">&gt;&amp;</span> tup) <span style="color:#66d9ef">const</span>
+        {        
+        }
+
+        <span style="color:#75715e">//  this is the computation workhorse
+</span><span style="color:#75715e"></span>        <span style="color:#75715e">//  N &lt; sizeof...(TupleTypes)
+</span><span style="color:#75715e"></span>        <span style="color:#75715e">//
+</span><span style="color:#75715e"></span>        <span style="color:#66d9ef">template</span><span style="color:#f92672">&lt;</span>size_t Idx <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>, <span style="color:#66d9ef">typename</span>... TupleTypes<span style="color:#f92672">&gt;</span>
+        <span style="color:#66d9ef">inline</span> <span style="color:#66d9ef">typename</span> std<span style="color:#f92672">::</span>enable_if<span style="color:#f92672">&lt;</span>N <span style="color:#f92672">&lt;</span> <span style="color:#66d9ef">sizeof</span>...(TupleTypes), <span style="color:#66d9ef">void</span><span style="color:#f92672">&gt;::</span>type
+        hash_combine_tup(size_t<span style="color:#f92672">&amp;</span> seed, <span style="color:#66d9ef">const</span> std<span style="color:#f92672">::</span>tuple<span style="color:#f92672">&lt;</span>TupleTypes...<span style="color:#f92672">&gt;&amp;</span> tup) <span style="color:#66d9ef">const</span>
+        {
+            hash_combine(seed, std<span style="color:#f92672">::</span>get<span style="color:#f92672">&lt;</span>Idx<span style="color:#f92672">&gt;</span>(tup));
+
+            <span style="color:#75715e">//  on to next element
+</span><span style="color:#75715e"></span>            hash_combine_tup<span style="color:#f92672">&lt;</span>Idx<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span><span style="color:#f92672">&gt;</span>(seed, tup);
+        }
+    
+    <span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+        size_t <span style="color:#66d9ef">operator</span>()(std<span style="color:#f92672">::</span>tuple<span style="color:#f92672">&lt;</span>TupleArgs...<span style="color:#f92672">&gt;</span> tupleValue) <span style="color:#66d9ef">const</span>
+        {
+            size_t seed <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+            hash_combine_tup<span style="color:#f92672">&lt;</span><span style="color:#ae81ff">0</span><span style="color:#f92672">&gt;</span>(seed, tupleValue);
+            <span style="color:#66d9ef">return</span> seed;
+        }
+    };
+
+</code></pre></div><p>That&rsquo;s it for now..
+I have posted entire thing as a <a href="https://gist.github.com/angeleno/e838a35f0849ecab56e8be7e46645177">gist here</a>.</p>
+      </article>
+
+      <ul class="pager blog-pager">
+        
+        <li class="previous">
+          <a href="https://www.variadic.xyz/post/2017-11-06-error-handling-links/" data-toggle="tooltip" data-placement="top" title="Error Handling Links">&larr; Previous Post</a>
+        </li>
+        
+        
+        <li class="next">
+          <a href="https://www.variadic.xyz/post/2018-01-24-disk-type/" data-toggle="tooltip" data-placement="top" title="querying disk type">Next Post &rarr;</a>
+        </li>
+        
+      </ul>
+
+      
+
+    </div>
+  </div>
+</div>
+
+      
+
+    </div>
+
+    <footer>
+  <div class="container beautiful-jekyll-footer">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <ul class="list-inline text-center footer-links">
+          
+          
+          
+          <li>
+            <a href="https://github.com/sarangbaheti" title="GitHub">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+		      
+		      
+          <li>
+            <a href="https://linkedin.com/in/sarangbaheti" title="LinkedIn">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+	    	  
+          <li>
+            <a href="https://stackoverflow.com/users/916549/sarang" title="StackOverflow">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-stack-overflow fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+          
+    		  <li>
+      			<a href="https://www.variadic.xyz/index.xml" title="RSS">
+      			  <span class="fa-stack fa-lg">
+        				<i class="fa fa-circle fa-stack-2x"></i>
+        				<i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+      			  </span>
+      			</a>
+    		  </li>		
+
+        </ul>
+        <p class="copyright text-muted">
+    		  Sarang Baheti
+    		  &nbsp;&bull;&nbsp;
+    		  2009 - 2020
+    		  
+    		  
+    		  &nbsp;&bull;&nbsp;
+    		  <a href="https://www.variadic.xyz/">a few notes</a>
+    		  
+  	    </p>
+  	        
+    		<p class="theme-by text-muted">
+    		  Theme by
+    		  <a href="https://github.com/sarangbaheti/bh">bh</a>
+    		</p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="https://www.variadic.xyz/js/jquery-1.11.2.min.js"></script>
+<script src="https://www.variadic.xyz/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/highlight.min.js"></script>
+<script src="https://www.variadic.xyz/js/main.js"></script>
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-27935503-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+
+
+
+  </body>
+</html>

@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+  <title>pwsh and openssh on windows</title>
+
+  <meta name="author" content="Sarang Baheti" />
+  
+  
+
+  <meta name="generator" content="Hugo 0.70.0" />
+
+  <link rel="alternate" href="https://www.variadic.xyz/index.xml" type="application/rss+xml" title="a few notes">
+
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
+  <link rel="stylesheet" href="https://www.variadic.xyz/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="https://www.variadic.xyz/css/main.css" />
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" />
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" />
+  
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/styles/default.min.css">
+  
+  
+  
+  <meta property="og:title" content="pwsh and openssh on windows" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="/post/2018-03-10-pwsh//" />
+  <meta property="og:image" content="" />
+  
+</head>
+
+
+  <body>
+
+    <nav class="navbar navbar-default navbar-fixed-top navbar-custom">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="https://www.variadic.xyz/">a few notes</a>
+    </div>
+
+    <div class="collapse navbar-collapse" id="main-navbar">
+      <ul class="nav navbar-nav navbar-right">
+      
+        
+          <li>
+          <a title="Notes" href="/">Notes</a>
+  	      </li>
+  	    
+      
+        
+          <li>
+          <a title="About" href="/about/">About</a>
+  	      </li>
+  	    
+      
+        
+          <li>
+          <a title="Archive" href="/archive/">Archive</a>
+  	      </li>
+  	    
+      
+        
+          <li>
+          <a title="Books" href="/books/">Books</a>
+  	      </li>
+  	    
+      
+        
+          <li>
+          <a title="Disclaimer" href="/disclaimer/">Disclaimer</a>
+  	      </li>
+  	    
+      
+      </ul>
+    </div>
+
+	<div class="avatar-container">
+	  <div class="avatar-img-border">
+      
+	  </div>
+	</div>
+
+  </div>
+</nav>
+
+
+    <div role="main" class="container main-content">
+
+      
+        
+
+
+
+
+
+<header class="header-section ">
+
+<div class="intro-header no-img">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="post-heading">
+          <h1>pwsh and openssh on windows</h1>
+      
+      
+      
+      <span class="post-meta">Posted on March 9, 2018</span>
+      
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</header>
+
+
+
+
+<div class="container">
+  <div class="row">
+    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+      <article role="main" class="blog-post">
+          <h3 id="powershell-corepwsh">powershell-core/pwsh</h3>
+<p>to install powershell either download the zip/msi from <a href="https://github.com/PowerShell/PowerShell/releases">github page</a> or you can install thru <code>chocolatey</code>. But I preferred going with msi file for now.</p>
+<p>The claim is that you can run <a href="https://blogs.msdn.microsoft.com/powershell/2018/01/10/powershell-core-6-0-generally-available-ga-and-supported/">powershell core side-by-side</a>, which is not a requirement for me- but wanted to move over to it for some time now.</p>
+<p>Anyway, I installed this in <code>C:\PowerShell\6.0.1</code> directory &amp; added it to <code>Path</code> environment variable on the machine- so is accessible to all uesrs.</p>
+<p>So far it is all working quite well. One of the things I like is the to bring my bag of scripts. One such is to list all the files in current directory as full path.</p>
+<pre><code>gci -r | where {!$_.PSIscontainer} | select-object FullName
+</code></pre><p>But it is much easier to remember if stored as an <code>alias</code> and/or a <code>function</code>. Thus added it to by <code>$profile</code>.</p>
+<pre><code>C:\Users\&lt;user-name&gt;\Documents\PowerShell\Microsoft.PowerShell_profile.ps1
+vim C:\Users\&lt;user-name&gt;\Documents\PowerShell\Microsoft.PowerShell_profile.ps1
+</code></pre><p>Here is my <code>$profile</code>:</p>
+<pre><code>Import-Module 'C:\GitHub\posh-git\src\posh-git.psd1'
+ 
+Set-Alias np C:\Windows\notepad.exe
+Set-Alias ss c:\inpath\systemstats.exe
+
+function lastcommit {git log --show-signature -1}
+function listcommits {git log --pretty=&quot;format:%h %G? %ad %aN  %s&quot;}
+function listprocs {Get-Process | Sort WS -descending | select -First 20}
+function lst {Param($DirName) gci -r $DirName | where {!$_.PSIscontainer} | select-object FullName }
+function setTitle {Param($TitleStr) $host.ui.RawUI.WindowTitle = $TitleStr}
+</code></pre><p>I did install <code>posh-git</code> as the only extension.</p>
+<h3 id="openssh">openssh</h3>
+<p>Now I already had <code>rsa keys</code> generated thru <code>putty</code>, thus using the <code>.ssh</code> directory as it is.
+Similar to <code>pwsh</code>, downloaded the binaries from <a href="https://github.com/PowerShell/Win32-OpenSSH/releases">Win32-OpenSSH git repository</a>. Installed it in directory <code>C:\Program Files\OpenSSH-Win64</code> and added it to <code>Path</code> environment variable at machine level.</p>
+<p><a href="https://github.com/PowerShell/Win32-OpenSSH/wiki/Install-Win32-OpenSSH">This wiki page has some good information about installing openssh</a>. For me it was not setting up server, just ensuring that various services are started and setup correctly.</p>
+<pre><code>cd 'C:\Program Files\OpenSSH-Win64'
+pwsh.exe -ExecutionPolicy Bypass -File install-sshd.ps1
+
+# this will register the ssh-agent service to be started 
+# automatically on reboot, and will start it if not already running
+Set-Service ssh-agent -StartupType Automatic
+</code></pre><p>Now the most important part is setting up the access permissions on <code>private keys</code>, without it <code>ssh-add</code> will just reject the keys!</p>
+<pre><code>@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@         WARNING: UNPROTECTED PRIVATE KEY FILE!          @
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+Permissions for '~/.ssh/id_rsa' are too open.
+It is required that your private key files are NOT accessible by others.
+This private key will be ignored.
+</code></pre><p>On *nix systems you can <a href="https://stackoverflow.com/questions/9270734/ssh-permissions-are-too-open-error">setup correct permissions with <code>chmod</code></a>, but windows is a different ball game. I tried <code>chmod</code> thru <code>pwsh</code> and <code>ubuntu as wsl</code> without success. It was much easier to change change the directory permissions.</p>
+<p>The idea is that your files in <code>~\.ssh</code> should not inherit permissions and <strong>MUST</strong> be accessible by just you. Plus they <strong>MUST</strong> not be modifiable- just readable.</p>
+<p>Note: this <strong>MUST</strong> be done  for all of the following:</p>
+<ol>
+<li>private keys</li>
+<li>public keys</li>
+<li>config file</li>
+</ol>
+<figure>
+    <img src="/images/_.ssh-properties.png"/> 
+</figure>
+
+<p>Once this was done I was able to get past this error and things worked quite well.</p>
+<pre><code>D:\blog\hugo\nullptr\public [master ≡ +1 ~37 -0 ~]&gt; git commit -m &quot;update&quot;
+[master 86d414c] update
+ 38 files changed, 1189 insertions(+), 876 deletions(-)
+ create mode 100644 2018/03/09/pwsh-and-openssh-on-windows/index.html
+D:\blog\hugo\nullptr\public [master ↑1]&gt; git push origin master
+Enter passphrase for key '/c/Users/sarangb/.ssh/id_rsa':
+Counting objects: 80, done.
+Delta compression using up to 4 threads.
+Compressing objects: 100% (46/46), done.
+Writing objects: 100% (80/80), 21.37 KiB | 1.78 MiB/s, done.
+Total 80 (delta 39), reused 0 (delta 0)
+remote: Resolving deltas: 100% (39/39), completed with 38 local objects.
+To sarangbaheti.github.com:sarangbaheti/sarangbaheti.github.io.git
+   e55bc02..86d414c  master -&gt; master
+D:\blog\hugo\nullptr\public [master ≡]&gt;
+
+</code></pre>
+      </article>
+
+      <ul class="pager blog-pager">
+        
+        <li class="previous">
+          <a href="https://www.variadic.xyz/post/2018-03-02-git-difftool/" data-toggle="tooltip" data-placement="top" title="git diff">&larr; Previous Post</a>
+        </li>
+        
+        
+        <li class="next">
+          <a href="https://www.variadic.xyz/post/2018-03-11-diskpart/" data-toggle="tooltip" data-placement="top" title="diskpart">Next Post &rarr;</a>
+        </li>
+        
+      </ul>
+
+      
+
+    </div>
+  </div>
+</div>
+
+      
+
+    </div>
+
+    <footer>
+  <div class="container beautiful-jekyll-footer">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <ul class="list-inline text-center footer-links">
+          
+          
+          
+          <li>
+            <a href="https://github.com/sarangbaheti" title="GitHub">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+		      
+		      
+          <li>
+            <a href="https://linkedin.com/in/sarangbaheti" title="LinkedIn">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+	    	  
+          <li>
+            <a href="https://stackoverflow.com/users/916549/sarang" title="StackOverflow">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-stack-overflow fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+          
+    		  <li>
+      			<a href="https://www.variadic.xyz/index.xml" title="RSS">
+      			  <span class="fa-stack fa-lg">
+        				<i class="fa fa-circle fa-stack-2x"></i>
+        				<i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+      			  </span>
+      			</a>
+    		  </li>		
+
+        </ul>
+        <p class="copyright text-muted">
+    		  Sarang Baheti
+    		  &nbsp;&bull;&nbsp;
+    		  2009 - 2020
+    		  
+    		  
+    		  &nbsp;&bull;&nbsp;
+    		  <a href="https://www.variadic.xyz/">a few notes</a>
+    		  
+  	    </p>
+  	        
+    		<p class="theme-by text-muted">
+    		  Theme by
+    		  <a href="https://github.com/sarangbaheti/bh">bh</a>
+    		</p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="https://www.variadic.xyz/js/jquery-1.11.2.min.js"></script>
+<script src="https://www.variadic.xyz/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/highlight.min.js"></script>
+<script src="https://www.variadic.xyz/js/main.js"></script>
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-27935503-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+
+
+
+  </body>
+</html>
