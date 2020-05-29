@@ -6,10 +6,31 @@
     <description>Recent content on a few notes</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 14 May 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 28 May 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://www.variadic.xyz/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>2011 MacBook Pro &amp; OSX</title>
+      <link>https://www.variadic.xyz/2020/05/28/2011mbp-osx/</link>
+      <pubDate>Thu, 28 May 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.variadic.xyz/2020/05/28/2011mbp-osx/</guid>
+      <description>A few years ago my MBP got a second life due a class action brought on Apple. Things were working just fine for a couple of years and then late last year GPU went belly up again. Display was all green or red depending on how GPU behaved.
+Now the funny thing is that I have no way of controlling which GPU to choose from, that is true with other laptops with such configuration.</description>
+    </item>
+    
+    <item>
+      <title>nvram params</title>
+      <link>https://www.variadic.xyz/2020/05/28/nvram-params/</link>
+      <pubDate>Thu, 28 May 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.variadic.xyz/2020/05/28/nvram-params/</guid>
+      <description>Following nvram boot args are generally helpful with diagnostics/investigations:
+ nvram boot-args=&amp;quot;-v&amp;quot; &amp;ndash;&amp;gt; verbose mode, ample of text as MBP boots nvram boot-args=&amp;quot;-x&amp;quot; &amp;ndash;&amp;gt; will always boot in safe mode nvram boot-args=&amp;quot;-s&amp;quot; &amp;ndash;&amp;gt; will always boot in single user mode  A few of the other ones:
+ nvram boot-args=&amp;quot;iog=0x0&amp;quot; &amp;ndash;&amp;gt; This reverses the &amp;ldquo;Clamshell&amp;rdquo; mode for Apple&amp;rsquo;s laptop systems, where when you close the display but connect the system to an external monitor and keyboard the system will stay awake.</description>
+    </item>
     
     <item>
       <title>cmd line concurrency tools</title>

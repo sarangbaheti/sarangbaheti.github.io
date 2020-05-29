@@ -113,6 +113,54 @@
             
             
             <article class="post-preview">
+              <a href="https://www.variadic.xyz/2011/09/16/multithreading-in-c-part-1/">
+          	  <h2 class="post-title">Multithreading in C# - part 1</h2>
+          	
+          	    
+              </a>
+
+              <p class="post-meta">
+                Posted on September 16, 2011
+              </p>
+            
+              <div class="post-entry">
+                
+                    Here I posted multithreading in C++11. Well I did ran into issues with C++ library. To validate I tried the same dotproduct example in C#.
+Here is the code for the same:
+using System; using System.Collections.Generic; using System.Linq; using System.Text; using System.Threading.Tasks; namespace ConsoleApplication1 { class DotProduct { double[] a; double[] b; double[] res; int id; int numElems; public DotProduct(double[] aa, double[] bb, double[] r, int nElems, int ident) { a = aa; b = bb; res = r; id = ident; numElems = nElems; } public void Evaluate() { res[id] = 0; for (int idx = id * numElems, end = (id + 1) * numElems; idx &amp;lt; end; ++idx) { res[id] += a[idx] * b[idx]; } } } class Program { static void Main(string[] args) { int numElements = 100000; double[] a = new double[numElements]; double[] b = new double[numElements]; for (int idx = 0; idx &amp;lt; numElements; ++idx) { a[idx] = idx; b[idx] = numElements - idx; } double[] result = new double[4]; int numElems = numElements / 4; DotProduct dp1 = new DotProduct(a, b, result, numElems, 0); System.
+                
+
+                <br/>
+                <br/>
+                <a href="https://www.variadic.xyz/2011/09/16/multithreading-in-c-part-1/" class="post-read-more">[Read&nbsp;More]</a>
+              </div>
+            
+             </article>
+            
+            <article class="post-preview">
+              <a href="https://www.variadic.xyz/2011/09/16/multithreading-in-c11-part-1/">
+          	  <h2 class="post-title">Multithreading in C&#43;&#43;11 - part 1</h2>
+          	
+          	    
+              </a>
+
+              <p class="post-meta">
+                Posted on September 16, 2011
+              </p>
+            
+              <div class="post-entry">
+                
+                    Concurrency and multithreading is all about running multiple pieces of code in parallel. If you have the hardware for it in the form of a nice shiny multi-core CPU or a multi-processor system then this code can run truly in parallel, otherwise it is interleaved by the operating system — a bit of one task, then a bit of another. This is all very well, but somehow you have to specify what code to run on all these threads.
+                
+
+                <br/>
+                <br/>
+                <a href="https://www.variadic.xyz/2011/09/16/multithreading-in-c11-part-1/" class="post-read-more">[Read&nbsp;More]</a>
+              </div>
+            
+             </article>
+            
+            <article class="post-preview">
               <a href="https://www.variadic.xyz/2011/09/13/0xcd-0xdd-understanding-windows-memory-codes-2/">
           	  <h2 class="post-title">0xCD 0xDD - understanding windows memory codes</h2>
           	
@@ -182,55 +230,6 @@ Related Reading&#8230;
                 <br/>
                 <br/>
                 <a href="https://www.variadic.xyz/2011/08/22/what-every-data-programmer-needs-to-know-about-disks/" class="post-read-more">[Read&nbsp;More]</a>
-              </div>
-            
-             </article>
-            
-            <article class="post-preview">
-              <a href="https://www.variadic.xyz/2011/08/15/all-about-64-bit-programming-in-one-place/">
-          	  <h2 class="post-title">All about 64-bit programming in one place</h2>
-          	
-          	    
-              </a>
-
-              <p class="post-meta">
-                Posted on August 15, 2011
-              </p>
-            
-              <div class="post-entry">
-                
-                    Very comprehensive collection of information about 64-bit programming:
-link to source  By Andrey Karpov,
-In this post I&#8217;ve collected a lot of links on the topic of 64-bit C/C++ software development. These include my articles and articles by my colleagues in the sphere of developing safe and efficient 64-bit code; FAQ&#8217;s and a training course. There are also many reviews of third-party articles on 64-bit software development. Enjoy yourself studying the materials.
-                
-
-                <br/>
-                <br/>
-                <a href="https://www.variadic.xyz/2011/08/15/all-about-64-bit-programming-in-one-place/" class="post-read-more">[Read&nbsp;More]</a>
-              </div>
-            
-             </article>
-            
-            <article class="post-preview">
-              <a href="https://www.variadic.xyz/2011/08/14/parallelism-as-a-first-class-citizen-in-c-and-c-the-time-has-come/">
-          	  <h2 class="post-title">Parallelism as a First Class Citizen in C and C&#43;&#43;, the time has come</h2>
-          	
-          	    
-              </a>
-
-              <p class="post-meta">
-                Posted on August 14, 2011
-              </p>
-            
-              <div class="post-entry">
-                
-                    Bumped into this nice article by James Reinders about C++ and Parallel Programming options- library vs language extensions, here is the excerpt:
- It is time to make Parallelism a full First Class Citizen in C and C++. Hardware is once again ahead of software, and we need to close the gap so that application development is better able to utilize the hardware without low level programming. The time has come for high level constructs for task and data parallelism to be explicitly added to C and C++.
-                
-
-                <br/>
-                <br/>
-                <a href="https://www.variadic.xyz/2011/08/14/parallelism-as-a-first-class-citizen-in-c-and-c-the-time-has-come/" class="post-read-more">[Read&nbsp;More]</a>
               </div>
             
              </article>
@@ -307,7 +306,7 @@ In this post I&#8217;ve collected a lot of links on the topic of 64-bit C/C++ so
         <p class="copyright text-muted">
     		  Sarang Baheti
     		  &nbsp;&bull;&nbsp;
-    		  2009 - 2020
+    		  2020
     		  
     		  
     		  &nbsp;&bull;&nbsp;

@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+  <title>2011 MacBook Pro &amp; OSX</title>
+
+  <meta name="author" content="Sarang Baheti" />
+  
+  
+  <meta name="description" content="jumping thru hoops to keep osx running on MBP with defective discrete GPU">
+  
+
+  <meta name="generator" content="Hugo 0.30.2" />
+
+  <link rel="alternate" href="https://www.variadic.xyz/index.xml" type="application/rss+xml" title="a few notes">
+
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
+  <link rel="stylesheet" href="https://www.variadic.xyz/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="https://www.variadic.xyz/css/main.css" />
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" />
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" />
+  
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/styles/default.min.css">
+  
+  
+  
+  <meta property="og:title" content="2011 MacBook Pro &amp; OSX" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="/2020/05/28/2011mbp-osx//" />
+  <meta property="og:image" content="" />
+  
+</head>
+
+
+  <body>
+
+    <nav class="navbar navbar-default navbar-fixed-top navbar-custom">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="https://www.variadic.xyz/">a few notes</a>
+    </div>
+
+    <div class="collapse navbar-collapse" id="main-navbar">
+      <ul class="nav navbar-nav navbar-right">
+      
+        
+          <li>
+          <a title="Notes" href="/">Notes</a>
+  	      </li>
+  	    
+      
+        
+          <li>
+          <a title="About" href="/about/">About</a>
+  	      </li>
+  	    
+      
+        
+          <li>
+          <a title="Archive" href="/archive/">Archive</a>
+  	      </li>
+  	    
+      
+        
+          <li>
+          <a title="Books" href="/books/">Books</a>
+  	      </li>
+  	    
+      
+        
+          <li>
+          <a title="Disclaimer" href="/disclaimer/">Disclaimer</a>
+  	      </li>
+  	    
+      
+      </ul>
+    </div>
+
+	<div class="avatar-container">
+	  <div class="avatar-img-border">
+      
+	  </div>
+	</div>
+
+  </div>
+</nav>
+
+
+    <div role="main" class="container main-content">
+
+      
+        
+
+
+
+
+
+<header class="header-section ">
+
+<div class="intro-header no-img">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="post-heading">
+          <h1>2011 MacBook Pro &amp; OSX</h1>
+      
+      
+      
+      <span class="post-meta">Posted on May 28, 2020</span>
+      
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</header>
+
+
+
+
+<div class="container">
+  <div class="row">
+    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+      <article role="main" class="blog-post">
+          
+
+<p>A few years ago <a href="/2016/06/01/controlling-processor-frequency/">my MBP got a second life</a> due a class action brought on Apple. Things were working just fine for a couple of years and then late last year GPU went belly up again. Display was all green or red depending on how GPU behaved.</p>
+
+<p>Now the funny thing is that I have no way of controlling which GPU to choose from, that is true with other laptops with such configuration.</p>
+
+<p>Searching online i found plenty of complaints and some industrious folks have found a way around. So i went about trying out a few things, given current COVID19 situation needed something better to do to make myself feel better and distracted. Various reference links below.</p>
+
+<p>Approaches to fix discrete GPU issues:</p>
+
+<ol>
+<li>recycle laptop</li>
+<li>have gmux flashed</li>
+<li>hack hardware</li>
+<li>remove resistor</li>
+<li>reapply thermal paste</li>
+<li>jump thru hoops for OSX</li>
+<li>use linux instead</li>
+</ol>
+
+<p>1-4 are out of question as i might lose this machine and all of them cost quite a bit to get right. Overall 4 seemed more practical, but i am no electronics engineer and it has been a while since i held a solder gun in hand. That made 5 &amp; 6 attractive. Now I wanted to go with (5) first and then try (6) after all the look and feel of OSX is much better and I have a few software licenses that i can use readily.</p>
+
+<hr />
+
+<h3 id="steps-of-fixing-ymmv">Steps of fixing (YMMV):</h3>
+
+<ol>
+<li>reset SMC &amp; NVRAM</li>
+<li>ensure to disable discrete GPU (dGPU) in NVRAM</li>
+<li>disable csrutil</li>
+<li>backup AMD kexts</li>
+<li>on login disable dGPU in OSX</li>
+<li>disable turbo boost</li>
+</ol>
+
+<hr />
+
+<h4 id="1-reset-smc-nvram">(1) reset SMC &amp; NVRAM</h4>
+
+<p>This one is well documented. Here is documentation on Apple&rsquo;s site for resetting <a href="https://support.apple.com/en-us/HT201295">SMC</a> and <a href="https://support.apple.com/en-us/HT204063">NVRAM</a>. Note, this might cause interesting side effects. Particularly it might lead MBP to boot with dGPU and start rendering thru it. It might make display unusable. From there you are on your own. The funny thing is DisplayPort is driven thru dGPU, so you cannot even connect an external monitor to get the job done.</p>
+
+<hr />
+
+<h4 id="2-ensure-to-disable-dgpu-in-nvram">(2) ensure to disable dGPU in NVRAM</h4>
+
+<p>This is where things are a bit hazy. You have two options to do this:</p>
+
+<ol>
+<li>boot OSX in single user mode
+to boot in single user mode: power on laptop and hold <code>Command+s</code> button. <a href="https://support.apple.com/en-us/HT201573">Apple doc</a>. Once on the cmd shell enter following command to set the <code>gpu-prefs</code>:</li>
+</ol>
+
+<pre><code># %01 (iGPU) is the key here, %00 would have been dGPU
+sudo nvram fa4ce28d-b62f-4c99-9cc3-6815686e30f9:gpu-power-prefs=%01%00%00%00
+</code></pre>
+
+<ol>
+<li>boot thru linux and access efi variables
+i chose to install from arch linux, found a few steps to create a bootable usb. Once i booted press <code>e</code> on the boot menu and just add <code>nomodeset</code> at the beginning of the command.</li>
+</ol>
+
+<p><code>efivars</code> will be mounted, but readonly.</p>
+
+<pre><code># check if the filesystem is mounted or not, if not mounted something is wrong
+cd /sys/firmware/efi/efivars
+
+cd /
+umount /sys/firmware/efi/efivars
+
+# note we are mounting as efivarfs not efivars
+mount -t efivarfs rw /sys/firmware/efi/efivars
+
+cd /sys/firmware/efi/efivars
+
+# well technically you don't need to delete it, but clean slate
+chattr -i gpu-power-prefs-fa4ce28d-b62f-4c99-9cc3-6815686e30f9
+rm gpu-power-prefs-fa4ce28d-b62f-4c99-9cc3-6815686e30f9
+
+# now we are going to set gpu-prefs to be 1 (iGPU) and not 0 (dGPU)
+# x01 is the key here
+printf &quot;\x07\x00\x00\x00\x01\x00\x00\x00&quot; &gt; gpu-power-prefs-fa4ce28d-b62f-4c99-9cc3-6815686e30f9
+
+# set it to read-only again
+chattr +i gpu-power-prefs-fa4ce28d-b62f-4c99-9cc3-6815686e30f9
+
+# unmount efivars, so that changes are flushed
+cd /
+umount /sys/firmware/efi/efivars
+
+reboot
+</code></pre>
+
+<hr />
+
+<h4 id="3-disable-csrutil">(3) disable csrutil</h4>
+
+<p>Hopefully this time you display should be fine, now that you have set iGPU to be used to boot.</p>
+
+<p>Apple added <a href="https://support.apple.com/en-us/HT204899">System Integrity Protection</a> o help prevent potentially malicious software from modifying protected files and folders. Before SIP, the root user had no permission restrictions, so it could access any system folder or app on your Mac. Which now means that you cannot move/backup AMD kexts even as root.</p>
+
+<p>To do this need to <a href="https://support.apple.com/en-us/HT201314">boot in recovery mode</a>. Once you boot go to <code>Utilities</code> and <code>terminal</code> and enter commands</p>
+
+<pre><code>csrutil disable
+reboot
+</code></pre>
+
+<hr />
+
+<h4 id="4-backup-amd-kexts">(4) backup AMD kexts</h4>
+
+<p>Initially I did not backup any AMD kexts, and found that OSX after booting up loaded those anyway. Where it started getting funny is when I opened chrome browser.</p>
+
+<p>So i quickly checked what kexts are loaded and these messed up my next boot. Again i could have experimented a bit with backing up exactly the kexts that affect- but it was just grunt work and on every update (security or os), these are brought all over again..</p>
+
+<pre><code>MBP:~ admin$ sudo kextstat | grep AMD
+  130    2 0xffffff7f82aa5000 0x122000   0x122000   com.apple.kext.AMDLegacySupport (1.6.8) 69C5152C-0305-3914-AD56-6601DD449AF4 &lt;106 12 11 7 5 4 3 1&gt;
+  147    0 0xffffff7f82e79000 0x12e000   0x12e000   com.apple.kext.AMD6000Controller (1.6.8) F08FE763-26A1-312E-B690-CB8FDBF8EC31 &lt;130 106 12 11 5 4 3 1&gt;
+  164    0 0xffffff7f834fc000 0x568000   0x568000   com.apple.kext.AMDRadeonX3000 (1.6.8) 8559CEFE-85B8-3FB7-B20A-9346E5A7986A &lt;163 162 106 12 7 5 4 3 1&gt;
+  166    0 0xffffff7f83a69000 0x22000    0x22000    com.apple.kext.AMDLegacyFramebuffer (1.6.8) 13E3BF67-6700-37F0-82EE-E87F8B71A033 &lt;130 106 12 11 7 5 4 3 1&gt;
+</code></pre>
+
+<p>boot in single user mode again by pressing <code>Command+s</code> keys.
+On <code>terminal</code> enter following commands:</p>
+
+<pre><code># check disk in case anything is wrong
+fsck -fy 
+
+# mount root filesystem read/write
+mount -uw /
+
+# AMD kexts are located in /System/Library/Extensions
+# create a temp backup directory for AMD kexts
+sudo mkdir /System/Library/Extensions-bkp
+
+# move all AMD kexts to bkp dir
+sudo mv /System/Library/Extensions/AMD* /System/Library/Extensions-bkp/
+
+# now that we have moved all kexts, invalidate kext caches, so they
+# are rebuilt again on next boot
+sudo rm -rf /System/Library/Caches/com.apple.kext.caches/
+sudo mkdir /System/Library/Caches/com.apple.kext.caches/
+
+# technically you don't have to do this, but update timestamp on directory
+# as it's contents were modified
+sudo touch /System/Library/Extensions/
+
+sudo umount /
+reboot
+</code></pre>
+
+<p>At this point one can enable <code>crsutil</code> again, but I chose to let it be like that.</p>
+
+<hr />
+
+<h4 id="5-on-login-disable-dgpu-in-osx">(5) on login disable dGPU in OSX</h4>
+
+<p>At this stage i was able to login sensibly just with iGPU. However at times dGPU got kicked in (this was due me not doing previous step properly).</p>
+
+<p>It seemed prudent to ensure that I have control to switch to iGPU, if needed. Now i found two tools to do the job:</p>
+
+<ol>
+<li>gpu-switch, <a href="https://github.com/0xbb/gpu-switch">https://github.com/0xbb/gpu-switch</a></li>
+<li>gfxCardStatus, <a href="https://github.com/steveschow/gfxCardStatus">https://github.com/steveschow/gfxCardStatus</a></li>
+</ol>
+
+<p><code>gpu-switch</code> uses login-hooks to launch itself everytime user logs-in or logs-out. I like the approach as a <code>RAII</code> C++ style pattern :), leave the slate clean after yourself. The idea is pretty simple as <a href="https://support.apple.com/de-at/HT2420">documented here at Apple&rsquo;s site</a> and <a href="https://developer.apple.com/library/archive/documentation/MacOSX/Conceptual/BPSystemStartup/Chapters/CustomLogin.html">here</a></p>
+
+<p>Apple mentions that this is not a preferred technology and may be removed in future releases, but where things stand today they are not allowing me to update to 10.14 and onwards- so it doesn&rsquo;t really matter. :)</p>
+
+<p>Now, SteveChow went about customizing <code>gfxCardStatus</code> to just force iGPU. So this sounded perfect: <code>braces and girders</code> for my hooks. So had it installed and it launches on login and sets iGPU by default.</p>
+
+<p>At this point i have a fairly functional laptop. I just had to reset <code>gpu-prefs</code> a couple of times after installing cmdline tools and so on- but I am really worried about security upgrades.</p>
+
+<hr />
+
+<h4 id="6-disable-turbo-boost">(6) disable turbo boost</h4>
+
+<p>2011 MacBook Pro 8,2 was fitted with <a href="https://ark.intel.com/content/www/us/en/ark/products/53463/intel-core-i7-2635qm-processor-6m-cache-up-to-2-90-ghz.html">Intel Core i7 2635QM</a> processor. This processor was built on <code>32nm</code> process node and is the first CoreProcessor with iGPU (hurray). This processors TDP (Thermal Power Design) is 45W!!. The way Intel measures TDP is not max but what is practical in day to day life. <a href="https://www.anandtech.com/show/14582/talking-tdp-turbo-and-overclocking-an-interview-with-intel-fellow-guy-therien">It does not account TurboBoost</a>.</p>
+
+<p>This makes life a lot more interesting for me now. <a href="https://www.anandtech.com/show/4205/the-macbook-pro-review-13-and-15-inch-2011-brings-sandy-bridge/8">The biggest issue with this model has been heat</a>. And That MacBook Pros don&rsquo;t have a grill makes it even interesting to disperse ~65W of heat on medium loads.</p>
+
+<p>Intel&rsquo;s documentation about TurboBoost <a href="https://www.intel.com/content/www/us/en/support/articles/000007359/processors/intel-core-processors.html">here</a></p>
+
+<p>Anyway, with above changes dGPU consumes power and generates some heat (earlier approaches #2, #3 and #4 could address it), but the biggest culprit now is TurboBoost. Suddenly the frequency jumps to <code>2.9GHz</code> and laptop heats up even on single threaded workflows. Disabling TurboBoost has a good impact of battery life as well as powerdraw <a href="https://www.extremetech.com/computing/304884-disabling-intel-turbo-boost-has-a-huge-impact-on-battery-life">source</a>.</p>
+
+<p>Peering thru Intel Manuals I found that one can disable Intel TurboBoost by setting Model Specific Register, but it a privileged instruction. That means one needs a kext to do that. :)</p>
+
+<p>This is just what i found online at: <a href="http://tbswitcher.rugarciap.com/">http://tbswitcher.rugarciap.com/</a>, I set it up to launch on login and it does pretty good job.</p>
+
+<p>More on how to disable TurboBoost later..</p>
+
+<p>The other thing I tried was to disable hyperthreading completely, but that didn&rsquo;t help either. Apple has some instructions on how to do that <a href="hhttps://support.apple.com/en-gb/HT210108">here, courtesy Spectre/Meltdown</a>.</p>
+
+<hr />
+
+<p>So after all of this, I have a stable MacBook Pro, one that I can&rsquo;t update/upgrade now. However, it has been a fun ride trying to repurpose this laptop to be used for home schooling for my daughter.</p>
+
+<p>Here are the things that don&rsquo;t work:</p>
+
+<ol>
+<li>Screen Brightness buttons, had to install a software to control that</li>
+<li>Sleep, if MBP sleeps display won&rsquo;t turn on, have to force reboot. Had to install caffenaite to help with it</li>
+<li>Updates/Upgrades, well technically I can still update/upgrade. But i risk the stability of my current scaffolding and might have to go thru this all over again</li>
+</ol>
+
+<p>I did manage to read thru a lot on Apple Documentation:</p>
+
+<ol>
+<li><a href="https://developer.apple.com/library/archive/documentation/Darwin/Conceptual/KernelProgramming/Architecture/Architecture.html#//apple_ref/doc/uid/TP30000905-CH1g-CACDAEDC">Kernel Programming Guide</a></li>
+<li><a href="https://developer.apple.com/library/archive/documentation/Darwin/Conceptual/KernelProgramming/booting/booting.html">Boot Process</a></li>
+<li>Login related stuff</li>
+</ol>
+
+<p>Following articles and books were helpful as well:</p>
+
+<ol>
+<li><a href="https://arstechnica.com/tag/macos/">https://arstechnica.com/tag/macos/</a>, esp <a href="https://arstechnica.com/gadgets/2015/04/after-fifteen-years-ars-says-goodbye-to-john-siracusas-os-x-reviews/">the ones by John Siracusa</a></li>
+<li>Mac OS X Internals - Amit Singh (<a href="https://www.amazon.com/Mac-OS-Internals-Approach-paperback/dp/0134426541">https://www.amazon.com/Mac-OS-Internals-Approach-paperback/dp/0134426541</a>)</li>
+<li>Mac OS X and IOS Internals - Jonathan Levin (<a href="https://www.amazon.com/Mac-OS-iOS-Internals-Apples/dp/8126540427/">https://www.amazon.com/Mac-OS-iOS-Internals-Apples/dp/8126540427/</a>)</li>
+</ol>
+
+<hr />
+
+<p>A few links that i found helpful in general. Link#1 is a long thread and quite interesting read. A lot of people have shared their thoughts, experiments and frustations..</p>
+
+<ol>
+<li><a href="https://forums.macrumors.com/threads/force-2011-macbook-pro-8-2-with-failed-amd-gpu-to-always-use-intel-integrated-gpu-efi-variable-fix.2037591/">https://forums.macrumors.com/threads/force-2011-macbook-pro-8-2-with-failed-amd-gpu-to-always-use-intel-integrated-gpu-efi-variable-fix.2037591/</a></li>
+<li><a href="https://apple.stackexchange.com/questions/166876/macbook-pro-how-to-disable-discrete-gpu-permanently-from-efi">https://apple.stackexchange.com/questions/166876/macbook-pro-how-to-disable-discrete-gpu-permanently-from-efi</a></li>
+<li><a href="http://dosdude1.com/gpudisable/">http://dosdude1.com/gpudisable/</a></li>
+<li><a href="https://apple.stackexchange.com/q/166876/34806">https://apple.stackexchange.com/q/166876/34806</a></li>
+</ol>
+
+      </article>
+
+      <ul class="pager blog-pager">
+        
+        <li class="previous">
+          <a href="https://www.variadic.xyz/2020/05/28/nvram-params/" data-toggle="tooltip" data-placement="top" title="nvram params">&larr; Previous Post</a>
+        </li>
+        
+        
+      </ul>
+
+      
+
+    </div>
+  </div>
+</div>
+
+      
+
+    </div>
+
+    <footer>
+  <div class="container beautiful-jekyll-footer">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <ul class="list-inline text-center footer-links">
+          
+          
+          
+          <li>
+            <a href="https://github.com/sarangbaheti" title="GitHub">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+		      
+		      
+          <li>
+            <a href="https://linkedin.com/in/sarangbaheti" title="LinkedIn">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+	    	  
+          <li>
+            <a href="https://stackoverflow.com/users/916549/sarang" title="StackOverflow">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-stack-overflow fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+          
+    		  <li>
+      			<a href="https://www.variadic.xyz/index.xml" title="RSS">
+      			  <span class="fa-stack fa-lg">
+        				<i class="fa fa-circle fa-stack-2x"></i>
+        				<i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+      			  </span>
+      			</a>
+    		  </li>		
+
+        </ul>
+        <p class="copyright text-muted">
+    		  Sarang Baheti
+    		  &nbsp;&bull;&nbsp;
+    		  2020
+    		  
+    		  
+    		  &nbsp;&bull;&nbsp;
+    		  <a href="https://www.variadic.xyz/">a few notes</a>
+    		  
+  	    </p>
+  	        
+    		<p class="theme-by text-muted">
+    		  Theme by
+    		  <a href="https://github.com/sarangbaheti/bh">bh</a>
+    		</p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="https://www.variadic.xyz/js/jquery-1.11.2.min.js"></script>
+<script src="https://www.variadic.xyz/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/highlight.min.js"></script>
+<script src="https://www.variadic.xyz/js/main.js"></script>
+
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-27935503-1', 'auto');
+ga('send', 'pageview');
+</script>
+
+
+
+  </body>
+</html>

@@ -6,10 +6,12 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 
-  <title>C&#43;&#43;0x is an international standard</title>
+  <title>nvram params</title>
 
   <meta name="author" content="Sarang Baheti" />
   
+  
+  <meta name="description" content="various boot parameters for Macbook Pro NVRAM">
   
 
   <meta name="generator" content="Hugo 0.30.2" />
@@ -27,9 +29,9 @@
   
   
   
-  <meta property="og:title" content="C&#43;&#43;0x is an international standard" />
+  <meta property="og:title" content="nvram params" />
   <meta property="og:type" content="website" />
-  <meta property="og:url" content="/2011/08/13/c0x-is-an-international-standard//" />
+  <meta property="og:url" content="/2020/05/28/nvram-params//" />
   <meta property="og:image" content="" />
   
 </head>
@@ -111,11 +113,11 @@
     <div class="row">
       <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
         <div class="post-heading">
-          <h1>C&#43;&#43;0x is an international standard</h1>
+          <h1>nvram params</h1>
       
       
       
-      <span class="post-meta">Posted on August 13, 2011</span>
+      <span class="post-meta">Posted on May 28, 2020</span>
       
         </div>
       </div>
@@ -131,27 +133,76 @@
   <div class="row">
     <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
       <article role="main" class="blog-post">
-          <p>I am thrilled as C++0x, will be called C++11, is now an international standard, as confirmed by <a href="http://herbsutter.com/2011/08/12/we-have-an-international-standard-c0x-is-unanimously-approved/">Herb Sutter</a></p>
+          <p>Following nvram boot args are generally helpful with diagnostics/investigations:</p>
 
-<blockquote>
-<p>The final ISO ballot on C++0x closed on Wednesday, and we just received the results: Unanimous approval.
-The next revision of C++ that we’ve been calling “C++0x” is now an International Standard! Geneva will take several months to publish it, but we hope it will be published well within the year, and then we’ll be able to call it “C++11.”
-I want to extend my thanks again to Bjarne Stroustrup for sharing his work with the world and continuing to help move it forward, and to all of the participants whose hard work went into achieving this important milestone in the history of a great language. Thanks!</p>
-</blockquote>
+<ol>
+<li><code>nvram boot-args=&quot;-v&quot;</code> &ndash;&gt; verbose mode, ample of text as MBP boots</li>
+<li><code>nvram boot-args=&quot;-x&quot;</code> &ndash;&gt; will always boot in safe mode</li>
+<li><code>nvram boot-args=&quot;-s&quot;</code> &ndash;&gt; will always boot in single user mode</li>
+</ol>
 
-<p>Huuuuuuurrrrrrrrraaaaaaaaaayyyyyyyyyyyy&hellip;</p>
+<p>A few of the other ones:</p>
+
+<ol>
+<li><code>nvram boot-args=&quot;iog=0x0&quot;</code> &ndash;&gt; This reverses the &ldquo;Clamshell&rdquo; mode for Apple&rsquo;s laptop systems, where when you close the display but connect the system to an external monitor and keyboard the system will stay awake. Well I couldn&rsquo;t make use of it due to a defective discrete GPU.</li>
+<li><code>nvram boot-args=&quot;cpus=2&quot;</code> &ndash;&gt; Limits the number of active processors in the system to the set level.</li>
+</ol>
+
+<p>To clear all nvram boot-args one can either <a href="https://support.apple.com/en-gb/HT204063">reset <code>nvram</code></a> or just clear <code>boot-args</code>:</p>
+
+<pre><code>sudo nvram boot-args=&quot;&quot;
+sudo nvram -d boot-args
+</code></pre>
+
+<p><a href="https://superuser.com/a/1157888">This link at superuser</a> has a pretty good list of such args and how to use them.</p>
+
+<hr />
+
+<p>Browsing thru <code>bsd_init.c</code> file at <a href="https://opensource.apple.com/source/xnu/">https://opensource.apple.com/source/xnu/</a>, provides a bit more information, keep looking for function <code>PE_parse_boot_argn</code>:</p>
+
+<pre><code>// https://opensource.apple.com/source/xnu/xnu-2782.10.72/bsd/kern/bsd_init.c
+static void
+parse_bsd_args(void)
+{
+	char namep[16];
+	int msgbuf;
+
+	if ( PE_parse_boot_argn(&quot;-s&quot;, namep, sizeof (namep)))
+		boothowto |= RB_SINGLE;
+
+	if (PE_parse_boot_argn(&quot;-b&quot;, namep, sizeof (namep)))
+		boothowto |= RB_NOBOOTRC;
+
+	if (PE_parse_boot_argn(&quot;-x&quot;, namep, sizeof (namep))) /* safe boot */
+		boothowto |= RB_SAFEBOOT;
+
+
+</code></pre>
+
+<hr />
+
+<p>Searching for function <a href="https://github.com/search?q=PE_parse_boot_argn+%2Bkext&amp;type=Code"><code>PE_parse_boot_argn</code> on github</a>, leads to some very interesting results:</p>
+
+<ol>
+<li><a href="https://github.com/XLNCs/HighSierraXNU-AMD">https://github.com/XLNCs/HighSierraXNU-AMD</a></li>
+<li><a href="https://github.com/nanoant/DisableTurboBoost.kext">https://github.com/nanoant/DisableTurboBoost.kext</a></li>
+<li><a href="https://github.com/aerror2/NGFixLG5K">https://github.com/aerror2/NGFixLG5K</a></li>
+<li><a href="https://github.com/Negative-Hallucination/ubik_asus_rog_z370i/tree/master/kexts">https://github.com/Negative-Hallucination/ubik_asus_rog_z370i/tree/master/kexts</a></li>
+<li><a href="https://github.com/acidanthera/Lilu">https://github.com/acidanthera/Lilu</a></li>
+<li><a href="https://www.insanelymac.com/forum/topic/321371-lilu-%E2%80%94-kext-and-process-patcher/">https://www.insanelymac.com/forum/topic/321371-lilu-%E2%80%94-kext-and-process-patcher/</a></li>
+</ol>
 
       </article>
 
       <ul class="pager blog-pager">
         
         <li class="previous">
-          <a href="https://www.variadic.xyz/2011/07/27/building-boost-libraries/" data-toggle="tooltip" data-placement="top" title="building boost libraries">&larr; Previous Post</a>
+          <a href="https://www.variadic.xyz/2020/05/14/concurrency-visualizer/" data-toggle="tooltip" data-placement="top" title="cmd line concurrency tools">&larr; Previous Post</a>
         </li>
         
         
         <li class="next">
-          <a href="https://www.variadic.xyz/2011/08/14/parallelism-as-a-first-class-citizen-in-c-and-c-the-time-has-come/" data-toggle="tooltip" data-placement="top" title="Parallelism as a First Class Citizen in C and C&#43;&#43;, the time has come">Next Post &rarr;</a>
+          <a href="https://www.variadic.xyz/2020/05/28/2011mbp-osx/" data-toggle="tooltip" data-placement="top" title="2011 MacBook Pro &amp; OSX">Next Post &rarr;</a>
         </li>
         
       </ul>
