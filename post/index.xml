@@ -6,10 +6,19 @@
     <description>Recent content in Posts on a few notes</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 28 May 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 29 May 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://www.variadic.xyz/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>a few interesting articles</title>
+      <link>https://www.variadic.xyz/2020/05/29/a-few-articles/</link>
+      <pubDate>Fri, 29 May 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.variadic.xyz/2020/05/29/a-few-articles/</guid>
+      <description> MultiCore &amp;amp; stuff:  Part1: Threads, DataRaces, Deadlocks &amp;amp; Livelocks Part2: Heavily Contended Locks Part3: Nonblocking Algos Part4: Memory, Cache Consistency MultiCore Programming Practices Guide MultiCore Processing in Context-1 MultiCore Processing in Context-2  Misc:  Realtime Schedulers Concurrency &amp;amp; Task Synchronization Introduction to fuzzy logic Unix NW: Sockets &amp;amp; Streams API for bit manipulation in C Scheduling Options- Ctx Switch Queueing theory for dummies RAM technologies of past NW Processors  </description>
+    </item>
     
     <item>
       <title>2011 MacBook Pro &amp; OSX</title>
