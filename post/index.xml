@@ -6,10 +6,21 @@
     <description>Recent content in Posts on a few notes</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 29 May 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 03 Jun 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://www.variadic.xyz/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>sensors conf</title>
+      <link>https://www.variadic.xyz/2020/06/03/lmsensors-config/</link>
+      <pubDate>Wed, 03 Jun 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.variadic.xyz/2020/06/03/lmsensors-config/</guid>
+      <description>Various sensors as listed by sensors on my 2011 Macbook Pro, now the funny thing is TB0T is not the actual name of the sensor but it is temp1.
+To cut the chase these are the names as displayed by sensors and coressponding user facing names for them. Not all of the temps are interesting to track/report- that is where the conf files comes into picture.
+TB0T: +31.2°C --&amp;gt; Battery TB1T: +30.</description>
+    </item>
     
     <item>
       <title>a few interesting articles</title>

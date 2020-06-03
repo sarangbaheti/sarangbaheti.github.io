@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+  <title>sensors conf</title>
+
+  <meta name="author" content="Sarang Baheti" />
+  
+  
+  <meta name="description" content="lmsensors config for my 2011 Macbook Pro 8,2">
+  
+
+  <meta name="generator" content="Hugo 0.30.2" />
+
+  <link rel="alternate" href="https://www.variadic.xyz/index.xml" type="application/rss+xml" title="a few notes">
+
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
+  <link rel="stylesheet" href="https://www.variadic.xyz/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="https://www.variadic.xyz/css/main.css" />
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" />
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" />
+  
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/styles/default.min.css">
+  
+  
+  
+  <meta property="og:title" content="sensors conf" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="/2020/06/03/lmsensors-config/" />
+  <meta property="og:image" content="" />
+  
+</head>
+
+
+  <body>
+
+    <nav class="navbar navbar-default navbar-fixed-top navbar-custom">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="https://www.variadic.xyz/">a few notes</a>
+    </div>
+
+    <div class="collapse navbar-collapse" id="main-navbar">
+      <ul class="nav navbar-nav navbar-right">
+      
+        
+          <li>
+          <a title="Notes" href="/">Notes</a>
+  	      </li>
+  	    
+      
+        
+          <li>
+          <a title="About" href="/about/">About</a>
+  	      </li>
+  	    
+      
+        
+          <li>
+          <a title="Archive" href="/archive/">Archive</a>
+  	      </li>
+  	    
+      
+        
+          <li>
+          <a title="Books" href="/books/">Books</a>
+  	      </li>
+  	    
+      
+        
+          <li>
+          <a title="Disclaimer" href="/disclaimer/">Disclaimer</a>
+  	      </li>
+  	    
+      
+      </ul>
+    </div>
+
+	<div class="avatar-container">
+	  <div class="avatar-img-border">
+      
+	  </div>
+	</div>
+
+  </div>
+</nav>
+
+
+    <div role="main" class="container main-content">
+
+      
+        
+
+
+
+
+
+<header class="header-section ">
+
+<div class="intro-header no-img">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="post-heading">
+          <h1>sensors conf</h1>
+      
+      
+      
+      <span class="post-meta">Posted on June 3, 2020</span>
+      
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</header>
+
+
+
+
+<div class="container">
+  <div class="row">
+    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+      <article role="main" class="blog-post">
+          <p>Various sensors as listed by <code>sensors</code> on my 2011 Macbook Pro, now the funny thing is <code>TB0T</code> is not the actual name of the sensor but it is <code>temp1</code>.</p>
+
+<p>To cut the chase these are the names as displayed by <code>sensors</code> and coressponding user facing names for them. Not all of the temps are interesting to track/report- that is where the <code>conf</code> files comes into picture.</p>
+
+<pre><code>TB0T:         +31.2°C  --&gt; Battery
+TB1T:         +30.0°C  --&gt; Battery
+TB2T:         +31.2°C  --&gt; Battery
+TC0C:         +56.0°C  --&gt; CPU Die Core Temp
+TC0D:         +55.5°C  --&gt; CPU Diode Temp
+TC0E:         +57.0°C  --&gt; CPU 1
+TC0F:         +59.2°C  --&gt; CPU 1
+TC0P:         +50.5°C  --&gt; CPU Proximity Temp
+TC1C:         +54.0°C  --&gt; CPU Core 1
+TC2C:         +54.0°C  --&gt; CPU Core 2
+TC3C:         +55.0°C  --&gt; CPU Core 3
+TC4C:         +55.0°C  --&gt; CPU Core 4
+TCGC:         +55.0°C  --&gt; CPU PERCI Core Temp
+TCSA:         +55.0°C  --&gt; PECI SA
+TCTD:          -0.2°C  
+TG0D:         +50.0°C  --&gt; GPU Die
+TG0P:         +49.2°C  --&gt; GPU Proximity
+THSP:         +44.0°C  
+TM0S:         +63.2°C  --&gt; Memory Modeule A1
+TMBS:          +0.0°C  
+TP0P:         +53.5°C  --&gt; PCH Proximity
+TPCD:         +57.0°C  --&gt; PCH Die
+TW0P:        -127.0°C  
+Th1H:         +44.8°C  --&gt; Heatpipe2
+Th2H:         +44.8°C  --&gt; Heatpipe3
+Tm0P:         +38.2°C  --&gt; Mainboard Proximity
+Ts0P:         +31.5°C  --&gt; Palm Rest Temp
+Ts0S:         +40.8°C  --&gt; Memory Proximity
+</code></pre>
+
+<p>Now, the <code>conf</code> file needs names as reported not <code>TB0T</code> but <code>temp1</code> and so. One can get such information with <code>sensors -u</code> command, just replace <code>temp1_input</code> with <code>temp1</code> in that output.</p>
+
+<p>The name <code>applesmc</code> for chip is i got from <code>sensors -u</code> output as well as from <code>dmesg</code> output.</p>
+
+<pre><code># this is my MacBook Pro 2011 8,2
+chip &quot;applesmc-*&quot;
+    label TBOT &quot;Battery&quot;
+    label Ts0P &quot;Palm Rest&quot;
+    label TC0C &quot;CPU Die Core Temp&quot;
+    label TC0P &quot;CPU Proximity Temp&quot;
+    label TC1C &quot;CPU Core 1&quot;
+    label TC2C &quot;CPU Core 2&quot;
+    label TC3C &quot;CPU Core 3&quot;
+    label TC4C &quot;CPU Core 4&quot;
+    label TG0D &quot;GPU Die&quot;
+    label Th1H &quot;Heatpipe 1&quot;
+    label Th2H &quot;Heatpipe 2&quot;
+    ignore TB1T
+    ignore TB2T
+    ignore TC0D
+    ignore TC0E
+    ignore TC0F
+    ignore TCGC
+    ignore TCSA
+    ignore TCTD
+    ignore TG0P
+    ignore THSP
+    ignore TM0S
+    ignore TMBS
+    ignore TP0P
+    ignore TPCD
+    ignore TW0P
+    ignore Tm0P
+    ignore Ts0S
+</code></pre>
+
+<p>With this file saved as <code>/etc/sensors.d/applesmc.conf</code>, now sensors prints sensible output on cmd (in fact all the widgets and applets will display this).</p>
+
+<pre><code>sarang@mbp:~$ sensors
+applesmc-isa-0300
+Adapter: ISA adapter
+Left side  :        2001 RPM  (min = 2000 RPM, max = 6200 RPM)
+Right side :        2001 RPM  (min = 2000 RPM, max = 6200 RPM)
+Battery:             +33.5°C  
+CPU Die Core Temp:   +58.0°C  
+CPU Proximity Temp:  +51.5°C  
+CPU Core 1:          +58.0°C  
+CPU Core 2:          +58.0°C  
+CPU Core 3:          +53.0°C  
+CPU Core 4:          +56.0°C  
+GPU Die:             +51.0°C  
+Heatpipe 1:          +44.5°C  
+Heatpipe 2:          +44.8°C  
+Palm Rest:           +33.5°C  
+</code></pre>
+
+<hr />
+
+<p>Links:</p>
+
+<ul>
+<li><a href="https://stackoverflow.com/a/31033665">https://stackoverflow.com/a/31033665</a></li>
+<li><a href="https://stackoverflow.com/questions/28568775/description-for-apples-smc-keys">https://stackoverflow.com/questions/28568775/description-for-apples-smc-keys</a></li>
+<li><a href="https://web.archive.org/web/20150107044816/http://www.parhelia.ch/blog/statics/k3_keys.html">https://web.archive.org/web/20150107044816/http://www.parhelia.ch/blog/statics/k3_keys.html</a></li>
+<li><a href="https://unix.stackexchange.com/a/415896">https://unix.stackexchange.com/a/415896</a></li>
+<li><a href="https://www.linux.com/topic/desktop/advanced-lm-sensors-tips-and-tricks-linux-0/">https://www.linux.com/topic/desktop/advanced-lm-sensors-tips-and-tricks-linux-0/</a></li>
+</ul>
+
+      </article>
+
+      <ul class="pager blog-pager">
+        
+        <li class="previous">
+          <a href="https://www.variadic.xyz/2020/05/29/a-few-articles/" data-toggle="tooltip" data-placement="top" title="a few interesting articles">&larr; Previous Post</a>
+        </li>
+        
+        
+      </ul>
+
+      
+
+    </div>
+  </div>
+</div>
+
+      
+
+    </div>
+
+    <footer>
+  <div class="container beautiful-jekyll-footer">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <ul class="list-inline text-center footer-links">
+          
+          
+          
+          <li>
+            <a href="https://github.com/sarangbaheti" title="GitHub">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+		      
+		      
+          <li>
+            <a href="https://linkedin.com/in/sarangbaheti" title="LinkedIn">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+	    	  
+          <li>
+            <a href="https://stackoverflow.com/users/916549/sarang" title="StackOverflow">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-stack-overflow fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+          
+    		  <li>
+      			<a href="https://www.variadic.xyz/index.xml" title="RSS">
+      			  <span class="fa-stack fa-lg">
+        				<i class="fa fa-circle fa-stack-2x"></i>
+        				<i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+      			  </span>
+      			</a>
+    		  </li>		
+
+        </ul>
+        <p class="copyright text-muted">
+    		  Sarang Baheti
+    		  &nbsp;&bull;&nbsp;
+    		  2020
+    		  
+    		  
+    		  &nbsp;&bull;&nbsp;
+    		  <a href="https://www.variadic.xyz/">a few notes</a>
+    		  
+  	    </p>
+  	        
+    		<p class="theme-by text-muted">
+    		  Theme by
+    		  <a href="https://github.com/sarangbaheti/bh">bh</a>
+    		</p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="https://www.variadic.xyz/js/jquery-1.11.2.min.js"></script>
+<script src="https://www.variadic.xyz/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/highlight.min.js"></script>
+<script src="https://www.variadic.xyz/js/main.js"></script>
+
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-27935503-1', 'auto');
+ga('send', 'pageview');
+</script>
+
+
+
+  </body>
+</html>

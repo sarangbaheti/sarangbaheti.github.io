@@ -113,6 +113,38 @@
             
             
             <article class="post-preview">
+              <a href="https://www.variadic.xyz/2013/04/14/generating-stack-trace-on-os-x/">
+          	  <h2 class="post-title">generating stack trace on OS X</h2>
+          	
+          	    
+              </a>
+
+              <p class="post-meta">
+                Posted on April 14, 2013
+              </p>
+            
+              <div class="post-entry">
+                
+                    <p style="text-align: justify;">
+  Stack trace is every developer&#8217;s tool when it comes to looking at the path of execution. While investigating assertion or error, I typically prefer looking at stack trace first and then at the code. Back tracing is specific to each OS. Windows defines several functions, I will cover that in another post, while Mac OS X uses BSD style back_trace functions.
+</p>
+
+<p style="text-align: justify;">
+  It&#8217;s fairly easy to code up a class that generates the stack trace on Mac OS X, but has a caveat that line numbers and file-names are not yet there. This is something for me to figure out.
+</p>
+
+<p style="text-align: justify;">
+  Anyway here is the code, you will need C++11 enabled.:
+                
+
+                <br/>
+                <br/>
+                <a href="https://www.variadic.xyz/2013/04/14/generating-stack-trace-on-os-x/" class="post-read-more">[Read&nbsp;More]</a>
+              </div>
+            
+             </article>
+            
+            <article class="post-preview">
               <a href="https://www.variadic.xyz/2013/02/18/waiting-for-background-operation-to-complete/">
           	  <h2 class="post-title">Waiting for Background operation to complete</h2>
           	
@@ -201,29 +233,6 @@ VS 2012 freezes with message: &#8220;Waiting for Background operation to complet
                 <br/>
                 <br/>
                 <a href="https://www.variadic.xyz/2012/12/10/reclaiming-inactive-memory-in-mac-os-x/" class="post-read-more">[Read&nbsp;More]</a>
-              </div>
-            
-             </article>
-            
-            <article class="post-preview">
-              <a href="https://www.variadic.xyz/2012/11/07/implementation-defined-behaviour/">
-          	  <h2 class="post-title">Implementation-defined behaviour</h2>
-          	
-          	    
-              </a>
-
-              <p class="post-meta">
-                Posted on November 7, 2012
-              </p>
-            
-              <div class="post-entry">
-                
-                    Ran into this excellent post by Eric Lippert on MSDN about implementation defined behavriour. Excerpt:  An example of undefined behaviour in C, C++ and C# is writing to a dereferenced pointer that you have no business writing to. Doing so might cause a fault that crashes the process. But the memory could be valid, and it could be an important data structure of the runtime software. It could be code that you are now overwriting with code that does something else.
-                
-
-                <br/>
-                <br/>
-                <a href="https://www.variadic.xyz/2012/11/07/implementation-defined-behaviour/" class="post-read-more">[Read&nbsp;More]</a>
               </div>
             
              </article>

@@ -113,6 +113,37 @@
             
             
             <article class="post-preview">
+              <a href="https://www.variadic.xyz/2014/10/19/curious-case-of-20gb-address-space-reservation/">
+          	  <h2 class="post-title">curious case of 20GB address space reservation</h2>
+          	
+          	    
+              </a>
+
+              <p class="post-meta">
+                Posted on October 19, 2014
+              </p>
+            
+              <div class="post-entry">
+                
+                    <p style="text-align: justify;">
+  Recently I have been tracking a case where some code from a third party library was fiddling up with address space of my application. <a href="http://msdn.microsoft.com/en-us/library/windows/desktop/aa366912(v=vs.85).aspx" target="_blank">Address space</a> was very important back in Win32 days you had only 2GB (3GB for large address aware applications), <a href="http://msdn.microsoft.com/en-us/library/windows/desktop/aa366778(v=vs.85).aspx" target="_blank">but with x64 Windows 7 allows you to reference up to 8TB</a> (that&#8217;s right 8192GB). Well, no one needs that much address space as of today- but a lot of times it is the first thing you look at when your application is running out of memory.
+</p>
+
+<p style="text-align: justify;">
+  Such thing happened with me: due to some bug in a very thick algorithm, while loop never terminated and kept on allocating memory internally. It allocated so much memory that Windows started having problems with Low Memory Condition and finally had to quit the application. As for investigation I noticed that application reported it&#8217;s address space was ~82GB while Task Manager reported it&#8217;s <a href="http://msdn.microsoft.com/en-us/library/windows/desktop/cc441804(v=vs.85).aspx" target="_blank">Working Set</a> to be ~48GB- what was puzzling was my application during the run had reserved ~34 GB address space for nothing.
+</p>
+
+<p style="text-align: justify;">
+                
+
+                <br/>
+                <br/>
+                <a href="https://www.variadic.xyz/2014/10/19/curious-case-of-20gb-address-space-reservation/" class="post-read-more">[Read&nbsp;More]</a>
+              </div>
+            
+             </article>
+            
+            <article class="post-preview">
               <a href="https://www.variadic.xyz/2014/08/28/origin-of-endian/">
           	  <h2 class="post-title">origin of endian</h2>
           	
@@ -268,45 +299,6 @@ bool isPrime_r(int number)
                 <br/>
                 <br/>
                 <a href="https://www.variadic.xyz/2014/08/01/visual-studio-run-time-error-checks-rtc-performance/" class="post-read-more">[Read&nbsp;More]</a>
-              </div>
-            
-             </article>
-            
-            <article class="post-preview">
-              <a href="https://www.variadic.xyz/2014/07/17/screen-recording-on-mac-os-x/">
-          	  <h2 class="post-title">screen recording on Mac OS X</h2>
-          	
-          	    
-              </a>
-
-              <p class="post-meta">
-                Posted on July 17, 2014
-              </p>
-            
-              <div class="post-entry">
-                
-                    <p style="text-align: justify;">
-  Recently I was participating in a training session over the web and wanted to capture the video and audio stream to create training videos for reference material for in house training. <a href="http://www.plm.automation.siemens.com/en_us/products/teamcenter/teamcenter-mobility/support-appshare.shtml" target="_blank">Appshare</a> is a very good screen sharing tool, but won&#8217;t allow for audio streaming. So I used my google voice number to call in. Thus I had both video and audio streaming on my laptop.
-</p>
-
-<p style="text-align: justify;">
-  Capturing should be easy now(?), but I hit several snags. First of all, there was this problem where output from speaker would again feedback into mic of laptop and there by creating a hell lot of noise. After trying out enough I realized what I wanted was an aggregate device where I tell system to choose which devices contribute which kind of streams.
-</p>
-
-<p style="text-align: justify;">
-  Recently I happened to purchase a license to <a href="http://www.globaldelight.com/boom/" target="_blank">Boom device</a> and must say it&#8217;s quite impressive, for others looking for a free sound driver <a href="http://cycling74.com/products/soundflower/" target="_blank">soundflower</a> is good choice. For this post I will stick with Boom.
-</p>
-
-<p style="text-align: justify;">
-  To create an Aggregate device search for Audio MIDI Setup in spotlight. This is what it looks like for me before creation of aggregate device. At the bottom-left click + button and create a new aggregate device:
-</p>
-
-<p style="text-align: justify;">
-                
-
-                <br/>
-                <br/>
-                <a href="https://www.variadic.xyz/2014/07/17/screen-recording-on-mac-os-x/" class="post-read-more">[Read&nbsp;More]</a>
               </div>
             
              </article>

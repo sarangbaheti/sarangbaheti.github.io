@@ -113,6 +113,58 @@
             
             
             <article class="post-preview">
+              <a href="https://www.variadic.xyz/2018/02/15/gpg-signing-github-commits/">
+          	  <h2 class="post-title">gpg signing github commits</h2>
+          	
+          	    
+              </a>
+
+              <p class="post-meta">
+                Posted on February 15, 2018
+              </p>
+            
+              <div class="post-entry">
+                
+                    <p>With <code>git</code> it is easy to overwrite someone as author or commit as someone else. Then how do you know it was someone who committed the changes?
+That&rsquo;s where the gpg signing comes into picture.</p>
+
+<blockquote>
+<p>this is my first gpg signed post</p>
+</blockquote>
+
+<p>One thing to note is that once you have generated gpg keys from <code>git bash</code> then you can&rsquo;t use them from windows command prompt.  I found it rather handy to install gnugpg and then generating keys with gpg.
+One thing i had to setup explicitly is to tell <code>git</code> where to find <code>gpg</code> so it asks me <code>passcode</code> . Anyway the command is:</p>
+
+<pre><code>git config --global gpg.program &quot;C:\GnuPG\bin\gpg.exe&quot;
+</code></pre>
+
+<p>A few links of interest around this topic:</p>
+
+<ol>
+<li><a href="https://news.ycombinator.com/item?id=7792026">Why-does-GitHub-let-me-commit-as-other-people</a></li>
+<li><a href="http://git.661346.n2.nabble.com/GPG-signing-for-git-commit-td2582986.html">GPG-signing-for-git-commit</a></li>
+<li><a href="https://mikegerwitz.com/papers/git-horror-story.html">A git horror story: Repository Integrity With Signed Commits</a></li>
+</ol>
+
+<p>Anyway the most interesting <a href="https://security.stackexchange.com/a/33471">is this</a>:</p>
+
+
+<figure >
+    
+        <img src="/images/internet-full-of-chimps.png" />
+    
+    
+</figure>
+                
+
+                <br/>
+                <br/>
+                <a href="https://www.variadic.xyz/2018/02/15/gpg-signing-github-commits/" class="post-read-more">[Read&nbsp;More]</a>
+              </div>
+            
+             </article>
+            
+            <article class="post-preview">
               <a href="https://www.variadic.xyz/2018/02/14/tweaking-hugo-summary/">
           	  <h2 class="post-title">Tweaking Hugo Summary</h2>
           	
@@ -230,29 +282,6 @@
                 <br/>
                 <br/>
                 <a href="https://www.variadic.xyz/2018/01/15/hashing-stdpair-and-stdtuple/" class="post-read-more">[Read&nbsp;More]</a>
-              </div>
-            
-             </article>
-            
-            <article class="post-preview">
-              <a href="https://www.variadic.xyz/2017/11/06/error-handling-links/">
-          	  <h2 class="post-title">Error Handling Links</h2>
-          	
-          	    
-              </a>
-
-              <p class="post-meta">
-                Posted on November 6, 2017
-              </p>
-            
-              <div class="post-entry">
-                
-                    One Note dump for reference
-                
-
-                <br/>
-                <br/>
-                <a href="https://www.variadic.xyz/2017/11/06/error-handling-links/" class="post-read-more">[Read&nbsp;More]</a>
               </div>
             
              </article>

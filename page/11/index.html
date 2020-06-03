@@ -113,6 +113,34 @@
             
             
             <article class="post-preview">
+              <a href="https://www.variadic.xyz/2017/02/20/logging-off-users-remotely/">
+          	  <h2 class="post-title">logging off users remotely</h2>
+          	
+          	    
+              </a>
+
+              <p class="post-meta">
+                Posted on February 20, 2017
+              </p>
+            
+              <div class="post-entry">
+                
+                    <p>I came across this post on stackoverflow about logging off users remotely &amp; found it quite handy at times.
+Thus thought of making a note of it on my blog.</p>
+
+<p>Link: <a href="http://superuser.com/questions/650816/log-off-a-disconnected-user-remotely">http://superuser.com/questions/650816/log-off-a-disconnected-user-remotely</a></p>
+
+<p></p>
+                
+
+                <br/>
+                <br/>
+                <a href="https://www.variadic.xyz/2017/02/20/logging-off-users-remotely/" class="post-read-more">[Read&nbsp;More]</a>
+              </div>
+            
+             </article>
+            
+            <article class="post-preview">
               <a href="https://www.variadic.xyz/2016/12/01/memory-corruption-widechartomultibyte/">
           	  <h2 class="post-title">memory corruption WideCharToMultiByte</h2>
           	
@@ -250,48 +278,6 @@ That means my vimrc kept evolving and had to sync at both the sites. Thought wou
                 <br/>
                 <br/>
                 <a href="https://www.variadic.xyz/2016/06/16/vimrc/" class="post-read-more">[Read&nbsp;More]</a>
-              </div>
-            
-             </article>
-            
-            <article class="post-preview">
-              <a href="https://www.variadic.xyz/2016/06/16/deleting-all-files-recursively/">
-          	  <h2 class="post-title">deleting all matching files recursively</h2>
-          	
-          	    
-              </a>
-
-              <p class="post-meta">
-                Posted on June 16, 2016
-              </p>
-            
-              <div class="post-entry">
-                
-                    <p>I am a big fan of linux command line utils and work with many of those on windows as well. One of the commands I have started to like is <a href="https://en.wikipedia.org/wiki/Xargs">xargs</a>.
-I Like the way you could compose commands with pipes. Have tried using xargs on windows <a href="https://groups.google.com/forum/#!topic/mintty-discuss/8mCkdAPD-sE">without much success</a>.</p>
-
-<p>One of the things I often use this is to clean temp directories of certain log files.
-My linux commands would have been:</p>
-
-<pre><code class="language-bash">find . -name &quot;*.syslog&quot; | xargs rm
-</code></pre>
-
-<p>Now I could have done this on windows as:</p>
-
-<pre><code class="language-bash">dir /s /b *.syslog | xargs rm
-</code></pre>
-
-<p>but xargs dies with environment being too large, instead had to switch to a less elegant solution:</p>
-
-<pre><code class="language-bash">forfiles /s /p . /M *.syslog /c &quot;cmd /c rm @path&quot;
-</code></pre>
-
-<p></p>
-                
-
-                <br/>
-                <br/>
-                <a href="https://www.variadic.xyz/2016/06/16/deleting-all-files-recursively/" class="post-read-more">[Read&nbsp;More]</a>
               </div>
             
              </article>
