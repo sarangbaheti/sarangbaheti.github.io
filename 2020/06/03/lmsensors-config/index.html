@@ -133,9 +133,7 @@
   <div class="row">
     <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
       <article role="main" class="blog-post">
-          <p>Various sensors as listed by <code>sensors</code> on my 2011 Macbook Pro, now the funny thing is <code>TB0T</code> is not the actual name of the sensor but it is <code>temp1</code>.</p>
-
-<p>To cut the chase these are the names as displayed by <code>sensors</code> and coressponding user facing names for them. Not all of the temps are interesting to track/report- that is where the <code>conf</code> files comes into picture.</p>
+          <p>These are the names as displayed by <code>sensors</code> and coressponding user facing names for them. Not all of the temps are interesting to track/report- that is where the <code>conf</code> files comes into picture.</p>
 
 <pre><code>TB0T:         +31.2°C  --&gt; Battery
 TB1T:         +30.0°C  --&gt; Battery
@@ -167,40 +165,40 @@ Ts0P:         +31.5°C  --&gt; Palm Rest Temp
 Ts0S:         +40.8°C  --&gt; Memory Proximity
 </code></pre>
 
-<p>Now, the <code>conf</code> file needs names as reported not <code>TB0T</code> but <code>temp1</code> and so. One can get such information with <code>sensors -u</code> command, just replace <code>temp1_input</code> with <code>temp1</code> in that output.</p>
+<p>Now, the <code>conf</code> file needs sensor raw-names, not <code>TB0T</code> but <code>temp1</code> and so. One can get such information with <code>sensors -u</code> command, just replace <code>temp1_input</code> with <code>temp1</code> in that output.</p>
 
-<p>The name <code>applesmc</code> for chip is i got from <code>sensors -u</code> output as well as from <code>dmesg</code> output.</p>
+<p>The name <code>applesmc</code> is the name I got for the chip from command <code>sensors -u</code>, also cross checked with the same as in output of <code>dmesg</code>.</p>
 
 <pre><code># this is my MacBook Pro 2011 8,2
-chip &quot;applesmc-*&quot;
-    label TBOT &quot;Battery&quot;
-    label Ts0P &quot;Palm Rest&quot;
-    label TC0C &quot;CPU Die Core Temp&quot;
-    label TC0P &quot;CPU Proximity Temp&quot;
-    label TC1C &quot;CPU Core 1&quot;
-    label TC2C &quot;CPU Core 2&quot;
-    label TC3C &quot;CPU Core 3&quot;
-    label TC4C &quot;CPU Core 4&quot;
-    label TG0D &quot;GPU Die&quot;
-    label Th1H &quot;Heatpipe 1&quot;
-    label Th2H &quot;Heatpipe 2&quot;
-    ignore TB1T
-    ignore TB2T
-    ignore TC0D
-    ignore TC0E
-    ignore TC0F
-    ignore TCGC
-    ignore TCSA
-    ignore TCTD
-    ignore TG0P
-    ignore THSP
-    ignore TM0S
-    ignore TMBS
-    ignore TP0P
-    ignore TPCD
-    ignore TW0P
-    ignore Tm0P
-    ignore Ts0S
+chip &quot;applesmc-isa-0300&quot;
+    label temp1 &quot;Battery&quot;
+    label temp27 &quot;Palm Rest&quot;
+    label temp4 &quot;CPU Die Core Temp&quot;
+    label temp8 &quot;CPU Proximity Temp&quot;
+    label temp9 &quot;CPU Core 1&quot;
+    label temp10 &quot;CPU Core 2&quot;
+    label temp11 &quot;CPU Core 3&quot;
+    label temp12 &quot;CPU Core 4&quot;
+    label temp16 &quot;GPU Die&quot;
+    label temp24 &quot;Heatpipe 1&quot;
+    label temp25 &quot;Heatpipe 2&quot;
+    ignore temp2
+    ignore temp3
+    ignore temp5
+    ignore temp6
+    ignore temp7
+    ignore temp13
+    ignore temp14
+    ignore temp15
+    ignore temp17
+    ignore temp18
+    ignore temp19
+    ignore temp20
+    ignore temp21
+    ignore temp22
+    ignore temp23
+    ignore temp26
+    ignore temp28
 </code></pre>
 
 <p>With this file saved as <code>/etc/sensors.d/applesmc.conf</code>, now sensors prints sensible output on cmd (in fact all the widgets and applets will display this).</p>
