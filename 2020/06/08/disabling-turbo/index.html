@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+  <title>disabling turbo-bost</title>
+
+  <meta name="author" content="Sarang Baheti" />
+  
+  
+  <meta name="description" content="how to go about disabling turbo-boost">
+  
+
+  <meta name="generator" content="Hugo 0.30.2" />
+
+  <link rel="alternate" href="https://www.variadic.xyz/index.xml" type="application/rss+xml" title="a few notes">
+
+  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
+  <link rel="stylesheet" href="https://www.variadic.xyz/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="https://www.variadic.xyz/css/main.css" />
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" />
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" />
+  
+  
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/styles/default.min.css">
+  
+  
+  
+  <meta property="og:title" content="disabling turbo-bost" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="/2020/06/08/disabling-turbo//" />
+  <meta property="og:image" content="" />
+  
+</head>
+
+
+  <body>
+
+    <nav class="navbar navbar-default navbar-fixed-top navbar-custom">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="https://www.variadic.xyz/">a few notes</a>
+    </div>
+
+    <div class="collapse navbar-collapse" id="main-navbar">
+      <ul class="nav navbar-nav navbar-right">
+      
+        
+          <li>
+          <a title="Notes" href="/">Notes</a>
+  	      </li>
+  	    
+      
+        
+          <li>
+          <a title="About" href="/about/">About</a>
+  	      </li>
+  	    
+      
+        
+          <li>
+          <a title="Archive" href="/archive/">Archive</a>
+  	      </li>
+  	    
+      
+        
+          <li>
+          <a title="Books" href="/books/">Books</a>
+  	      </li>
+  	    
+      
+        
+          <li>
+          <a title="Disclaimer" href="/disclaimer/">Disclaimer</a>
+  	      </li>
+  	    
+      
+      </ul>
+    </div>
+
+	<div class="avatar-container">
+	  <div class="avatar-img-border">
+      
+	  </div>
+	</div>
+
+  </div>
+</nav>
+
+
+    <div role="main" class="container main-content">
+
+      
+        
+
+
+
+
+
+<header class="header-section ">
+
+<div class="intro-header no-img">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="post-heading">
+          <h1>disabling turbo-bost</h1>
+      
+      
+      
+      <span class="post-meta">Posted on June 8, 2020</span>
+      
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</header>
+
+
+
+
+<div class="container">
+  <div class="row">
+    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+      <article role="main" class="blog-post">
+          
+
+<p>This is just for my notes on how I went about figuring out how disabling Intel&rsquo;s turboboost on my Mac Book Pro to contain the heat. <a href="/2020/05/28/2011mbp-osx/">2011 MacBook Pro &amp; OSX</a></p>
+
+<h3 id="intel-manuals-msr">Intel Manuals &amp; MSR:</h3>
+
+<hr />
+
+<p>one can find description of ModelSpecific Register (MSR), Sandy Bridge onwards, in <code>64-ia-32-architectures-software-developer-vol-3b-part-2-manual.pdf</code> in <code>Power and Thermal Management</code> chapter:</p>
+
+<p>Just look for details on: <code>MSR IA32_MISC_ENABLE</code> in <code>64-ia-32-architectures-software-developer-vol-3b-part-2-manual.pdf</code></p>
+
+<blockquote>
+<h4 id="14-3-2-1-discover-hardware-support-and-enabling-of-opportunistic-processor-operation">14.3.2.1 Discover Hardware Support and Enabling of Opportunistic Processor Operation</h4>
+
+<hr />
+
+<p>If an Intel 64 processor has hardware support for opportunistic processor performance operation, the power-on default state of A32_MISC_ENABLE[38] indicates the presence of such hardware support. For Intel 64 processors that support opportunistic processor performance operation, the default value is 1, indicating its presence. For processors that do not support opportunistic processor performance operation, the default value is 0. The power-on default value of IA32_MISC_ENABLE[38] allows BIOS to detect the presence of hardware support of opportunistic processor performance operation.</p>
+
+<p>IA32_MISC_ENABLE[38] is shared across all logical processors in a physical package. It is written by BIOS during platform initiation to enable/disable opportunistic processor operation in conjunction of OS power management capabilities, see Section 14.3.2.2. BIOS can set IA32_MISC_ENABLE[38] with 1 to disable opportunistic processor performance operation; it must clear the default value of IA32_MISC_ENABLE[38] to 0 to enable opportunistic processor performance operation. OS and applications must use CPUID leaf 06H if it needs to detect processors that has opportunistic processor operation enabled.</p>
+
+<p>When CPUID is executed with EAX = 06H on input, Bit 1 of EAX in Leaf 06H (i.e. CPUID.06H:EAX[1]) indicates opportunistic processor performance operation, such as IDA, has been enabled by BIOS.</p>
+
+<p>Opportunistic processor performance operation can be disabled by setting bit 38 of IA32_MISC_ENABLE. This mechanism is intended for BIOS only. If IA32_MISC_ENABLE[38] is set, CPUID.06H:EAX[1] will return 0.</p>
+</blockquote>
+
+<p>More details can be found in Manual Volume 4: Model-Specific Registers <a href="https://software.intel.com/content/dam/develop/public/us/en/documents/335592-sdm-vol-4.pdf"><code>335592-sdm-vol-4.pdf</code></a>:</p>
+
+<blockquote>
+<h4 id="2-1-architectural-msrs">2.1 ARCHITECTURAL MSRS</h4>
+
+<hr />
+
+<p>Many MSRs have carried over from one generation of IA-32 processors to the next and to Intel 64 processors. A subset of MSRs and associated bit fields, which do not change on future processor generations, are now considered architectural MSRs. For historical reasons (beginning with the Pentium 4 processor), these “architectural MSRs” were given the prefix “IA32_”. Table 2-2 lists the architectural MSRs, their addresses, their current names, their names in previous IA-32 processors, and bit fields that are considered architectural. MSR addresses outside Table 2-2 and certain bit fields in an MSR address that may overlap with architectural MSR addresses are model-specific. Code that accesses a model-specific MSR and that is executed on a processor that does not support that MSR will generate an exception.</p>
+</blockquote>
+
+<p>However, the most interesting note is in <code>Table 2-3. MSRs in Processors Based on Intel® Core™ Microarchitecture</code>:</p>
+
+<pre><code>Register Addr
+Hex   Dec     Register Name/BitFields       Shared/Unique   Description
+1A0H  416     IA32_MISC_ENABLE                              Enable Misc. Processor Features (R/W)
+...
+                38                          Shared          IDA Disable (R/W)
+                                                            When set to 1 on processors that support IDA, the Intel
+                                                            Dynamic Acceleration feature (IDA) is disabled and the
+                                                            IDA_Enable feature flag will be cleared (CPUID.06H:
+                                                            EAX[1]=0).
+                                                            When set to a 0 on processors that support IDA,
+                                                            CPUID.06H: EAX[1] reports the processor’s support of IDA
+                                                            is enabled.
+                                                            Note: The power-on default value is used by BIOS to
+                                                            detect hardware support of IDA. If the power-on default
+                                                            value is 1, IDA is available in the processor. If the poweron 
+                                                            default value is 0, IDA is not available
+
+</code></pre>
+
+<p><br/></p>
+
+<h3 id="linux-intel-driver">Linux Intel driver:</h3>
+
+<hr />
+
+<p>Linux kernel has a driver to just do this: <code>intel_pstate</code> (<a href="https://www.kernel.org/doc/html/v4.12/admin-guide/pm/intel_pstate.html">https://www.kernel.org/doc/html/v4.12/admin-guide/pm/intel_pstate.html</a>), look for <code>no_turbo</code>.</p>
+
+<pre><code>echo &quot;1&quot; | sudo tee /sys/devices/system/cpu/intel_pstate/no_turbo 
+</code></pre>
+
+<p>These are various settings supported by <a href="https://www.kernel.org/doc/Documentation/cpu-freq/intel-pstate.txt"><code>intel_pstate</code> driver</a>:</p>
+
+<pre><code>sarang@mbp:~$ ls /sys/devices/system/cpu/intel_pstate/
+max_perf_pct  min_perf_pct  no_turbo  num_pstates  status  turbo_pct
+</code></pre>
+
+<p>Interesting enough, here is some code that points to exactly how things are setup:</p>
+
+<pre><code class="language-cpp">
+//https://github.com/torvalds/linux/blob/d8924c0d76aaa52e4811b5c64115d9a7f36cc73a/drivers/platform/x86/intel_ips.c
+
+/*
+ * Package level MSRs for monitor/control
+ */
+#define PLATFORM_INFO	0xce
+#define   PLATFORM_TDP		(1&lt;&lt;29)
+#define   PLATFORM_RATIO	(1&lt;&lt;28)
+
+#define IA32_MISC_ENABLE	0x1a0
+#define   IA32_MISC_TURBO_EN	(1ULL&lt;&lt;38)
+
+
+...
+...
+
+/**
+ * ips_detect_cpu - detect whether CPU supports IPS
+ *
+ * Walk our list and see if we're on a supported CPU.  If we find one,
+ * return the limits for it.
+ */
+static struct ips_mcp_limits *ips_detect_cpu(struct ips_driver *ips)
+{
+	u64 turbo_power, misc_en;
+
+    ...
+
+	rdmsrl(IA32_MISC_ENABLE, misc_en);
+	/*
+	 * If the turbo enable bit isn't set, we shouldn't try to enable/disable
+	 * turbo manually or we'll get an illegal MSR access, even though
+	 * turbo will still be available.
+	 */
+	if (misc_en &amp; IA32_MISC_TURBO_EN)
+		ips-&gt;turbo_toggle_allowed = true;
+	else
+		ips-&gt;turbo_toggle_allowed = false;
+
+</code></pre>
+
+<p>From <code>intel_pstate.c</code>:</p>
+
+<pre><code class="language-cpp">static ssize_t store_no_turbo(struct kobject *a, struct kobj_attribute *b,
+			      const char *buf, size_t count)
+{
+	unsigned int input;
+	int ret;
+
+	ret = sscanf(buf, &quot;%u&quot;, &amp;input);
+	if (ret != 1)
+		return -EINVAL;
+
+	...
+
+	global.no_turbo = clamp_t(int, input, 0, 1);
+
+	if (global.no_turbo) {
+		struct cpudata *cpu = all_cpu_data[0];
+		int pct = cpu-&gt;pstate.max_pstate * 100 / cpu-&gt;pstate.turbo_pstate;
+
+		/* Squash the global minimum into the permitted range. */
+		if (global.min_perf_pct &gt; pct)
+			global.min_perf_pct = pct;
+	}
+    
+    ...
+
+	intel_pstate_update_policies();
+
+    ...
+}
+
+</code></pre>
+
+<p>A few <a href="https://lwn.net/Kernel/Index/#cpufreq">related articles here</a></p>
+
+<p><br/></p>
+
+<h3 id="os-x-driver">OS X driver:</h3>
+
+<hr />
+
+<p>No easy way to do this on OS X. I found <a href="http://tbswitcher.rugarciap.com/">this tool</a> <a href="https://github.com/rugarciap/Turbo-Boost-Switcher">github</a>, which wraps the <a href="https://github.com/nanoant/DisableTurboBoost.kext">kext/driver</a>.</p>
+
+<p>The <code>kext</code> does the same thing as noted above:</p>
+
+<pre><code class="language-cpp">// https://github.com/nanoant/DisableTurboBoost.kext/blob/master/DisableTurboBoost.c
+
+//  expectedFeatures stays unused in this
+const uint64_t expectedFeatures  = 0x850089LL;
+const uint64_t disableTurboBoost = 0x4000000000LL;
+
+static void disable_tb(__unused void * param_not_used) {
+	wrmsr64(MSR_IA32_MISC_ENABLE, rdmsr64(MSR_IA32_MISC_ENABLE) | disableTurboBoost);
+}
+
+static void enable_tb(__unused void * param_not_used) {
+	wrmsr64(MSR_IA32_MISC_ENABLE, rdmsr64(MSR_IA32_MISC_ENABLE) &amp; ~disableTurboBoost);
+}
+
+</code></pre>
+
+<p><br/></p>
+
+<h3 id="windows-power-config">Windows Power config:</h3>
+
+<hr />
+
+<p>With windows, it is quite easy- Just go to power config in power options and control the max freq.</p>
+
+<p>Note: this switches off the <a href="https://docs.microsoft.com/en-us/windows-hardware/design/device-experiences/modern-standby">Windows Modern Standby</a> feature. I found it to be very cool and decided to not to muck around with these settings on my new laptop.</p>
+
+      </article>
+
+      <ul class="pager blog-pager">
+        
+        <li class="previous">
+          <a href="https://www.variadic.xyz/2020/06/03/lmsensors-config/" data-toggle="tooltip" data-placement="top" title="sensors conf">&larr; Previous Post</a>
+        </li>
+        
+        
+      </ul>
+
+      
+
+    </div>
+  </div>
+</div>
+
+      
+
+    </div>
+
+    <footer>
+  <div class="container beautiful-jekyll-footer">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <ul class="list-inline text-center footer-links">
+          
+          
+          
+          <li>
+            <a href="https://github.com/sarangbaheti" title="GitHub">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+		      
+		      
+          <li>
+            <a href="https://linkedin.com/in/sarangbaheti" title="LinkedIn">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+	    	  
+          <li>
+            <a href="https://stackoverflow.com/users/916549/sarang" title="StackOverflow">
+              <span class="fa-stack fa-lg">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-stack-overflow fa-stack-1x fa-inverse"></i>
+              </span>
+            </a>
+          </li>
+          
+          
+    		  <li>
+      			<a href="https://www.variadic.xyz/index.xml" title="RSS">
+      			  <span class="fa-stack fa-lg">
+        				<i class="fa fa-circle fa-stack-2x"></i>
+        				<i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+      			  </span>
+      			</a>
+    		  </li>		
+
+        </ul>
+        <p class="copyright text-muted">
+    		  Sarang Baheti
+    		  &nbsp;&bull;&nbsp;
+    		  2020
+    		  
+    		  
+    		  &nbsp;&bull;&nbsp;
+    		  <a href="https://www.variadic.xyz/">a few notes</a>
+    		  
+  	    </p>
+  	        
+    		<p class="theme-by text-muted">
+    		  Theme by
+    		  <a href="https://github.com/sarangbaheti/bh">bh</a>
+    		</p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="https://www.variadic.xyz/js/jquery-1.11.2.min.js"></script>
+<script src="https://www.variadic.xyz/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/highlight.min.js"></script>
+<script src="https://www.variadic.xyz/js/main.js"></script>
+
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-27935503-1', 'auto');
+ga('send', 'pageview');
+</script>
+
+
+
+  </body>
+</html>
