@@ -133,7 +133,7 @@
       <article role="main" class="blog-post">
           <p>Recently I was debugging some workflow where it appeared quite slow. As part of debugging i saw it Visual Studio printed debugging information about first chance exceptions thrown.</p>
 
-<p>Now that <a href="https://blogs.msdn.microsoft.com/davidklinems/2005/07/12/what-is-a-first-chance-exception/">David Kline from MS</a> has made it ample clear that <a href="http://stackoverflow.com/questions/564681/what-is-a-first-chance-exception">FirstChance exceptions are normal exceptions just that debugger gets first chance at them</a>- thus first chance. If debugger chooses not to do anything then application gets a chance to do something about it. If application does not handle it then debugger gets a second chance, thus second chance exceptions. you get the idea.</p>
+<p>Now that <a href="https://docs.microsoft.com/en-us/archive/blogs/davidklinems/what-is-a-first-chance-exception">David Kline from MS</a> has made it ample clear that <a href="http://stackoverflow.com/questions/564681/what-is-a-first-chance-exception">FirstChance exceptions are normal exceptions just that debugger gets first chance at them</a>- thus first chance. If debugger chooses not to do anything then application gets a chance to do something about it. If application does not handle it then debugger gets a second chance, thus second chance exceptions. you get the idea.</p>
 
 <p>Now an application can throw as many exceptions it wants and catch it later. This is fine but exceptions are supposed to exceptional and cost quite a bit. (<a href="http://stackoverflow.com/questions/13835817/are-exceptions-in-c-really-slow">link1</a> &amp; <a href="http://stackoverflow.com/a/13840188/916549">link2</a>)</p>
 
@@ -141,7 +141,7 @@
 One of the ways to speed up applications is now to fix or atleast reason about these exceptions being thrown, and having tracebacks makes life lot easier.
 </p>
 
-<p>To generate tracebacks is you could use <a href="https://msdn.microsoft.com/en-us/library/windows/desktop/ms681411(v=vs.85).aspx">Vectored Exception Handling</a> or <code>windbg</code>. Off course I chose <code>windbg</code> so I set out to generate tracebacks.
+<p>To generate tracebacks is you could use <a href="https://docs.microsoft.com/en-us/windows/win32/debug/vectored-exception-handling">Vectored Exception Handling</a> or <code>windbg</code>. Off course I chose <code>windbg</code> so I set out to generate tracebacks.
 In my case I recorded 168K+ exceptions thrown out of which I believe ~165K could be filtered.</p>
 
 <p>Anyway, as usual I started <code>windbg</code> with a log file option, as traces could get really large and I did not want to lose any.</p>
@@ -149,7 +149,7 @@ In my case I recorded 168K+ exceptions thrown out of which I believe ~165K could
 <pre><code>windbg -pn testapp.exe -loga d:\tracebacks.txt
 </code></pre>
 
-<p>Once I had application running, next I ensured that I am listening to correct exception code. In my case it is C++ exception with code <code>e06d7363</code>, <a href="https://blogs.msdn.microsoft.com/oldnewthing/20100730-00/?p=13273">some details here</a>.</p>
+<p>Once I had application running, next I ensured that I am listening to correct exception code. In my case it is C++ exception with code <code>e06d7363</code>, <a href="https://devblogs.microsoft.com/oldnewthing/20100730-00/?p=13273">some details here</a> and <a href="https://stackoverflow.com/questions/9095898/decoding-the-parameters-of-a-thrown-c-exception-0xe06d7363">here</a>.</p>
 
 <pre><code>(3770.35a0): Break instruction exception - code 80000003 (first chance)
 ntdll!DbgBreakPoint:
@@ -172,7 +172,7 @@ KERNELBASE!RaiseException+0x39:
 </code></pre>
 
 <p>Here I am asking <code>windbg</code> to break whenever a C++ exception is thrown. At <code>line#14</code> command is <code>sxe -c &quot;k;g;&quot; e06d7363</code>.
-Which configures <a href="https://msdn.microsoft.com/en-us/library/windows/hardware/hh406246(v=vs.85).aspx">Exceptions and Events in windbg</a>, see <a href="https://msdn.microsoft.com/en-us/library/windows/hardware/ff558822(v=vs.85).aspx">sxe</a> for details.
+Which configures <a href="https://docs.microsoft.com/en-us/windows-hardware/drivers/debugger/controlling-exceptions-and-events">Exceptions and Events in windbg</a>, see <a href="https://docs.microsoft.com/en-us/windows-hardware/drivers/debugger/sx--sxd--sxe--sxi--sxn--sxr--sx---set-exceptions-">sxe</a> for details.
 The idea is to configure exceptions such that we break on error <code>e06d7363</code> but execute command <code>k;g;</code>- print traceback in that particular thread, <code>k</code>, and continue <code>g</code></p>
 
 <p>That&rsquo;s it. At the end of workflow I had traces for all 168K exceptions with a text file container ~500MB of tracebacks to dig thru.</p>
