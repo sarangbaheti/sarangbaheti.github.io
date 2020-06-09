@@ -18,9 +18,9 @@
       
       <guid>https://www.variadic.xyz/2020/06/08/disabling-turbo/</guid>
       <description>This is just for my notes on how I went about figuring out how disabling Intel&amp;rsquo;s turboboost on my Mac Book Pro to contain the heat. 2011 MacBook Pro &amp;amp; OSX
+Link1 and Link2 have some nice details about turbo-boost.
 Intel Manuals &amp;amp; MSR: one can find description of ModelSpecific Register (MSR), Sandy Bridge onwards, in 64-ia-32-architectures-software-developer-vol-3b-part-2-manual.pdf in Power and Thermal Management chapter:
-Just look for details on: MSR IA32_MISC_ENABLE in 64-ia-32-architectures-software-developer-vol-3b-part-2-manual.pdf
- 14.3.2.1 Discover Hardware Support and Enabling of Opportunistic Processor Operation If an Intel 64 processor has hardware support for opportunistic processor performance operation, the power-on default state of A32_MISC_ENABLE[38] indicates the presence of such hardware support.</description>
+Just look for details on: MSR IA32_MISC_ENABLE in 64-ia-32-architectures-software-developer-vol-3b-part-2-manual.</description>
     </item>
     
     <item>
@@ -203,13 +203,28 @@ Articles:
     </item>
     
     <item>
+      <title>notes on semaphores, part 2</title>
+      <link>https://www.variadic.xyz/2019/12/05/semaphores-2/</link>
+      <pubDate>Thu, 05 Dec 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.variadic.xyz/2019/12/05/semaphores-2/</guid>
+      <description>Reference: The Little Book of Semaphores by Allen B. Downey Link1
+ 
+Semaphores In real life a semaphore is a system of signals used to communicate visually, usually with flags, lights or some other mechanism. In software world it is a data structure for solving a variety of synchronization problems.
+Semaphore was invented by Edsger W. Dijkstra.
+Semaphore is like an int with:
+ Initialized with a value, only permitted operations are increment\inc and decrement\dec.</description>
+    </item>
+    
+    <item>
       <title>notes on semaphores, part 1</title>
       <link>https://www.variadic.xyz/2019/12/01/semaphores-1/</link>
       <pubDate>Sun, 01 Dec 2019 00:00:00 +0000</pubDate>
       
       <guid>https://www.variadic.xyz/2019/12/01/semaphores-1/</guid>
-      <description>Reference: The Little Book of Semaphores by Allen B. Downey Link1 Link2
- Synchronization Synchronization (synch) is about making 2 things happen at same time, however it is a little more general in programming. It refers to relationship among events (any number and any kind).
+      <description>Reference: The Little Book of Semaphores by Allen B. Downey Link1
+ 
+Synchronization Synchronization (synch) is about making 2 things happen at same time, however it is a little more general in programming. It refers to relationship among events (any number and any kind).
 Synch constraints:
 - Serialization: EventA must happen before EventB
 - Mutual Exclusion: EventA and EventB must not happen at the same time

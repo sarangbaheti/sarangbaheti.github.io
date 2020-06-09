@@ -6,12 +6,12 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 
-  <title>Are cell phones destroying the college classroom</title>
+  <title>notes on semaphores, part 2</title>
 
   <meta name="author" content="Sarang Baheti" />
   
   
-  <meta name="description" content="Are cell phones destroying the college classroom? An article by Ron Srigley in technology review.">
+  <meta name="description" content="notes on semaphores, part 2">
   
 
   <meta name="generator" content="Hugo 0.30.2" />
@@ -29,9 +29,9 @@
   
   
   
-  <meta property="og:title" content="Are cell phones destroying the college classroom" />
+  <meta property="og:title" content="notes on semaphores, part 2" />
   <meta property="og:type" content="website" />
-  <meta property="og:url" content="/2019/12/27/cellphones//" />
+  <meta property="og:url" content="/2019/12/05/semaphores-2//" />
   <meta property="og:image" content="" />
   
 </head>
@@ -113,11 +113,11 @@
     <div class="row">
       <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
         <div class="post-heading">
-          <h1>Are cell phones destroying the college classroom</h1>
+          <h1>notes on semaphores, part 2</h1>
       
       
       
-      <span class="post-meta">Posted on December 27, 2019</span>
+      <span class="post-meta">Posted on December 5, 2019</span>
       
         </div>
       </div>
@@ -133,31 +133,190 @@
   <div class="row">
     <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
       <article role="main" class="blog-post">
-          <p><strong>As with all things, too much technology is not good..</strong></p>
+          
 
-<p>Articles:</p>
+<blockquote>
+<p>Reference: The Little Book of Semaphores by Allen B. Downey
+<a href="http://greenteapress.com/semaphores/LittleBookOfSemaphores.pdf">Link1</a></p>
+</blockquote>
+
+<p><br/></p>
+
+<h3 id="semaphores">Semaphores</h3>
+
+<hr />
+
+<p>In real life a semaphore is a system of signals used to communicate visually, usually with flags, lights or some other mechanism. In software world it is a data structure for solving a variety of synchronization problems.</p>
+
+<p>Semaphore was invented by <a href="https://en.wikipedia.org/wiki/Edsger_W._Dijkstra">Edsger W. Dijkstra</a>.</p>
+
+<p>Semaphore is like an <code>int</code> with:</p>
 
 <ul>
-<li><a href="https://arstechnica.com/tech-policy/2019/12/theyre-abysmal-students-are-cell-phones-destroying-the-college-classroom">They&rsquo;re abysmal students- arstechnica</a></li>
-<li><a href="https://www.technologyreview.com/s/614934/teenagers-without-cell-phones/">I asked my students to turn in their cell phones and write about living without them - technologyreview</a></li>
-<li><a href="https://www.technologyreview.com/s/614893/classroom-technology-holding-students-back-edtech-kids-education/">How classroom technology is holding students back - technologyreview</a></li>
+<li>Initialized with a value, only permitted operations are <code>increment\inc</code> and <code>decrement\dec</code>. One cannot query current value.</li>
+<li>On <code>dec</code>, if value is negative, calling that thread blocks till semaphore gets to <code>0</code> or above.</li>
+<li>On <code>inc</code> calling thread increments semaphore and other waiting thread gets unblocked</li>
 </ul>
 
-<p>Well, not necessarily just class room- i have seen it destroying manners, concentration, engagement and above all happiness. Cellphones made applications like <code>whatsapp</code> ubiquitous- to the point my parents became tech junkies overnight :). Cellphones made <code>facebook</code> ubiquitous as well, I have seen it first hand how it affects self-esteem and leads to unhappiness, <a href="https://www.psychologytoday.com/us/blog/the-pacific-heart/201801/is-facebook-destroying-society-and-your-mental-health">this article presents similar arguments</a> and <a href="https://en.wikipedia.org/wiki/Criticism_of_Facebook">this entry on wikipedia</a></p>
+<blockquote>
+<p>Note: when you signal a semaphore, you don&rsquo;t know if any thread is waiting on it or not.</p>
+</blockquote>
 
-<p>Most importantly i have seen it derailing kids. Sigh..</p>
+<p>Value of Semaphore:</p>
+
+<ul>
+<li>if value is positive, it represents that #threads can <code>dec</code> without blocking</li>
+<li>if value is negative, it represents that #threads are blocked and waiting</li>
+<li>if value is 0, it means there are no waiting threads</li>
+</ul>
+
+<pre><code>s = semaphore(1); // &lt;&lt;-- creates a new semaphore with value 1
+
+
+s.increment();      |
+s.signal();         |   equivalent operations
+s.v();              |
+
+
+s.decrement();      |
+s.wait();           |   equivalent operations
+s.p();              |
+
+</code></pre>
+
+<blockquote>
+<p><code>inc</code> &amp; <code>dec</code> is what operations do, <code>signal</code> and <code>wait</code> is what they are used for.
+ <code>v</code> &amp; <code>p</code> were original names used by EWD</p>
+</blockquote>
+
+<p><br/></p>
+
+<h3 id="basic-synchronization-pattern">Basic synchronization pattern</h3>
+
+<hr />
+
+<p><br/></p>
+
+<h4 id="signalling">signalling</h4>
+
+<hr />
+
+<p>Thread1 sends signal to other thread to indicate that something has happened. Makes it possible to guarantee that a secion of code in one thread will run before a section of code in another thread. This solves synchronization problem.</p>
+
+<pre><code>sem = semaphore(1);
+
+    ThreadA                 ThreadB
+    statement a1;           sem.wait();
+    sem.signal()            statement b1;
+
+
+guarantees that a1 &lt; b1
+
+</code></pre>
+
+<p><br/></p>
+
+<h4 id="rendezvous">rendezvous</h4>
+
+<hr />
+
+<p>Idea is that two or more threads rendezvous at a point of execution and neither is allowed to proceed until al have arrived. (This is very similar to barrier).</p>
+
+<p>Problem:</p>
+
+<pre><code>    ThreadA                 ThreadB
+    A1                      B1
+&lt;&lt;&gt;&gt; --------------------------------- &lt;&lt;&gt;&gt;
+    A2                      B2
+</code></pre>
+
+<p>Solution:</p>
+
+<pre><code>semA = semaphore(1);
+semB = semaphore(2);
+
+    ThreadA                 ThreadB
+    A1                      B1
+    semA.signal();          semB.signal();
+    semB.wait();            semA.wait();
+    A2                      B2
+
+</code></pre>
+
+<p>This solution is hard-coded for just two threads and is not a practical. Also note the order of <code>signal</code> and <code>wait</code> for both semaphores. you need to <code>signal</code> before <code>wait</code> in each thread or it will lead to deadlock!</p>
+
+<p><br/></p>
+
+<h4 id="mutex">mutex</h4>
+
+<hr />
+
+<p>semaphores can be used to enfoce mutual exclusions as well. A mutex is a like a token that moves from one thread to another.</p>
+
+<blockquote>
+<p><code>CriticalSection/cs</code> &ndash;&gt; a section of code for which it is critically important to prevent concurrent access</p>
+</blockquote>
+
+<p>Problem:</p>
+
+<pre><code>count = 0;
+
+    ThreadA                 ThreadB
+    count = count+1         count = count+1
+
+</code></pre>
+
+<p>Solution:</p>
+
+<pre><code>sem = semaphore(1);
+
+    ThreadA                 ThreadB
+    sem.wait();             sem.wait();
+    count = count+1         count = count+1
+    sem.signal();           sem.signal();
+
+</code></pre>
+
+<p><br/></p>
+
+<h4 id="multiplex">multiplex</h4>
+
+<hr />
+
+<p>Generalized mutex so that is allows multiple threads to run in <code>cs</code> at same time, but it enforces an upper limit on #concurrent thread access (reader-writer lock kind of thing).</p>
+
+<p>Problem:</p>
+
+<pre><code>
+    ThreadA                 ThreadB         ...     ThreadZ          
+    statement;              statement;              statement;
+
+</code></pre>
+
+<p>Solution:</p>
+
+<pre><code>
+m = semaphore(4); // only 4 threads can concurrently access a cs
+
+    ThreadA                 ThreadB         ...     ThreadZ  
+    m.wait();               m.wait();               m.wait();        
+    statement;              statement;              statement;
+    m.signal();             m.signal();             m.signal();
+</code></pre>
+
+<p><br/></p>
 
       </article>
 
       <ul class="pager blog-pager">
         
         <li class="previous">
-          <a href="https://www.variadic.xyz/2019/12/05/semaphores-2/" data-toggle="tooltip" data-placement="top" title="notes on semaphores, part 2">&larr; Previous Post</a>
+          <a href="https://www.variadic.xyz/2019/12/01/semaphores-1/" data-toggle="tooltip" data-placement="top" title="notes on semaphores, part 1">&larr; Previous Post</a>
         </li>
         
         
         <li class="next">
-          <a href="https://www.variadic.xyz/2020/02/06/simplexity-csharp/" data-toggle="tooltip" data-placement="top" title="Simplexity-CSharp">Next Post &rarr;</a>
+          <a href="https://www.variadic.xyz/2019/12/27/cellphones/" data-toggle="tooltip" data-placement="top" title="Are cell phones destroying the college classroom">Next Post &rarr;</a>
         </li>
         
       </ul>

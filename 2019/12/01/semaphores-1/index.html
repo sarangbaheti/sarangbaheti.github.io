@@ -137,9 +137,10 @@
 
 <blockquote>
 <p>Reference: The Little Book of Semaphores by Allen B. Downey
-<a href="https://variadic.xyz/pdfs/LittleBookOfSemaphores.pdf">Link1</a>
-<a href="http://greenteapress.com/semaphores/LittleBookOfSemaphores.pdf">Link2</a></p>
+<a href="http://greenteapress.com/semaphores/LittleBookOfSemaphores.pdf">Link1</a></p>
 </blockquote>
+
+<p><br/></p>
 
 <h3 id="synchronization">Synchronization</h3>
 
@@ -156,6 +157,8 @@
  - Multiple Processors</p>
 
 <p>Due to OS scheduling and pre-empting threads, programmer has no control over how threads are run and how instructions are evaluated. Thus, both the cases are equivalent from introducing synch coordination</p>
+
+<p><br/></p>
 
 <h3 id="serialization-with-messages">Serialization with messages</h3>
 
@@ -184,11 +187,15 @@ B1 &lt; B2 &lt; B3
 <p>Two events are concurrent, if we cannot tell by looking at the program which will happen first. Well this contributes to the non-deterministic execution of program, at least the concurrent execution</p>
 </blockquote>
 
+<p><br/></p>
+
 <h3 id="shared-variables">Shared variables</h3>
 
 <hr />
 
 <p>Most of the times variables are thread-local/thread-specific, however some of those might be shared between threads. In such cases threads communicate/interact with each other thru them. In c/c++ language- global or heap allocated memory/variables are shared between threads (as threads are running in same process- these things make life fun in shared-memory parallel programming&hellip;)</p>
+
+<p><br/></p>
 
 <h3 id="concurrent-updates">Concurrent Updates</h3>
 
@@ -274,7 +281,7 @@ The <code>min</code> value is a bit tricky and multiple threads could run and sa
         
         
         <li class="next">
-          <a href="https://www.variadic.xyz/2019/12/27/cellphones/" data-toggle="tooltip" data-placement="top" title="Are cell phones destroying the college classroom">Next Post &rarr;</a>
+          <a href="https://www.variadic.xyz/2019/12/05/semaphores-2/" data-toggle="tooltip" data-placement="top" title="notes on semaphores, part 2">Next Post &rarr;</a>
         </li>
         
       </ul>

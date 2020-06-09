@@ -137,6 +137,8 @@
 
 <p>This is just for my notes on how I went about figuring out how disabling Intel&rsquo;s turboboost on my Mac Book Pro to contain the heat. <a href="/2020/05/28/2011mbp-osx/">2011 MacBook Pro &amp; OSX</a></p>
 
+<p><a href="https://www.dasher.com/intel-turbo-boost-and-how-it-relates-to-high-performance-computing-clusters/">Link1</a> and <a href="https://www.intel.com/content/www/us/en/support/articles/000007359/processors/intel-core-processors.html">Link2</a> have some nice details about turbo-boost.</p>
+
 <h3 id="intel-manuals-msr">Intel Manuals &amp; MSR:</h3>
 
 <hr />
@@ -322,6 +324,14 @@ static void enable_tb(__unused void * param_not_used) {
 <p>With windows, it is quite easy- Just go to power config in power options and control the max freq.</p>
 
 <p>Note: this switches off the <a href="https://docs.microsoft.com/en-us/windows-hardware/design/device-experiences/modern-standby">Windows Modern Standby</a> feature. I found it to be very cool and decided to not to muck around with these settings on my new laptop.</p>
+
+<p>Some details here at <a href="https://stackoverflow.com/a/59652063">stack overflow</a>:</p>
+
+<p>Adding following key allows you to disable <code>Processor Performance boost mode</code></p>
+
+<pre><code>[HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Power\PowerSettings\54533251-82be-4824-96c1-47b60b740d00\be337238-0d82-4146-a960-4f3749d470c7]
+&quot;Attributes&quot;=dword:00000002
+</code></pre>
 
       </article>
 
