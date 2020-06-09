@@ -113,6 +113,29 @@
             
             
             <article class="post-preview">
+              <a href="https://www.variadic.xyz/2011/10/16/intel-guide-for-developing-multithreaded-applications/">
+          	  <h2 class="post-title">Intel Guide for Developing Multithreaded Applications</h2>
+          	
+          	    
+              </a>
+
+              <p class="post-meta">
+                Posted on October 16, 2011
+              </p>
+            
+              <div class="post-entry">
+                
+                    The Guide provides general advice on multithreaded performance. Hardware-specific optimizations have deliberately been kept to a minimum. In future versions of the Guide, topics covering hardware-specific optimizations will be added for developers willing to sacrifice portability for higher performance.  Application Threading   This chapter covers general topics in parallel performance but occasionally refers to API-specific issues.   1-1 &#8211; Predicting and Measuring Parallel Performance   1-2 &#8211; Loop Modifications to Enhance Data-Parallel Performance   1-3 &#8211; Granularity and Parallel Performance   1-4 &#8211; Load Balance and Parallel Performance   1-5 &#8211; Expose Parallelism by Avoiding or Removing Artificial Dependencies   1-6 &#8211; Using Tasks Instead of Threads   1-7 &#8211; Exploiting Data Parallelism in Ordered Data Streams   Synchronization   The topics in this chapter discuss techniques to mitigate the negative impact of synchronization on performance.
+                
+
+                <br/>
+                <br/>
+                <a href="https://www.variadic.xyz/2011/10/16/intel-guide-for-developing-multithreaded-applications/" class="post-read-more">[Read&nbsp;More]</a>
+              </div>
+            
+             </article>
+            
+            <article class="post-preview">
               <a href="https://www.variadic.xyz/2011/10/16/x64-debugging/">
           	  <h2 class="post-title">x64 Debugging</h2>
           	
@@ -203,31 +226,6 @@ Would it not be nice if there were a way to create functions easily on the fly a
                 <br/>
                 <br/>
                 <a href="https://www.variadic.xyz/2011/09/18/multithreading-in-c11-part-2/" class="post-read-more">[Read&nbsp;More]</a>
-              </div>
-            
-             </article>
-            
-            <article class="post-preview">
-              <a href="https://www.variadic.xyz/2011/09/16/multithreading-in-c-part-1/">
-          	  <h2 class="post-title">Multithreading in C# - part 1</h2>
-          	
-          	    
-              </a>
-
-              <p class="post-meta">
-                Posted on September 16, 2011
-              </p>
-            
-              <div class="post-entry">
-                
-                    Here I posted multithreading in C++11. Well I did ran into issues with C++ library. To validate I tried the same dotproduct example in C#.
-Here is the code for the same:
-using System; using System.Collections.Generic; using System.Linq; using System.Text; using System.Threading.Tasks; namespace ConsoleApplication1 { class DotProduct { double[] a; double[] b; double[] res; int id; int numElems; public DotProduct(double[] aa, double[] bb, double[] r, int nElems, int ident) { a = aa; b = bb; res = r; id = ident; numElems = nElems; } public void Evaluate() { res[id] = 0; for (int idx = id * numElems, end = (id + 1) * numElems; idx &amp;lt; end; ++idx) { res[id] += a[idx] * b[idx]; } } } class Program { static void Main(string[] args) { int numElements = 100000; double[] a = new double[numElements]; double[] b = new double[numElements]; for (int idx = 0; idx &amp;lt; numElements; ++idx) { a[idx] = idx; b[idx] = numElements - idx; } double[] result = new double[4]; int numElems = numElements / 4; DotProduct dp1 = new DotProduct(a, b, result, numElems, 0); System.
-                
-
-                <br/>
-                <br/>
-                <a href="https://www.variadic.xyz/2011/09/16/multithreading-in-c-part-1/" class="post-read-more">[Read&nbsp;More]</a>
               </div>
             
              </article>

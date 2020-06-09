@@ -113,6 +113,41 @@
             
             
             <article class="post-preview">
+              <a href="https://www.variadic.xyz/2014/12/24/ssd-thrashing-and-ramdrive/">
+          	  <h2 class="post-title">SSD thrashing and RAMDrive</h2>
+          	
+          	    
+              </a>
+
+              <p class="post-meta">
+                Posted on December 24, 2014
+              </p>
+            
+              <div class="post-entry">
+                
+                    <p style="text-align: justify;">
+  This is continuation of my previous post: <a title="disabling superfetch, prefetch and indexing" href="/2014/12/22/disabling-superfetch-prefetch-and-indexing/" target="_blank">disabling superfetch, prefetch and indexing</a>
+</p>
+
+<p style="text-align: justify;">
+  After installing SSD I was monitoring how Windows has been using the drive. One of the day I spent quite sometime watching videos over web and the data written to SSD increased by ~35GB. That day I effectively did nothing other than watching videos on youtube and <a href="http://www.pluralsight.com/" target="_blank">pluralsight</a>. With this in mind I set out to investigate what caused this un-neccessary writes to SSD. <a href="http://crystalmark.info/software/CrystalDiskInfo/index-e.html" target="_blank">Crystal DiskInfo</a> has been my companion in deciphering the <a href="http://en.wikipedia.org/wiki/S.M.A.R.T." target="_blank">SMART</a> data reported.
+</p>
+
+<p style="text-align: justify;">
+  Crystal DiskInfo can read the SMART information quite nicely, it is a bit easier to use as compared to <a href="http://ocz.com/consumer/download/firmware" target="_blank">OCZ&#8217;s toolbox</a>. The stats of interest here are the Total Host Writes and Total NAND Writes. Host Writes is how much data OS has transferred to SSD to write and NAND writes represents how much controller wrote to SSD (there is compression at play here- I am not losing data :))
+</p>
+
+<p style="text-align: justify;">
+                
+
+                <br/>
+                <br/>
+                <a href="https://www.variadic.xyz/2014/12/24/ssd-thrashing-and-ramdrive/" class="post-read-more">[Read&nbsp;More]</a>
+              </div>
+            
+             </article>
+            
+            <article class="post-preview">
               <a href="https://www.variadic.xyz/2014/12/23/christmas-tree/">
           	  <h2 class="post-title">christmas tree!!</h2>
           	
@@ -220,41 +255,6 @@
                 <br/>
                 <br/>
                 <a href="https://www.variadic.xyz/2014/08/28/origin-of-endian/" class="post-read-more">[Read&nbsp;More]</a>
-              </div>
-            
-             </article>
-            
-            <article class="post-preview">
-              <a href="https://www.variadic.xyz/2014/08/20/boost-with-xcode/">
-          	  <h2 class="post-title">boost with XCode</h2>
-          	
-          	    
-              </a>
-
-              <p class="post-meta">
-                Posted on August 20, 2014
-              </p>
-            
-              <div class="post-entry">
-                
-                    <p style="text-align: justify;">
-  Sometime ago I was trying to port one of my experiments on Mac OS X. The application relies on boost library, so there was need to get started with boost on Mac. And I wanted to use XCode all the way along. Coming from Windows meant browsing thru XCode build settings to figure out what goes where. Visual Studio Property Pages and XCode Settings don&#8217;t match really well, from UI point of view.
-</p>
-
-<p style="text-align: justify;">
-  XCode puts the compiler application somewhere in deep guts of \Developer directory, so copying the boost libraries was not really an option. Mac OS X being UNIX underneath meant I had a global include/lib/bin directory where I can put boost libraries once built. What follows next is visual summary of building and installing boost on Mac OS X.
-</p>
-
-<p style="text-align: justify;">
-  It starts with boot-strapping boost build engine:
-</p>
-
-<p style="text-align: justify;">
-                
-
-                <br/>
-                <br/>
-                <a href="https://www.variadic.xyz/2014/08/20/boost-with-xcode/" class="post-read-more">[Read&nbsp;More]</a>
               </div>
             
              </article>

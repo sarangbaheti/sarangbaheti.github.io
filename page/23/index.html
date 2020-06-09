@@ -113,6 +113,29 @@
             
             
             <article class="post-preview">
+              <a href="https://www.variadic.xyz/2012/01/17/c11-delegating-constructors/">
+          	  <h2 class="post-title">C&#43;&#43;11: delegating constructors</h2>
+          	
+          	    
+              </a>
+
+              <p class="post-meta">
+                Posted on January 17, 2012
+              </p>
+            
+              <div class="post-entry">
+                
+                    Too many initializers/constructors It&#8217;s fairly common to write classes with multiple constructors, but they tend to get messy very soon. One of the biggest problems is initialization of the member variables. You, as programmer, need to ensure that member variables are initialized correctly in each constructor. Ensuring this consistency is quite tedious, boring and very easy to get wrong. For example consider the class Sample: class Sample { public: // // Sample() : r(0), i(0) { } // // Sample(double real) : r(real), i(0) { } // // Sample(double real, double img) : r(real), i(img) { } // // Sample(double data[2]) : r(data[0]), i(data[1]) { } // // Sample(const Sample&) = default; Sample& operator=(const Sample&) = default; ~Sample() = default; // private: double r; double i; };  Sample class has 4 constructors each initializing member variables r and i.
+                
+
+                <br/>
+                <br/>
+                <a href="https://www.variadic.xyz/2012/01/17/c11-delegating-constructors/" class="post-read-more">[Read&nbsp;More]</a>
+              </div>
+            
+             </article>
+            
+            <article class="post-preview">
               <a href="https://www.variadic.xyz/2012/01/07/c-template-metaprogramming/">
           	  <h2 class="post-title">C&#43;&#43; Template Metaprogramming</h2>
           	
@@ -202,30 +225,6 @@ By default, C++ implicitly declares the following four member functions for ever
                 <br/>
                 <br/>
                 <a href="https://www.variadic.xyz/2012/01/04/enum-classes/" class="post-read-more">[Read&nbsp;More]</a>
-              </div>
-            
-             </article>
-            
-            <article class="post-preview">
-              <a href="https://www.variadic.xyz/2011/12/30/a-guide-to-undefined-behavior-in-c-and-c/">
-          	  <h2 class="post-title">A Guide to Undefined Behavior in C and C&#43;&#43;</h2>
-          	
-          	    
-              </a>
-
-              <p class="post-meta">
-                Posted on December 30, 2011
-              </p>
-            
-              <div class="post-entry">
-                
-                    Bumped into this nice article by John Regehr about undefined behaviour in C and C++. The article is in three parts:  A Guide to Undefined Behavior in C and C++ Part 1 A Guide to Undefined Behavior in C and C++ Part 2 A Guide to Undefined Behavior in C and C++ Part 3  
- Programming languages typically make a distinction between normal program actions and erroneous actions.
-                
-
-                <br/>
-                <br/>
-                <a href="https://www.variadic.xyz/2011/12/30/a-guide-to-undefined-behavior-in-c-and-c/" class="post-read-more">[Read&nbsp;More]</a>
               </div>
             
              </article>

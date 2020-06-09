@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 
-  <title>a few notes</title>
+  <title>monads</title>
 
   <meta name="author" content="Sarang Baheti" />
   
@@ -27,9 +27,9 @@
   
   
   
-  <meta property="og:title" content="a few notes" />
+  <meta property="og:title" content="monads" />
   <meta property="og:type" content="website" />
-  <meta property="og:url" content="//" />
+  <meta property="og:url" content="/2020/01/07/monads//" />
   <meta property="og:image" content="" />
   
 </head>
@@ -95,156 +95,106 @@
 </nav>
 
 
-    <header class="header-section ">
-      <div class="intro-header no-img">
-        <div class="container">
-          <div class="row">
-            
-          </div>
+    <div role="main" class="container main-content">
+
+      
+        
+
+
+
+
+
+<header class="header-section ">
+
+<div class="intro-header no-img">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="post-heading">
+          <h1>monads</h1>
+      
+      
+      
+      <span class="post-meta">Posted on January 7, 2020</span>
+      
         </div>
       </div>
-    </header>
+    </div>
+  </div>
+</div>
+</header>
 
 
-    <div role="main" class="container">
-      <div class="row">
-        <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-          <div class="posts-list">
-            
-            
-            <article class="post-preview">
-              <a href="https://www.variadic.xyz/2019/12/01/semaphores-1/">
-          	  <h2 class="post-title">notes on semaphores, part 1</h2>
-          	
-          	    
-              </a>
 
-              <p class="post-meta">
-                Posted on December 1, 2019
-              </p>
-            
-              <div class="post-entry">
-                
-                    notes on semaphores, part 1
-                
 
-                <br/>
-                <br/>
-                <a href="https://www.variadic.xyz/2019/12/01/semaphores-1/" class="post-read-more">[Read&nbsp;More]</a>
-              </div>
-            
-             </article>
-            
-            <article class="post-preview">
-              <a href="https://www.variadic.xyz/2019/11/21/windbg-crashdump-analysis-1/">
-          	  <h2 class="post-title">windbg crashdump 1</h2>
-          	
-          	    
-              </a>
+<div class="container">
+  <div class="row">
+    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+      <article role="main" class="blog-post">
+          <p>Never thought i would be posting on monads, but searching thru internet i found that almost everyone has an opinion on what monads are. So why not have my own (well, because i can and i can post it). Here comes an obligatory post :)</p>
 
-              <p class="post-meta">
-                Posted on November 21, 2019
-              </p>
-            
-              <div class="post-entry">
-                
-                    analyzing an abort in windbg
-                
 
-                <br/>
-                <br/>
-                <a href="https://www.variadic.xyz/2019/11/21/windbg-crashdump-analysis-1/" class="post-read-more">[Read&nbsp;More]</a>
-              </div>
-            
-             </article>
-            
-            <article class="post-preview">
-              <a href="https://www.variadic.xyz/2019/11/20/vs-squiggly/">
-          	  <h2 class="post-title">VS squiggly lines</h2>
-          	
-          	    
-              </a>
+<figure >
+    
+        <img src="/images/ElephantBlindPeople.png" />
+    
+    
+</figure>
 
-              <p class="post-meta">
-                Posted on November 20, 2019
-              </p>
-            
-              <div class="post-entry">
-                
-                    how do hide the red squiggly lines in Visual Studio
-                
 
-                <br/>
-                <br/>
-                <a href="https://www.variadic.xyz/2019/11/20/vs-squiggly/" class="post-read-more">[Read&nbsp;More]</a>
-              </div>
-            
-             </article>
-            
-            <article class="post-preview">
-              <a href="https://www.variadic.xyz/2019/11/12/procdump/">
-          	  <h2 class="post-title">procdump</h2>
-          	
-          	    
-              </a>
+<p>A few links for reference:</p>
 
-              <p class="post-meta">
-                Posted on November 12, 2019
-              </p>
-            
-              <div class="post-entry">
-                
-                    procdump as postmortem debugger on windows
-                
+<ul>
+<li><a href="http://james-iry.blogspot.com/2009/05/brief-incomplete-and-mostly-wrong.html">http://james-iry.blogspot.com/2009/05/brief-incomplete-and-mostly-wrong.html</a></li>
+<li><a href="https://stackoverflow.com/questions/3870088/a-monad-is-just-a-monoid-in-the-category-of-endofunctors-whats-the-problem">https://stackoverflow.com/questions/3870088/a-monad-is-just-a-monoid-in-the-category-of-endofunctors-whats-the-problem</a></li>
+<li><a href="https://github.com/hmemcpy/milewski-ctfp-pdf">https://github.com/hmemcpy/milewski-ctfp-pdf</a></li>
+<li><a href="https://www.youtube.com/watch?v=iwvl0tBJhoM">https://www.youtube.com/watch?v=iwvl0tBJhoM</a></li>
+<li><a href="https://plato.stanford.edu/entries/compositionality/">https://plato.stanford.edu/entries/compositionality/</a></li>
+<li><a href="https://julesh.com/2017/04/22/on-compositionality/">https://julesh.com/2017/04/22/on-compositionality/</a></li>
+<li><a href="https://byorgey.wordpress.com/2009/01/12/abstraction-intuition-and-the-monad-tutorial-fallacy/">https://byorgey.wordpress.com/2009/01/12/abstraction-intuition-and-the-monad-tutorial-fallacy/</a></li>
+<li><a href="https://blog.plover.com/prog/burritos.html">https://blog.plover.com/prog/burritos.html</a></li>
+<li><a href="https://blog.merovius.de/2018/01/08/monads-are-just-monoids.html">https://blog.merovius.de/2018/01/08/monads-are-just-monoids.html</a></li>
+</ul>
 
-                <br/>
-                <br/>
-                <a href="https://www.variadic.xyz/2019/11/12/procdump/" class="post-read-more">[Read&nbsp;More]</a>
-              </div>
-            
-             </article>
-            
-            <article class="post-preview">
-              <a href="https://www.variadic.xyz/2019/10/06/runas-from-cmd/">
-          	  <h2 class="post-title">runas from cmd</h2>
-          	
-          	    
-              </a>
+<hr />
 
-              <p class="post-meta">
-                Posted on October 6, 2019
-              </p>
-            
-              <div class="post-entry">
-                
-                    powershell -Command &quot;Start-Process 'devenv.exe' -Verb runAs&quot;  
-                
+<p><a href="https://livebook.manning.com/book/concurrency-in-dot-net/chapter-7/207">concurrency in .net, chapter 7</a>, keeping theory &amp; opinions aside, topic about <code>parallel functional pipeline pattern 7.6</code> is quite a nice practical usage of this.  I like links about <code>functors, applicatives &amp; monads</code> below as well, they are very informative and help visualize how to think about this.</p>
 
-                <br/>
-                <br/>
-                <a href="https://www.variadic.xyz/2019/10/06/runas-from-cmd/" class="post-read-more">[Read&nbsp;More]</a>
-              </div>
-            
-             </article>
-            
-          </div>
+<p>From a programmer&rsquo;s perspective:</p>
 
-          
-          <ul class="pager main-pager">
-            
-            <li class="previous">
-              <a href="/page/4">&larr; Newer Posts</a>
-            </li>
-            
-            
-            <li class="next">
-              <a href="/page/6">Older Posts &rarr;</a>
-            </li>
-            
-          </ul>
-          
-        </div>
-      </div>
+<ul>
+<li><a href="http://adit.io/posts/2013-04-17-functors,_applicatives,_and_monads_in_pictures.html">functors, applicatives &amp; monads in pictures</a></li>
+<li><a href="http://learnyouahaskell.com/functors-applicative-functors-and-monoids">functors, applicatives &amp; monads, haskell</a></li>
+<li><a href="https://livebook.manning.com/book/concurrency-in-dot-net/chapter-7/207">concurrency in .net, chapter 7</a></li>
+<li><a href="https://stackoverflow.com/questions/44965/what-is-a-monad">what is a monad, stackoverflow</a></li>
+<li><a href="https://www.infoq.com/articles/Understanding-Monads-guide-for-perplexed/">monads, guide for perplexed. infoq</a></li>
+<li><a href="https://medium.com/javascript-scene/javascript-monads-made-simple-7856be57bfe8">monads made simple, medium</a></li>
+<li><a href="http://learnyouahaskell.com/a-fistful-of-monads">fistful of monads, haskell</a></li>
+</ul>
+
+      </article>
+
+      <ul class="pager blog-pager">
+        
+        <li class="previous">
+          <a href="https://www.variadic.xyz/2019/12/27/cellphones/" data-toggle="tooltip" data-placement="top" title="Are cell phones destroying the college classroom">&larr; Previous Post</a>
+        </li>
+        
+        
+        <li class="next">
+          <a href="https://www.variadic.xyz/2020/02/06/simplexity-csharp/" data-toggle="tooltip" data-placement="top" title="Simplexity-CSharp">Next Post &rarr;</a>
+        </li>
+        
+      </ul>
+
+      
+
+    </div>
+  </div>
+</div>
+
+      
+
     </div>
 
     <footer>
