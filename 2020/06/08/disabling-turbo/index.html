@@ -199,6 +199,8 @@ Hex   Dec     Register Name/BitFields       Shared/Unique   Description
 
 <hr />
 
+<p>A nice answer <a href="https://stackoverflow.com/a/53356512">without intel_pstate at stackoverflow</a></p>
+
 <p>Linux kernel has a driver to just do this: <code>intel_pstate</code> (<a href="https://www.kernel.org/doc/html/v4.12/admin-guide/pm/intel_pstate.html">https://www.kernel.org/doc/html/v4.12/admin-guide/pm/intel_pstate.html</a>), look for <code>no_turbo</code>.</p>
 
 <pre><code>echo &quot;1&quot; | sudo tee /sys/devices/system/cpu/intel_pstate/no_turbo 
