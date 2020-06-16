@@ -6,10 +6,22 @@
     <description>Recent content on a few notes</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 08 Jun 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 15 Jun 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://www.variadic.xyz/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>ubuntu 20.04 on MacBook Pro 2011</title>
+      <link>https://www.variadic.xyz/2020/06/15/ubuntu-2011mbp/</link>
+      <pubDate>Mon, 15 Jun 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.variadic.xyz/2020/06/15/ubuntu-2011mbp/</guid>
+      <description>Previously, i tried to use my MBP2011 functional, but seemed like linux could be a better fit as well. Thought of giving it a try (why not).
+Ubuntu 20.04 just came out and installing it was just a breeze. I think there are ample or resources available that walk you thru how to create a bootable usb drive (efi based), so won&amp;rsquo;t rehash here.
+
+GRUB customization Now, i did ensure that nvram had set up gpu-power-prefs correctly to always go with iGPU.</description>
+    </item>
     
     <item>
       <title>disabling turbo-bost</title>

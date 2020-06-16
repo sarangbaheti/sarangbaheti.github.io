@@ -113,6 +113,29 @@
             
             
             <article class="post-preview">
+              <a href="https://www.variadic.xyz/2012/01/04/enum-classes/">
+          	  <h2 class="post-title">C&#43;&#43;11: enum classes</h2>
+          	
+          	    
+              </a>
+
+              <p class="post-meta">
+                January 4, 2012
+              </p>
+            
+              <div class="post-entry">
+                
+                    C++11 along with adding lot of cool stuff is also fixing up most of the ugliness with C++ language. One of my personal favourite is enum class. Enums in C++ are (shouldn&#8217;t I write were :)) not type-safe in-sense they are convertible to and from integers and you can&#8217;t scope them, which at times leads to ugly naming conventions. C++11 addresses this limitation with enum classes, which makes enums strongly typed and scoped: enum class Colour { Red, Green, Blue }; // int main() { // lvalue of type Colour auto var = Colour::Red; // // cannot assign it to an int -- compilation failure int val = var; // // type-inferencing works correctly decltype(var) greenColor = Colour::Green; // // casting will work int val2 = static_cast(var); // // what is Red?
+                
+
+                <br/>
+                <br/>
+                <a href="https://www.variadic.xyz/2012/01/04/enum-classes/" class="post-read-more">[Read&nbsp;More]</a>
+              </div>
+            
+             </article>
+            
+            <article class="post-preview">
               <a href="https://www.variadic.xyz/2011/12/30/a-guide-to-undefined-behavior-in-c-and-c/">
           	  <h2 class="post-title">A Guide to Undefined Behavior in C and C&#43;&#43;</h2>
           	
@@ -201,29 +224,6 @@
                 <br/>
                 <br/>
                 <a href="https://www.variadic.xyz/2011/11/27/library-framework-and-bundle/" class="post-read-more">[Read&nbsp;More]</a>
-              </div>
-            
-             </article>
-            
-            <article class="post-preview">
-              <a href="https://www.variadic.xyz/2011/11/25/comparing-floating-point-numbers/">
-          	  <h2 class="post-title">Comparing floating point numbers</h2>
-          	
-          	    
-              </a>
-
-              <p class="post-meta">
-                November 25, 2011
-              </p>
-            
-              <div class="post-entry">
-                
-                    Floating point comparisons can be a painful work to achieve. And always must one avoid laziness in doing equality comparisons using inbuilt operator== for floating point numbers. There could be roundings involved and/or infinite decimal expansions that can lead to inaccurate representations or better say, losing of some precision off the number. Owing to that, even though you would expect a number to match a definite expansion that the calculation may have lead to, it may not.
-                
-
-                <br/>
-                <br/>
-                <a href="https://www.variadic.xyz/2011/11/25/comparing-floating-point-numbers/" class="post-read-more">[Read&nbsp;More]</a>
               </div>
             
              </article>

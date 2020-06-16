@@ -113,6 +113,29 @@
             
             
             <article class="post-preview">
+              <a href="https://www.variadic.xyz/2011/07/26/vector-reserve-with-care/">
+          	  <h2 class="post-title">vector: reserve with care</h2>
+          	
+          	    
+              </a>
+
+              <p class="post-meta">
+                July 26, 2011
+              </p>
+            
+              <div class="post-entry">
+                
+                    vectors, std::vector, are contiguous-memory sequential dynamic containers. That means if the vector has to grow then it will re-allocate the required memory to hold elements and then copy these over in the new memory. That is one of the reasons that for any type to be contained in vector must define default, copy constructors and assignment operator. However there is a way to work around this reallocation problem if we know before hand how much the vector is going to grow.
+                
+
+                <br/>
+                <br/>
+                <a href="https://www.variadic.xyz/2011/07/26/vector-reserve-with-care/" class="post-read-more">[Read&nbsp;More]</a>
+              </div>
+            
+             </article>
+            
+            <article class="post-preview">
               <a href="https://www.variadic.xyz/2011/07/21/finding-serial-number-of-your-mac/">
           	  <h2 class="post-title">finding serial number of your mac</h2>
           	
@@ -204,31 +227,6 @@ Want to see google earth in Visual Studio! Just install the google earth plugin 
                 <br/>
                 <br/>
                 <a href="https://www.variadic.xyz/2011/06/07/functional-programming-for-the-rest-of-us/" class="post-read-more">[Read&nbsp;More]</a>
-              </div>
-            
-             </article>
-            
-            <article class="post-preview">
-              <a href="https://www.variadic.xyz/2011/05/31/callable-entity/">
-          	  <h2 class="post-title">callable entity</h2>
-          	
-          	    
-              </a>
-
-              <p class="post-meta">
-                May 31, 2011
-              </p>
-            
-              <div class="post-entry">
-                
-                    C++ is language of functions – global, instance or class functions. However it is not just functions that are callable. C++ provides an operator() to make even objects behave as if they were functions, affectionately known as functors, function objects to be more precise. With C++11 lambda’s have been added to callable entity’s list.
-Overall here is the summary of the callable objects:
-#include &lt;algorithm&gt; // // template int length(T (&amp;arr)[N] ) { return N; } // // template T* end(T (&amp;arr)[N]) { return arr+N; } // // template struct Comparator { const Type&amp; _comparisonObject; Comparator(const Type&amp; obj) : _comparisonObject(obj) {} bool operator()(const Type&amp; other) const { return other == _comparisonObject; } }; // // int tobefound = 0; // // bool find_function(int val) { return tobefound == val; } // // int main() { // int arr[] = {0,1,2,3,4,5,6,7,8,9}; // using function // tobefound is global variable // // Readability/Maintainability -- (Ok) // tobefound = 5; auto iterator1 = std::find_if(arr, arr + length(arr), find_function); // bool found1 = iterator1 !
-                
-
-                <br/>
-                <br/>
-                <a href="https://www.variadic.xyz/2011/05/31/callable-entity/" class="post-read-more">[Read&nbsp;More]</a>
               </div>
             
              </article>

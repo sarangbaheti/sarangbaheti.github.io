@@ -113,6 +113,67 @@
             
             
             <article class="post-preview">
+              <a href="https://www.variadic.xyz/2016/12/01/memory-corruption-widechartomultibyte/">
+          	  <h2 class="post-title">memory corruption WideCharToMultiByte</h2>
+          	
+          	    
+              </a>
+
+              <p class="post-meta">
+                December 1, 2016
+              </p>
+            
+              <div class="post-entry">
+                
+                    <p>Recently I have been debugging some memory corruption that happened only after something executed 64 times, <code>free</code> complained that memory has been corrupted.
+Thus started the usual process of debugging. I started <a href="https://www.microsoft.com/en-us/download/details.aspx?id=20028"><code>ApplicationVerifier</code></a> and set the application and enabled the basic checks.</p>
+
+
+<figure >
+    
+        <img src="/images/ApplicationVerifierBasicTests.png" alt="Application Verifier- Basic Checks" />
+    
+    
+    <figcaption>
+        <p>
+        Application Verifier- Basic Checks
+        
+            
+        
+        </p> 
+    </figcaption>
+    
+</figure>
+
+
+<p>Soon my application started failing with access violation during startup, this happened even before I reached the code where memory was corrupted. Now I have two problems to investigate.
+This time I was crashing with call to <a href="https://msdn.microsoft.com/en-us/library/windows/desktop/dd374130(v=vs.85).aspx"><code>WideCharToMultiByte</code></a>. Started debugging to see exactly where it was failing:</p>
+
+<pre><code class="language-sh">  ntdll.dll!RtlUnicodeToUTF8N() Unknown
+  KernelBase.dll!WideCharToMultiByte() Unknown
+  vfbasics.dll!000007fef081cd0c() Unknown
+&gt; heapcorruption.exe!dllNotificationFunction(unsigned long NotificationReason, const _LDR_DLL_NOTIFICATION_DATA * NotificationData, void * Context) Line 64 C++
+  ntdll.dll!string &quot;Enabling heap debug options\n&quot;() Unknown
+  ntdll.dll!LdrpFindOrMapDll() Unknown
+  ntdll.dll!LdrpLoadDll() Unknown
+  ntdll.dll!LdrLoadDll() Unknown
+  vfbasics.dll!000007fef08074de() Unknown
+  KernelBase.dll!LoadLibraryExW() Unknown
+  heapcorruption.exe!main() Line 94 C++
+  heapcorruption.exe!invoke_main() Line 75 C++
+</code></pre>
+
+<p></p>
+                
+
+                <br/>
+                <br/>
+                <a href="https://www.variadic.xyz/2016/12/01/memory-corruption-widechartomultibyte/" class="post-read-more">[Read&nbsp;More]</a>
+              </div>
+            
+             </article>
+            
+            <article class="post-preview">
               <a href="https://www.variadic.xyz/2016/11/27/over-to-hugo/">
           	  <h2 class="post-title">over to hugo</h2>
           	
@@ -231,35 +292,6 @@ My linux commands would have been:</p>
                 <br/>
                 <br/>
                 <a href="https://www.variadic.xyz/2016/06/16/deleting-all-files-recursively/" class="post-read-more">[Read&nbsp;More]</a>
-              </div>
-            
-             </article>
-            
-            <article class="post-preview">
-              <a href="https://www.variadic.xyz/2016/06/09/simple-nodejs-server/">
-          	  <h2 class="post-title">simple nodejs server</h2>
-          	
-          	    
-              </a>
-
-              <p class="post-meta">
-                June 9, 2016
-              </p>
-            
-              <div class="post-entry">
-                
-                    <p>Been playing with <a href="https://d3js.org/">d3js</a>, now that most of the <a href="http://stackoverflow.com/questions/10752055/cross-origin-requests-are-only-supported-for-http-error-when-loading-a-local">browsers won&rsquo;t let me load files from disk</a>.
-To get around this I am using <a href="https://nodejs.org/en/">node</a> as my local server. But it is very bare bones.</p>
-
-<p>To make node behave as file server I installed two node-modules: <a href="https://www.npmjs.com/package/connect"><code>connect</code></a> and <a href="https://www.npmjs.com/package/serve-static"><code>serve-static</code></a>
-Once that is installed code for static server is (server.js):</p>
-
-<p></p>
-                
-
-                <br/>
-                <br/>
-                <a href="https://www.variadic.xyz/2016/06/09/simple-nodejs-server/" class="post-read-more">[Read&nbsp;More]</a>
               </div>
             
              </article>

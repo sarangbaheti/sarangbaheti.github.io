@@ -113,6 +113,30 @@
             
             
             <article class="post-preview">
+              <a href="https://www.variadic.xyz/2011/05/10/boostany/">
+          	  <h2 class="post-title">boost::any</h2>
+          	
+          	    
+              </a>
+
+              <p class="post-meta">
+                May 10, 2011
+              </p>
+            
+              <div class="post-entry">
+                
+                    In the last post we briefly saw the concept of type erasure. It is one of the cryptic concepts to understand, but is very useful. Lets drill down into what is means to erase the types! Consider:
+#include &lt;vector&gt; #include &lt;string&gt; int main() { std::vector&lt;int&gt; vec; vec.push_back(1); vec.push_back(std::string(&quot;a&quot;)); return 0; }  The problem here is you cannot add string to a vector of an int. Why? Type safety, obviously and that’s great.
+                
+
+                <br/>
+                <br/>
+                <a href="https://www.variadic.xyz/2011/05/10/boostany/" class="post-read-more">[Read&nbsp;More]</a>
+              </div>
+            
+             </article>
+            
+            <article class="post-preview">
               <a href="https://www.variadic.xyz/2011/05/09/type-erasure/">
           	  <h2 class="post-title">Type Erasure</h2>
           	
@@ -203,32 +227,6 @@ template&lt;class T, size_t N&gt; int num_elements(const T (&amp;arr) [N]) { ret
                 <br/>
                 <br/>
                 <a href="https://www.variadic.xyz/2011/05/04/auto/" class="post-read-more">[Read&nbsp;More]</a>
-              </div>
-            
-             </article>
-            
-            <article class="post-preview">
-              <a href="https://www.variadic.xyz/2011/05/02/c-templates-an-introduction/">
-          	  <h2 class="post-title">C&#43;&#43; Templates – An Introduction</h2>
-          	
-          	    
-              </a>
-
-              <p class="post-meta">
-                May 2, 2011
-              </p>
-            
-              <div class="post-entry">
-                
-                    Why we need Templates? Suppose we are writing a function to compare the values of two variables and return the one with greater value, the function would look like this (for an int):
-int max(int a, int b) { return a &amp;gt; b ? a : b; }  what if we would like to support double, long int, char, unsigned int?
-More code
-double max( double a, double b) { return a &amp;gt; b ?
-                
-
-                <br/>
-                <br/>
-                <a href="https://www.variadic.xyz/2011/05/02/c-templates-an-introduction/" class="post-read-more">[Read&nbsp;More]</a>
               </div>
             
              </article>

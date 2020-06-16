@@ -113,6 +113,29 @@
             
             
             <article class="post-preview">
+              <a href="https://www.variadic.xyz/2014/08/28/origin-of-endian/">
+          	  <h2 class="post-title">origin of endian</h2>
+          	
+          	    
+              </a>
+
+              <p class="post-meta">
+                August 28, 2014
+              </p>
+            
+              <div class="post-entry">
+                
+                    While reading about Endian-ness with microprocessor I became curious about how this term came into existence. The terms Big-Endian and Little-Endian come from Part I, Chapter 4, of Jonathan Swift&#8217;s Gulliver&#8217;s Travels. Here is some background what Big and Little mean in here:  The novel further describes an intra-Lilliputian quarrel over the practice of breaking eggs. Traditionally, Lilliputians broke boiled eggs on the larger end; a few generations ago, an Emperor of Lilliput, the Present Emperor&#8217;s great-grandfather, had decreed that all eggs be broken on the smaller end after he cut himself breaking the egg on the larger end.
+                
+
+                <br/>
+                <br/>
+                <a href="https://www.variadic.xyz/2014/08/28/origin-of-endian/" class="post-read-more">[Read&nbsp;More]</a>
+              </div>
+            
+             </article>
+            
+            <article class="post-preview">
               <a href="https://www.variadic.xyz/2014/08/20/boost-with-xcode/">
           	  <h2 class="post-title">boost with XCode</h2>
           	
@@ -284,64 +307,6 @@ bool isPrime_r(int number)
                 <br/>
                 <br/>
                 <a href="https://www.variadic.xyz/2014/07/17/screen-recording-on-mac-os-x/" class="post-read-more">[Read&nbsp;More]</a>
-              </div>
-            
-             </article>
-            
-            <article class="post-preview">
-              <a href="https://www.variadic.xyz/2014/07/06/c11-constexpr-computing-exp-at-compile-time/">
-          	  <h2 class="post-title">C&#43;&#43;11 constexpr: computing exp at compile time</h2>
-          	
-          	    
-              </a>
-
-              <p class="post-meta">
-                July 6, 2014
-              </p>
-            
-              <div class="post-entry">
-                
-                    <p>While trying out constexpr I was wondering what else can I get compiler to compute. I can pretty much do any integral computation with both C++ Template Metaprogramming and constexpr, but can I do some floating point computations? It appears I can!!</p>
-
-<p>So I set out to compute <code>exp(z)</code>, using <a href="http://www.math.sc.edu/~girardi/m142/handouts/10sTaylorPolySeries.pdf" target="_blank">Taylor series implementation for exp</a>:</p>
-
-<pre><code class="language-cpp">//  can't deal with negative powers!!
-//
-constexpr double pow(double x, int y)
-{
-    return y == 0 ? 1.0 : x * pow(x, y-1);
-}
-
-constexpr int factorial(int x)
-{
-    return x == 0 ? 1 : x * factorial(x-1);
-}
-
-constexpr double exp(double x)
-{
-    return 1.0 + x + pow(x,2)/factorial(2) + pow(x, 3)/factorial(3)
-        + pow(x, 4)/factorial(4) + pow(x, 5)/factorial(5)
-        + pow(x,6)/factorial(6) + pow(x, 7)/factorial(7)
-        + pow(x, 8)/factorial(8) + pow(x, 9)/factorial(9);
-}
-
-int main()
-{
-    constexpr double exp1 = exp(1.0);
-    return 0;
-}
-</code></pre>
-
-<p>In here I have <code>pow</code> function to compute powers of a floating point number, mine is bit limited as it can do integral powers only; <code>factorial</code>  straight forward. <code>exp</code> function function goes to <code>10</code> component evaluation. With <code>exp(1)</code> I do see value of <code>2.7182815255731922</code> in debug window while <code>cout</code> prints it to be <code>2.71828</code>. Since this is floating point value I can&rsquo;t do <code>static_assert</code>.</p>
-
-<p>Now what&rsquo;s the proof that it was all compile time rather than runtime evaluation, the only way to confirm is to look at what is executed by processor, that&rsquo;s right assembly:</p>
-
-<p></p>
-                
-
-                <br/>
-                <br/>
-                <a href="https://www.variadic.xyz/2014/07/06/c11-constexpr-computing-exp-at-compile-time/" class="post-read-more">[Read&nbsp;More]</a>
               </div>
             
              </article>

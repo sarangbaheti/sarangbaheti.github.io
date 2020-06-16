@@ -113,6 +113,31 @@
             
             
             <article class="post-preview">
+              <a href="https://www.variadic.xyz/2011/05/31/callable-entity/">
+          	  <h2 class="post-title">callable entity</h2>
+          	
+          	    
+              </a>
+
+              <p class="post-meta">
+                May 31, 2011
+              </p>
+            
+              <div class="post-entry">
+                
+                    C++ is language of functions – global, instance or class functions. However it is not just functions that are callable. C++ provides an operator() to make even objects behave as if they were functions, affectionately known as functors, function objects to be more precise. With C++11 lambda’s have been added to callable entity’s list.
+Overall here is the summary of the callable objects:
+#include &lt;algorithm&gt; // // template int length(T (&amp;arr)[N] ) { return N; } // // template T* end(T (&amp;arr)[N]) { return arr+N; } // // template struct Comparator { const Type&amp; _comparisonObject; Comparator(const Type&amp; obj) : _comparisonObject(obj) {} bool operator()(const Type&amp; other) const { return other == _comparisonObject; } }; // // int tobefound = 0; // // bool find_function(int val) { return tobefound == val; } // // int main() { // int arr[] = {0,1,2,3,4,5,6,7,8,9}; // using function // tobefound is global variable // // Readability/Maintainability -- (Ok) // tobefound = 5; auto iterator1 = std::find_if(arr, arr + length(arr), find_function); // bool found1 = iterator1 !
+                
+
+                <br/>
+                <br/>
+                <a href="https://www.variadic.xyz/2011/05/31/callable-entity/" class="post-read-more">[Read&nbsp;More]</a>
+              </div>
+            
+             </article>
+            
+            <article class="post-preview">
               <a href="https://www.variadic.xyz/2011/05/28/auto-and-decltype/">
           	  <h2 class="post-title">auto and decltype</h2>
           	
@@ -205,30 +230,6 @@ struct MultipleReturnValues { double d; int i; char c; }; MultipleReturnValues M
                 <br/>
                 <br/>
                 <a href="https://www.variadic.xyz/2011/05/12/tuple/" class="post-read-more">[Read&nbsp;More]</a>
-              </div>
-            
-             </article>
-            
-            <article class="post-preview">
-              <a href="https://www.variadic.xyz/2011/05/10/boostany/">
-          	  <h2 class="post-title">boost::any</h2>
-          	
-          	    
-              </a>
-
-              <p class="post-meta">
-                May 10, 2011
-              </p>
-            
-              <div class="post-entry">
-                
-                    In the last post we briefly saw the concept of type erasure. It is one of the cryptic concepts to understand, but is very useful. Lets drill down into what is means to erase the types! Consider:
-#include &lt;vector&gt; #include &lt;string&gt; int main() { std::vector&lt;int&gt; vec; vec.push_back(1); vec.push_back(std::string(&quot;a&quot;)); return 0; }  The problem here is you cannot add string to a vector of an int. Why? Type safety, obviously and that’s great.
-                
-
-                <br/>
-                <br/>
-                <a href="https://www.variadic.xyz/2011/05/10/boostany/" class="post-read-more">[Read&nbsp;More]</a>
               </div>
             
              </article>

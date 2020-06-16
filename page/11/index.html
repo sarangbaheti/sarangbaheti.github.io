@@ -113,6 +113,29 @@
             
             
             <article class="post-preview">
+              <a href="https://www.variadic.xyz/2017/07/04/patch/">
+          	  <h2 class="post-title">patch</h2>
+          	
+          	    
+              </a>
+
+              <p class="post-meta">
+                July 11, 2017
+              </p>
+            
+              <div class="post-entry">
+                
+                    Found somewhere on internet- makes perfect sense
+                
+
+                <br/>
+                <br/>
+                <a href="https://www.variadic.xyz/2017/07/04/patch/" class="post-read-more">[Read&nbsp;More]</a>
+              </div>
+            
+             </article>
+            
+            <article class="post-preview">
               <a href="https://www.variadic.xyz/2017/06/20/cpp11-threadsafe-statics/">
           	  <h2 class="post-title">C&#43;&#43;11 thread safe statics</h2>
           	
@@ -228,67 +251,6 @@ Thus thought of making a note of it on my blog.</p>
                 <br/>
                 <br/>
                 <a href="https://www.variadic.xyz/2017/02/20/logging-off-users-remotely/" class="post-read-more">[Read&nbsp;More]</a>
-              </div>
-            
-             </article>
-            
-            <article class="post-preview">
-              <a href="https://www.variadic.xyz/2016/12/01/memory-corruption-widechartomultibyte/">
-          	  <h2 class="post-title">memory corruption WideCharToMultiByte</h2>
-          	
-          	    
-              </a>
-
-              <p class="post-meta">
-                December 1, 2016
-              </p>
-            
-              <div class="post-entry">
-                
-                    <p>Recently I have been debugging some memory corruption that happened only after something executed 64 times, <code>free</code> complained that memory has been corrupted.
-Thus started the usual process of debugging. I started <a href="https://www.microsoft.com/en-us/download/details.aspx?id=20028"><code>ApplicationVerifier</code></a> and set the application and enabled the basic checks.</p>
-
-
-<figure >
-    
-        <img src="/images/ApplicationVerifierBasicTests.png" alt="Application Verifier- Basic Checks" />
-    
-    
-    <figcaption>
-        <p>
-        Application Verifier- Basic Checks
-        
-            
-        
-        </p> 
-    </figcaption>
-    
-</figure>
-
-
-<p>Soon my application started failing with access violation during startup, this happened even before I reached the code where memory was corrupted. Now I have two problems to investigate.
-This time I was crashing with call to <a href="https://msdn.microsoft.com/en-us/library/windows/desktop/dd374130(v=vs.85).aspx"><code>WideCharToMultiByte</code></a>. Started debugging to see exactly where it was failing:</p>
-
-<pre><code class="language-sh">  ntdll.dll!RtlUnicodeToUTF8N() Unknown
-  KernelBase.dll!WideCharToMultiByte() Unknown
-  vfbasics.dll!000007fef081cd0c() Unknown
-&gt; heapcorruption.exe!dllNotificationFunction(unsigned long NotificationReason, const _LDR_DLL_NOTIFICATION_DATA * NotificationData, void * Context) Line 64 C++
-  ntdll.dll!string &quot;Enabling heap debug options\n&quot;() Unknown
-  ntdll.dll!LdrpFindOrMapDll() Unknown
-  ntdll.dll!LdrpLoadDll() Unknown
-  ntdll.dll!LdrLoadDll() Unknown
-  vfbasics.dll!000007fef08074de() Unknown
-  KernelBase.dll!LoadLibraryExW() Unknown
-  heapcorruption.exe!main() Line 94 C++
-  heapcorruption.exe!invoke_main() Line 75 C++
-</code></pre>
-
-<p></p>
-                
-
-                <br/>
-                <br/>
-                <a href="https://www.variadic.xyz/2016/12/01/memory-corruption-widechartomultibyte/" class="post-read-more">[Read&nbsp;More]</a>
               </div>
             
              </article>
