@@ -113,6 +113,48 @@
             
             
             <article class="post-preview">
+              <a href="https://www.variadic.xyz/2016/06/16/deleting-all-files-recursively/">
+          	  <h2 class="post-title">deleting all matching files recursively</h2>
+          	
+          	    
+              </a>
+
+              <p class="post-meta">
+                June 16, 2016
+              </p>
+            
+              <div class="post-entry">
+                
+                    <p>I am a big fan of linux command line utils and work with many of those on windows as well. One of the commands I have started to like is <a href="https://en.wikipedia.org/wiki/Xargs">xargs</a>.
+I Like the way you could compose commands with pipes. Have tried using xargs on windows <a href="https://groups.google.com/forum/#!topic/mintty-discuss/8mCkdAPD-sE">without much success</a>.</p>
+
+<p>One of the things I often use this is to clean temp directories of certain log files.
+My linux commands would have been:</p>
+
+<pre><code class="language-bash">find . -name &quot;*.syslog&quot; | xargs rm
+</code></pre>
+
+<p>Now I could have done this on windows as:</p>
+
+<pre><code class="language-bash">dir /s /b *.syslog | xargs rm
+</code></pre>
+
+<p>but xargs dies with environment being too large, instead had to switch to a less elegant solution:</p>
+
+<pre><code class="language-bash">forfiles /s /p . /M *.syslog /c &quot;cmd /c rm @path&quot;
+</code></pre>
+
+<p></p>
+                
+
+                <br/>
+                <br/>
+                <a href="https://www.variadic.xyz/2016/06/16/deleting-all-files-recursively/" class="post-read-more">[Read&nbsp;More]</a>
+              </div>
+            
+             </article>
+            
+            <article class="post-preview">
               <a href="https://www.variadic.xyz/2016/06/09/simple-nodejs-server/">
           	  <h2 class="post-title">simple nodejs server</h2>
           	
@@ -221,33 +263,6 @@ Well it is still missing the folder size information, but I feel better using th
                 <br/>
                 <br/>
                 <a href="https://www.variadic.xyz/2015/09/03/google-drive-quota/" class="post-read-more">[Read&nbsp;More]</a>
-              </div>
-            
-             </article>
-            
-            <article class="post-preview">
-              <a href="https://www.variadic.xyz/2015/05/24/vim-multiple-cursors/">
-          	  <h2 class="post-title">vim-multiple-cursors</h2>
-          	
-          	    
-              </a>
-
-              <p class="post-meta">
-                May 24, 2015
-              </p>
-            
-              <div class="post-entry">
-                
-                    <p>These days most of the editors have some sort of facility to make same edit in multiple lines. With Visual Studio it is <code>Alt + down-arrow</code>, similarly other decent text editors (sublime-text, atom and brackets) have some built-in support for multiple-cursors.</p>
-
-<p>I was wondering if <code>vim</code> has something of this goodness. Well <code>vim</code> has this support, you just need to check if your copy of <code>vim</code> was built with <code>visualextra</code> option or not.</p>
-
-<p></p>
-                
-
-                <br/>
-                <br/>
-                <a href="https://www.variadic.xyz/2015/05/24/vim-multiple-cursors/" class="post-read-more">[Read&nbsp;More]</a>
               </div>
             
              </article>

@@ -113,6 +113,34 @@
             
             
             <article class="post-preview">
+              <a href="https://www.variadic.xyz/2015/01/02/running-as-administrator/">
+          	  <h2 class="post-title">running as administrator</h2>
+          	
+          	    
+              </a>
+
+              <p class="post-meta">
+                January 2, 2015
+              </p>
+            
+              <div class="post-entry">
+                
+                    <p>Recently I was developing an application that required administrator level access on machine to do certain task.
+&gt;   UAC is a feature of Windows Vista and 7 designed to prevent unauthorized changes to your computer. By default, even an administrator account in modern versions of Windows does not have full access to modify system settings and install programs. Thus, if you try to install a program or change critical settings, you may see your desktop fade and show only a prompt window asking if you’re sure you want to do this.  This ensures secure desktop, designed to prevent a program from automatically approving itself.
+&gt;</p>
+
+<p>In case you are using standard (non-admin) account Windows will ask you to grant permission using admin account. The way to do this with .NET applications is to add a New Item of type Application Manifest File:
+  </p>
+                
+
+                <br/>
+                <br/>
+                <a href="https://www.variadic.xyz/2015/01/02/running-as-administrator/" class="post-read-more">[Read&nbsp;More]</a>
+              </div>
+            
+             </article>
+            
+            <article class="post-preview">
               <a href="https://www.variadic.xyz/2014/12/31/ramdrive-and-ssd-continued/">
           	  <h2 class="post-title">RAMDrive and SSD, continued</h2>
           	
@@ -228,37 +256,6 @@
                 <br/>
                 <br/>
                 <a href="https://www.variadic.xyz/2014/12/22/disabling-superfetch-prefetch-and-indexing/" class="post-read-more">[Read&nbsp;More]</a>
-              </div>
-            
-             </article>
-            
-            <article class="post-preview">
-              <a href="https://www.variadic.xyz/2014/10/19/curious-case-of-20gb-address-space-reservation/">
-          	  <h2 class="post-title">curious case of 20GB address space reservation</h2>
-          	
-          	    
-              </a>
-
-              <p class="post-meta">
-                October 19, 2014
-              </p>
-            
-              <div class="post-entry">
-                
-                    <p style="text-align: justify;">
-  Recently I have been tracking a case where some code from a third party library was fiddling up with address space of my application. <a href="http://msdn.microsoft.com/en-us/library/windows/desktop/aa366912(v=vs.85).aspx" target="_blank">Address space</a> was very important back in Win32 days you had only 2GB (3GB for large address aware applications), <a href="http://msdn.microsoft.com/en-us/library/windows/desktop/aa366778(v=vs.85).aspx" target="_blank">but with x64 Windows 7 allows you to reference up to 8TB</a> (that&#8217;s right 8192GB). Well, no one needs that much address space as of today- but a lot of times it is the first thing you look at when your application is running out of memory.
-</p>
-
-<p style="text-align: justify;">
-  Such thing happened with me: due to some bug in a very thick algorithm, while loop never terminated and kept on allocating memory internally. It allocated so much memory that Windows started having problems with Low Memory Condition and finally had to quit the application. As for investigation I noticed that application reported it&#8217;s address space was ~82GB while Task Manager reported it&#8217;s <a href="http://msdn.microsoft.com/en-us/library/windows/desktop/cc441804(v=vs.85).aspx" target="_blank">Working Set</a> to be ~48GB- what was puzzling was my application during the run had reserved ~34 GB address space for nothing.
-</p>
-
-<p style="text-align: justify;">
-                
-
-                <br/>
-                <br/>
-                <a href="https://www.variadic.xyz/2014/10/19/curious-case-of-20gb-address-space-reservation/" class="post-read-more">[Read&nbsp;More]</a>
               </div>
             
              </article>

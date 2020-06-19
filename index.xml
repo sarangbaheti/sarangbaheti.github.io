@@ -6,13 +6,23 @@
     <description>Recent content on a few notes</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 15 Jun 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 19 Jun 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://www.variadic.xyz/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title>ubuntu 20.04 on MacBook Pro 2011</title>
+      <title>ssh terminate &amp; remote process</title>
+      <link>https://www.variadic.xyz/2020/06/19/ssh-terminate-remote-processes/</link>
+      <pubDate>Fri, 19 Jun 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.variadic.xyz/2020/06/19/ssh-terminate-remote-processes/</guid>
+      <description>Having setup raspberry pi to run as a server, often terminating processes will kill the processes I started in it. Some of these was to just serve directory over wifi for easy photo library. Primarily I was trying to control this thru my phone (termux). I started noticing this behavior recently.
+In past I just started a tmux session and started server in that. The good thing is that tmux will hang around even if I terminate ssh connection.</description>
+    </item>
+    
+    <item>
+      <title>Ubuntu 20.04 on MacBook Pro 2011</title>
       <link>https://www.variadic.xyz/2020/06/15/ubuntu-2011mbp/</link>
       <pubDate>Mon, 15 Jun 2020 00:00:00 +0000</pubDate>
       

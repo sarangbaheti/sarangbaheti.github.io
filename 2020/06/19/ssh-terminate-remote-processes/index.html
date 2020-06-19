@@ -6,10 +6,12 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 
-  <title>a few notes</title>
+  <title>ssh terminate &amp; remote process</title>
 
   <meta name="author" content="Sarang Baheti" />
   
+  
+  <meta name="description" content="terminating ssh kills remote processes">
   
 
   <meta name="generator" content="Hugo 0.30.2" />
@@ -27,9 +29,9 @@
   
   
   
-  <meta property="og:title" content="a few notes" />
+  <meta property="og:title" content="ssh terminate &amp; remote process" />
   <meta property="og:type" content="website" />
-  <meta property="og:url" content="//" />
+  <meta property="og:url" content="/2020/06/19/ssh-terminate-remote-processes//" />
   <meta property="og:image" content="" />
   
 </head>
@@ -95,152 +97,70 @@
 </nav>
 
 
-    <header class="header-section ">
-      <div class="intro-header no-img">
-        <div class="container">
-          <div class="row">
-            
-          </div>
+    <div role="main" class="container main-content">
+
+      
+        
+
+
+
+
+
+<header class="header-section ">
+
+<div class="intro-header no-img">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="post-heading">
+          <h1>ssh terminate &amp; remote process</h1>
+      
+      
+      
+      <span class="post-meta"> June 19, 2020 </span>
+      
         </div>
       </div>
-    </header>
+    </div>
+  </div>
+</div>
+</header>
 
 
-    <div role="main" class="container">
-      <div class="row">
-        <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-          <div class="posts-list">
-            
-            
-            <article class="post-preview">
-              <a href="https://www.variadic.xyz/2020/06/19/ssh-terminate-remote-processes/">
-          	  <h2 class="post-title">ssh terminate &amp; remote process</h2>
-          	
-          	    
-              </a>
 
-              <p class="post-meta">
-                June 19, 2020
-              </p>
-            
-              <div class="post-entry">
-                
-                    terminating ssh kills remote processes
-                
 
-                <br/>
-                <br/>
-                <a href="https://www.variadic.xyz/2020/06/19/ssh-terminate-remote-processes/" class="post-read-more">[Read&nbsp;More]</a>
-              </div>
-            
-             </article>
-            
-            <article class="post-preview">
-              <a href="https://www.variadic.xyz/2020/06/15/ubuntu-2011mbp/">
-          	  <h2 class="post-title">Ubuntu 20.04 on MacBook Pro 2011</h2>
-          	
-          	    
-              </a>
 
-              <p class="post-meta">
-                June 15, 2020
-              </p>
-            
-              <div class="post-entry">
-                
-                    setting up a functional ubuntu 20.04 on MacBook Pro 2011
-                
+<div class="container">
+  <div class="row">
+    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+      <article role="main" class="blog-post">
+          <p>Having setup raspberry pi to run as a server, often terminating processes will kill the processes I started in it. Some of these was to just serve directory over wifi for easy photo library. Primarily I was trying to control this thru my phone (<code>termux</code>). I started noticing this behavior recently.</p>
 
-                <br/>
-                <br/>
-                <a href="https://www.variadic.xyz/2020/06/15/ubuntu-2011mbp/" class="post-read-more">[Read&nbsp;More]</a>
-              </div>
-            
-             </article>
-            
-            <article class="post-preview">
-              <a href="https://www.variadic.xyz/2020/06/08/disabling-turbo/">
-          	  <h2 class="post-title">disabling turbo-bost</h2>
-          	
-          	    
-              </a>
+<p>In past I just started a <code>tmux</code> session and started server in that. The good thing is that <code>tmux</code> will hang around even if I terminate ssh connection.</p>
 
-              <p class="post-meta">
-                June 8, 2020
-              </p>
-            
-              <div class="post-entry">
-                
-                    how to go about disabling turbo-boost
-                
+<p>Seaching online <a href="https://serverfault.com/q/463366">found that others have run into similar issues</a>. <code>tmux</code> seems to help and there is some good discussion about it <a href="https://soylentnews.org/article.pl?sid=16/05/30/0235207">here</a> and <a href="https://github.com/tmux/tmux/issues/428">here</a>. <code>systemd</code> <a href="https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=825394">brought this new behavior</a> to all.</p>
 
-                <br/>
-                <br/>
-                <a href="https://www.variadic.xyz/2020/06/08/disabling-turbo/" class="post-read-more">[Read&nbsp;More]</a>
-              </div>
-            
-             </article>
-            
-            <article class="post-preview">
-              <a href="https://www.variadic.xyz/2020/06/03/lmsensors-config/">
-          	  <h2 class="post-title">sensors conf</h2>
-          	
-          	    
-              </a>
+<p>But more importantly, <code>tmux</code> works well and <a href="https://serverfault.com/a/463375">here</a> is a very good overview of how unix/linux works with respect to current problem.</p>
 
-              <p class="post-meta">
-                June 3, 2020
-              </p>
-            
-              <div class="post-entry">
-                
-                    lmsensors config for my 2011 Macbook Pro 8,2
-                
+      </article>
+      <br/>
+      <ul class="pager blog-pager">
+        
+        <li class="previous">
+          <a href="https://www.variadic.xyz/2020/06/15/ubuntu-2011mbp/" data-toggle="tooltip" data-placement="top" title="Ubuntu 20.04 on MacBook Pro 2011">&larr; Previous</a>
+        </li>
+        
+        
+      </ul>
 
-                <br/>
-                <br/>
-                <a href="https://www.variadic.xyz/2020/06/03/lmsensors-config/" class="post-read-more">[Read&nbsp;More]</a>
-              </div>
-            
-             </article>
-            
-            <article class="post-preview">
-              <a href="https://www.variadic.xyz/2020/05/29/a-few-articles/">
-          	  <h2 class="post-title">a few interesting articles</h2>
-          	
-          	    
-              </a>
+      
 
-              <p class="post-meta">
-                May 29, 2020
-              </p>
-            
-              <div class="post-entry">
-                
-                    a few interesting technical articles published online
-                
+    </div>
+  </div>
+</div>
 
-                <br/>
-                <br/>
-                <a href="https://www.variadic.xyz/2020/05/29/a-few-articles/" class="post-read-more">[Read&nbsp;More]</a>
-              </div>
-            
-             </article>
-            
-          </div>
+      
 
-          
-          <ul class="pager main-pager">
-            
-            
-            <li class="next">
-              <a href="/page/2">Older &rarr;</a>
-            </li>
-            
-          </ul>
-          
-        </div>
-      </div>
     </div>
 
     <footer>

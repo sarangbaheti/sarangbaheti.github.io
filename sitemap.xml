@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://www.variadic.xyz/2020/06/19/ssh-terminate-remote-processes/</loc>
+    <lastmod>2020-06-19T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://www.variadic.xyz/2020/06/15/ubuntu-2011mbp/</loc>
     <lastmod>2020-06-15T00:00:00+00:00</lastmod>
   </url>
@@ -842,7 +847,7 @@
   
   <url>
     <loc>https://www.variadic.xyz/post/</loc>
-    <lastmod>2020-06-15T00:00:00+00:00</lastmod>
+    <lastmod>2020-06-19T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -867,7 +872,7 @@
   
   <url>
     <loc>https://www.variadic.xyz/</loc>
-    <lastmod>2020-06-15T00:00:00+00:00</lastmod>
+    <lastmod>2020-06-19T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
