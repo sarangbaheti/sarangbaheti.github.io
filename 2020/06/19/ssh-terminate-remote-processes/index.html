@@ -134,13 +134,13 @@
   <div class="row">
     <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
       <article role="main" class="blog-post">
-          <p>Having setup raspberry pi to run as a server, often terminating processes will kill the processes I started in it. Some of these was to just serve directory over wifi for easy photo library. Primarily I was trying to control this thru my phone (<code>termux</code>). I started noticing this behavior recently.</p>
+          <p>Having setup raspberry pi to run as a server, I started noticing that terminating ssh connection will kill the processes I started in it. Some of these were to just serve directory over wifi for easy photo library. This time the difference was that I was tried to kick start server thru my phone (termux) &amp; as soon as I closed the app or moved out of network, server on rpi would die.</p>
 
-<p>In past I just started a <code>tmux</code> session and started server in that. The good thing is that <code>tmux</code> will hang around even if I terminate ssh connection.</p>
+<p>In past I just started a tmux session and started server in that. The good thing is that tmux will hang around even if I terminate ssh connection.</p>
 
-<p>Seaching online <a href="https://serverfault.com/q/463366">found that others have run into similar issues</a>. <code>tmux</code> seems to help and there is some good discussion about it <a href="https://soylentnews.org/article.pl?sid=16/05/30/0235207">here</a> and <a href="https://github.com/tmux/tmux/issues/428">here</a>. <code>systemd</code> <a href="https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=825394">brought this new behavior</a> to all.</p>
+<p>Seaching online <a href="https://serverfault.com/q/463366">found that others have run into similar issues</a>. tmux seems to help and there is some good discussion about it <a href="https://soylentnews.org/article.pl?sid=16/05/30/0235207">here</a> and <a href="https://github.com/tmux/tmux/issues/428">here</a>. systemd <a href="https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=825394">brought this new behavior</a> to all.</p>
 
-<p>But more importantly, <code>tmux</code> works well and <a href="https://serverfault.com/a/463375">here</a> is a very good overview of how unix/linux works with respect to current problem.</p>
+<p>But more importantly, tmux works well and <a href="https://serverfault.com/a/463375">here</a> is a very good overview of how unix/linux works with respect to current problem.</p>
 
       </article>
       <br/>

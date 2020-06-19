@@ -17,8 +17,7 @@
       <pubDate>Fri, 19 Jun 2020 00:00:00 +0000</pubDate>
       
       <guid>https://www.variadic.xyz/2020/06/19/ssh-terminate-remote-processes/</guid>
-      <description>Having setup raspberry pi to run as a server, often terminating processes will kill the processes I started in it. Some of these was to just serve directory over wifi for easy photo library. Primarily I was trying to control this thru my phone (termux). I started noticing this behavior recently.
-In past I just started a tmux session and started server in that. The good thing is that tmux will hang around even if I terminate ssh connection.</description>
+      <description>Having setup raspberry pi to run as a server, I started noticing that terminating ssh connection will kill the processes I started in it. Some of these were to just serve directory over wifi for easy photo library. This time the difference was that I was tried to kick start server thru my phone (termux) &amp;amp; as soon as I closed the app or moved out of network, server on rpi would die.</description>
     </item>
     
     <item>
