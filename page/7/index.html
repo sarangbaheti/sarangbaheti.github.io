@@ -113,6 +113,29 @@
             
             
             <article class="post-preview">
+              <a href="https://www.variadic.xyz/2019/07/03/constexpr2/">
+          	  <h2 class="post-title">constexpr vs C&#43;&#43; Template Metaprogramming</h2>
+          	
+          	    
+              </a>
+
+              <p class="post-meta">
+                July 3, 2019
+              </p>
+            
+              <div class="post-entry">
+                
+                    c&#43;&#43;17 constexpr fns vs c&#43;&#43; template metaprograms
+                
+
+                <br/>
+                <br/>
+                <a href="https://www.variadic.xyz/2019/07/03/constexpr2/" class="post-read-more">[Read&nbsp;More]</a>
+              </div>
+            
+             </article>
+            
+            <article class="post-preview">
               <a href="https://www.variadic.xyz/2019/05/27/open-with-notepad/">
           	  <h2 class="post-title">open with notepad</h2>
           	
@@ -200,55 +223,6 @@
                 <br/>
                 <br/>
                 <a href="https://www.variadic.xyz/2019/01/20/library-load-dbg-flags/" class="post-read-more">[Read&nbsp;More]</a>
-              </div>
-            
-             </article>
-            
-            <article class="post-preview">
-              <a href="https://www.variadic.xyz/2018/10/26/wpf-style-inheritance-behavior/">
-          	  <h2 class="post-title">WPF Style Inheritance Behavior</h2>
-          	
-          	    
-              </a>
-
-              <p class="post-meta">
-                October 26, 2018
-              </p>
-            
-              <div class="post-entry">
-                
-                    <p>Recently I was using a window style with <a href="https://github.com/MahApps/MahApps.Metro">MahAppsMetro</a>, now it applies the styles at application level. One of the things I am doing is embedding <a href="https://github.com/icsharpcode/AvalonEdit">AvalonEdit</a> in one such window. Now with Metro styling it applies styles to the controls and in my case <code>SearchPanel</code> in <code>AvalonEdit</code> was styled too! This is fine, but the results were quite un-expected:</p>
-
-
-<figure >
-    
-        <img src="/images/2018-10-26_avalonedit1.png" alt="Metro Styling applied to SearchPanel" />
-    
-    
-    <figcaption>
-        <p>
-        Metro Styling applied to SearchPanel
-        
-            
-        
-        </p> 
-    </figcaption>
-    
-</figure>
-
-
-<p>Now, of course I do want to keep Metro Style for my application, however want to keep <code>AvalonEdit</code> styling intact as well.</p>
-
-<p>Thinking further the simplest thing to do would be to be to somehow disable inheritance of styles at some level. I found a <a href="https://stackoverflow.com/a/2138114">post on stackoverflow discussing this</a>. However for me it was not to stop inheriting styles but to fallback to theme. <a href="https://msdn.microsoft.com/en-us/library/mt824276.aspx">Documentation</a> on this topic is pretty scarce.</p>
-
-<p>Now to get things to work, I wrapped the <code>AvalonEdit.TextEditor</code> in a custom <code>Control</code> which would <code>InheritanceBehavior.SkipToThemeNow</code>.</p>
-
-<p></p>
-                
-
-                <br/>
-                <br/>
-                <a href="https://www.variadic.xyz/2018/10/26/wpf-style-inheritance-behavior/" class="post-read-more">[Read&nbsp;More]</a>
               </div>
             
              </article>

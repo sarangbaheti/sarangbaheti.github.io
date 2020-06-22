@@ -113,6 +113,29 @@
             
             
             <article class="post-preview">
+              <a href="https://www.variadic.xyz/2014/08/01/visual-studio-run-time-error-checks-rtc-performance/">
+          	  <h2 class="post-title">Visual Studio Run Time Error Checks RTC and Performance</h2>
+          	
+          	    
+              </a>
+
+              <p class="post-meta">
+                August 1, 2014
+              </p>
+            
+              <div class="post-entry">
+                
+                    Recently I was analyzing some very computation intensive code. The code was operating on an image and was fiddling with each pixel. For image of size 4000&#215;4000 my function was called ~5 billion times. Since most of the computation depends only on the pixel attributes &#8211; so this problem tended itself very well for data parallel computation, but I was more interested in eliminating bottlenecks in serial code first than running un-optimized code in parallel.
+                
+
+                <br/>
+                <br/>
+                <a href="https://www.variadic.xyz/2014/08/01/visual-studio-run-time-error-checks-rtc-performance/" class="post-read-more">[Read&nbsp;More]</a>
+              </div>
+            
+             </article>
+            
+            <article class="post-preview">
               <a href="https://www.variadic.xyz/2014/07/17/screen-recording-on-mac-os-x/">
           	  <h2 class="post-title">screen recording on Mac OS X</h2>
           	
@@ -264,29 +287,6 @@ Will do a separate post covering my findings soon, this post is about some rando
                 <br/>
                 <br/>
                 <a href="https://www.variadic.xyz/2014/07/01/libcxxabi-__dynamic_cast-random-strings/" class="post-read-more">[Read&nbsp;More]</a>
-              </div>
-            
-             </article>
-            
-            <article class="post-preview">
-              <a href="https://www.variadic.xyz/2014/06/08/days-between-dates/">
-          	  <h2 class="post-title">days between dates</h2>
-          	
-          	    
-              </a>
-
-              <p class="post-meta">
-                June 8, 2014
-              </p>
-            
-              <div class="post-entry">
-                
-                    Seems like finding out days between dates is not a trivial task. There is quite a bit of support in tools for adding up dates (date), but literally none for evaluating the difference. Unix systems return time using epoch as reference, thus you need to divide the difference by 86400 (#seconds in a day) to get the #days. However I wanted something portable that would work across all platforms without me having to worry about leap-years and such esoteric stuff.
-                
-
-                <br/>
-                <br/>
-                <a href="https://www.variadic.xyz/2014/06/08/days-between-dates/" class="post-read-more">[Read&nbsp;More]</a>
               </div>
             
              </article>

@@ -113,6 +113,33 @@
             
             
             <article class="post-preview">
+              <a href="https://www.variadic.xyz/2018/01/15/hashing-stdpair-and-stdtuple/">
+          	  <h2 class="post-title">hashing std::pair and std::tuple</h2>
+          	
+          	    
+              </a>
+
+              <p class="post-meta">
+                January 15, 2018
+              </p>
+            
+              <div class="post-entry">
+                
+                    <p>Lately I have been refactoring some old code &amp; found it littered with all sorts of things. This particular code had a custom hash-table for hashing based off 3 values instead of 1. <code>std::tuple</code> are the best fit, or probably providing a custom struct with <code>std::hash</code> specialization would have served as well. What std library provides is <code>std::hash</code> for basic types, <a href="http://en.cppreference.com/w/cpp/utility/hash">reference here</a>. There is nothing for composite types. Even for <code>std::pair</code>.</p>
+
+<p>Providing a <code>std::hash</code> for both <code>std::pair</code> and <code>std::tuple</code> is what I want to address with this post.</p>
+
+<p></p>
+                
+
+                <br/>
+                <br/>
+                <a href="https://www.variadic.xyz/2018/01/15/hashing-stdpair-and-stdtuple/" class="post-read-more">[Read&nbsp;More]</a>
+              </div>
+            
+             </article>
+            
+            <article class="post-preview">
               <a href="https://www.variadic.xyz/2017/11/06/error-handling-links/">
           	  <h2 class="post-title">Error Handling Links</h2>
           	
@@ -209,44 +236,6 @@ I have been using it in particular to debug heap and library load issues.</p>
                 <br/>
                 <br/>
                 <a href="https://www.variadic.xyz/2017/08/11/choosing-stl-container/" class="post-read-more">[Read&nbsp;More]</a>
-              </div>
-            
-             </article>
-            
-            <article class="post-preview">
-              <a href="https://www.variadic.xyz/2017/07/18/pdbinfo/">
-          	  <h2 class="post-title">pdbinfo</h2>
-          	
-          	    
-              </a>
-
-              <p class="post-meta">
-                July 17, 2017
-              </p>
-            
-              <div class="post-entry">
-                
-                    <p>Last time I coded <a href="https://github.com/angeleno/peinfo"><code>peinfo</code>, https://github.com/angeleno/peinfo</a> to get information from a PE file. It listed the guid for pdb file generated alongwith.
-This is helpful as it is, but at times you have pdb file and want to query it&rsquo;s guid.</p>
-
-<p>I did not find anything handy for it, thus ended up coding one myself.
-Here the <a href="https://msdn.microsoft.com/en-us/library/x93ctkx8.aspx">Debug Interface Access SDK</a> is of great help.</p>
-
-<p>The idea is pretty simple and straight foward:</p>
-
-<ol>
-<li>Load PDB as DataSource, <code>IDiaDataSource::LoadDataFromPdb</code> (Line#72)</li>
-<li>Open Session, <code>IDiaDataSource::openSession</code>  (Line#76)</li>
-<li>Get GlobalScope, <code>IDiaSession::get_global_scope</code>  (Line#80)</li>
-<li>Get GUID, <code>IDiaSymbol::get_guid</code>  (Line#84)</li>
-</ol>
-
-<p></p>
-                
-
-                <br/>
-                <br/>
-                <a href="https://www.variadic.xyz/2017/07/18/pdbinfo/" class="post-read-more">[Read&nbsp;More]</a>
               </div>
             
              </article>

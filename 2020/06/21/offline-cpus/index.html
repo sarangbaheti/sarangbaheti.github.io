@@ -6,10 +6,12 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 
-  <title>a few notes</title>
+  <title>swithcing off cpus</title>
 
   <meta name="author" content="Sarang Baheti" />
   
+  
+  <meta name="description" content="taking CPUs offline on linux">
   
 
   <meta name="generator" content="Hugo 0.30.2" />
@@ -27,9 +29,9 @@
   
   
   
-  <meta property="og:title" content="a few notes" />
+  <meta property="og:title" content="swithcing off cpus" />
   <meta property="og:type" content="website" />
-  <meta property="og:url" content="//" />
+  <meta property="og:url" content="/2020/06/21/offline-cpus//" />
   <meta property="og:image" content="" />
   
 </head>
@@ -95,156 +97,113 @@
 </nav>
 
 
-    <header class="header-section ">
-      <div class="intro-header no-img">
-        <div class="container">
-          <div class="row">
-            
-          </div>
+    <div role="main" class="container main-content">
+
+      
+        
+
+
+
+
+
+<header class="header-section ">
+
+<div class="intro-header no-img">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="post-heading">
+          <h1>swithcing off cpus</h1>
+      
+      
+      
+      <span class="post-meta"> June 21, 2020 </span>
+      
         </div>
       </div>
-    </header>
+    </div>
+  </div>
+</div>
+</header>
 
 
-    <div role="main" class="container">
-      <div class="row">
-        <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-          <div class="posts-list">
-            
-            
-            <article class="post-preview">
-              <a href="https://www.variadic.xyz/2019/11/20/vs-squiggly/">
-          	  <h2 class="post-title">VS squiggly lines</h2>
-          	
-          	    
-              </a>
 
-              <p class="post-meta">
-                November 20, 2019
-              </p>
-            
-              <div class="post-entry">
-                
-                    how do hide the red squiggly lines in Visual Studio
-                
 
-                <br/>
-                <br/>
-                <a href="https://www.variadic.xyz/2019/11/20/vs-squiggly/" class="post-read-more">[Read&nbsp;More]</a>
-              </div>
-            
-             </article>
-            
-            <article class="post-preview">
-              <a href="https://www.variadic.xyz/2019/11/12/procdump/">
-          	  <h2 class="post-title">procdump</h2>
-          	
-          	    
-              </a>
 
-              <p class="post-meta">
-                November 12, 2019
-              </p>
-            
-              <div class="post-entry">
-                
-                    procdump as postmortem debugger on windows
-                
+<div class="container">
+  <div class="row">
+    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+      <article role="main" class="blog-post">
+          <p>As part of <a href="/2020/05/28/2011mbp-osx/">resurrecting my MacBook Pro</a> and making it usable, one of the things I have been try is to control how many CPUs are active at a given time. I could have just disabled HyperThreading to halve the CPUs. But was curious how can I go about doing it in general.</p>
 
-                <br/>
-                <br/>
-                <a href="https://www.variadic.xyz/2019/11/12/procdump/" class="post-read-more">[Read&nbsp;More]</a>
-              </div>
-            
-             </article>
-            
-            <article class="post-preview">
-              <a href="https://www.variadic.xyz/2019/10/06/runas-from-cmd/">
-          	  <h2 class="post-title">runas from cmd</h2>
-          	
-          	    
-              </a>
+<p>As with all things in Linux, CPUs are represented as files. The act of <a href="/2020/06/08/disabling-turbo/">disabling turbo-boost</a> was one such example.</p>
 
-              <p class="post-meta">
-                October 6, 2019
-              </p>
-            
-              <div class="post-entry">
-                
-                    powershell -Command &quot;Start-Process 'devenv.exe' -Verb runAs&quot;  
-                
+<p>This time the command is <code>lscpu</code>. It is a fairly versatile command with many options. <code>lscpu -h</code> should print all the options and help, while just <code>lscpu</code> will print just the basic information about the CPU(s) in machine.</p>
 
-                <br/>
-                <br/>
-                <a href="https://www.variadic.xyz/2019/10/06/runas-from-cmd/" class="post-read-more">[Read&nbsp;More]</a>
-              </div>
-            
-             </article>
-            
-            <article class="post-preview">
-              <a href="https://www.variadic.xyz/2019/09/15/shared-mutable-synchronization/">
-          	  <h2 class="post-title">shared mutable synchronization</h2>
-          	
-          	    
-              </a>
+<p>However it can list all CPUs online/offline with extended information, that what is printed here:</p>
 
-              <p class="post-meta">
-                September 15, 2019
-              </p>
-            
-              <div class="post-entry">
-                
-                    Source: Concurrency in .NET   Shared Mutable Synchronization   
-                
+<pre><code>sarang@mbp:~$ lscpu -a -e
+CPU NODE SOCKET CORE L1d:L1i:L2:L3 ONLINE    MAXMHZ   MINMHZ
+  0    0      0    0 0:0:0:0          yes 2900.0000 800.0000
+  1    0      0    1 1:1:1:0          yes 2900.0000 800.0000
+  2    0      0    2 2:2:2:0          yes 2900.0000 800.0000
+  3    0      0    3 3:3:3:0          yes 2900.0000 800.0000
+  4    0      0    0 0:0:0:0          yes 2900.0000 800.0000
+  5    0      0    1 1:1:1:0          yes 2900.0000 800.0000
+  6    0      0    2 2:2:2:0          yes 2900.0000 800.0000
+  7    0      0    3 3:3:3:0          yes 2900.0000 800.0000
+</code></pre>
 
-                <br/>
-                <br/>
-                <a href="https://www.variadic.xyz/2019/09/15/shared-mutable-synchronization/" class="post-read-more">[Read&nbsp;More]</a>
-              </div>
-            
-             </article>
-            
-            <article class="post-preview">
-              <a href="https://www.variadic.xyz/2019/08/28/cpp17-std-parallel-algo/">
-          	  <h2 class="post-title">cpp17 std parallel algo</h2>
-          	
-          	    
-              </a>
+<p>This MBP has just 1 chip, 4 Core &amp; 8 Threads- thus 8 logical processors. Core column repeats from 0-3. Here I am just switching off 1 Logical Processor from each core by writing <code>0</code> in each CPU file. Well this is equivalent to switching off HyperThreading, but to conserve battery one could have just switched off entire cores. Perhaps more on this later with <code>powertop</code>.</p>
 
-              <p class="post-meta">
-                August 28, 2019
-              </p>
-            
-              <div class="post-entry">
-                
-                    notes on cpp17 std parallel algo
-                
+<pre><code>echo &quot;0&quot; | sudo tee /sys/devices/system/cpu/cpu4/online
+echo &quot;0&quot; | sudo tee /sys/devices/system/cpu/cpu5/online
+echo &quot;0&quot; | sudo tee /sys/devices/system/cpu/cpu6/online
+echo &quot;0&quot; | sudo tee /sys/devices/system/cpu/cpu7/online
+</code></pre>
 
-                <br/>
-                <br/>
-                <a href="https://www.variadic.xyz/2019/08/28/cpp17-std-parallel-algo/" class="post-read-more">[Read&nbsp;More]</a>
-              </div>
-            
-             </article>
-            
-          </div>
+<p>After this, said CPUs will be taken offline, <code>ONLINE</code> column has <code>no</code> for such CPUs.</p>
 
-          
-          <ul class="pager main-pager">
-            
-            <li class="previous">
-              <a href="/page/5">&larr; Newer </a>
-            </li>
-            
-            
-            <li class="next">
-              <a href="/page/7">Older &rarr;</a>
-            </li>
-            
-          </ul>
-          
-        </div>
-      </div>
+<pre><code>sarang@mbp:~$ lscpu -a -e
+CPU NODE SOCKET CORE L1d:L1i:L2:L3 ONLINE    MAXMHZ   MINMHZ
+  0    0      0    0 0:0:0:0          yes 2900.0000 800.0000
+  1    0      0    1 1:1:1:0          yes 2900.0000 800.0000
+  2    0      0    2 2:2:2:0          yes 2900.0000 800.0000
+  3    0      0    3 3:3:3:0          yes 2900.0000 800.0000
+  4    -      -    - :::               no 2900.0000 800.0000
+  5    -      -    - :::               no 2900.0000 800.0000
+  6    -      -    - :::               no 2900.0000 800.0000
+  7    -      -    - :::               no 2900.0000 800.0000
+</code></pre>
+
+<p>There are other ways to check which CPUs are online &amp; offline:</p>
+
+<pre><code>sarang@mbp:~$ cat /sys/devices/system/cpu/online
+0-3
+sarang@mbp:~$ cat /sys/devices/system/cpu/offline
+4-7
+sarang@mbp:~$ 
+</code></pre>
+
+      </article>
+      <br/>
+      <ul class="pager blog-pager">
+        
+        <li class="previous">
+          <a href="https://www.variadic.xyz/2020/06/19/ssh-terminate-remote-processes/" data-toggle="tooltip" data-placement="top" title="ssh terminate &amp; remote process">&larr; Previous</a>
+        </li>
+        
+        
+      </ul>
+
+      
+
+    </div>
+  </div>
+</div>
+
+      
+
     </div>
 
     <footer>

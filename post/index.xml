@@ -6,10 +6,20 @@
     <description>Recent content in Posts on a few notes</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 19 Jun 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 21 Jun 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://www.variadic.xyz/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>swithcing off cpus</title>
+      <link>https://www.variadic.xyz/2020/06/21/offline-cpus/</link>
+      <pubDate>Sun, 21 Jun 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.variadic.xyz/2020/06/21/offline-cpus/</guid>
+      <description>As part of resurrecting my MacBook Pro and making it usable, one of the things I have been try is to control how many CPUs are active at a given time. I could have just disabled HyperThreading to halve the CPUs. But was curious how can I go about doing it in general.
+As with all things in Linux, CPUs are represented as files. The act of disabling turbo-boost was one such example.</description>
+    </item>
     
     <item>
       <title>ssh terminate &amp; remote process</title>
