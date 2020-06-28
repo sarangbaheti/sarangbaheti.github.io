@@ -6,10 +6,12 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 
-  <title>a few notes</title>
+  <title>swithcing off dGPU in MBP 2011</title>
 
   <meta name="author" content="Sarang Baheti" />
   
+  
+  <meta name="description" content="swithcing off dGPU in MBP 2011 thru gmux in MacOS &amp; Linux">
   
 
   <meta name="generator" content="Hugo 0.30.2" />
@@ -27,9 +29,9 @@
   
   
   
-  <meta property="og:title" content="a few notes" />
+  <meta property="og:title" content="swithcing off dGPU in MBP 2011" />
   <meta property="og:type" content="website" />
-  <meta property="og:url" content="//" />
+  <meta property="og:url" content="/2020/06/28/switching-off-dgpu//" />
   <meta property="og:image" content="" />
   
 </head>
@@ -95,156 +97,139 @@
 </nav>
 
 
-    <header class="header-section ">
-      <div class="intro-header no-img">
-        <div class="container">
-          <div class="row">
-            
-          </div>
+    <div role="main" class="container main-content">
+
+      
+        
+
+
+
+
+
+<header class="header-section ">
+
+<div class="intro-header no-img">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <div class="post-heading">
+          <h1>swithcing off dGPU in MBP 2011</h1>
+      
+      
+      
+      <span class="post-meta"> June 28, 2020 </span>
+      
         </div>
       </div>
-    </header>
+    </div>
+  </div>
+</div>
+</header>
 
 
-    <div role="main" class="container">
-      <div class="row">
-        <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-          <div class="posts-list">
-            
-            
-            <article class="post-preview">
-              <a href="https://www.variadic.xyz/2019/08/28/cpp17-std-parallel-algo/">
-          	  <h2 class="post-title">cpp17 std parallel algo</h2>
-          	
-          	    
-              </a>
 
-              <p class="post-meta">
-                August 28, 2019
-              </p>
-            
-              <div class="post-entry">
-                
-                    notes on cpp17 std parallel algo
-                
 
-                <br/>
-                <br/>
-                <a href="https://www.variadic.xyz/2019/08/28/cpp17-std-parallel-algo/" class="post-read-more">[Read&nbsp;More]</a>
-              </div>
-            
-             </article>
-            
-            <article class="post-preview">
-              <a href="https://www.variadic.xyz/2019/07/03/constexpr2/">
-          	  <h2 class="post-title">constexpr vs C&#43;&#43; Template Metaprogramming</h2>
-          	
-          	    
-              </a>
 
-              <p class="post-meta">
-                July 3, 2019
-              </p>
-            
-              <div class="post-entry">
-                
-                    c&#43;&#43;17 constexpr fns vs c&#43;&#43; template metaprograms
-                
+<div class="container">
+  <div class="row">
+    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+      <article role="main" class="blog-post">
+          <p>I have been <a href="/2020/05/28/2011mbp-osx/">running with Ubuntu</a> for a month now and so far it is holding up very well, just a hiccup with wireless driver up kernel update. Reverted back to previous kernel and things are stable all over again.</p>
 
-                <br/>
-                <br/>
-                <a href="https://www.variadic.xyz/2019/07/03/constexpr2/" class="post-read-more">[Read&nbsp;More]</a>
-              </div>
-            
-             </article>
-            
-            <article class="post-preview">
-              <a href="https://www.variadic.xyz/2019/05/27/open-with-notepad/">
-          	  <h2 class="post-title">open with notepad</h2>
-          	
-          	    
-              </a>
+<p>I have been monitoring temp and power consumption on my MBP 2011 and found that after every boot it runs quite cool, <a href="/2020/06/03/lmsensors-config/">thanks to lmsensors</a> and <a href="/2020/06/08/disabling-turbo/">swithcing off turbo-boost</a> helps. But one thing I noticed is that every time I resume after suspend the laptop starts heating up all over again, confirmed that dGPU was switched on. Now this is all in domain of <code>gmux</code> and seems like it is playing a role somehow.</p>
 
-              <p class="post-meta">
-                May 27, 2019
-              </p>
-            
-              <div class="post-entry">
-                
-                    Steps to add a context menu to open any file in notepad in Windows Explorer
-                
+<p><a href="/2020/06/15/ubuntu-2011mbp/#a-note-about-previous-magic-numbers">Previously, I had disabled dGPU during boot time</a> with changes to grub, can we do that again? <code>inb</code> and <code>outb</code> here are the io instructions that can do the magic. Thanks to the guys that hacked around MacBook and Apple drivers/kexts.</p>
 
-                <br/>
-                <br/>
-                <a href="https://www.variadic.xyz/2019/05/27/open-with-notepad/" class="post-read-more">[Read&nbsp;More]</a>
-              </div>
-            
-             </article>
-            
-            <article class="post-preview">
-              <a href="https://www.variadic.xyz/2019/03/27/mesi-states-transition/">
-          	  <h2 class="post-title">MESI states transition</h2>
-          	
-          	    
-              </a>
+<pre><code>outb 0x728 1 # Switch select
+outb 0x710 2 # Switch display
+outb 0x740 2 # Switch DDC
+outb 0x750 0 # Power down discrete graphics
+</code></pre>
 
-              <p class="post-meta">
-                March 27, 2019
-              </p>
-            
-              <div class="post-entry">
-                
-                    MESI Protocal &amp; State transition for cache coherence
-                
+<p>Following code is pretty much along what we did during boot (found somewhere on internet, don&rsquo;t have link):</p>
 
-                <br/>
-                <br/>
-                <a href="https://www.variadic.xyz/2019/03/27/mesi-states-transition/" class="post-read-more">[Read&nbsp;More]</a>
-              </div>
-            
-             </article>
-            
-            <article class="post-preview">
-              <a href="https://www.variadic.xyz/2019/02/21/relaunching-as-an-admin/">
-          	  <h2 class="post-title">relaunching as an admin</h2>
-          	
-          	    
-              </a>
+<pre><code class="language-cpp">#include &lt;stdio.h&gt; 
+#include &lt;sys/io.h&gt;
 
-              <p class="post-meta">
-                February 21, 2019
-              </p>
-            
-              <div class="post-entry">
-                
-                    on how to relaunch the application as an admin
-                
+#define PORT_SWITCH_DISPLAY 0x710
+#define PORT_SWITCH_SELECT 0x728
+#define PORT_SWITCH_DDC 0x740
+#define PORT_DISCRETE_POWER 0x750
 
-                <br/>
-                <br/>
-                <a href="https://www.variadic.xyz/2019/02/21/relaunching-as-an-admin/" class="post-read-more">[Read&nbsp;More]</a>
-              </div>
-            
-             </article>
-            
-          </div>
+static int gmux_switch_to_igd()
+{
+    outb(1, PORT_SWITCH_SELECT);
+    outb(2, PORT_SWITCH_DISPLAY);
+    outb(2, PORT_SWITCH_DDC);
+    return 0;
+}
 
-          
-          <ul class="pager main-pager">
-            
-            <li class="previous">
-              <a href="/page/6">&larr; Newer </a>
-            </li>
-            
-            
-            <li class="next">
-              <a href="/page/8">Older &rarr;</a>
-            </li>
-            
-          </ul>
-          
-        </div>
-      </div>
+static void mbp_gpu_power(int state)
+{
+    outb(state, PORT_DISCRETE_POWER);
+}
+
+static void mb_gpu_print()
+{
+    printf(&quot;SELECT:  %hhu\n&quot;, inb(PORT_SWITCH_SELECT));
+    printf(&quot;DISPLAY: %hhu\n&quot;, inb(PORT_SWITCH_DISPLAY));
+    printf(&quot;DDC:     %hhu\n&quot;, inb(PORT_SWITCH_DDC));
+    printf(&quot;POWER:   %hhu\n&quot;, inb(PORT_DISCRETE_POWER));
+}
+
+int main(int argc, char **argv)
+{
+    if (iopl(3) &lt; 0) {
+        perror (&quot;No IO permissions&quot;);
+        return 1;
+    }
+    int state=0;
+    if (argc &gt; 1) state = atoi(argv[1]);
+    printf(&quot;Before:\n&quot;);
+    mb_gpu_print();
+    mbp_gpu_power(state);
+    gmux_switch_to_igd();
+    printf(&quot;After:\n&quot;);
+    mb_gpu_print();
+    return 0;
+}
+
+</code></pre>
+
+<p>With this I am back to a cool running MBP on linux. This same logic is applicable to MacOS as well. I have <a href="https://github.com/sarangbaheti/AMDGPUWakeHandler#sarangs-notes">some local code changes</a> along with kexts built to forcefully switching off dGPU thru gmux.</p>
+
+
+<figure >
+    
+        <img src="/images/dGPU-swithced-off-forcefully-macos.png" />
+    
+    
+</figure>
+
+
+<hr />
+
+<p>Well this works quite well in practice because of <a href="https://01.org/linuxgraphics/gfx-docs/drm/handlers.html">gmux</a> being  an intermediary. <a href="https://lwn.net/Articles/707616/">LWN has a great writeup for it</a>. Some of this is documented in <a href="https://pimg-fpiw.uspto.gov/fdd/07/870/086/0.pdf">patent US 8,687,007 B2</a>, esp fig6 and fig7: delegate act of switching off dGPU to gmux and how it schedules depending on blanking interval overlap.</p>
+
+      </article>
+      <br/>
+      <ul class="pager blog-pager">
+        
+        <li class="previous">
+          <a href="https://www.variadic.xyz/2020/06/21/offline-cpus/" data-toggle="tooltip" data-placement="top" title="swithcing off cpus">&larr; Previous</a>
+        </li>
+        
+        
+      </ul>
+
+      
+
+    </div>
+  </div>
+</div>
+
+      
+
     </div>
 
     <footer>

@@ -6,10 +6,20 @@
     <description>Recent content in Posts on a few notes</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 21 Jun 2020 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 28 Jun 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://www.variadic.xyz/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>swithcing off dGPU in MBP 2011</title>
+      <link>https://www.variadic.xyz/2020/06/28/switching-off-dgpu/</link>
+      <pubDate>Sun, 28 Jun 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.variadic.xyz/2020/06/28/switching-off-dgpu/</guid>
+      <description>I have been running with Ubuntu for a month now and so far it is holding up very well, just a hiccup with wireless driver up kernel update. Reverted back to previous kernel and things are stable all over again.
+I have been monitoring temp and power consumption on my MBP 2011 and found that after every boot it runs quite cool, thanks to lmsensors and swithcing off turbo-boost helps. But one thing I noticed is that every time I resume after suspend the laptop starts heating up all over again, confirmed that dGPU was switched on.</description>
+    </item>
     
     <item>
       <title>swithcing off cpus</title>

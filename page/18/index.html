@@ -113,6 +113,30 @@
             
             
             <article class="post-preview">
+              <a href="https://www.variadic.xyz/2014/07/01/libcxxabi-__dynamic_cast-random-strings/">
+          	  <h2 class="post-title">libcxxabi __dynamic_cast and random strings</h2>
+          	
+          	    
+              </a>
+
+              <p class="post-meta">
+                July 1, 2014
+              </p>
+            
+              <div class="post-entry">
+                
+                    While doing some performance profiling I ran into dynamic_cast being one of the hogs. I do know that dynamic_cast does typeid and string comparison on windows and it sucks. However on gcc it seems quite fast (haven&#8217;t checked the implementation there), became curious how is it implemented in libcxx in Clang.
+Will do a separate post covering my findings soon, this post is about some random strings disassembler showed in XCode, as you can see there are some references to &#8220;Adobe Illustrator&#8221; and &#8220;Adobe Photoshop CS5&#8243;, wonder if this is just garbage.
+                
+
+                <br/>
+                <br/>
+                <a href="https://www.variadic.xyz/2014/07/01/libcxxabi-__dynamic_cast-random-strings/" class="post-read-more">[Read&nbsp;More]</a>
+              </div>
+            
+             </article>
+            
+            <article class="post-preview">
               <a href="https://www.variadic.xyz/2014/06/08/days-between-dates/">
           	  <h2 class="post-title">days between dates</h2>
           	
@@ -207,31 +231,6 @@
                 <br/>
                 <br/>
                 <a href="https://www.variadic.xyz/2014/04/20/smart-status-of-disk-on-mac-os-x/" class="post-read-more">[Read&nbsp;More]</a>
-              </div>
-            
-             </article>
-            
-            <article class="post-preview">
-              <a href="https://www.variadic.xyz/2014/02/06/srm-securely-delete-file-on-mac-os-x-terminal/">
-          	  <h2 class="post-title">srm: securely delete file on Mac OS X Terminal</h2>
-          	
-          	    
-              </a>
-
-              <p class="post-meta">
-                February 6, 2014
-              </p>
-            
-              <div class="post-entry">
-                
-                    Open Terminal and at the command prompt type srm. Then drag and drop from a Finder window onto the Terminal window/or type the full path of the file you’d like to delete.
- srm /Users/sarang/Desktop/capture.png 
-Then hit Return to complete the command and erase the file. As with all Terminal commands, if you see no output, then everything has worked fine. Depending on the size of the file, deletion should take no more than a few seconds.
-                
-
-                <br/>
-                <br/>
-                <a href="https://www.variadic.xyz/2014/02/06/srm-securely-delete-file-on-mac-os-x-terminal/" class="post-read-more">[Read&nbsp;More]</a>
               </div>
             
              </article>

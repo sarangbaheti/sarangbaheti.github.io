@@ -193,7 +193,7 @@ echo &quot;        insmod gzio&quot; | sed &quot;s/^/$submenu_indentation/&quot;
 
 <p>Now, the best part of this is dGPU is completely powered down. <a href="/2020/06/03/lmsensors-config/">Can be checked with <code>sensors</code> as installed with lm-sensors</a>. I can see that GPU-diode consistently reports either <code>-128</code> or low single digit numbers (as the heat sink is shared between both CPU &amp; dGPU). But overall MacBook is quite cool and does not heat up at all (to the point I don&rsquo;t even need a laptop cooler to use it :) ).</p>
 
-<p>A note about previous magic numbers:</p>
+<h4 id="a-note-about-previous-magic-numbers">A note about previous magic numbers:</h4>
 
 <pre><code>outb 0x728 1 # Switch select
 outb 0x710 2 # Switch display
@@ -201,7 +201,7 @@ outb 0x740 2 # Switch DDC
 outb 0x750 0 # Power down discrete graphics
 </code></pre>
 
-<p>Now, on every reboot this sets up well &amp; looks very usable overall..</p>
+<p>Now, on every reboot this sets up well &amp; looks very usable overall. More details on how to do this <a href="/2020/06/28/switching-off-dgpu/">on resume after suspending here</a>.</p>
 
 <p><br/></p>
 
