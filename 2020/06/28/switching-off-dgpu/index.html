@@ -151,10 +151,10 @@ outb 0x750 0 # Power down discrete graphics
 <pre><code class="language-cpp">#include &lt;stdio.h&gt; 
 #include &lt;sys/io.h&gt;
 
-#define PORT_SWITCH_DISPLAY 0x710
-#define PORT_SWITCH_SELECT 0x728
-#define PORT_SWITCH_DDC 0x740
-#define PORT_DISCRETE_POWER 0x750
+#define PORT_SWITCH_DISPLAY     0x710
+#define PORT_SWITCH_SELECT      0x728
+#define PORT_SWITCH_DDC         0x740
+#define PORT_DISCRETE_POWER     0x750
 
 static int gmux_switch_to_igd()
 {
@@ -210,6 +210,13 @@ int main(int argc, char **argv)
 <hr />
 
 <p>Well this works quite well in practice because of <a href="https://01.org/linuxgraphics/gfx-docs/drm/handlers.html">gmux</a> being  an intermediary. <a href="https://lwn.net/Articles/707616/">LWN has a great writeup for it</a>. Some of this is documented in <a href="https://pimg-fpiw.uspto.gov/fdd/07/870/086/0.pdf">patent US 8,687,007 B2</a>, esp fig6 and fig7: delegate act of switching off dGPU to gmux and how it schedules depending on blanking interval overlap.</p>
+
+<p>A few links about gmux:</p>
+
+<ul>
+<li><a href="https://gist.github.com/kevinxucs/da371fec14d2df2bb9ad">https://gist.github.com/kevinxucs/da371fec14d2df2bb9ad</a></li>
+<li><a href="https://github.com/ah-/gmux-scripts/issues/1#issuecomment-54252430">https://github.com/ah-/gmux-scripts/issues/1#issuecomment-54252430</a></li>
+</ul>
 
       </article>
       <br/>

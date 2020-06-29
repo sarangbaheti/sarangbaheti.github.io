@@ -140,6 +140,10 @@ That means my vimrc kept evolving and had to sync at both the sites. Thought wou
 
 <pre><code>set nocompatible              &quot; be iMproved, required
 filetype off                  &quot; required
+
+&quot; search thru subdirectories as well
+set path+=**
+
 &quot;
 &quot;&quot; set the runtime path to include Vundle and initialize
 set rtp+=~/vimfiles/bundle/Vundle.vim/
@@ -186,6 +190,11 @@ set incsearch
 set hlsearch
 set ruler
 syntax on
+
+&quot; https://askubuntu.com/a/283909
+&quot; powerline statusline, expects that powerline (python version is installed)
+set rtp+=$HOME/.local/lib/python3.8/site-packages/powerline/bindings/vim/
+set laststatus=2
 
 &quot; folding related stuff
 &quot; reference: http://stackoverflow.com/questions/4789605/how-do-i-enable-automatic-folds-in-vim
