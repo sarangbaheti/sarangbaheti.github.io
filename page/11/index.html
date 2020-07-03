@@ -125,16 +125,7 @@
             
               <div class="post-entry">
                 
-                    <p><a href="https://docs.microsoft.com/en-us/windows-hardware/drivers/debugger/gflags"><code>gflags</code></a> is quite a versatile tool for debugging all low level things.
-I have been using it in particular to debug heap and library load issues.</p>
-
-<p>one can launch the gui, however i have preferred cmd line usage more often.</p>
-
-<p>to enable library load debugging:</p>
-
-<p><code>gflags -i &lt;your-app.exe&gt; +sls</code></p>
-
-<p></p>
+                    debugging library load issues on windows with windbg and gflags by enabling loader-snaps
                 
 
                 <br/>
@@ -180,22 +171,7 @@ I have been using it in particular to debug heap and library load issues.</p>
             
               <div class="post-entry">
                 
-                    <p>Last time I coded <a href="https://github.com/angeleno/peinfo"><code>peinfo</code>, https://github.com/angeleno/peinfo</a> to get information from a PE file. It listed the guid for pdb file generated alongwith.
-This is helpful as it is, but at times you have pdb file and want to query it&rsquo;s guid.</p>
-
-<p>I did not find anything handy for it, thus ended up coding one myself.
-Here the <a href="https://msdn.microsoft.com/en-us/library/x93ctkx8.aspx">Debug Interface Access SDK</a> is of great help.</p>
-
-<p>The idea is pretty simple and straight foward:</p>
-
-<ol>
-<li>Load PDB as DataSource, <code>IDiaDataSource::LoadDataFromPdb</code> (Line#72)</li>
-<li>Open Session, <code>IDiaDataSource::openSession</code>  (Line#76)</li>
-<li>Get GlobalScope, <code>IDiaSession::get_global_scope</code>  (Line#80)</li>
-<li>Get GUID, <code>IDiaSymbol::get_guid</code>  (Line#84)</li>
-</ol>
-
-<p></p>
+                    a handy tool to print pdb information on cmd
                 
 
                 <br/>
@@ -219,19 +195,6 @@ Here the <a href="https://msdn.microsoft.com/en-us/library/x93ctkx8.aspx">Debug 
               <div class="post-entry">
                 
                     <p>One of the handy commands with VS IDE is to launch <code>cmd</code>, it was provided by default earlier but lately i have been missing it with VS 2015 &amp; onwards.</p>
-
-<p>While poking around i found that you could launch <code>cmd</code> as external tool:</p>
-
-
-<figure >
-    
-        <img src="/images/vs-tools-externaltools.png" />
-    
-    
-</figure>
-
-
-<p></p>
                 
 
                 <br/>

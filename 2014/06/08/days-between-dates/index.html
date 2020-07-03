@@ -140,14 +140,14 @@
   The obvious choice then became python (a bit more readable compared to shell scripts). Anyway here is the python script to give you the days between dates using <a href="https://docs.python.org/2/library/datetime.html">date object</a>:
 </p>
 
-<pre class="brush: python; title: ; notranslate" title="">from datetime import date
+<pre><code class="language-py">from datetime import date
 # add 1 to account for today as well
 # 1982 days ago I started my blog (first post on 4 Jan 2009)
 # Note: do not to add 0 in front of 1 or 4 (Month or Day)
 # seems like python hates it that way..
 #
 (date.today() - date(2009, 1, 4)).days + 1
-</pre>
+</code></pre>
 
       </article>
       <br/>

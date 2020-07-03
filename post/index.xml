@@ -408,33 +408,8 @@ C:\WINDOWS\system32&amp;gt;gflags -i notepad.exe +sls Current Registry Settings 
       <pubDate>Fri, 26 Oct 2018 15:33:06 -0700</pubDate>
       
       <guid>https://www.variadic.xyz/2018/10/26/wpf-style-inheritance-behavior/</guid>
-      <description>&lt;p&gt;Recently I was using a window style with &lt;a href=&#34;https://github.com/MahApps/MahApps.Metro&#34;&gt;MahAppsMetro&lt;/a&gt;, now it applies the styles at application level. One of the things I am doing is embedding &lt;a href=&#34;https://github.com/icsharpcode/AvalonEdit&#34;&gt;AvalonEdit&lt;/a&gt; in one such window. Now with Metro styling it applies styles to the controls and in my case &lt;code&gt;SearchPanel&lt;/code&gt; in &lt;code&gt;AvalonEdit&lt;/code&gt; was styled too! This is fine, but the results were quite un-expected:&lt;/p&gt;
-
-
-&lt;figure &gt;
-    
-        &lt;img src=&#34;https://www.variadic.xyz/images/2018-10-26_avalonedit1.png&#34; alt=&#34;Metro Styling applied to SearchPanel&#34; /&gt;
-    
-    
-    &lt;figcaption&gt;
-        &lt;p&gt;
-        Metro Styling applied to SearchPanel
-        
-            
-        
-        &lt;/p&gt; 
-    &lt;/figcaption&gt;
-    
-&lt;/figure&gt;
-
-
-&lt;p&gt;Now, of course I do want to keep Metro Style for my application, however want to keep &lt;code&gt;AvalonEdit&lt;/code&gt; styling intact as well.&lt;/p&gt;
-
-&lt;p&gt;Thinking further the simplest thing to do would be to be to somehow disable inheritance of styles at some level. I found a &lt;a href=&#34;https://stackoverflow.com/a/2138114&#34;&gt;post on stackoverflow discussing this&lt;/a&gt;. However for me it was not to stop inheriting styles but to fallback to theme. &lt;a href=&#34;https://msdn.microsoft.com/en-us/library/mt824276.aspx&#34;&gt;Documentation&lt;/a&gt; on this topic is pretty scarce.&lt;/p&gt;
-
-&lt;p&gt;Now to get things to work, I wrapped the &lt;code&gt;AvalonEdit.TextEditor&lt;/code&gt; in a custom &lt;code&gt;Control&lt;/code&gt; which would &lt;code&gt;InheritanceBehavior.SkipToThemeNow&lt;/code&gt;.&lt;/p&gt;
-
-&lt;p&gt;&lt;/p&gt;</description>
+      <description>Recently I was using a window style with MahAppsMetro, now it applies the styles at application level. One of the things I am doing is embedding AvalonEdit in one such window. Now with Metro styling it applies styles to the controls and in my case SearchPanel in AvalonEdit was styled too! This is fine, but the results were quite un-expected:
+  Metro Styling applied to SearchPanel   Now, of course I do want to keep Metro Style for my application, however want to keep AvalonEdit styling intact as well.</description>
     </item>
     
     <item>
@@ -571,33 +546,9 @@ One thing i had to setup explicitly is to tell &lt;code&gt;git&lt;/code&gt; wher
       <pubDate>Wed, 14 Feb 2018 18:11:15 -0800</pubDate>
       
       <guid>https://www.variadic.xyz/2018/02/14/tweaking-hugo-summary/</guid>
-      <description>&lt;p&gt;One of the things I find quite annoying with &lt;code&gt;hugo&lt;/code&gt; is it auto summary feature. While it is quite handy to limit content on main page as it is- but it&amp;rsquo;s default limit of 70 characters adds more to improvement.&lt;/p&gt;
-
-&lt;p&gt;To top that it messes up all the formatting:&lt;/p&gt;
-
-
-&lt;figure &gt;
-    
-        &lt;img src=&#34;https://www.variadic.xyz/images/post-render-before-tweaks.png&#34; /&gt;
-    
-    
-&lt;/figure&gt;
-
-
-&lt;p&gt;One of the work arounds I have found is to use &lt;code&gt;&amp;lt;!-- more --&amp;gt;&lt;/code&gt;, &lt;a href=&#34;https://gohugo.io/content-management/summaries/&#34;&gt;content summaries&lt;/a&gt;, to control what sort of summary will be generated, but it still the same that you have in page.&lt;/p&gt;
-
-&lt;p&gt;Often I would like to have a short note for the content, which is not part of the content itself. Something like this:&lt;/p&gt;
-
-
-&lt;figure &gt;
-    
-        &lt;img src=&#34;https://www.variadic.xyz/images/post-render-after-tweaks.png&#34; /&gt;
-    
-    
-&lt;/figure&gt;
-
-
-&lt;p&gt;&lt;/p&gt;</description>
+      <description>One of the things I find quite annoying with hugo is it auto summary feature. While it is quite handy to limit content on main page as it is- but it&amp;rsquo;s default limit of 70 characters adds more to improvement.
+To top that it messes up all the formatting:
+ One of the work arounds I have found is to use &amp;lt;!-- more --&amp;gt;, content summaries, to control what sort of summary will be generated, but it still the same that you have in page.</description>
     </item>
     
     <item>
@@ -664,16 +615,11 @@ C:\Users\sarangb&amp;gt; Get-PhysicalDisk | Select FriendlyName, MediaType Frien
       <pubDate>Tue, 31 Oct 2017 10:54:24 +0200</pubDate>
       
       <guid>https://www.variadic.xyz/2017/10/31/library-loading-issues-windows/</guid>
-      <description>&lt;p&gt;&lt;a href=&#34;https://docs.microsoft.com/en-us/windows-hardware/drivers/debugger/gflags&#34;&gt;&lt;code&gt;gflags&lt;/code&gt;&lt;/a&gt; is quite a versatile tool for debugging all low level things.
-I have been using it in particular to debug heap and library load issues.&lt;/p&gt;
-
-&lt;p&gt;one can launch the gui, however i have preferred cmd line usage more often.&lt;/p&gt;
-
-&lt;p&gt;to enable library load debugging:&lt;/p&gt;
-
-&lt;p&gt;&lt;code&gt;gflags -i &amp;lt;your-app.exe&amp;gt; +sls&lt;/code&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;/p&gt;</description>
+      <description>gflags is quite a versatile tool for debugging all low level things. I have been using it in particular to debug heap and library load issues.
+one can launch the gui, however i have preferred cmd line usage more often.
+to enable library load debugging:
+gflags -i &amp;lt;your-app.exe&amp;gt; +sls
+then launch &amp;amp; attach debugger to your app, or start it from debugger- it should provide you wealth of information about how library loads happen on windows.</description>
     </item>
     
     <item>
@@ -691,22 +637,9 @@ I have been using it in particular to debug heap and library load issues.&lt;/p&
       <pubDate>Mon, 17 Jul 2017 10:54:24 +0200</pubDate>
       
       <guid>https://www.variadic.xyz/2017/07/18/pdbinfo/</guid>
-      <description>&lt;p&gt;Last time I coded &lt;a href=&#34;https://github.com/angeleno/peinfo&#34;&gt;&lt;code&gt;peinfo&lt;/code&gt;, https://github.com/angeleno/peinfo&lt;/a&gt; to get information from a PE file. It listed the guid for pdb file generated alongwith.
-This is helpful as it is, but at times you have pdb file and want to query it&amp;rsquo;s guid.&lt;/p&gt;
-
-&lt;p&gt;I did not find anything handy for it, thus ended up coding one myself.
-Here the &lt;a href=&#34;https://msdn.microsoft.com/en-us/library/x93ctkx8.aspx&#34;&gt;Debug Interface Access SDK&lt;/a&gt; is of great help.&lt;/p&gt;
-
-&lt;p&gt;The idea is pretty simple and straight foward:&lt;/p&gt;
-
-&lt;ol&gt;
-&lt;li&gt;Load PDB as DataSource, &lt;code&gt;IDiaDataSource::LoadDataFromPdb&lt;/code&gt; (Line#72)&lt;/li&gt;
-&lt;li&gt;Open Session, &lt;code&gt;IDiaDataSource::openSession&lt;/code&gt;  (Line#76)&lt;/li&gt;
-&lt;li&gt;Get GlobalScope, &lt;code&gt;IDiaSession::get_global_scope&lt;/code&gt;  (Line#80)&lt;/li&gt;
-&lt;li&gt;Get GUID, &lt;code&gt;IDiaSymbol::get_guid&lt;/code&gt;  (Line#84)&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;&lt;/p&gt;</description>
+      <description>Last time I coded peinfo, https://github.com/angeleno/peinfo to get information from a PE file. It listed the guid for pdb file generated alongwith. This is helpful as it is, but at times you have pdb file and want to query it&amp;rsquo;s guid.
+I did not find anything handy for it, thus ended up coding one myself. Here the Debug Interface Access SDK is of great help.
+The idea is pretty simple and straight foward:</description>
     </item>
     
     <item>
@@ -715,20 +648,7 @@ Here the &lt;a href=&#34;https://msdn.microsoft.com/en-us/library/x93ctkx8.aspx&
       <pubDate>Sun, 16 Jul 2017 10:54:24 +0200</pubDate>
       
       <guid>https://www.variadic.xyz/2017/04/07/adding-cmd-in-visual-studio/</guid>
-      <description>&lt;p&gt;One of the handy commands with VS IDE is to launch &lt;code&gt;cmd&lt;/code&gt;, it was provided by default earlier but lately i have been missing it with VS 2015 &amp;amp; onwards.&lt;/p&gt;
-
-&lt;p&gt;While poking around i found that you could launch &lt;code&gt;cmd&lt;/code&gt; as external tool:&lt;/p&gt;
-
-
-&lt;figure &gt;
-    
-        &lt;img src=&#34;https://www.variadic.xyz/images/vs-tools-externaltools.png&#34; /&gt;
-    
-    
-&lt;/figure&gt;
-
-
-&lt;p&gt;&lt;/p&gt;</description>
+      <description>&lt;p&gt;One of the handy commands with VS IDE is to launch &lt;code&gt;cmd&lt;/code&gt;, it was provided by default earlier but lately i have been missing it with VS 2015 &amp;amp; onwards.&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -857,14 +777,7 @@ This time I was crashing with call to &lt;a href=&#34;https://msdn.microsoft.com
       <pubDate>Sun, 27 Nov 2016 16:52:38 -0800</pubDate>
       
       <guid>https://www.variadic.xyz/2016/11/27/over-to-hugo/</guid>
-      <description>&lt;p&gt;Have been using octopress for a while now, but one thing i dont like is it&amp;rsquo;s reliance on ruby and time it takes to regenerate. Found that hugo is much better at these. Earlier site regeneration used to take &lt;strong&gt;~5 minutes&lt;/strong&gt; now happens in &lt;strong&gt;~.2 seconds&lt;/strong&gt;!
-Thus came the attraction of moving over- but as i found i am not the first to do so. I have read various posts and these are my steps to port it over:&lt;/p&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;The best part is no more rubydevkit and gem/bundler installs, what a big relief&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;&lt;/p&gt;</description>
+      <description>Have been using octopress for a while now, but one thing i dont like is it&amp;rsquo;s reliance on ruby and time it takes to regenerate. Found that hugo is much better at these. Earlier site regeneration used to take ~5 minutes now happens in ~.2 seconds! Thus came the attraction of moving over- but as i found i am not the first to do so. I have read various posts and these are my steps to port it over:</description>
     </item>
     
     <item>
@@ -883,11 +796,9 @@ The thing I liked about sharpyaml is how easy it is to get it going, I did not h
       <pubDate>Thu, 16 Jun 2016 20:44:00 +0000</pubDate>
       
       <guid>https://www.variadic.xyz/2016/06/16/vimrc/</guid>
-      <description>&lt;p&gt;These days vim is preferred editor, and have started using it at work and home alike.
-That means my vimrc kept evolving and had to sync at both the sites. Thought would back it up some where I can handily find it when required.&lt;/p&gt;
-
-&lt;p&gt;This post has all the contents of my vimrc as backup
-&lt;/p&gt;</description>
+      <description>These days vim is preferred editor, and have started using it at work and home alike. That means my vimrc kept evolving and had to sync at both the sites. Thought would back it up some where I can handily find it when required.
+This post has all the contents of my vimrc as backup
+set nocompatible &amp;quot; be iMproved, required filetype off &amp;quot; required &amp;quot; search thru subdirectories as well set path+=** &amp;quot; &amp;quot;&amp;quot; set the runtime path to include Vundle and initialize set rtp+=~/vimfiles/bundle/Vundle.</description>
     </item>
     
     <item>
@@ -927,9 +838,6 @@ My linux commands would have been:&lt;/p&gt;
       <description>&lt;p&gt;Been playing with &lt;a href=&#34;https://d3js.org/&#34;&gt;d3js&lt;/a&gt;, now that most of the &lt;a href=&#34;http://stackoverflow.com/questions/10752055/cross-origin-requests-are-only-supported-for-http-error-when-loading-a-local&#34;&gt;browsers won&amp;rsquo;t let me load files from disk&lt;/a&gt;.
 To get around this I am using &lt;a href=&#34;https://nodejs.org/en/&#34;&gt;node&lt;/a&gt; as my local server. But it is very bare bones.&lt;/p&gt;
 
-&lt;p&gt;To make node behave as file server I installed two node-modules: &lt;a href=&#34;https://www.npmjs.com/package/connect&#34;&gt;&lt;code&gt;connect&lt;/code&gt;&lt;/a&gt; and &lt;a href=&#34;https://www.npmjs.com/package/serve-static&#34;&gt;&lt;code&gt;serve-static&lt;/code&gt;&lt;/a&gt;
-Once that is installed code for static server is (server.js):&lt;/p&gt;
-
 &lt;p&gt;&lt;/p&gt;</description>
     </item>
     
@@ -939,13 +847,8 @@ Once that is installed code for static server is (server.js):&lt;/p&gt;
       <pubDate>Wed, 01 Jun 2016 19:28:33 +0000</pubDate>
       
       <guid>https://www.variadic.xyz/2016/06/01/controlling-processor-frequency/</guid>
-      <description>&lt;p&gt;My aging MacBook Pro just got a new life (Apple replaced main-board due to graphics card issue), it worked out pretty good. Thought it is perhaps time to upgrade to Windows 10.
-Now that i have upgraded fans won&amp;rsquo;t stop whizzing, they were running at full speed even when the CPU is idling.&lt;/p&gt;
-
-&lt;p&gt;Seems like some sort of bug, didn&amp;rsquo;t wanted to mess around much hardware setups and did not wanted to install fan speed controlling utility as well.
-Found a cool setting that gave me what i wanted, thing is to clamp down frequency.&lt;/p&gt;
-
-&lt;p&gt;&lt;/p&gt;</description>
+      <description>My aging MacBook Pro just got a new life (Apple replaced main-board due to graphics card issue), it worked out pretty good. Thought it is perhaps time to upgrade to Windows 10. Now that i have upgraded fans won&amp;rsquo;t stop whizzing, they were running at full speed even when the CPU is idling.
+Seems like some sort of bug, didn&amp;rsquo;t wanted to mess around much hardware setups and did not wanted to install fan speed controlling utility as well.</description>
     </item>
     
     <item>
@@ -954,10 +857,8 @@ Found a cool setting that gave me what i wanted, thing is to clamp down frequenc
       <pubDate>Sat, 02 Jan 2016 19:52:50 +0000</pubDate>
       
       <guid>https://www.variadic.xyz/2016/01/02/setting-up-ghpages-on-windows/</guid>
-      <description>&lt;p&gt;Now that i have been using windows regularly thought of moving over the setup to my windows desktop. I was initially skeptical about how octopress and ruby will pan out.
-Here are my setup steps:&lt;/p&gt;
-
-&lt;p&gt;&lt;/p&gt;</description>
+      <description>Now that i have been using windows regularly thought of moving over the setup to my windows desktop. I was initially skeptical about how octopress and ruby will pan out. Here are my setup steps:
+ install git install github for windows (makes ssh key management easier) install ruby &amp;amp; ruby devkit gem install bundler copied over my blog directory from linux box (for new users it would be installing octopress) bundle install in blog directory rake new_post[&amp;quot;post title&amp;quot;] rake generate rake deploy - this will populate _deploy directory  Extra: Ideally rake deploy should work out just fine otherwise you could always push generate site thru github for desktop.</description>
     </item>
     
     <item>
@@ -966,13 +867,8 @@ Here are my setup steps:&lt;/p&gt;
       <pubDate>Thu, 03 Sep 2015 18:55:55 +0000</pubDate>
       
       <guid>https://www.variadic.xyz/2015/09/03/google-drive-quota/</guid>
-      <description>&lt;p&gt;Google drive while a great service lacks the capability of showing the folder/file sizes. I guess it helps a lot to know the hogs, given you get only 15GB for free.
-I have been looking around for solution to this problem recently and found  some discussion on &lt;a href=&#34;https://productforums.google.com/forum/#!topic/drive/TVtw1_QA6fA&#34;&gt;Google Product Forum&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;To cut the chase: you can browse to this link: &lt;a href=&#34;https://drive.google.com/drive/quota&#34;&gt;https://drive.google.com/drive/quota&lt;/a&gt; and it should list the the files sorted by size.
-Well it is still missing the folder size information, but I feel better using this than some third party plugins.&lt;/p&gt;
-
-&lt;p&gt;&lt;/p&gt;</description>
+      <description>Google drive while a great service lacks the capability of showing the folder/file sizes. I guess it helps a lot to know the hogs, given you get only 15GB for free. I have been looking around for solution to this problem recently and found some discussion on Google Product Forum.
+To cut the chase: you can browse to this link: https://drive.google.com/drive/quota and it should list the the files sorted by size.</description>
     </item>
     
     <item>
@@ -981,11 +877,8 @@ Well it is still missing the folder size information, but I feel better using th
       <pubDate>Sun, 24 May 2015 18:35:39 +0000</pubDate>
       
       <guid>https://www.variadic.xyz/2015/05/24/vim-multiple-cursors/</guid>
-      <description>&lt;p&gt;These days most of the editors have some sort of facility to make same edit in multiple lines. With Visual Studio it is &lt;code&gt;Alt + down-arrow&lt;/code&gt;, similarly other decent text editors (sublime-text, atom and brackets) have some built-in support for multiple-cursors.&lt;/p&gt;
-
-&lt;p&gt;I was wondering if &lt;code&gt;vim&lt;/code&gt; has something of this goodness. Well &lt;code&gt;vim&lt;/code&gt; has this support, you just need to check if your copy of &lt;code&gt;vim&lt;/code&gt; was built with &lt;code&gt;visualextra&lt;/code&gt; option or not.&lt;/p&gt;
-
-&lt;p&gt;&lt;/p&gt;</description>
+      <description>These days most of the editors have some sort of facility to make same edit in multiple lines. With Visual Studio it is Alt + down-arrow, similarly other decent text editors (sublime-text, atom and brackets) have some built-in support for multiple-cursors.
+I was wondering if vim has something of this goodness. Well vim has this support, you just need to check if your copy of vim was built with visualextra option or not.</description>
     </item>
     
     <item>
@@ -994,14 +887,7 @@ Well it is still missing the folder size information, but I feel better using th
       <pubDate>Sat, 16 May 2015 22:36:41 +0000</pubDate>
       
       <guid>https://www.variadic.xyz/2015/05/16/vim/</guid>
-      <description>&lt;h2 id=&#34;vim&#34;&gt;vim&lt;/h2&gt;
-
-&lt;p&gt;&lt;code&gt;vim&lt;/code&gt; what an editor! I am yet to find someone who used this editor but is neutral. Either folks love it or hate it. I think that is sign of a truly remarkable product, in sense it connects to core- evoking emotional reaction. It was not long ago i was in &lt;code&gt;vim&lt;/code&gt; WTF camp. But had to spend a few weeks on linux and re-discovered &lt;code&gt;vim&lt;/code&gt;. After about a month of usage &lt;code&gt;vim&lt;/code&gt; is one of my preferred editors for code browsing- even on windows. :)
-Learning and getting used to &lt;code&gt;vim&lt;/code&gt; took some time- especailly it was learning not to fight &lt;code&gt;normal&lt;/code&gt; and &lt;code&gt;insert&lt;/code&gt; mode. One my left little finger developed flesh memory of hitting &lt;code&gt;esc&lt;/code&gt; key every now and then- life became much better with vim.&lt;/p&gt;
-
-&lt;p&gt;The other thing that makes &lt;code&gt;vim&lt;/code&gt; awesome is plugin support and number of plugins available. I have been using &lt;code&gt;ctags&lt;/code&gt; for quite some time- but started using &lt;code&gt;cscope&lt;/code&gt; recently and love it. For mid sized projects it is quite fast and snappy and the code database makes all sorts of queries possible. Now that i found that it integrates well with &lt;code&gt;vim&lt;/code&gt;. This post is about getting &lt;code&gt;cscope&lt;/code&gt; hooked up in &lt;code&gt;vim&lt;/code&gt;.&lt;/p&gt;
-
-&lt;p&gt;&lt;/p&gt;</description>
+      <description>vim vim what an editor! I am yet to find someone who used this editor but is neutral. Either folks love it or hate it. I think that is sign of a truly remarkable product, in sense it connects to core- evoking emotional reaction. It was not long ago i was in vim WTF camp. But had to spend a few weeks on linux and re-discovered vim. After about a month of usage vim is one of my preferred editors for code browsing- even on windows.</description>
     </item>
     
     <item>
@@ -1010,37 +896,8 @@ Learning and getting used to &lt;code&gt;vim&lt;/code&gt; took some time- especa
       <pubDate>Sat, 16 May 2015 12:29:54 +0000</pubDate>
       
       <guid>https://www.variadic.xyz/2015/05/16/notes-on-git/</guid>
-      <description>&lt;p&gt;Now that I moved my blog to &lt;a href=&#34;https://www.variadic.xyz/&#34;&gt;github-pages&lt;/a&gt; generated by &lt;a href=&#34;http://octopress.org/&#34;&gt;octopress&lt;/a&gt;, using git is the only way to make progress. Rather than digressing about my experiences @migrating from wordpress to octopress- I would rather keep this post as my notes on &lt;code&gt;git&lt;/code&gt;&lt;/p&gt;
-
-&lt;h2 id=&#34;getting-started&#34;&gt;getting started&lt;/h2&gt;
-
-&lt;p&gt;I find it interesting to learn by jumping-in rather than reading tons of volumes first. To get started you need to let git know that you are going to be setting a repository, this needs to happen in a particular directory- which contains stuff you want to manage.
-The command is:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git init .
-Initialized empty Git repository in /home/sarangb/learn-git/.git/
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Once an empty git repo is initialized now the next step is to add some content for git to track. Lets start by adding a a script that fetches weather information (just for fun). Once I have the script the next step is to let git know about it.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git add *.sh
-git commit -m &#39;initial commit&#39;
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;This will add all &lt;code&gt;sh&lt;/code&gt; files to git, this is two step process:&lt;/p&gt;
-
-&lt;ol&gt;
-&lt;li&gt;&lt;code&gt;git add&lt;/code&gt; will add the files to a staging area, more on that shortly&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;git commit&lt;/code&gt; will commit files in git repo&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;Now that scripts have been added. Say you need to tweak the script and recommit the changes.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-sh&#34;&gt;git add *.sh
-git commit -m &amp;quot;tweaked scripts&amp;quot;
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;/p&gt;</description>
+      <description>Now that I moved my blog to github-pages generated by octopress, using git is the only way to make progress. Rather than digressing about my experiences @migrating from wordpress to octopress- I would rather keep this post as my notes on git
+getting started I find it interesting to learn by jumping-in rather than reading tons of volumes first. To get started you need to let git know that you are going to be setting a repository, this needs to happen in a particular directory- which contains stuff you want to manage.</description>
     </item>
     
     <item>
@@ -1053,19 +910,6 @@ git commit -m &amp;quot;tweaked scripts&amp;quot;
 Rather than replacing files- I am going to with adding another one. This time 16GB. Here are the steps, you will need superuser access- I prefer sudo to su.&lt;/p&gt;
 
 &lt;p&gt;First allocate 16GB memory and mount as 16gb.swap. Also ensure that this file can&amp;rsquo;t be read by anyone and fill it with zeros&lt;/p&gt;</description>
-    </item>
-    
-    <item>
-      <title>Visual Studio Code Editor</title>
-      <link>https://www.variadic.xyz/2015/04/29/visual-studio-code-editor/</link>
-      <pubDate>Wed, 29 Apr 2015 00:00:00 +0000</pubDate>
-      
-      <guid>https://www.variadic.xyz/2015/04/29/visual-studio-code-editor/</guid>
-      <description>&lt;p&gt;Microsoft jumped into the pool to provide it&amp;#8217;s own &lt;a href=&#34;http://blogs.msdn.com/b/vscode/archive/2015/04/29/announcing-visual-studio-code-preview.aspx&#34; target=&#34;_blank&#34;&gt;Cross Platform Code Editor&lt;/a&gt;. It is called Visual Studio Code, still in preview, and is available for download &lt;a href=&#34;https://code.visualstudio.com/Download&#34; target=&#34;_blank&#34;&gt;here&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;It looks very consistent with SublimeText look and functionality wise, and is quite snappy as compared to Atom for sure. The functionality is sparse and I expect things would get better from here. I have been a fan of SublimeText and Atom&amp;#8217;s fuzzy search feature and VSC also supports the same for file only. Would be good if it would be extensible for searching for symbols.&lt;figure id=&#34;attachment_2907&#34; style=&#34;width: 640px;&#34; class=&#34;wp-caption aligncenter&#34;&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;/p&gt;</description>
     </item>
     
     <item>
@@ -1114,15 +958,6 @@ Rather than replacing files- I am going to with adding another one. This time 16
 &lt;/p&gt;
 
 &lt;p style=&#34;text-align: justify;&#34;&gt;</description>
-    </item>
-    
-    <item>
-      <title>christmas tree!!</title>
-      <link>https://www.variadic.xyz/2014/12/23/christmas-tree/</link>
-      <pubDate>Tue, 23 Dec 2014 00:00:00 +0000</pubDate>
-      
-      <guid>https://www.variadic.xyz/2014/12/23/christmas-tree/</guid>
-      <description></description>
     </item>
     
     <item>

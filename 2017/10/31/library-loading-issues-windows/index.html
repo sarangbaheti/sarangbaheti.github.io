@@ -11,6 +11,8 @@
   <meta name="author" content="Sarang Baheti" />
   
   
+  <meta name="description" content="debugging library load issues on windows with windbg and gflags by enabling loader-snaps">
+  
 
   <meta name="generator" content="Hugo 0.30.2" />
 
@@ -141,8 +143,6 @@ I have been using it in particular to debug heap and library load issues.</p>
 
 <p><code>gflags -i &lt;your-app.exe&gt; +sls</code></p>
 
-<p></p>
-
 <p>then launch &amp; attach debugger to your app, or start it from debugger- it should provide you wealth of information about how library loads happen on windows.</p>
 
 <p>Here is one such output taken from <code>windbg</code>, towards the end of listing it identified LoadLibrary failed as exported symbol could not be located.</p>
@@ -200,6 +200,7 @@ ModLoad: 00000000`77840000 00000000`77ffd000   D:\workdir\wntx64\lib\Tk100.dll
 Exception record: .exr 0000000000D9EE70
 Context record: .cxr 0000000000D9E980
 </code></pre>
+
       </article>
       <br/>
       <ul class="pager blog-pager">

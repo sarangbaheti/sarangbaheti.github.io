@@ -152,15 +152,15 @@
   Once you have the setup running, lets load symbols for kernel32.dll in windbg with following command:
 </p>
 
-<pre class="brush: cpp; title: ; notranslate" title="">.reload /f kernel32.dll
-</pre>
+<pre><code>.reload /f kernel32.dll
+</code></pre>
 
 <p style="text-align: justify;">
   VirtualAlloc takes 4 parameters- <a href="http://msdn.microsoft.com/en-us/library/zthk2dkh.aspx" target="_blank">with Windows x64 the first four parameters are passed in registers</a> and rest are passed on stack. The sequence is rcx, rdx, r8 and r9. Second parameter is about the allocation size so it will be passed in rdx register. Easiest way is to set <a href="http://msdn.microsoft.com/en-us/library/windows/hardware/ff556853(v=vs.85).aspx" target="_blank">conditional breakpoint</a>.
 </p>
 
-<pre class="brush: cpp; title: ; notranslate" title="">bp kernel32!VirtualAlloc ".if (@rdx&gt;0x100000) {r; KB 25} .else {gc}"
-</pre>
+<pre><code>bp kernel32!VirtualAlloc &quot;.if (@rdx&amp;gt;0x100000) {r; KB 25} .else {gc}&quot;
+</code></pre>
 
 <p style="text-align: justify;">
   Here we are checking for value in rdx being greater than 0x100000 (1MB), if this is true then prior to break it will print the contents of registers with <a href="http://windbg.info/doc/1-common-cmds.html" target="_blank">command <b><i>r</i></b></a> and then traceback upto depth 25 with <a href="http://windbg.info/doc/1-common-cmds.html" target="_blank">command <b><i>KB 25</i></b></a>. In case the memory requested is less than 1MB it will just continue- <a href="http://windbg.info/doc/1-common-cmds.html" target="_blank">command <b><i>gc</i></b></a>.
@@ -174,7 +174,7 @@
   For me this is what it turned out- initing Cuda launched Cuda profiler which reserved 20GB of address space for itself- not sure what it is going to do with it but it was fun to track down.
 </p>
 
-<pre class="brush: cpp; title: ; notranslate" title="">Below debugging information translates to:
+<pre><code>Below debugging information translates to:
 VirtualAlloc(0x0000000200000000, 20GB, MEM_RESERVE, PAGE_NOACCESS)
 VirtualAlloc(rcx, rdx, r8, r9)
 ----------------------------------------------------------------------
@@ -220,7 +220,7 @@ Child-SP          RetAddr           Call Site
 00000000`0022c270 000007fe`d1681417 nvcuda!cuProfilerStop+0x23ea
 00000000`0022c2a0 00000000`2e22337a nvcuda!cuInit+0x137
 
-</pre>
+</code></pre>
 
 <p>Reference links:</p>
 

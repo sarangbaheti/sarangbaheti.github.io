@@ -11,6 +11,8 @@
   <meta name="author" content="Sarang Baheti" />
   
   
+  <meta name="description" content="a few details on inheriting style behaviors in WPF and translucency of controls">
+  
 
   <meta name="generator" content="Hugo 0.30.2" />
 
@@ -132,7 +134,9 @@
   <div class="row">
     <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
       <article role="main" class="blog-post">
-          <p>Recently I was using a window style with <a href="https://github.com/MahApps/MahApps.Metro">MahAppsMetro</a>, now it applies the styles at application level. One of the things I am doing is embedding <a href="https://github.com/icsharpcode/AvalonEdit">AvalonEdit</a> in one such window. Now with Metro styling it applies styles to the controls and in my case <code>SearchPanel</code> in <code>AvalonEdit</code> was styled too! This is fine, but the results were quite un-expected:</p>
+          
+
+<p>Recently I was using a window style with <a href="https://github.com/MahApps/MahApps.Metro">MahAppsMetro</a>, now it applies the styles at application level. One of the things I am doing is embedding <a href="https://github.com/icsharpcode/AvalonEdit">AvalonEdit</a> in one such window. Now with Metro styling it applies styles to the controls and in my case <code>SearchPanel</code> in <code>AvalonEdit</code> was styled too! This is fine, but the results were quite un-expected:</p>
 
 
 <figure >
@@ -157,8 +161,6 @@
 <p>Thinking further the simplest thing to do would be to be to somehow disable inheritance of styles at some level. I found a <a href="https://stackoverflow.com/a/2138114">post on stackoverflow discussing this</a>. However for me it was not to stop inheriting styles but to fallback to theme. <a href="https://msdn.microsoft.com/en-us/library/mt824276.aspx">Documentation</a> on this topic is pretty scarce.</p>
 
 <p>Now to get things to work, I wrapped the <code>AvalonEdit.TextEditor</code> in a custom <code>Control</code> which would <code>InheritanceBehavior.SkipToThemeNow</code>.</p>
-
-<p></p>
 
 <p>and <code>xaml</code> was modified to use this <code>NoInheritanceContentControl</code></p>
 
@@ -351,6 +353,7 @@
 
 
 <p><br/></p>
+
       </article>
       <br/>
       <ul class="pager blog-pager">

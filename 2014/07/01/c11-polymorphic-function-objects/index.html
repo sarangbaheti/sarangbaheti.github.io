@@ -152,20 +152,20 @@
   Technically polymorphic function objects, just function objects henceforth, use <a title="Type Erasure" href="/2011/05/09/type-erasure/" target="_blank">type-erasure</a> technic. But unlike <a title="dissecting any" href="/2011/07/07/dissecting-any/" target="_blank">any</a> they are selective, in sense they do enforce calling semantics. Lets consider the following code to see what this is all about, well the beauty of function objects is that you don&#8217;t need to know how they work &#8211; just that they work and are very easy to use.
 </p>
 
-<pre class="brush: cpp; highlight: [1,26,36,39,43,49]; title: ; notranslate" title="">#include &lt;functional&gt;
+<pre><code class="language-cpp">#include &lt;functional&gt;
 #include &lt;iostream&gt;
 #include &lt;cassert&gt;
 
 static void PrintFunction()
 {
-    std::cout &lt;&lt; "PrintFunction" &lt;&lt; std::endl;
+    std::cout &lt;&lt; &quot;PrintFunction&quot; &lt;&lt; std::endl;
 }
 
 struct PrintFunctor
 {
     void operator()() const
     {
-        std::cout &lt;&lt; "PrintFunctor::operator()()"&lt;&lt; std::endl;
+        std::cout &lt;&lt; &quot;PrintFunctor::operator()()&quot;&lt;&lt; std::endl;
     }
 };
 
@@ -174,7 +174,7 @@ int main()
 
      auto lambda1 = []()-&gt;void
                     {
-                        std::cout &lt;&lt; "lambda.. " &lt;&lt; std::endl;
+                        std::cout &lt;&lt; &quot;lambda.. &quot; &lt;&lt; std::endl;
                     };
 
     std::function&lt;void()&gt; func1;
@@ -205,7 +205,7 @@ int main()
 
     return 0;
 }
-</pre>
+</code></pre>
 
 <p style="text-align: justify;">
   The function objects are defined in functional header, line 1. Since they enforce calling semantics you need to specialize the template with the signature of the call, in this case void(), line 26. As this it simulates function, you must ensure that function object has been initialized with a callable entity before calling, else it will throw an exception of type <a href="http://en.cppreference.com/w/cpp/utility/functional/bad_function_call" target="_blank">bad_function_call</a>. Lines 36, 39, 43 and 49 highlight the <em>selective type-erasure;</em> entities with different types have been assigned to func1, but they all are callable with the same signature (try assigning variable of type int or double, in case you want to check the selective type-erasure).
@@ -215,24 +215,24 @@ int main()
   I think this covers pretty much everything required to start using function object. I will do a separate post later on, about how they are implemented.
 </p>
 
-<h6 class="zemanta-related-title" style="font-size: 1em;">
+<h6 style="font-size: 1em;">
   Related articles
 </h6>
 
-<ul class="zemanta-article-ul">
-  <li class="zemanta-article-ul-li">
+<ul >
+  <li >
     <a href="/2011/10/12/c11-lambda-having-fun-with-brackets/">c++11 lambda &#8211; having fun with brackets!</a> 
   </li>
-  <li class="zemanta-article-ul-li">
+  <li >
     <a href="http://stackoverflow.com/questions/8845022/understanding-inheritance-and-polymorphism">understanding Inheritance and Polymorphism</a> (stackoverflow.com)
   </li>
-  <li class="zemanta-article-ul-li">
+  <li >
     <a title="callable entity" href="/2011/05/31/callable-entity/">Callable Entities</a> 
   </li>
-  <li class="zemanta-article-ul-li">
+  <li >
     <a href="http://www.drdobbs.com/common-knowledge-polymorphic-function-ob/184401346" target="_blank">function objects</a> (drdobbs.com)
   </li>
-  <li class="zemanta-article-ul-li">
+  <li >
     <a href="http://en.cppreference.com/w/cpp/utility/functional/function" target="_blank">std::function</a> (cppreference.com)
   </li>
 </ul>

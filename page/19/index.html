@@ -113,58 +113,6 @@
             
             
             <article class="post-preview">
-              <a href="https://www.variadic.xyz/2014/04/20/smart-status-of-disk-on-mac-os-x/">
-          	  <h2 class="post-title">SMART status of disk on MAC OS X</h2>
-          	
-          	    
-              </a>
-
-              <p class="post-meta">
-                April 20, 2014
-              </p>
-            
-              <div class="post-entry">
-                
-                    <p style="text-align: justify;">
-  Recently, I heard clicking noise from my laptop and became suspicious of hard drive status. After all I bought Seagate and <a href="http://www.pcworld.com/article/2089464/three-year-27-000-drive-study-reveals-the-most-reliable-hard-drive-makers.html">recent studies have shown Seagate hasn&#8217;t performed upto expectations recently</a>. The obvious thing to do is to check <a href="http://en.wikipedia.org/wiki/S.M.A.R.T.">SMART status</a> of my drive. Mac Has some good inbuilt capacity to check for HDD health. It allows you to check the status from command-line as well as provides the same in UI. In either case Disk Utility is tool.
-</p>
-
-<p>Launch Disk Utility, pick Disk you want to check from Left Side Bar and Hit Verify Disk on First Aid Tab. If everything turns out good you should see the message:</p>
-                
-
-                <br/>
-                <br/>
-                <a href="https://www.variadic.xyz/2014/04/20/smart-status-of-disk-on-mac-os-x/" class="post-read-more">[Read&nbsp;More]</a>
-              </div>
-            
-             </article>
-            
-            <article class="post-preview">
-              <a href="https://www.variadic.xyz/2014/02/06/srm-securely-delete-file-on-mac-os-x-terminal/">
-          	  <h2 class="post-title">srm: securely delete file on Mac OS X Terminal</h2>
-          	
-          	    
-              </a>
-
-              <p class="post-meta">
-                February 6, 2014
-              </p>
-            
-              <div class="post-entry">
-                
-                    Open Terminal and at the command prompt type srm. Then drag and drop from a Finder window onto the Terminal window/or type the full path of the file you’d like to delete.
- srm /Users/sarang/Desktop/capture.png 
-Then hit Return to complete the command and erase the file. As with all Terminal commands, if you see no output, then everything has worked fine. Depending on the size of the file, deletion should take no more than a few seconds.
-                
-
-                <br/>
-                <br/>
-                <a href="https://www.variadic.xyz/2014/02/06/srm-securely-delete-file-on-mac-os-x-terminal/" class="post-read-more">[Read&nbsp;More]</a>
-              </div>
-            
-             </article>
-            
-            <article class="post-preview">
               <a href="https://www.variadic.xyz/2013/07/29/removing-ubuntu-from-dual-boot-setup-without-pain/">
           	  <h2 class="post-title">removing ubuntu from dual-boot setup without pain</h2>
           	
@@ -230,6 +178,55 @@ Steps are:  Get bootsect.exe here Execute this command: bootsect.
                 <br/>
                 <br/>
                 <a href="https://www.variadic.xyz/2013/06/03/command-line-cheat-sheet/" class="post-read-more">[Read&nbsp;More]</a>
+              </div>
+            
+             </article>
+            
+            <article class="post-preview">
+              <a href="https://www.variadic.xyz/2013/05/09/few-ubuntu-tweaks/">
+          	  <h2 class="post-title">few ubuntu tweaks</h2>
+          	
+          	    
+              </a>
+
+              <p class="post-meta">
+                May 9, 2013
+              </p>
+            
+              <div class="post-entry">
+                
+                    Ubuntu is a great OS to use, but there are few things that can make life a bit more easier. First and foremost I don&#8217;t like those flash overlaid scroll-bars. Open a terminal and execute this command:
+sudo apt-get remove overlay-scrollbar  and result is pleasing, notice the normal scrollbars
+
+Ubuntu these days is the poster boy of Linux for mere mortals, thus Canonical has cut down on installing build related tools by default.
+                
+
+                <br/>
+                <br/>
+                <a href="https://www.variadic.xyz/2013/05/09/few-ubuntu-tweaks/" class="post-read-more">[Read&nbsp;More]</a>
+              </div>
+            
+             </article>
+            
+            <article class="post-preview">
+              <a href="https://www.variadic.xyz/2013/04/24/generating-stack-traces-on-unixlinux-systems/">
+          	  <h2 class="post-title">generating stack traces on UNIX/Linux systems</h2>
+          	
+          	    
+              </a>
+
+              <p class="post-meta">
+                April 24, 2013
+              </p>
+            
+              <div class="post-entry">
+                
+                    This is follow up on the previous post for generating stack trace. The code demonstrated earlier holds good for both Linux & Mac OS X. However retrieving filename and line numbers is non-trivial. There is no API that can do it. But it&#8217;s hackable. Here are few ways of doing it:  use addr2line for each address and fetch information, this is overkill as for each frame you will have to execute a process   code up something similar to addr2line, but Licenses spoil the party.
+                
+
+                <br/>
+                <br/>
+                <a href="https://www.variadic.xyz/2013/04/24/generating-stack-traces-on-unixlinux-systems/" class="post-read-more">[Read&nbsp;More]</a>
               </div>
             
              </article>

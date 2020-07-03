@@ -125,15 +125,7 @@
             
               <div class="post-entry">
                 
-                    <p>My good colleage, Mike.McCarty, put out code for review and stated that statics are thread-safe. As it is, sounded very scary but I trust Mike. Thus started exploring what has been done there.</p>
-
-<blockquote>
-<p>here is the std document for the same: <a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2008/n2660.htm">http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2008/n2660.htm</a></p>
-</blockquote>
-
-<p>First thing wrote some code to dump disassembly in VS2015:</p>
-
-<p></p>
+                    how c&#43;&#43;11 threadsafe statics are implemented under the hood
                 
 
                 <br/>
@@ -186,15 +178,7 @@ The way to generate keys is to find <code>ssh-keygen</code>, it comes handy with
             
               <div class="post-entry">
                 
-                    <p>Recently I was debugging some workflow where it appeared quite slow. As part of debugging i saw it Visual Studio printed debugging information about first chance exceptions thrown.</p>
-
-<p>Now that <a href="https://docs.microsoft.com/en-us/archive/blogs/davidklinems/what-is-a-first-chance-exception">David Kline from MS</a> has made it ample clear that <a href="http://stackoverflow.com/questions/564681/what-is-a-first-chance-exception">FirstChance exceptions are normal exceptions just that debugger gets first chance at them</a>- thus first chance. If debugger chooses not to do anything then application gets a chance to do something about it. If application does not handle it then debugger gets a second chance, thus second chance exceptions. you get the idea.</p>
-
-<p>Now an application can throw as many exceptions it wants and catch it later. This is fine but exceptions are supposed to exceptional and cost quite a bit. (<a href="http://stackoverflow.com/questions/13835817/are-exceptions-in-c-really-slow">link1</a> &amp; <a href="http://stackoverflow.com/a/13840188/916549">link2</a>)</p>
-
-<p>I have seen <a href="http://www.boost.org/doc/libs/1_40_0/libs/conversion/lexical_cast.htm">lexical_cast</a> being the one that throws exceptions just to parse strings, with xml parsing this could be a big source of exceptions.
-One of the ways to speed up applications is now to fix or atleast reason about these exceptions being thrown, and having tracebacks makes life lot easier.
-</p>
+                    generating tracebacks on first chance exceptions with windbg to aid development
                 
 
                 <br/>
@@ -245,45 +229,7 @@ Thus thought of making a note of it on my blog.</p>
             
               <div class="post-entry">
                 
-                    <p>Recently I have been debugging some memory corruption that happened only after something executed 64 times, <code>free</code> complained that memory has been corrupted.
-Thus started the usual process of debugging. I started <a href="https://www.microsoft.com/en-us/download/details.aspx?id=20028"><code>ApplicationVerifier</code></a> and set the application and enabled the basic checks.</p>
-
-
-<figure >
-    
-        <img src="/images/ApplicationVerifierBasicTests.png" alt="Application Verifier- Basic Checks" />
-    
-    
-    <figcaption>
-        <p>
-        Application Verifier- Basic Checks
-        
-            
-        
-        </p> 
-    </figcaption>
-    
-</figure>
-
-
-<p>Soon my application started failing with access violation during startup, this happened even before I reached the code where memory was corrupted. Now I have two problems to investigate.
-This time I was crashing with call to <a href="https://msdn.microsoft.com/en-us/library/windows/desktop/dd374130(v=vs.85).aspx"><code>WideCharToMultiByte</code></a>. Started debugging to see exactly where it was failing:</p>
-
-<pre><code class="language-sh">  ntdll.dll!RtlUnicodeToUTF8N() Unknown
-  KernelBase.dll!WideCharToMultiByte() Unknown
-  vfbasics.dll!000007fef081cd0c() Unknown
-&gt; heapcorruption.exe!dllNotificationFunction(unsigned long NotificationReason, const _LDR_DLL_NOTIFICATION_DATA * NotificationData, void * Context) Line 64 C++
-  ntdll.dll!string &quot;Enabling heap debug options\n&quot;() Unknown
-  ntdll.dll!LdrpFindOrMapDll() Unknown
-  ntdll.dll!LdrpLoadDll() Unknown
-  ntdll.dll!LdrLoadDll() Unknown
-  vfbasics.dll!000007fef08074de() Unknown
-  KernelBase.dll!LoadLibraryExW() Unknown
-  heapcorruption.exe!main() Line 94 C++
-  heapcorruption.exe!invoke_main() Line 75 C++
-</code></pre>
-
-<p></p>
+                    detailed investigation on how to figure out memory corruption with windbg
                 
 
                 <br/>

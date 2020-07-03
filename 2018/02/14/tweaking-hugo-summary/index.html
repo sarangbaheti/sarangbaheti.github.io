@@ -11,6 +11,8 @@
   <meta name="author" content="Sarang Baheti" />
   
   
+  <meta name="description" content="implementing a summary/description feature in hugo/themes">
+  
 
   <meta name="generator" content="Hugo 0.30.2" />
 
@@ -158,8 +160,6 @@
 </figure>
 
 
-<p></p>
-
 <p>Now peaking around, I found that <code>hugo</code> allows you to configure what lenght of text would be considered summary (or captured by .Summary of page) through <code>summaryLength</code> YAML variable, <a href="https://gohugo.io/getting-started/configuration/">here</a>, but it did not work at all.</p>
 
 <p>However, what I found quite useful is this <a href="https://github.com/rstudio/blogdown/issues/21">issue</a>, where there is a discussion about how to get around 70 word length default for summary:</p>
@@ -201,6 +201,7 @@ to put linebreaks.</p>
 
 <p>Overall, this wasn&rsquo;t too bad and I must say I am quite impressed with how extensible hugo and templating is.
 good job!</p>
+
       </article>
       <br/>
       <ul class="pager blog-pager">
