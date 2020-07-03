@@ -113,6 +113,41 @@
             
             
             <article class="post-preview">
+              <a href="https://www.variadic.xyz/2014/08/20/boost-with-xcode/">
+          	  <h2 class="post-title">boost with XCode</h2>
+          	
+          	    
+              </a>
+
+              <p class="post-meta">
+                August 20, 2014
+              </p>
+            
+              <div class="post-entry">
+                
+                    <p style="text-align: justify;">
+  Sometime ago I was trying to port one of my experiments on Mac OS X. The application relies on boost library, so there was need to get started with boost on Mac. And I wanted to use XCode all the way along. Coming from Windows meant browsing thru XCode build settings to figure out what goes where. Visual Studio Property Pages and XCode Settings don&#8217;t match really well, from UI point of view.
+</p>
+
+<p style="text-align: justify;">
+  XCode puts the compiler application somewhere in deep guts of \Developer directory, so copying the boost libraries was not really an option. Mac OS X being UNIX underneath meant I had a global include/lib/bin directory where I can put boost libraries once built. What follows next is visual summary of building and installing boost on Mac OS X.
+</p>
+
+<p style="text-align: justify;">
+  It starts with boot-strapping boost build engine:
+</p>
+
+<p style="text-align: justify;">
+                
+
+                <br/>
+                <br/>
+                <a href="https://www.variadic.xyz/2014/08/20/boost-with-xcode/" class="post-read-more">[Read&nbsp;More]</a>
+              </div>
+            
+             </article>
+            
+            <article class="post-preview">
               <a href="https://www.variadic.xyz/2014/08/04/c-template-metaprogramming-part-2-of-n/">
           	  <h2 class="post-title">C&#43;&#43; Template Metaprogramming Part 2 of n</h2>
           	
@@ -307,41 +342,6 @@ int main()
                 <br/>
                 <br/>
                 <a href="https://www.variadic.xyz/2014/07/06/c11-constexpr-computing-exp-at-compile-time/" class="post-read-more">[Read&nbsp;More]</a>
-              </div>
-            
-             </article>
-            
-            <article class="post-preview">
-              <a href="https://www.variadic.xyz/2014/07/01/c11-polymorphic-function-objects/">
-          	  <h2 class="post-title">C&#43;&#43;11: polymorphic function objects</h2>
-          	
-          	    
-              </a>
-
-              <p class="post-meta">
-                July 1, 2014
-              </p>
-            
-              <div class="post-entry">
-                
-                    <p style="text-align: justify;">
-  C++ supports various styles of programming and <a title="Functional Programming For The Rest of Us" href="/2011/06/07/functional-programming-for-the-rest-of-us/" target="_blank">functional</a> is one of them, however functions are not first class concept in C++ and static typing makes it almost impossible to mix or interchange <a title="callable entity" href="/2011/05/31/callable-entity/" target="_blank">callable entities</a> of different types to be bound to same variable or to form a list of such entities based on calling semantics.
-</p>
-
-<p style="text-align: justify;">
-  Being creative and industrious, we C++ programmers have used/abused various features of language to accomplish this, with either doing away with types completely or (mis)using inheritance and virtual functions to accomplish callbacks or delegates.
-</p>
-
-<p style="text-align: justify;">
-  <a title="c++11 lambda — having fun with brackets!" href="/2011/10/12/c11-lambda-having-fun-with-brackets/" target="_blank">Lambdas</a> were supposed to solve some of these problems by making it easier to define functions in-place and provide for capturing the environment, managing lifetime of captured variables defining environment is still onto the programmer though, but they are kind of typeless. Thus the variables to capture lamdas have <a title="C++11: auto" href="/2011/05/04/auto/" target="_blank">auto</a> <a title="auto and decltype" href="/2011/05/28/auto-and-decltype/" target="_blank">type deduction</a>. All lambdas have is calling semantics and thus the need for polymorphic function objects that don&#8217;t care about types, but just the calling semantics. There by being the &#8220;one type to rule them all&#8221; callable entity.
-</p>
-
-<p style="text-align: justify;">
-                
-
-                <br/>
-                <br/>
-                <a href="https://www.variadic.xyz/2014/07/01/c11-polymorphic-function-objects/" class="post-read-more">[Read&nbsp;More]</a>
               </div>
             
              </article>

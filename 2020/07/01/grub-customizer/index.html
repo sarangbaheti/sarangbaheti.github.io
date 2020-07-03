@@ -6,12 +6,12 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 
-  <title>swithcing off dGPU in MBP 2011</title>
+  <title>draft grub customizer</title>
 
   <meta name="author" content="Sarang Baheti" />
   
   
-  <meta name="description" content="swithcing off dGPU in MBP 2011 thru gmux in MacOS &amp; Linux">
+  <meta name="description" content="grub customizer &amp; selecting kernel to load">
   
 
   <meta name="generator" content="Hugo 0.30.2" />
@@ -29,9 +29,9 @@
   
   
   
-  <meta property="og:title" content="swithcing off dGPU in MBP 2011" />
+  <meta property="og:title" content="draft grub customizer" />
   <meta property="og:type" content="website" />
-  <meta property="og:url" content="/2020/06/28/switching-off-dgpu//" />
+  <meta property="og:url" content="/2020/07/01/grub-customizer//" />
   <meta property="og:image" content="" />
   
 </head>
@@ -113,11 +113,11 @@
     <div class="row">
       <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
         <div class="post-heading">
-          <h1>swithcing off dGPU in MBP 2011</h1>
+          <h1>draft grub customizer</h1>
       
       
       
-      <span class="post-meta"> June 28, 2020 </span>
+      <span class="post-meta"> July 1, 2020 </span>
       
         </div>
       </div>
@@ -134,88 +134,52 @@
   <div class="row">
     <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
       <article role="main" class="blog-post">
-          <p>I have been <a href="/2020/05/28/2011mbp-osx/">running with Ubuntu</a> for a month now and so far it is holding up very well, just a hiccup with wireless driver up kernel update. Reverted back to previous kernel and things are stable all over again.</p>
+          <p>Now that I have <a href="/2020/06/15/ubuntu-2011mbp/">functional Ubuntu machine</a> up and running and was happy about moving from MacOS for updates and upgrades- here comes the fun. :)</p>
 
-<p>I have been monitoring temp and power consumption on my MBP 2011 and found that after every boot it runs quite cool, <a href="/2020/06/03/lmsensors-config/">thanks to lmsensors</a> and <a href="/2020/06/08/disabling-turbo/">swithcing off turbo-boost</a> helps. But one thing I noticed is that every time I resume after suspend the laptop starts heating up all over again, confirmed that dGPU was switched on. Now this is all in domain of <code>gmux</code> and seems like it is playing a role somehow.</p>
+<p>With update to <code>Linux kernel 5.4.0.37</code> from <code>Linux kernel 5.4.0.26</code>, it broke my wifi connection. Every now and then the Wifi will drop connection and act of switching it off would just freeze OS. The only thing that i can do is to hard-reboot.</p>
 
-<p><a href="/2020/06/15/ubuntu-2011mbp/#a-note-about-previous-magic-numbers">Previously, I had disabled dGPU during boot time</a> with changes to grub, can we do that again? <code>inb</code> and <code>outb</code> here are the io instructions that can do the magic. Thanks to the guys that hacked around MacBook and Apple drivers/kexts.</p>
+<p>Seems like this has been an issue in general, i found quite a few complaints for various releases and suggestions.</p>
 
-<pre><code>outb 0x728 1 # Switch select
-outb 0x710 2 # Switch display
-outb 0x740 2 # Switch DDC
-outb 0x750 0 # Power down discrete graphics
+<p>I <a href="https://askubuntu.com/questions/885427/wifi-adapter-freezes-ubuntu-16-04">went with this one</a> to rollback to previous version of kernel that i had working.</p>
+
+<p>On Ubuntu 20.04:</p>
+
+<pre><code>sudo apt install grub-customizer
 </code></pre>
 
-<p>Following code is pretty much along what we did during boot (found somewhere on internet, don&rsquo;t have link):</p>
-
-<pre><code class="language-cpp">#include &lt;stdio.h&gt; 
-#include &lt;sys/io.h&gt;
-
-#define PORT_SWITCH_DISPLAY     0x710
-#define PORT_SWITCH_SELECT      0x728
-#define PORT_SWITCH_DDC         0x740
-#define PORT_DISCRETE_POWER     0x750
-
-static int gmux_switch_to_igd()
-{
-    outb(1, PORT_SWITCH_SELECT);
-    outb(2, PORT_SWITCH_DISPLAY);
-    outb(2, PORT_SWITCH_DDC);
-    return 0;
-}
-
-static void mbp_gpu_power(int state)
-{
-    outb(state, PORT_DISCRETE_POWER);
-}
-
-static void mb_gpu_print()
-{
-    printf(&quot;SELECT:  %hhu\n&quot;, inb(PORT_SWITCH_SELECT));
-    printf(&quot;DISPLAY: %hhu\n&quot;, inb(PORT_SWITCH_DISPLAY));
-    printf(&quot;DDC:     %hhu\n&quot;, inb(PORT_SWITCH_DDC));
-    printf(&quot;POWER:   %hhu\n&quot;, inb(PORT_DISCRETE_POWER));
-}
-
-int main(int argc, char **argv)
-{
-    if (iopl(3) &lt; 0) {
-        perror (&quot;No IO permissions&quot;);
-        return 1;
-    }
-    int state=0;
-    if (argc &gt; 1) state = atoi(argv[1]);
-    printf(&quot;Before:\n&quot;);
-    mb_gpu_print();
-    mbp_gpu_power(state);
-    gmux_switch_to_igd();
-    printf(&quot;After:\n&quot;);
-    mb_gpu_print();
-    return 0;
-}
-
-</code></pre>
-
-<p>With this I am back to a cool running MBP on linux. This same logic is applicable to MacOS as well. I have <a href="https://github.com/sarangbaheti/AMDGPUWakeHandler#sarangs-notes">some local code changes</a> along with kexts built to forcefully switching off dGPU thru gmux.</p>
-
+<p>It is a nice little app to update the grub config. It lists all the various linux kernels i have with me here:
 
 <figure >
     
-        <img src="/images/dGPU-swithced-off-forcefully-macos.png" />
+        <img src="/images/grub-customizer-1.png" />
     
     
 </figure>
+</p>
 
+<p>But more importantly, it allows you to pick the one you want to boot with, in this case i have reverted back to previous kernel.
+
+<figure >
+    
+        <img src="/images/grub-customizer-2.png" />
+    
+    
+</figure>
+</p>
+
+<p>Notice, how nicely in encapsulates the kernel parameters.</p>
 
 <hr />
 
-<p>Well this works quite well in practice because of <a href="https://01.org/linuxgraphics/gfx-docs/drm/handlers.html">gmux</a> being  an intermediary. <a href="https://lwn.net/Articles/707616/">LWN has a great writeup for it</a>. Some of this is documented in <a href="https://pimg-fpiw.uspto.gov/fdd/07/870/086/0.pdf">patent US 8,687,007 B2</a>, esp fig6 and fig7: delegate act of switching off dGPU to gmux and how it schedules depending on blanking interval overlap.</p>
-
-<p>A few links about gmux:</p>
+<p>Links:</p>
 
 <ul>
-<li><a href="https://gist.github.com/kevinxucs/da371fec14d2df2bb9ad">https://gist.github.com/kevinxucs/da371fec14d2df2bb9ad</a></li>
-<li><a href="https://github.com/ah-/gmux-scripts/issues/1#issuecomment-54252430">https://github.com/ah-/gmux-scripts/issues/1#issuecomment-54252430</a></li>
+<li><a href="https://askubuntu.com/questions/885427/wifi-adapter-freezes-ubuntu-16-04">https://askubuntu.com/questions/885427/wifi-adapter-freezes-ubuntu-16-04</a></li>
+<li><a href="https://askubuntu.com/questions/1030653/wifi-randomly-disconnected-on-ubuntu-18-04-lts">https://askubuntu.com/questions/1030653/wifi-randomly-disconnected-on-ubuntu-18-04-lts</a></li>
+<li><a href="https://bugs.launchpad.net/ubuntu/+source/bcmwl/+bug/1483998">https://bugs.launchpad.net/ubuntu/+source/bcmwl/+bug/1483998</a></li>
+<li><a href="https://forums.linuxmint.com/viewtopic.php?t=241128">https://forums.linuxmint.com/viewtopic.php?t=241128</a></li>
+<li><a href="https://help.ubuntu.com/stable/ubuntu-help/net-wireless-disconnecting.html.en">https://help.ubuntu.com/stable/ubuntu-help/net-wireless-disconnecting.html.en</a></li>
+<li><a href="https://www.linuxquestions.org/questions/ubuntu-63/ubuntu-hangs-on-wifi-disconnect-592022/">https://www.linuxquestions.org/questions/ubuntu-63/ubuntu-hangs-on-wifi-disconnect-592022/</a></li>
 </ul>
 
       </article>
@@ -223,13 +187,9 @@ int main(int argc, char **argv)
       <ul class="pager blog-pager">
         
         <li class="previous">
-          <a href="https://www.variadic.xyz/2020/06/21/offline-cpus/" data-toggle="tooltip" data-placement="top" title="swithcing off cpus">&larr; Previous</a>
+          <a href="https://www.variadic.xyz/2020/06/28/switching-off-dgpu/" data-toggle="tooltip" data-placement="top" title="swithcing off dGPU in MBP 2011">&larr; Previous</a>
         </li>
         
-        
-        <li class="next">
-          <a href="https://www.variadic.xyz/2020/07/01/grub-customizer/" data-toggle="tooltip" data-placement="top" title="draft grub customizer">Next &rarr;</a>
-        </li>
         
       </ul>
 

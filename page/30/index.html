@@ -113,6 +113,31 @@
             
             
             <article class="post-preview">
+              <a href="https://www.variadic.xyz/2011/05/28/auto-and-decltype/">
+          	  <h2 class="post-title">auto and decltype</h2>
+          	
+          	    
+              </a>
+
+              <p class="post-meta">
+                May 28, 2011
+              </p>
+            
+              <div class="post-entry">
+                
+                    auto In one of the previous posts we have explored auto in detail, however there are few places where auto cannot be used. One of them happens to be the function argument and return type:
+Consider some code:
+auto function(auto var) { return var; } int main() { int var = function(4); double d = function(8.9); return 0; }  Here compiler cannot deduce the argument type. As in both the case args are being passed by value, and double is 8 bytes while int is 4 bytes.
+                
+
+                <br/>
+                <br/>
+                <a href="https://www.variadic.xyz/2011/05/28/auto-and-decltype/" class="post-read-more">[Read&nbsp;More]</a>
+              </div>
+            
+             </article>
+            
+            <article class="post-preview">
               <a href="https://www.variadic.xyz/2011/05/26/range-based-for-loop/">
           	  <h2 class="post-title">range based for-loop</h2>
           	
@@ -204,29 +229,6 @@ struct MultipleReturnValues { double d; int i; char c; }; MultipleReturnValues M
                 <br/>
                 <br/>
                 <a href="https://www.variadic.xyz/2011/05/10/boostany/" class="post-read-more">[Read&nbsp;More]</a>
-              </div>
-            
-             </article>
-            
-            <article class="post-preview">
-              <a href="https://www.variadic.xyz/2011/05/09/type-erasure/">
-          	  <h2 class="post-title">Type Erasure</h2>
-          	
-          	    
-              </a>
-
-              <p class="post-meta">
-                May 9, 2011
-              </p>
-            
-              <div class="post-entry">
-                
-                    In their book on C++ template metaprogramming, Dave Abrahams and Aleksey Gurtovoy define type erasure as &amp;&ldquo;the process of turning a wide variety of types with a common interface into one type with that same interface.&rdquo; Perhaps the most widely known and used example of type erasure is boost::function. boost::function is a class template that takes one template argument, a function type. Choosing a function type amounts to choosing a return type and a list of argument types for a function.
-                
-
-                <br/>
-                <br/>
-                <a href="https://www.variadic.xyz/2011/05/09/type-erasure/" class="post-read-more">[Read&nbsp;More]</a>
               </div>
             
              </article>
