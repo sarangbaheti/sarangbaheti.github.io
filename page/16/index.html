@@ -125,19 +125,7 @@
             
               <div class="post-entry">
                 
-                    <p style="text-align: justify;">
-  Recently I bought a SSD for my laptop, and after upgrading it feels really fast. Earlier Windows 8.1 used to boot to desktop in about ~100 seconds (5400 RPM HDD) and now it has been reduced to ~6 seconds!!
-</p>
-
-<p style="text-align: justify;">
-  With SSD quite a few of the Windows optimizations are not required- namely search indexing, superfetch and prefetch. Actually disabling these might increase SSD lifetime- as they <a href="http://en.wikipedia.org/wiki/Flash_memory#NAND_flash" target="_blank">reduce un-neccessary writes to SSD.</a>
-</p>
-
-<p style="text-align: justify;">
-  <a href="http://windows.microsoft.com/en-us/windows/improve-windows-searches-using-index-faq#1TC=windows-7" target="_blank">Search Indexing</a> was added to compensate for HDD lag while accessing commonly used files. It did has profound effect when I was using 5400 RPM HDD but with SSD no one needs it.
-</p>
-
-<p style="text-align: justify;">
+                    notes on disabling superfetch, prefetch and indexing to reduce SSD trashing
                 
 
                 <br/>
@@ -160,15 +148,7 @@
             
               <div class="post-entry">
                 
-                    <p style="text-align: justify;">
-  Recently I have been tracking a case where some code from a third party library was fiddling up with address space of my application. <a href="http://msdn.microsoft.com/en-us/library/windows/desktop/aa366912(v=vs.85).aspx" target="_blank">Address space</a> was very important back in Win32 days you had only 2GB (3GB for large address aware applications), <a href="http://msdn.microsoft.com/en-us/library/windows/desktop/aa366778(v=vs.85).aspx" target="_blank">but with x64 Windows 7 allows you to reference up to 8TB</a> (that&#8217;s right 8192GB). Well, no one needs that much address space as of today- but a lot of times it is the first thing you look at when your application is running out of memory.
-</p>
-
-<p style="text-align: justify;">
-  Such thing happened with me: due to some bug in a very thick algorithm, while loop never terminated and kept on allocating memory internally. It allocated so much memory that Windows started having problems with Low Memory Condition and finally had to quit the application. As for investigation I noticed that application reported it&#8217;s address space was ~82GB while Task Manager reported it&#8217;s <a href="http://msdn.microsoft.com/en-us/library/windows/desktop/cc441804(v=vs.85).aspx" target="_blank">Working Set</a> to be ~48GB- what was puzzling was my application during the run had reserved ~34 GB address space for nothing.
-</p>
-
-<p style="text-align: justify;">
+                    notes on debugging excessive address space reservation with nvidia graphics drivers using windbg on windows
                 
 
                 <br/>
@@ -191,7 +171,7 @@
             
               <div class="post-entry">
                 
-                    While reading about Endian-ness with microprocessor I became curious about how this term came into existence. The terms Big-Endian and Little-Endian come from Part I, Chapter 4, of Jonathan Swift&#8217;s Gulliver&#8217;s Travels. Here is some background what Big and Little mean in here:  The novel further describes an intra-Lilliputian quarrel over the practice of breaking eggs. Traditionally, Lilliputians broke boiled eggs on the larger end; a few generations ago, an Emperor of Lilliput, the Present Emperor&#8217;s great-grandfather, had decreed that all eggs be broken on the smaller end after he cut himself breaking the egg on the larger end.
+                    linked article about origin of endian
                 
 
                 <br/>
@@ -214,19 +194,7 @@
             
               <div class="post-entry">
                 
-                    <p style="text-align: justify;">
-  Sometime ago I was trying to port one of my experiments on Mac OS X. The application relies on boost library, so there was need to get started with boost on Mac. And I wanted to use XCode all the way along. Coming from Windows meant browsing thru XCode build settings to figure out what goes where. Visual Studio Property Pages and XCode Settings don&#8217;t match really well, from UI point of view.
-</p>
-
-<p style="text-align: justify;">
-  XCode puts the compiler application somewhere in deep guts of \Developer directory, so copying the boost libraries was not really an option. Mac OS X being UNIX underneath meant I had a global include/lib/bin directory where I can put boost libraries once built. What follows next is visual summary of building and installing boost on Mac OS X.
-</p>
-
-<p style="text-align: justify;">
-  It starts with boot-strapping boost build engine:
-</p>
-
-<p style="text-align: justify;">
+                    notes on developing with boost in xcode (setup and all)
                 
 
                 <br/>
@@ -249,63 +217,7 @@
             
               <div class="post-entry">
                 
-                    <blockquote>
-<p>Series:<br />
-1. <a href="/2012/01/07/c-template-metaprogramming/" target="_blank">C++ Template Metaprogramming</a><br />
-2. <a href="/2014/08/04/c-template-metaprogramming-part-2-of-n/" target="_blank">C++ Template Metaprogramming Part 2 of n</a></p>
-</blockquote>
-
-<p style="text-align: justify;">
-  This is second in series and I would like to expand on thinking recursively in this part, before than introducing other concepts. For this post lets create a template metaprogram to check if given number is prime or not.
-</p>
-
-<p style="text-align: justify;">
-  This a standard iterative implementation of checking whether the number is prime:
-</p>
-
-<pre><code class="language-cpp">bool isPrime(int number)
-{
-    if(number &lt; 3)
-        throw std::invalid_argument(&quot;numbers less than 3 cannot be primes&quot;);
-
-    //  any even number cannot be a prime
-    bool result = number % 2 != 0;
-
-    for(int divisor = 2; result &amp;&amp; divisor &lt; number/2; ++divisor)
-    {
-        result = number % divisor != 0;
-    }
-
-    return result;
-}
-</code></pre>
-
-<p style="text-align: justify;">
-  All highlighted lines have one or more terminating conditions for computation. Line 4 checks for valid input, 7 filters out all even numbers. Line 9 ensures we terminate if have tried a lot of divisors (number/2 is the last thing we want to try) and 11 checks whether number is a multiple of divisor.
-</p>
-
-<p style="text-align: justify;">
-  Given this it is implement a recursive equivalent with said terminating conditions:
-</p>
-
-<pre><code class="language-cpp">bool isPrime_rimpl(int number, int divisor)
-{
-    return  number == divisor ? true :
-            number % divisor == 0 ? false : isPrime_rimpl(number, ++divisor);
-}
-
-bool isPrime_r(int number)
-{
-    if(number &lt; 3)
-        throw std::invalid_argument(&quot;numbers less than 3 cannot be primes&quot;);
-
-    return isPrime_rimpl(number, 2);
-}
-</code></pre>
-
-<p style="text-align: justify;">
-  
-</p>
+                    notes on C&#43;&#43; Template Metaprogramming
                 
 
                 <br/>

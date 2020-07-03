@@ -113,120 +113,116 @@
             
             
             <article class="post-preview">
-              <a href="https://www.variadic.xyz/2011/05/15/calling-convention/">
-          	  <h2 class="post-title">Calling Convention</h2>
+              <a href="https://www.variadic.xyz/2011/05/02/c-templates-an-introduction/">
+          	  <h2 class="post-title">C&#43;&#43; Templates – An Introduction</h2>
           	
           	    
               </a>
 
               <p class="post-meta">
-                May 15, 2011
+                May 2, 2011
               </p>
             
               <div class="post-entry">
                 
-                    The great thing about calling conventions on the x86 platform is that there are so many to choose from! In the 16-bit world, part of the calling convention was fixed by the instruction set: The BP register defaults to the SS selector, whereas the other registers default to the DS selector. So the BP register was necessarily the register used for accessing stack-based parameters.
-The registers for return values were also chosen automatically by the instruction set.
+                    a short post on c&#43;&#43; templates basics, an intro
                 
 
                 <br/>
                 <br/>
-                <a href="https://www.variadic.xyz/2011/05/15/calling-convention/" class="post-read-more">[Read&nbsp;More]</a>
+                <a href="https://www.variadic.xyz/2011/05/02/c-templates-an-introduction/" class="post-read-more">[Read&nbsp;More]</a>
               </div>
             
              </article>
             
             <article class="post-preview">
-              <a href="https://www.variadic.xyz/2011/05/12/tuple/">
-          	  <h2 class="post-title">tuple</h2>
+              <a href="https://www.variadic.xyz/2011/05/02/static_assert/">
+          	  <h2 class="post-title">static_assert</h2>
           	
           	    
               </a>
 
               <p class="post-meta">
-                May 12, 2011
+                May 2, 2011
               </p>
             
               <div class="post-entry">
                 
-                    The problem with multiple return values C++ is a C based language and keeps it’s limitation of returning a single value from a function. you can’t even return an array of objects from a function. However real life application at times need to return multiple data from a function. Generally this is how we return multiple values from a function:
-struct MultipleReturnValues { double d; int i; char c; }; MultipleReturnValues MultiReturnValueFunction() { // really complicated logic // .
+                    compile time assertions in c&#43;&#43;11
                 
 
                 <br/>
                 <br/>
-                <a href="https://www.variadic.xyz/2011/05/12/tuple/" class="post-read-more">[Read&nbsp;More]</a>
+                <a href="https://www.variadic.xyz/2011/05/02/static_assert/" class="post-read-more">[Read&nbsp;More]</a>
               </div>
             
              </article>
             
             <article class="post-preview">
-              <a href="https://www.variadic.xyz/2011/05/10/boostany/">
-          	  <h2 class="post-title">boost::any</h2>
+              <a href="https://www.variadic.xyz/2011/04/22/stack-for-recent-applications/">
+          	  <h2 class="post-title">Stack for recent applications</h2>
           	
           	    
               </a>
 
               <p class="post-meta">
-                May 10, 2011
+                April 22, 2011
               </p>
             
               <div class="post-entry">
                 
-                    In the last post we briefly saw the concept of type erasure. It is one of the cryptic concepts to understand, but is very useful. Lets drill down into what is means to erase the types! Consider:
-#include &lt;vector&gt; #include &lt;string&gt; int main() { std::vector&lt;int&gt; vec; vec.push_back(1); vec.push_back(std::string(&quot;a&quot;)); return 0; }  The problem here is you cannot add string to a vector of an int. Why? Type safety, obviously and that’s great.
+                    showing recently used applicatiosn as stack/grid instead of fan
                 
 
                 <br/>
                 <br/>
-                <a href="https://www.variadic.xyz/2011/05/10/boostany/" class="post-read-more">[Read&nbsp;More]</a>
+                <a href="https://www.variadic.xyz/2011/04/22/stack-for-recent-applications/" class="post-read-more">[Read&nbsp;More]</a>
               </div>
             
              </article>
             
             <article class="post-preview">
-              <a href="https://www.variadic.xyz/2011/05/09/type-erasure/">
-          	  <h2 class="post-title">Type Erasure</h2>
+              <a href="https://www.variadic.xyz/2011/04/21/full-path-in-finder-windows-on-mac-os-x/">
+          	  <h2 class="post-title">Full path in Finder windows on Mac OS X</h2>
           	
           	    
               </a>
 
               <p class="post-meta">
-                May 9, 2011
+                April 21, 2011
               </p>
             
               <div class="post-entry">
                 
-                    In their book on C++ template metaprogramming, Dave Abrahams and Aleksey Gurtovoy define type erasure as &amp;&ldquo;the process of turning a wide variety of types with a common interface into one type with that same interface.&rdquo; Perhaps the most widely known and used example of type erasure is boost::function. boost::function is a class template that takes one template argument, a function type. Choosing a function type amounts to choosing a return type and a list of argument types for a function.
+                    displaying full path in finder
                 
 
                 <br/>
                 <br/>
-                <a href="https://www.variadic.xyz/2011/05/09/type-erasure/" class="post-read-more">[Read&nbsp;More]</a>
+                <a href="https://www.variadic.xyz/2011/04/21/full-path-in-finder-windows-on-mac-os-x/" class="post-read-more">[Read&nbsp;More]</a>
               </div>
             
              </article>
             
             <article class="post-preview">
-              <a href="https://www.variadic.xyz/2011/05/07/gcc/">
-          	  <h2 class="post-title">gcc</h2>
+              <a href="https://www.variadic.xyz/2011/04/21/moving-files-within-finder-windows/">
+          	  <h2 class="post-title">Moving files within Finder windows</h2>
           	
           	    
               </a>
 
               <p class="post-meta">
-                May 7, 2011
+                April 21, 2011
               </p>
             
               <div class="post-entry">
                 
-                    Gnu Compiler Collection The GNU Compiler Collection (GCC) is a compilersystem produced by the GNU Projectsupporting various programming languages. GCC is a key component of theGNU toolchain. As well as being the official compiler of the unfinished GNUoperating system, GCC has been adopted as the standard compiler by most other modern Unix-likecomputer operating systems, including Linux, the BSDfamily and Mac OS X.
-GCC has been portedto a wide variety of processor architectures, and is widely deployed as a tool in commercial, proprietaryand closed source softwaredevelopment environments.
+                    mvoing files between finder windows
                 
 
                 <br/>
                 <br/>
-                <a href="https://www.variadic.xyz/2011/05/07/gcc/" class="post-read-more">[Read&nbsp;More]</a>
+                <a href="https://www.variadic.xyz/2011/04/21/moving-files-within-finder-windows/" class="post-read-more">[Read&nbsp;More]</a>
               </div>
             
              </article>

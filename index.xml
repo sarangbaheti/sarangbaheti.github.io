@@ -1372,15 +1372,6 @@ VS 2012 freezes with message: &amp;#8220;Waiting for Background operation to com
     </item>
     
     <item>
-      <title>installing command line tools in Mac OS X</title>
-      <link>https://www.variadic.xyz/2012/12/14/installing-command-line-tools-in-mac-os-x/</link>
-      <pubDate>Fri, 14 Dec 2012 00:00:00 +0000</pubDate>
-      
-      <guid>https://www.variadic.xyz/2012/12/14/installing-command-line-tools-in-mac-os-x/</guid>
-      <description>Earlier (pre Xcode 4.3) toolchains were installed in /usr/bin. But after Xcode has been bundled toolchains installation to /usr/bin is optional and are local to Xcode application. To install toolchain (clang &amp; llvm) as to use them on command line go to Xcode preferences and Download and install. Or other option is to use xcrun </description>
-    </item>
-    
-    <item>
       <title>installing apps from an unidentified developer</title>
       <link>https://www.variadic.xyz/2012/12/10/installing-apps-from-an-unidentified-developer/</link>
       <pubDate>Mon, 10 Dec 2012 00:00:00 +0000</pubDate>
@@ -1408,30 +1399,12 @@ VS 2012 freezes with message: &amp;#8220;Waiting for Background operation to com
     </item>
     
     <item>
-      <title>Creating refresh image for Windows 8</title>
-      <link>https://www.variadic.xyz/2012/11/05/creating-refresh-image-for-windows-8/</link>
-      <pubDate>Mon, 05 Nov 2012 00:00:00 +0000</pubDate>
-      
-      <guid>https://www.variadic.xyz/2012/11/05/creating-refresh-image-for-windows-8/</guid>
-      <description>Yesterday my Windows 8 messed up after I installed AMD CodeAnalyst. I was left with a computer that took ~5 minutes to boot as compared to 18 seconds. First thing that came to mind was Refresh the system, which worked great but I lost all my installed applications as I never had any custom refresh image. Also one of the applications that I wanted is not currently supported to be installed on Windows 8 but works if I upgrade, with refresh that was gone.</description>
-    </item>
-    
-    <item>
       <title>creating a Universally Unique Identifier (UUID)</title>
       <link>https://www.variadic.xyz/2012/08/29/creating-a-uuid/</link>
       <pubDate>Wed, 29 Aug 2012 00:00:00 +0000</pubDate>
       
       <guid>https://www.variadic.xyz/2012/08/29/creating-a-uuid/</guid>
       <description>I was looking for a unique identifier for some work, and UUID (Universally Unique Identifier) comes to mind right away. What makes UUID so special is that practically (not guaranteed :)) they will be unique. This link talks about various ways a UUID can be generated. Now for most of us, we want to generate UUIDs to work along with admiring it&amp;#8217;s rich history. UUID (GUID has more inclination towards MS) can be generated using various ways:  On Internet, obviously using websites   Interactively   Programmatically   For Internet sites you can search and find various sources.</description>
-    </item>
-    
-    <item>
-      <title>Intel&#39;s SDK for OpenCL Applications</title>
-      <link>https://www.variadic.xyz/2012/08/25/intels-sdk-for-opencl-applications/</link>
-      <pubDate>Sat, 25 Aug 2012 00:00:00 +0000</pubDate>
-      
-      <guid>https://www.variadic.xyz/2012/08/25/intels-sdk-for-opencl-applications/</guid>
-      <description>Intel SDK for OpenCL  The Intel SDK for OpenCL Applications 2012 provides development environment for OpenCL applications on Intel Architecture for Windows and Linux operating systems. This SDK includes code samples, development tools, an optimization guide, and support for optimization tools. OpenCL is an open standard for a unified programming model supporting both CPU and processor graphics compute devices. It is designed to be used for highly data-parallel applications and for visual computing applications including video, media, and 3D content.</description>
     </item>
     
     <item>
@@ -1503,8 +1476,8 @@ Ctrl + P = Print the current document</description>
       <pubDate>Mon, 13 Feb 2012 00:00:00 +0000</pubDate>
       
       <guid>https://www.variadic.xyz/2012/02/13/controlling-number-of-processor-cores-on-your-machine/</guid>
-      <description>I have a quad-core and oct-core machines and one of the things I generally do is to run my code only on single core. However to do this one needs to boot OS with single core configuration. With windows it is fairly easy to do:  Go to run (Windows + R button) type msconfig press enter MSConfig In boot click Advanced options.. button
- Check Number of Processors and pick the count Selecting Number of Processors</description>
+      <description>More details on how to do this on various OSes here
+ I have a quad-core and oct-core machines and one of the things I generally do is to run my code only on single core. However to do this one needs to boot OS with single core configuration. With windows it is fairly easy to do:  Go to run (Windows + R button) type msconfig press enter MSConfig In boot click Advanced options.</description>
     </item>
     
     <item>
@@ -1691,15 +1664,6 @@ Related Reading&amp;#8230;
     </item>
     
     <item>
-      <title>amdhal, moore, brooke and 90-90 - empirical laws of computers</title>
-      <link>https://www.variadic.xyz/2011/08/24/amdhal-moore-brooke-and-90-90-empirical-laws-of-computers/</link>
-      <pubDate>Wed, 24 Aug 2011 00:00:00 +0000</pubDate>
-      
-      <guid>https://www.variadic.xyz/2011/08/24/amdhal-moore-brooke-and-90-90-empirical-laws-of-computers/</guid>
-      <description>Amdhal&amp;#8217;s Law  Amdahl&amp;#8216;s law says a program can run on faster than the time required to execute its sequential sections. The Law is cast in the form of an equation that accounts for the time spent in the parallel (or vectorizable) and sequential parts of the code. The validity of this concept is easy to grasp. If a program is 80% parallelizable and 20% must be executed sequentially, the maximum reductionin execution time is by a factor of five (if the parallelizable code were run in zero time).</description>
-    </item>
-    
-    <item>
       <title>What Every Data Programmer Needs to Know about Disks</title>
       <link>https://www.variadic.xyz/2011/08/22/what-every-data-programmer-needs-to-know-about-disks/</link>
       <pubDate>Mon, 22 Aug 2011 00:00:00 +0000</pubDate>
@@ -1742,32 +1706,12 @@ In this post I&amp;#8217;ve collected a lot of links on the topic of 64-bit C/C+
     </item>
     
     <item>
-      <title>building boost libraries</title>
-      <link>https://www.variadic.xyz/2011/07/27/building-boost-libraries/</link>
-      <pubDate>Wed, 27 Jul 2011 00:00:00 +0000</pubDate>
-      
-      <guid>https://www.variadic.xyz/2011/07/27/building-boost-libraries/</guid>
-      <description>boost is mostly header only library, there are a few libraries like file-system, threads, chrono that abstract the OS/Runtime Library concepts, and few have been implemented in cpp files regex for an example. These few libraries need to be built before you can use them. boost comes with its own build engine, bjam, which is configured to build it with relevant dependencies and install the libraries in designated locations. I am not getting into boost-bjam in this post, however I will cover building boost library using bjam with VS 2010 SP1.</description>
-    </item>
-    
-    <item>
       <title>vector: reserve with care</title>
       <link>https://www.variadic.xyz/2011/07/26/vector-reserve-with-care/</link>
       <pubDate>Tue, 26 Jul 2011 00:00:00 +0000</pubDate>
       
       <guid>https://www.variadic.xyz/2011/07/26/vector-reserve-with-care/</guid>
       <description>vectors, std::vector, are contiguous-memory sequential dynamic containers. That means if the vector has to grow then it will re-allocate the required memory to hold elements and then copy these over in the new memory. That is one of the reasons that for any type to be contained in vector must define default, copy constructors and assignment operator. However there is a way to work around this reallocation problem if we know before hand how much the vector is going to grow.</description>
-    </item>
-    
-    <item>
-      <title>finding serial number of your mac</title>
-      <link>https://www.variadic.xyz/2011/07/21/finding-serial-number-of-your-mac/</link>
-      <pubDate>Thu, 21 Jul 2011 00:00:00 +0000</pubDate>
-      
-      <guid>https://www.variadic.xyz/2011/07/21/finding-serial-number-of-your-mac/</guid>
-      <description>To redeem the Mac OS X Lion online I was asked to enter the serial number of my MacBook Pro. Generally these things are hard to find when you need them the most :). Luckily I bumped into Apple&amp;#8217;s information page that made my life easier by helping be locate the serial number. Here is the screen shot of the page:
-[][1]
-Related articles  Bought a Mac Recently? Don&amp;#8217;t Forget You can Download Lion for Free!</description>
     </item>
     
     <item>
@@ -1868,16 +1812,6 @@ struct MultipleReturnValues { double d; int i; char c; }; MultipleReturnValues M
       
       <guid>https://www.variadic.xyz/2011/05/09/type-erasure/</guid>
       <description>In their book on C++ template metaprogramming, Dave Abrahams and Aleksey Gurtovoy define type erasure as &amp;amp;&amp;ldquo;the process of turning a wide variety of types with a common interface into one type with that same interface.&amp;rdquo; Perhaps the most widely known and used example of type erasure is boost::function. boost::function is a class template that takes one template argument, a function type. Choosing a function type amounts to choosing a return type and a list of argument types for a function.</description>
-    </item>
-    
-    <item>
-      <title>gcc</title>
-      <link>https://www.variadic.xyz/2011/05/07/gcc/</link>
-      <pubDate>Sat, 07 May 2011 00:00:00 +0000</pubDate>
-      
-      <guid>https://www.variadic.xyz/2011/05/07/gcc/</guid>
-      <description>Gnu Compiler Collection The GNU Compiler Collection (GCC) is a compilersystem produced by the GNU Projectsupporting various programming languages. GCC is a key component of theGNU toolchain. As well as being the official compiler of the unfinished GNUoperating system, GCC has been adopted as the standard compiler by most other modern Unix-likecomputer operating systems, including Linux, the BSDfamily and Mac OS X.
-GCC has been portedto a wide variety of processor architectures, and is widely deployed as a tool in commercial, proprietaryand closed source softwaredevelopment environments.</description>
     </item>
     
     <item>

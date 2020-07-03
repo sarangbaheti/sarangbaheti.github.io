@@ -113,119 +113,116 @@
             
             
             <article class="post-preview">
-              <a href="https://www.variadic.xyz/2011/08/13/c0x-is-an-international-standard/">
-          	  <h2 class="post-title">C&#43;&#43;0x is an international standard</h2>
+              <a href="https://www.variadic.xyz/2011/06/07/functional-programming-for-the-rest-of-us/">
+          	  <h2 class="post-title">Functional Programming For The Rest of Us</h2>
           	
           	    
               </a>
 
               <p class="post-meta">
-                August 13, 2011
+                June 7, 2011
               </p>
             
               <div class="post-entry">
                 
-                    I am thrilled as C++0x, will be called C++11, is now an international standard, as confirmed by Herb Sutter
- The final ISO ballot on C++0x closed on Wednesday, and we just received the results: Unanimous approval. The next revision of C++ that we’ve been calling “C++0x” is now an International Standard! Geneva will take several months to publish it, but we hope it will be published well within the year, and then we’ll be able to call it “C++11.
+                    linked article about some thoughts on functional programming
                 
 
                 <br/>
                 <br/>
-                <a href="https://www.variadic.xyz/2011/08/13/c0x-is-an-international-standard/" class="post-read-more">[Read&nbsp;More]</a>
+                <a href="https://www.variadic.xyz/2011/06/07/functional-programming-for-the-rest-of-us/" class="post-read-more">[Read&nbsp;More]</a>
               </div>
             
              </article>
             
             <article class="post-preview">
-              <a href="https://www.variadic.xyz/2011/07/27/building-boost-libraries/">
-          	  <h2 class="post-title">building boost libraries</h2>
+              <a href="https://www.variadic.xyz/2011/05/31/callable-entity/">
+          	  <h2 class="post-title">callable entity</h2>
           	
           	    
               </a>
 
               <p class="post-meta">
-                July 27, 2011
+                May 31, 2011
               </p>
             
               <div class="post-entry">
                 
-                    boost is mostly header only library, there are a few libraries like file-system, threads, chrono that abstract the OS/Runtime Library concepts, and few have been implemented in cpp files regex for an example. These few libraries need to be built before you can use them. boost comes with its own build engine, bjam, which is configured to build it with relevant dependencies and install the libraries in designated locations. I am not getting into boost-bjam in this post, however I will cover building boost library using bjam with VS 2010 SP1.
+                    notes about callable entities, not necessarily just functions are callables
                 
 
                 <br/>
                 <br/>
-                <a href="https://www.variadic.xyz/2011/07/27/building-boost-libraries/" class="post-read-more">[Read&nbsp;More]</a>
+                <a href="https://www.variadic.xyz/2011/05/31/callable-entity/" class="post-read-more">[Read&nbsp;More]</a>
               </div>
             
              </article>
             
             <article class="post-preview">
-              <a href="https://www.variadic.xyz/2011/07/26/vector-reserve-with-care/">
-          	  <h2 class="post-title">vector: reserve with care</h2>
+              <a href="https://www.variadic.xyz/2011/05/28/auto-and-decltype/">
+          	  <h2 class="post-title">auto and decltype</h2>
           	
           	    
               </a>
 
               <p class="post-meta">
-                July 26, 2011
+                May 28, 2011
               </p>
             
               <div class="post-entry">
                 
-                    vectors, std::vector, are contiguous-memory sequential dynamic containers. That means if the vector has to grow then it will re-allocate the required memory to hold elements and then copy these over in the new memory. That is one of the reasons that for any type to be contained in vector must define default, copy constructors and assignment operator. However there is a way to work around this reallocation problem if we know before hand how much the vector is going to grow.
+                    c&#43;&#43;11 type inference mechanism with auto &amp; decltype
                 
 
                 <br/>
                 <br/>
-                <a href="https://www.variadic.xyz/2011/07/26/vector-reserve-with-care/" class="post-read-more">[Read&nbsp;More]</a>
+                <a href="https://www.variadic.xyz/2011/05/28/auto-and-decltype/" class="post-read-more">[Read&nbsp;More]</a>
               </div>
             
              </article>
             
             <article class="post-preview">
-              <a href="https://www.variadic.xyz/2011/07/21/finding-serial-number-of-your-mac/">
-          	  <h2 class="post-title">finding serial number of your mac</h2>
+              <a href="https://www.variadic.xyz/2011/05/26/range-based-for-loop/">
+          	  <h2 class="post-title">range based for-loop</h2>
           	
           	    
               </a>
 
               <p class="post-meta">
-                July 21, 2011
+                May 26, 2011
               </p>
             
               <div class="post-entry">
                 
-                    To redeem the Mac OS X Lion online I was asked to enter the serial number of my MacBook Pro. Generally these things are hard to find when you need them the most :). Luckily I bumped into Apple&#8217;s information page that made my life easier by helping be locate the serial number. Here is the screen shot of the page:
-[][1]
-Related articles  Bought a Mac Recently? Don&#8217;t Forget You can Download Lion for Free!
+                    c&#43;&#43;11 syntactic sugar for-loop, makes code lot readable
                 
 
                 <br/>
                 <br/>
-                <a href="https://www.variadic.xyz/2011/07/21/finding-serial-number-of-your-mac/" class="post-read-more">[Read&nbsp;More]</a>
+                <a href="https://www.variadic.xyz/2011/05/26/range-based-for-loop/" class="post-read-more">[Read&nbsp;More]</a>
               </div>
             
              </article>
             
             <article class="post-preview">
-              <a href="https://www.variadic.xyz/2011/07/07/dissecting-any/">
-          	  <h2 class="post-title">dissecting any</h2>
+              <a href="https://www.variadic.xyz/2011/05/15/calling-convention/">
+          	  <h2 class="post-title">Calling Convention</h2>
           	
           	    
               </a>
 
               <p class="post-meta">
-                July 7, 2011
+                May 15, 2011
               </p>
             
               <div class="post-entry">
                 
-                    Dissecting any In one of the previous posts we saw boost::any, it is one of the very good features to study. It promotes dynamic programming in C++, where you can change types at runtime, alternatively known as type-erasure. It is quite easy to implement and exposes a very nice side of templates. It banks on polymorphism and some cool template usage. Let’s start the dissection, rather lets construct the feature from bottom up.
+                    series of articles on calling convention for x86 platform
                 
 
                 <br/>
                 <br/>
-                <a href="https://www.variadic.xyz/2011/07/07/dissecting-any/" class="post-read-more">[Read&nbsp;More]</a>
+                <a href="https://www.variadic.xyz/2011/05/15/calling-convention/" class="post-read-more">[Read&nbsp;More]</a>
               </div>
             
              </article>

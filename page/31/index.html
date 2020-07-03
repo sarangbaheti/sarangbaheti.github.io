@@ -113,124 +113,116 @@
             
             
             <article class="post-preview">
-              <a href="https://www.variadic.xyz/2011/05/07/template-function-to-determine-size-of-an-array/">
-          	  <h2 class="post-title">template function to determine size of an array</h2>
+              <a href="https://www.variadic.xyz/2011/04/04/adding-spacers-in-dock/">
+          	  <h2 class="post-title">Adding spacers in Dock</h2>
           	
           	    
               </a>
 
               <p class="post-meta">
-                May 7, 2011
+                April 4, 2011
               </p>
             
               <div class="post-entry">
                 
-                    How do you determine the size of an array? Well obviously for dynamic array you have to know how much memory you allocated but for statically allocated array we have been defining macro NUM_ELEMS like:
-#include &lt;iostream&gt; #define NUM_ELEMS(arr) sizeof((arr))/sizeof((arr[0])) int main() { int arr[] = {1,2,3,4,5,6,7,8,9}; int numElements = NUM_ELEMS(arr); std::cout &lt;&lt; numElements &lt;&lt; std::endl; return 0; }  What if I want to do this using templates?
-template&lt;class T, size_t N&gt; int num_elements(const T (&amp;arr) [N]) { return N; }  Here we have template function that is parametrized for a type and number, and the argument list matches an array of size N.
+                    adding spaces in dock
                 
 
                 <br/>
                 <br/>
-                <a href="https://www.variadic.xyz/2011/05/07/template-function-to-determine-size-of-an-array/" class="post-read-more">[Read&nbsp;More]</a>
+                <a href="https://www.variadic.xyz/2011/04/04/adding-spacers-in-dock/" class="post-read-more">[Read&nbsp;More]</a>
               </div>
             
              </article>
             
             <article class="post-preview">
-              <a href="https://www.variadic.xyz/2011/05/04/auto/">
-          	  <h2 class="post-title">C&#43;&#43;11: auto</h2>
+              <a href="https://www.variadic.xyz/2011/03/06/capture-screen-shot-on-mac/">
+          	  <h2 class="post-title">Capture Screen Shot on Mac</h2>
           	
           	    
               </a>
 
               <p class="post-meta">
-                May 4, 2011
+                March 6, 2011
               </p>
             
               <div class="post-entry">
                 
-                    C++ does not have any mechanism for querying the type of an expression nor it can initialize a variable without explicitly specifying its type. Specifically to address this limitation two new extensions have been added to C++11: decltype – to query the type of an expression auto – indicate that the compiler should deduce the type of the variable from its initializer expression. In this post I will only cover auto.
+                    capturing screen shots on mac &amp; keyboard shortcuts
                 
 
                 <br/>
                 <br/>
-                <a href="https://www.variadic.xyz/2011/05/04/auto/" class="post-read-more">[Read&nbsp;More]</a>
+                <a href="https://www.variadic.xyz/2011/03/06/capture-screen-shot-on-mac/" class="post-read-more">[Read&nbsp;More]</a>
               </div>
             
              </article>
             
             <article class="post-preview">
-              <a href="https://www.variadic.xyz/2011/05/02/c-templates-an-introduction/">
-          	  <h2 class="post-title">C&#43;&#43; Templates – An Introduction</h2>
+              <a href="https://www.variadic.xyz/2011/03/06/home-end-backspace-keys-and-more-on-mac-book-pro/">
+          	  <h2 class="post-title">Home, End, Backspace keys and more on Mac Book Pro</h2>
           	
           	    
               </a>
 
               <p class="post-meta">
-                May 2, 2011
+                March 6, 2011
               </p>
             
               <div class="post-entry">
                 
-                    Why we need Templates? Suppose we are writing a function to compare the values of two variables and return the one with greater value, the function would look like this (for an int):
-int max(int a, int b) { return a &amp;gt; b ? a : b; }  what if we would like to support double, long int, char, unsigned int?
-More code
-double max( double a, double b) { return a &amp;gt; b ?
+                    a new usual keys on MBP coming from windows/linux world
                 
 
                 <br/>
                 <br/>
-                <a href="https://www.variadic.xyz/2011/05/02/c-templates-an-introduction/" class="post-read-more">[Read&nbsp;More]</a>
+                <a href="https://www.variadic.xyz/2011/03/06/home-end-backspace-keys-and-more-on-mac-book-pro/" class="post-read-more">[Read&nbsp;More]</a>
               </div>
             
              </article>
             
             <article class="post-preview">
-              <a href="https://www.variadic.xyz/2011/05/02/static_assert/">
-          	  <h2 class="post-title">static_assert</h2>
+              <a href="https://www.variadic.xyz/2009/03/01/debug/">
+          	  <h2 class="post-title">Debug…</h2>
           	
           	    
               </a>
 
               <p class="post-meta">
-                May 2, 2011
+                March 1, 2009
               </p>
             
               <div class="post-entry">
                 
-                    Assertions In computer programming an assertion is a predicate placed in a program to indicate that the developer thinks that the predicate is always true at that place. For example:
-int x = 9;  x &gt; 8 always evaluates to true, here x &gt; 8 is a predicate that will evaluate the condition and return either true or false. Ok, so now why do we want to assert? Many assertion implementations will also halt the program&rsquo;s execution — this is useful, since if the program continued to run after an assertion violation occurred it might corrupt its state and make the cause of the problem more difficult to locate.
+                    a few links about debugging applications
                 
 
                 <br/>
                 <br/>
-                <a href="https://www.variadic.xyz/2011/05/02/static_assert/" class="post-read-more">[Read&nbsp;More]</a>
+                <a href="https://www.variadic.xyz/2009/03/01/debug/" class="post-read-more">[Read&nbsp;More]</a>
               </div>
             
              </article>
             
             <article class="post-preview">
-              <a href="https://www.variadic.xyz/2011/04/22/stack-for-recent-applications/">
-          	  <h2 class="post-title">Stack for recent applications</h2>
+              <a href="https://www.variadic.xyz/2009/01/09/common-multicore-programming-problems/">
+          	  <h2 class="post-title">Common multicore programming problems…</h2>
           	
           	    
               </a>
 
               <p class="post-meta">
-                April 22, 2011
+                January 9, 2009
               </p>
             
               <div class="post-entry">
                 
-                    Here is one of the tips to create a stack of recently used applications. Type this on terminal:
-defaults write com.apple.dock persistent-others -array-add ‘{ “tile-data” = { “list-type” = 1; }; “tile-type” = “recents-tile”; }’ killall dock  The result:
-  
+                    four part series on common multicore problems
                 
 
                 <br/>
                 <br/>
-                <a href="https://www.variadic.xyz/2011/04/22/stack-for-recent-applications/" class="post-read-more">[Read&nbsp;More]</a>
+                <a href="https://www.variadic.xyz/2009/01/09/common-multicore-programming-problems/" class="post-read-more">[Read&nbsp;More]</a>
               </div>
             
              </article>
@@ -244,10 +236,6 @@ defaults write com.apple.dock persistent-others -array-add ‘{ “tile-data” 
               <a href="/page/30">&larr; Newer </a>
             </li>
             
-            
-            <li class="next">
-              <a href="/page/32">Older &rarr;</a>
-            </li>
             
           </ul>
           

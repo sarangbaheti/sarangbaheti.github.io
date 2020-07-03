@@ -171,12 +171,7 @@
             
               <div class="post-entry">
                 
-                    <p>Recently I was developing an application that required administrator level access on machine to do certain task.
-&gt;   UAC is a feature of Windows Vista and 7 designed to prevent unauthorized changes to your computer. By default, even an administrator account in modern versions of Windows does not have full access to modify system settings and install programs. Thus, if you try to install a program or change critical settings, you may see your desktop fade and show only a prompt window asking if you’re sure you want to do this.  This ensures secure desktop, designed to prevent a program from automatically approving itself.
-&gt;</p>
-
-<p>In case you are using standard (non-admin) account Windows will ask you to grant permission using admin account. The way to do this with .NET applications is to add a New Item of type Application Manifest File:
-  </p>
+                    Visual Studio project settings for creating executables that specify access level
                 
 
                 <br/>
@@ -199,11 +194,7 @@
             
               <div class="post-entry">
                 
-                    <p style="text-align: justify;">
-  This is continuation of previous post <a href="/2014/12/24/ssd-thrashing-and-ramdrive/" target="_blank">SSD Thrashing and RAMDrive</a>, I have created a 512MB RamDrive and mapped it as R Drive. My Temp directories are located on RamDrive and so is the data directory for Chrome. With this arrangement and heavy use of chrome I could see some good benefits- due to holiday season I have spent a lot of time on my laptop (~8-10 hours or usage every day). And have a graph to show about the usage:
-</p>
-
-<p style="text-align: justify;">
+                    a few more notes on RAMDrive and SSD
                 
 
                 <br/>
@@ -226,19 +217,7 @@
             
               <div class="post-entry">
                 
-                    <p style="text-align: justify;">
-  This is continuation of my previous post: <a title="disabling superfetch, prefetch and indexing" href="/2014/12/22/disabling-superfetch-prefetch-and-indexing/" target="_blank">disabling superfetch, prefetch and indexing</a>
-</p>
-
-<p style="text-align: justify;">
-  After installing SSD I was monitoring how Windows has been using the drive. One of the day I spent quite sometime watching videos over web and the data written to SSD increased by ~35GB. That day I effectively did nothing other than watching videos on youtube and <a href="http://www.pluralsight.com/" target="_blank">pluralsight</a>. With this in mind I set out to investigate what caused this un-neccessary writes to SSD. <a href="http://crystalmark.info/software/CrystalDiskInfo/index-e.html" target="_blank">Crystal DiskInfo</a> has been my companion in deciphering the <a href="http://en.wikipedia.org/wiki/S.M.A.R.T." target="_blank">SMART</a> data reported.
-</p>
-
-<p style="text-align: justify;">
-  Crystal DiskInfo can read the SMART information quite nicely, it is a bit easier to use as compared to <a href="http://ocz.com/consumer/download/firmware" target="_blank">OCZ&#8217;s toolbox</a>. The stats of interest here are the Total Host Writes and Total NAND Writes. Host Writes is how much data OS has transferred to SSD to write and NAND writes represents how much controller wrote to SSD (there is compression at play here- I am not losing data :))
-</p>
-
-<p style="text-align: justify;">
+                    notes on SSD trashing and ramdrive (as setup by using a portion of RAM)
                 
 
                 <br/>

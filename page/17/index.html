@@ -125,7 +125,7 @@
             
               <div class="post-entry">
                 
-                    Recently I was analyzing some very computation intensive code. The code was operating on an image and was fiddling with each pixel. For image of size 4000&#215;4000 my function was called ~5 billion times. Since most of the computation depends only on the pixel attributes &#8211; so this problem tended itself very well for data parallel computation, but I was more interested in eliminating bottlenecks in serial code first than running un-optimized code in parallel.
+                    notes on Visual Studio RunTime Checks and Performance implications
                 
 
                 <br/>
@@ -148,23 +148,7 @@
             
               <div class="post-entry">
                 
-                    <p style="text-align: justify;">
-  Recently I was participating in a training session over the web and wanted to capture the video and audio stream to create training videos for reference material for in house training. <a href="http://www.plm.automation.siemens.com/en_us/products/teamcenter/teamcenter-mobility/support-appshare.shtml" target="_blank">Appshare</a> is a very good screen sharing tool, but won&#8217;t allow for audio streaming. So I used my google voice number to call in. Thus I had both video and audio streaming on my laptop.
-</p>
-
-<p style="text-align: justify;">
-  Capturing should be easy now(?), but I hit several snags. First of all, there was this problem where output from speaker would again feedback into mic of laptop and there by creating a hell lot of noise. After trying out enough I realized what I wanted was an aggregate device where I tell system to choose which devices contribute which kind of streams.
-</p>
-
-<p style="text-align: justify;">
-  Recently I happened to purchase a license to <a href="http://www.globaldelight.com/boom/" target="_blank">Boom device</a> and must say it&#8217;s quite impressive, for others looking for a free sound driver <a href="http://cycling74.com/products/soundflower/" target="_blank">soundflower</a> is good choice. For this post I will stick with Boom.
-</p>
-
-<p style="text-align: justify;">
-  To create an Aggregate device search for Audio MIDI Setup in spotlight. This is what it looks like for me before creation of aggregate device. At the bottom-left click + button and create a new aggregate device:
-</p>
-
-<p style="text-align: justify;">
+                    notes on screen recording on Mac OS X
                 
 
                 <br/>
@@ -187,42 +171,7 @@
             
               <div class="post-entry">
                 
-                    <p>While trying out constexpr I was wondering what else can I get compiler to compute. I can pretty much do any integral computation with both C++ Template Metaprogramming and constexpr, but can I do some floating point computations? It appears I can!!</p>
-
-<p>So I set out to compute <code>exp(z)</code>, using <a href="http://www.math.sc.edu/~girardi/m142/handouts/10sTaylorPolySeries.pdf" target="_blank">Taylor series implementation for exp</a>:</p>
-
-<pre><code class="language-cpp">//  can't deal with negative powers!!
-//
-constexpr double pow(double x, int y)
-{
-    return y == 0 ? 1.0 : x * pow(x, y-1);
-}
-
-constexpr int factorial(int x)
-{
-    return x == 0 ? 1 : x * factorial(x-1);
-}
-
-constexpr double exp(double x)
-{
-    return 1.0 + x + pow(x,2)/factorial(2) + pow(x, 3)/factorial(3)
-        + pow(x, 4)/factorial(4) + pow(x, 5)/factorial(5)
-        + pow(x,6)/factorial(6) + pow(x, 7)/factorial(7)
-        + pow(x, 8)/factorial(8) + pow(x, 9)/factorial(9);
-}
-
-int main()
-{
-    constexpr double exp1 = exp(1.0);
-    return 0;
-}
-</code></pre>
-
-<p>In here I have <code>pow</code> function to compute powers of a floating point number, mine is bit limited as it can do integral powers only; <code>factorial</code>  straight forward. <code>exp</code> function function goes to <code>10</code> component evaluation. With <code>exp(1)</code> I do see value of <code>2.7182815255731922</code> in debug window while <code>cout</code> prints it to be <code>2.71828</code>. Since this is floating point value I can&rsquo;t do <code>static_assert</code>.</p>
-
-<p>Now what&rsquo;s the proof that it was all compile time rather than runtime evaluation, the only way to confirm is to look at what is executed by processor, that&rsquo;s right assembly:</p>
-
-<p></p>
+                    compile time computing with C&#43;&#43;11 constexpr
                 
 
                 <br/>
@@ -245,19 +194,7 @@ int main()
             
               <div class="post-entry">
                 
-                    <p style="text-align: justify;">
-  C++ supports various styles of programming and <a title="Functional Programming For The Rest of Us" href="/2011/06/07/functional-programming-for-the-rest-of-us/" target="_blank">functional</a> is one of them, however functions are not first class concept in C++ and static typing makes it almost impossible to mix or interchange <a title="callable entity" href="/2011/05/31/callable-entity/" target="_blank">callable entities</a> of different types to be bound to same variable or to form a list of such entities based on calling semantics.
-</p>
-
-<p style="text-align: justify;">
-  Being creative and industrious, we C++ programmers have used/abused various features of language to accomplish this, with either doing away with types completely or (mis)using inheritance and virtual functions to accomplish callbacks or delegates.
-</p>
-
-<p style="text-align: justify;">
-  <a title="c++11 lambda — having fun with brackets!" href="/2011/10/12/c11-lambda-having-fun-with-brackets/" target="_blank">Lambdas</a> were supposed to solve some of these problems by making it easier to define functions in-place and provide for capturing the environment, managing lifetime of captured variables defining environment is still onto the programmer though, but they are kind of typeless. Thus the variables to capture lamdas have <a title="C++11: auto" href="/2011/05/04/auto/" target="_blank">auto</a> <a title="auto and decltype" href="/2011/05/28/auto-and-decltype/" target="_blank">type deduction</a>. All lambdas have is calling semantics and thus the need for polymorphic function objects that don&#8217;t care about types, but just the calling semantics. There by being the &#8220;one type to rule them all&#8221; callable entity.
-</p>
-
-<p style="text-align: justify;">
+                    notes on C&#43;&#43;11 polymorphic function objects
                 
 
                 <br/>
@@ -280,8 +217,7 @@ int main()
             
               <div class="post-entry">
                 
-                    While doing some performance profiling I ran into dynamic_cast being one of the hogs. I do know that dynamic_cast does typeid and string comparison on windows and it sucks. However on gcc it seems quite fast (haven&#8217;t checked the implementation there), became curious how is it implemented in libcxx in Clang.
-Will do a separate post covering my findings soon, this post is about some random strings disassembler showed in XCode, as you can see there are some references to &#8220;Adobe Illustrator&#8221; and &#8220;Adobe Photoshop CS5&#8243;, wonder if this is just garbage.
+                    a few things i found when investigating for dynamic_cast performance
                 
 
                 <br/>

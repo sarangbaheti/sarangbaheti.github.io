@@ -125,7 +125,7 @@
             
               <div class="post-entry">
                 
-                    Found this interesting piece of information about why accidentally intel chips are little-endian:  The ia32 is a little-endian architecture. When a chip is designed the choice between these two possibilities is pretty much arbitrary. In the case of the ia32, the decision was forced by considerations of compatibility, since all previous Intel chips are also little-endian, and Intel did not want to have incompatible data layouts between different chips, because otherwise transition from one chip to another would be more complicated.
+                    linked article about little-endian
                 
 
                 <br/>
@@ -148,16 +148,7 @@
             
               <div class="post-entry">
                 
-                    <p style="text-align: justify;">
-  Stack trace is every developer&#8217;s tool when it comes to looking at the path of execution. While investigating assertion or error, I typically prefer looking at stack trace first and then at the code. Back tracing is specific to each OS. Windows defines several functions, I will cover that in another post, while Mac OS X uses BSD style back_trace functions.
-</p>
-
-<p style="text-align: justify;">
-  It&#8217;s fairly easy to code up a class that generates the stack trace on Mac OS X, but has a caveat that line numbers and file-names are not yet there. This is something for me to figure out.
-</p>
-
-<p style="text-align: justify;">
-  Anyway here is the code, you will need C++11 enabled.:
+                    notes on how to generate stack traces with symbols on Mac OS X
                 
 
                 <br/>
@@ -180,36 +171,12 @@
             
               <div class="post-entry">
                 
-                    Recently started using VS2012 and while coding up a proto for some debug extensions concept I ran into this weird VS bug which causes it to hang up.
-VS 2012 freezes with message: &#8220;Waiting for Background operation to complete&#8221;. After searching for a while I bumped into this thread at StackOverflow, and as suggested reset the settings. It so came out that some where my customizations have caused VS to crash: Bug with VS2012 for sure but it&#8217;s good to know the workaround.
+                    odd error with Visual Studio customization that gave me a days break :)
                 
 
                 <br/>
                 <br/>
                 <a href="https://www.variadic.xyz/2013/02/18/waiting-for-background-operation-to-complete/" class="post-read-more">[Read&nbsp;More]</a>
-              </div>
-            
-             </article>
-            
-            <article class="post-preview">
-              <a href="https://www.variadic.xyz/2012/12/14/installing-command-line-tools-in-mac-os-x/">
-          	  <h2 class="post-title">installing command line tools in Mac OS X</h2>
-          	
-          	    
-              </a>
-
-              <p class="post-meta">
-                December 14, 2012
-              </p>
-            
-              <div class="post-entry">
-                
-                    Earlier (pre Xcode 4.3) toolchains were installed in /usr/bin. But after Xcode has been bundled toolchains installation to /usr/bin is optional and are local to Xcode application. To install toolchain (clang & llvm) as to use them on command line go to Xcode preferences and Download and install. Or other option is to use xcrun 
-                
-
-                <br/>
-                <br/>
-                <a href="https://www.variadic.xyz/2012/12/14/installing-command-line-tools-in-mac-os-x/" class="post-read-more">[Read&nbsp;More]</a>
               </div>
             
              </article>
@@ -227,12 +194,35 @@ VS 2012 freezes with message: &#8220;Waiting for Background operation to complet
             
               <div class="post-entry">
                 
-                    With Mountain Lion Apple&#8217;s has started to assert it&#8217;s strong hold on what can be installed on the system. It&#8217;s good in sense that it&#8217;s quite fussy about installing applications from unknown sources (read non-Appstore). From Apple&#8217;s site:  Gatekeeper is a new feature in Mountain Lion and OS X Lion v10.7.5 that builds on OS X&#8217;s existing malware checksto help protect your Mac from malware and misbehaving apps downloaded from the Internet.
+                    how to install apps from unidentified developer on Mac OS X
                 
 
                 <br/>
                 <br/>
                 <a href="https://www.variadic.xyz/2012/12/10/installing-apps-from-an-unidentified-developer/" class="post-read-more">[Read&nbsp;More]</a>
+              </div>
+            
+             </article>
+            
+            <article class="post-preview">
+              <a href="https://www.variadic.xyz/2012/12/10/reclaiming-inactive-memory-in-mac-os-x/">
+          	  <h2 class="post-title">reclaiming inactive memory in Mac OS X</h2>
+          	
+          	    
+              </a>
+
+              <p class="post-meta">
+                December 10, 2012
+              </p>
+            
+              <div class="post-entry">
+                
+                    flushing cached memory in Mac OS X
+                
+
+                <br/>
+                <br/>
+                <a href="https://www.variadic.xyz/2012/12/10/reclaiming-inactive-memory-in-mac-os-x/" class="post-read-more">[Read&nbsp;More]</a>
               </div>
             
              </article>

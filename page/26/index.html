@@ -113,76 +113,6 @@
             
             
             <article class="post-preview">
-              <a href="https://www.variadic.xyz/2011/10/12/c11-lambda-having-fun-with-brackets/">
-          	  <h2 class="post-title">C&#43;&#43;11 lambda- having fun with brackets!</h2>
-          	
-          	    
-              </a>
-
-              <p class="post-meta">
-                October 12, 2011
-              </p>
-            
-              <div class="post-entry">
-                
-                    Lambda Breaking a complex problem into smaller chunks has obvious advantages and this true with functions as it is with design. However, sanity turns into insanity when the sheer number of such small function tends to be overwhelming. In addition, the boilerplate code needed to use these functions such as a functor, tend to slow you down considerably.
-Would it not be nice if there were a way to create functions easily on the fly at the point of call?
-                
-
-                <br/>
-                <br/>
-                <a href="https://www.variadic.xyz/2011/10/12/c11-lambda-having-fun-with-brackets/" class="post-read-more">[Read&nbsp;More]</a>
-              </div>
-            
-             </article>
-            
-            <article class="post-preview">
-              <a href="https://www.variadic.xyz/2011/09/30/algorithm-is-not-a-four-letter-word/">
-          	  <h2 class="post-title">Algorithm is not a four letter word</h2>
-          	
-          	    
-              </a>
-
-              <p class="post-meta">
-                September 30, 2011
-              </p>
-            
-              <div class="post-entry">
-                
-                    I bumped into this presentation by Jamis Buck about understanding and experimenting with algorithms. I am impressed the way he presented various algorithms for generating mazes and puzzles. Well the intent behind his presentation is to try out something new so that you keep outdoing yourself every now-and-then. &ldquo;Algorithm&rdquo; is not a four letter word
-                
-
-                <br/>
-                <br/>
-                <a href="https://www.variadic.xyz/2011/09/30/algorithm-is-not-a-four-letter-word/" class="post-read-more">[Read&nbsp;More]</a>
-              </div>
-            
-             </article>
-            
-            <article class="post-preview">
-              <a href="https://www.variadic.xyz/2011/09/18/multithreading-in-c11-part-2/">
-          	  <h2 class="post-title">Multithreading in C&#43;&#43;11 - part 2</h2>
-          	
-          	    
-              </a>
-
-              <p class="post-meta">
-                September 18, 2011
-              </p>
-            
-              <div class="post-entry">
-                
-                    In previous post we saw briefly how to create threads with various constructors. In this post I want to continue along the same lines. In last post we saw how to spawn the threads with simple execution code like functions, functors and labmda functions. In this post we will briefly explore invoking member-functions on objects as execution units of code. Lets start with the simple code to invoke non-virtual member function:
-                
-
-                <br/>
-                <br/>
-                <a href="https://www.variadic.xyz/2011/09/18/multithreading-in-c11-part-2/" class="post-read-more">[Read&nbsp;More]</a>
-              </div>
-            
-             </article>
-            
-            <article class="post-preview">
               <a href="https://www.variadic.xyz/2011/09/16/multithreading-in-c-part-1/">
           	  <h2 class="post-title">Multithreading in C# - part 1</h2>
           	
@@ -195,9 +125,7 @@ Would it not be nice if there were a way to create functions easily on the fly a
             
               <div class="post-entry">
                 
-                    Here I posted multithreading in C++11. Well I did ran into issues with C++ library. To validate I tried the same dotproduct example in C#.
-Here is the code for the same:
-using System; using System.Collections.Generic; using System.Linq; using System.Text; using System.Threading.Tasks; namespace ConsoleApplication1 { class DotProduct { double[] a; double[] b; double[] res; int id; int numElems; public DotProduct(double[] aa, double[] bb, double[] r, int nElems, int ident) { a = aa; b = bb; res = r; id = ident; numElems = nElems; } public void Evaluate() { res[id] = 0; for (int idx = id * numElems, end = (id + 1) * numElems; idx &amp;lt; end; ++idx) { res[id] += a[idx] * b[idx]; } } } class Program { static void Main(string[] args) { int numElements = 100000; double[] a = new double[numElements]; double[] b = new double[numElements]; for (int idx = 0; idx &amp;lt; numElements; ++idx) { a[idx] = idx; b[idx] = numElements - idx; } double[] result = new double[4]; int numElems = numElements / 4; DotProduct dp1 = new DotProduct(a, b, result, numElems, 0); System.
+                    Multithreading in C#
                 
 
                 <br/>
@@ -220,12 +148,81 @@ using System; using System.Collections.Generic; using System.Linq; using System.
             
               <div class="post-entry">
                 
-                    Concurrency and multithreading is all about running multiple pieces of code in parallel. If you have the hardware for it in the form of a nice shiny multi-core CPU or a multi-processor system then this code can run truly in parallel, otherwise it is interleaved by the operating system — a bit of one task, then a bit of another. This is all very well, but somehow you have to specify what code to run on all these threads.
+                    multithreading in C&#43;&#43;11 with std::thread
                 
 
                 <br/>
                 <br/>
                 <a href="https://www.variadic.xyz/2011/09/16/multithreading-in-c11-part-1/" class="post-read-more">[Read&nbsp;More]</a>
+              </div>
+            
+             </article>
+            
+            <article class="post-preview">
+              <a href="https://www.variadic.xyz/2011/09/13/0xcd-0xdd-understanding-windows-memory-codes-2/">
+          	  <h2 class="post-title">0xCD 0xDD - understanding windows memory codes</h2>
+          	
+          	    
+              </a>
+
+              <p class="post-meta">
+                September 13, 2011
+              </p>
+            
+              <div class="post-entry">
+                
+                    windows memory codes for debugging
+                
+
+                <br/>
+                <br/>
+                <a href="https://www.variadic.xyz/2011/09/13/0xcd-0xdd-understanding-windows-memory-codes-2/" class="post-read-more">[Read&nbsp;More]</a>
+              </div>
+            
+             </article>
+            
+            <article class="post-preview">
+              <a href="https://www.variadic.xyz/2011/08/22/what-every-data-programmer-needs-to-know-about-disks/">
+          	  <h2 class="post-title">What Every Data Programmer Needs to Know about Disks</h2>
+          	
+          	    
+              </a>
+
+              <p class="post-meta">
+                August 22, 2011
+              </p>
+            
+              <div class="post-entry">
+                
+                    notes  on how your application does IO
+                
+
+                <br/>
+                <br/>
+                <a href="https://www.variadic.xyz/2011/08/22/what-every-data-programmer-needs-to-know-about-disks/" class="post-read-more">[Read&nbsp;More]</a>
+              </div>
+            
+             </article>
+            
+            <article class="post-preview">
+              <a href="https://www.variadic.xyz/2011/08/15/all-about-64-bit-programming-in-one-place/">
+          	  <h2 class="post-title">All about 64-bit programming in one place</h2>
+          	
+          	    
+              </a>
+
+              <p class="post-meta">
+                August 15, 2011
+              </p>
+            
+              <div class="post-entry">
+                
+                    comprehensive collection of information about 64-bit programming
+                
+
+                <br/>
+                <br/>
+                <a href="https://www.variadic.xyz/2011/08/15/all-about-64-bit-programming-in-one-place/" class="post-read-more">[Read&nbsp;More]</a>
               </div>
             
              </article>

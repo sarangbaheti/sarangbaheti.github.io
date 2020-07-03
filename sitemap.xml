@@ -508,11 +508,6 @@
   </url>
   
   <url>
-    <loc>https://www.variadic.xyz/2012/12/14/installing-command-line-tools-in-mac-os-x/</loc>
-    <lastmod>2012-12-14T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://www.variadic.xyz/2012/12/10/installing-apps-from-an-unidentified-developer/</loc>
     <lastmod>2012-12-10T00:00:00+00:00</lastmod>
   </url>
@@ -528,18 +523,8 @@
   </url>
   
   <url>
-    <loc>https://www.variadic.xyz/2012/11/05/creating-refresh-image-for-windows-8/</loc>
-    <lastmod>2012-11-05T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://www.variadic.xyz/2012/08/29/creating-a-uuid/</loc>
     <lastmod>2012-08-29T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://www.variadic.xyz/2012/08/25/intels-sdk-for-opencl-applications/</loc>
-    <lastmod>2012-08-25T00:00:00+00:00</lastmod>
   </url>
   
   <url>
@@ -673,11 +658,6 @@
   </url>
   
   <url>
-    <loc>https://www.variadic.xyz/2011/08/24/amdhal-moore-brooke-and-90-90-empirical-laws-of-computers/</loc>
-    <lastmod>2011-08-24T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://www.variadic.xyz/2011/08/22/what-every-data-programmer-needs-to-know-about-disks/</loc>
     <lastmod>2011-08-22T00:00:00+00:00</lastmod>
   </url>
@@ -698,18 +678,8 @@
   </url>
   
   <url>
-    <loc>https://www.variadic.xyz/2011/07/27/building-boost-libraries/</loc>
-    <lastmod>2011-07-27T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://www.variadic.xyz/2011/07/26/vector-reserve-with-care/</loc>
     <lastmod>2011-07-26T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://www.variadic.xyz/2011/07/21/finding-serial-number-of-your-mac/</loc>
-    <lastmod>2011-07-21T00:00:00+00:00</lastmod>
   </url>
   
   <url>
@@ -760,11 +730,6 @@
   <url>
     <loc>https://www.variadic.xyz/2011/05/09/type-erasure/</loc>
     <lastmod>2011-05-09T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://www.variadic.xyz/2011/05/07/gcc/</loc>
-    <lastmod>2011-05-07T00:00:00+00:00</lastmod>
   </url>
   
   <url>

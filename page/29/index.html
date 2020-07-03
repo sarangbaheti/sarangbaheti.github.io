@@ -113,123 +113,116 @@
             
             
             <article class="post-preview">
-              <a href="https://www.variadic.xyz/2011/06/14/google-earth/">
-          	  <h2 class="post-title">google earth</h2>
+              <a href="https://www.variadic.xyz/2011/05/12/tuple/">
+          	  <h2 class="post-title">tuple</h2>
           	
           	    
               </a>
 
               <p class="post-meta">
-                June 14, 2011
+                May 12, 2011
               </p>
             
               <div class="post-entry">
                 
-                    I was trying to host the google earth in a C# application, using WPF WebBrowser control here is the code, and the result:
-
-Want to see google earth in Visual Studio! Just install the google earth plugin from here and then type this url[http://earth-api-samples.googlecode.com/svn/trunk/demos/desktop-embedded/pluginhost.html] in the visual studio and the result is:
+                    a short note on std::tuple and it&#39;s usage
                 
 
                 <br/>
                 <br/>
-                <a href="https://www.variadic.xyz/2011/06/14/google-earth/" class="post-read-more">[Read&nbsp;More]</a>
+                <a href="https://www.variadic.xyz/2011/05/12/tuple/" class="post-read-more">[Read&nbsp;More]</a>
               </div>
             
              </article>
             
             <article class="post-preview">
-              <a href="https://www.variadic.xyz/2011/06/07/functional-programming-for-the-rest-of-us/">
-          	  <h2 class="post-title">Functional Programming For The Rest of Us</h2>
+              <a href="https://www.variadic.xyz/2011/05/10/boostany/">
+          	  <h2 class="post-title">boost::any</h2>
           	
           	    
               </a>
 
               <p class="post-meta">
-                June 7, 2011
+                May 10, 2011
               </p>
             
               <div class="post-entry">
                 
-                    Functional Programming for the Rest of Us Programmers are procrastinators. Get in, get some coffee, check the mailbox, read the RSS feeds, read the news, check out latest articles on techie websites, browse through political discussions on the designated sections of the programming forums. Rinse and repeat to make sure nothing is missed. Go to lunch. Come back, stare at the IDE for a few minutes. Check the mailbox. Get some coffee.
+                    any provides for heterogneous containers, uses type-erasure
                 
 
                 <br/>
                 <br/>
-                <a href="https://www.variadic.xyz/2011/06/07/functional-programming-for-the-rest-of-us/" class="post-read-more">[Read&nbsp;More]</a>
+                <a href="https://www.variadic.xyz/2011/05/10/boostany/" class="post-read-more">[Read&nbsp;More]</a>
               </div>
             
              </article>
             
             <article class="post-preview">
-              <a href="https://www.variadic.xyz/2011/05/31/callable-entity/">
-          	  <h2 class="post-title">callable entity</h2>
+              <a href="https://www.variadic.xyz/2011/05/09/type-erasure/">
+          	  <h2 class="post-title">Type Erasure</h2>
           	
           	    
               </a>
 
               <p class="post-meta">
-                May 31, 2011
+                May 9, 2011
               </p>
             
               <div class="post-entry">
                 
-                    C++ is language of functions – global, instance or class functions. However it is not just functions that are callable. C++ provides an operator() to make even objects behave as if they were functions, affectionately known as functors, function objects to be more precise. With C++11 lambda’s have been added to callable entity’s list.
-Overall here is the summary of the callable objects:
-#include &lt;algorithm&gt; // // template int length(T (&amp;arr)[N] ) { return N; } // // template T* end(T (&amp;arr)[N]) { return arr+N; } // // template struct Comparator { const Type&amp; _comparisonObject; Comparator(const Type&amp; obj) : _comparisonObject(obj) {} bool operator()(const Type&amp; other) const { return other == _comparisonObject; } }; // // int tobefound = 0; // // bool find_function(int val) { return tobefound == val; } // // int main() { // int arr[] = {0,1,2,3,4,5,6,7,8,9}; // using function // tobefound is global variable // // Readability/Maintainability -- (Ok) // tobefound = 5; auto iterator1 = std::find_if(arr, arr + length(arr), find_function); // bool found1 = iterator1 !
+                    type erasure as a programming technique to bend c&#43;&#43; type system to implement auto and std::function features
                 
 
                 <br/>
                 <br/>
-                <a href="https://www.variadic.xyz/2011/05/31/callable-entity/" class="post-read-more">[Read&nbsp;More]</a>
+                <a href="https://www.variadic.xyz/2011/05/09/type-erasure/" class="post-read-more">[Read&nbsp;More]</a>
               </div>
             
              </article>
             
             <article class="post-preview">
-              <a href="https://www.variadic.xyz/2011/05/28/auto-and-decltype/">
-          	  <h2 class="post-title">auto and decltype</h2>
+              <a href="https://www.variadic.xyz/2011/05/07/template-function-to-determine-size-of-an-array/">
+          	  <h2 class="post-title">template function to determine size of an array</h2>
           	
           	    
               </a>
 
               <p class="post-meta">
-                May 28, 2011
+                May 7, 2011
               </p>
             
               <div class="post-entry">
                 
-                    auto In one of the previous posts we have explored auto in detail, however there are few places where auto cannot be used. One of them happens to be the function argument and return type:
-Consider some code:
-auto function(auto var) { return var; } int main() { int var = function(4); double d = function(8.9); return 0; }  Here compiler cannot deduce the argument type. As in both the case args are being passed by value, and double is 8 bytes while int is 4 bytes.
+                    a hadny function to determine size of an static-array at compile time, instead of a macro
                 
 
                 <br/>
                 <br/>
-                <a href="https://www.variadic.xyz/2011/05/28/auto-and-decltype/" class="post-read-more">[Read&nbsp;More]</a>
+                <a href="https://www.variadic.xyz/2011/05/07/template-function-to-determine-size-of-an-array/" class="post-read-more">[Read&nbsp;More]</a>
               </div>
             
              </article>
             
             <article class="post-preview">
-              <a href="https://www.variadic.xyz/2011/05/26/range-based-for-loop/">
-          	  <h2 class="post-title">range based for-loop</h2>
+              <a href="https://www.variadic.xyz/2011/05/04/auto/">
+          	  <h2 class="post-title">C&#43;&#43;11: auto</h2>
           	
           	    
               </a>
 
               <p class="post-meta">
-                May 26, 2011
+                May 4, 2011
               </p>
             
               <div class="post-entry">
                 
-                    In standard C++, iterating over the elements of a container requires a lot of code. Other languages like C# and Java have shortcuts that allow one to write a simple foreach statement that automatically walks the container from start to finish. C++11 has a similar feature. The statement (range-based) for will allow for easy iteration over container of elements:
-#include &lt;iostream&gt; #include &lt;vector&gt; int main() { std::vector&lt;int&gt; vec(10); // // with range-based for loop // for( auto&amp; var : vec) { std::cout &lt;&lt; var &lt;&lt; std::endl; } // with iterators, the old-way // for( auto iter = vec.
+                    c&#43;&#43;11 type inferencing syntax sugar-&gt; auto
                 
 
                 <br/>
                 <br/>
-                <a href="https://www.variadic.xyz/2011/05/26/range-based-for-loop/" class="post-read-more">[Read&nbsp;More]</a>
+                <a href="https://www.variadic.xyz/2011/05/04/auto/" class="post-read-more">[Read&nbsp;More]</a>
               </div>
             
              </article>
