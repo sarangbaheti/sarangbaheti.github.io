@@ -141,16 +141,23 @@
 <p>If you require too few registers to be preserved, then callers become filled with register save/restore code. But if you require too many registers to be preserved, then callees become obligated to save and restore registers that the caller might not have really cared about. This is particularly important for leaf functions (functions that do not call any other functions).
 The non-uniformity of the <code>x86</code> instruction set was also a contributing factor. The <code>CX</code> register could not be used to access memory, so you wanted to have some register other than <code>CX</code> be scratch, so that a leaf function can at least access memory without having to preserve any registers. So <code>BX</code> was chosen to be scratch, leaving <code>SI</code> and <code>DI</code> as preserved.</p>
 
-<p><a href="http://blogs.msdn.com/b/oldnewthing/archive/2004/01/02/47184.aspx">Continue Reading @Source</a></p>
+<p><a href="https://devblogs.microsoft.com/oldnewthing/20040102-00/?p=41213">Continue Reading @Source</a></p>
 
 <p>Blogpost series by Raymond Chen:</p>
 
 <ol>
-<li><a href="http://blogs.msdn.com/b/oldnewthing/archive/2004/01/02/47184.aspx">Part 1</a></li>
-<li><a href="http://blogs.msdn.com/b/oldnewthing/archive/2004/01/07/48303.aspx">Part 2</a></li>
-<li><a href="http://blogs.msdn.com/b/oldnewthing/archive/2004/01/08/48616.aspx">Part 3</a></li>
-<li><a href="http://blogs.msdn.com/b/oldnewthing/archive/2004/01/13/58199.aspx">Part 4</a></li>
-<li><a href="http://blogs.msdn.com/b/oldnewthing/archive/2004/01/14/58579.aspx">Part 5</a></li>
+<li><a href="https://devblogs.microsoft.com/oldnewthing/20040102-00/?p=41213">Part 1</a></li>
+<li><a href="https://devblogs.microsoft.com/oldnewthing/20040107-00/?p=41183">Part 2</a></li>
+<li><a href="https://devblogs.microsoft.com/oldnewthing/20040108-00/?p=41163">Part 3</a></li>
+<li><a href="https://devblogs.microsoft.com/oldnewthing/20040113-00/?p=41073">Part 4</a></li>
+<li><a href="https://devblogs.microsoft.com/oldnewthing/20040114-00/?p=41053">Part 5</a></li>
+</ol>
+
+<p>Additional links:</p>
+
+<ol>
+<li><a href="/2020/05/29/a-few-articles/">a few more interesting articles</a></li>
+<li><a href="https://devblogs.microsoft.com/oldnewthing/20160623-00/?p=93735">Why does the x64 calling convention reserve four home spaces for parameters</a></li>
 </ol>
 
       </article>

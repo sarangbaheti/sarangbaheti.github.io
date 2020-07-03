@@ -125,7 +125,7 @@
             
               <div class="post-entry">
                 
-                    Too many initializers/constructors It&#8217;s fairly common to write classes with multiple constructors, but they tend to get messy very soon. One of the biggest problems is initialization of the member variables. You, as programmer, need to ensure that member variables are initialized correctly in each constructor. Ensuring this consistency is quite tedious, boring and very easy to get wrong. For example consider the class Sample: class Sample { public: // // Sample() : r(0), i(0) { } // // Sample(double real) : r(real), i(0) { } // // Sample(double real, double img) : r(real), i(img) { } // // Sample(double data[2]) : r(data[0]), i(data[1]) { } // // Sample(const Sample&) = default; Sample& operator=(const Sample&) = default; ~Sample() = default; // private: double r; double i; };  Sample class has 4 constructors each initializing member variables r and i.
+                    Too many initializers/constructors It&#8217;s fairly common to write classes with multiple constructors, but they tend to get messy very soon. One of the biggest problems is initialization of the member variables. You, as programmer, need to ensure that member variables are initialized correctly in each constructor. Ensuring this consistency is quite tedious, boring and very easy to get wrong. For example consider the class Sample: class Sample { public: Sample() : r(0), i(0) { } Sample(double real) : r(real), i(0) { } Sample(double real, double img) : r(real), i(img) { } Sample(double data[2]) : r(data[0]), i(data[1]) { } Sample(const Sample&amp;) = default; Sample&amp; operator=(const Sample&amp;) = default; ~Sample() = default; private: double r; double i; };  Sample class has 4 constructors each initializing member variables r and i.
                 
 
                 <br/>
@@ -148,7 +148,8 @@
             
               <div class="post-entry">
                 
-                    C++ Template Metaprogramming (TMP)  Template metaprogramming is a metaprogramming technique in which templates are used by a compiler to generate temporary source code, which is merged by the compiler with the rest of the source code and then compiled. The output of these templates include compile-time constants, data structures, and complete functions. The use of templates can be thought of as compile-time execution. The use of templates as a metaprogramming technique requires two distinct operations: a template must be defined, and a defined template must be instantiated.
+                    Note: with C++14 &amp; C++17 life gets much better with constexpr. Details: computing-exp-at-compile-time and constexpr2
+ C++ Template Metaprogramming (TMP)  Template metaprogramming is a metaprogramming technique in which templates are used by a compiler to generate temporary source code, which is merged by the compiler with the rest of the source code and then compiled. The output of these templates include compile-time constants, data structures, and complete functions.
                 
 
                 <br/>

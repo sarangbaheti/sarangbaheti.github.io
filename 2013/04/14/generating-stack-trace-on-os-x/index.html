@@ -144,7 +144,7 @@
   Anyway here is the code, you will need C++11 enabled.:
 </p>
 
-<pre class="brush: cpp; title: ; notranslate" title="">#include &lt;iostream&gt;
+<pre><code class="language-cpp">#include &lt;iostream&gt;
 #include &lt;execinfo.h&gt;
 #include &lt;cxxabi.h&gt;
 #include &lt;string&gt;
@@ -161,8 +161,8 @@ private:
     //  cannot be instantiated
     //
     StackTraceGenerator() = delete;
-    StackTraceGenerator(const StackTraceGenerator&) = delete;
-    StackTraceGenerator& operator=(const StackTraceGenerator&) = delete;
+    StackTraceGenerator(const StackTraceGenerator&amp;) = delete;
+    StackTraceGenerator&amp; operator=(const StackTraceGenerator&amp;) = delete;
     ~StackTraceGenerator() = delete;
 
 public:
@@ -208,20 +208,20 @@ public:
 
             // split the string, take out chunks out of stack trace
             // we are primarily interested in module, function and address
-            sscanf(strs[i], "%*s %s %s %s %*s %d",
-                   &moduleName, &addr, &functionSymbol, &offset);
+            sscanf(strs[i], &quot;%*s %s %s %s %*s %d&quot;,
+                   &amp;moduleName, &amp;addr, &amp;functionSymbol, &amp;offset);
 
             int   validCppName = 0;
             //  if this is a C++ library, symbol will be demangled
             //  on success function returns 0
             //
             char* functionName = abi::__cxa_demangle(functionSymbol,
-                                                     NULL, 0, &validCppName);
+                                                     NULL, 0, &amp;validCppName);
 
             char stackFrame[4096] = {};
             if (validCppName == 0) // success
             {
-                sprintf(stackFrame, "(%s)\t0x%s — %s + %d",
+                sprintf(stackFrame, &quot;(%s)\t0x%s — %s + %d&quot;,
                         moduleName, addr, functionName, offset);
             }
             else
@@ -229,7 +229,7 @@ public:
                 //  in the above traceback (in comments) last entry is not
                 //  from C++ binary, last frame, libdyld.dylib, is printed
                 //  from here
-                sprintf(stackFrame, "(%s)\t0x%s — %s + %d",
+                sprintf(stackFrame, &quot;(%s)\t0x%s — %s + %d&quot;,
                         moduleName, addr, functionName, offset);
             }
 
@@ -246,19 +246,19 @@ public:
         return stackFrames;
     }
 };
-</pre>
+</code></pre>
 
 <p style="text-align: justify;">
   To print the stack trace all you have do is to iterate over each stack frame and dump it. Here is a snippet to dump the same to stdout.
 </p>
 
-<pre class="brush: cpp; title: ; notranslate" title="">struct StackTracePrinter
+<pre><code class="language-cpp">struct StackTracePrinter
 {
     void operator()() const
     {
         auto frames = StackTraceGenerator::GetTrace();
         std::for_each(frames.cbegin(), frames.cend(),
-                      [](const std::string& frame)
+                      [](const std::string&amp; frame)
                         {std::cout &lt;&lt; frame &lt;&lt; std::endl;});
     }
 };
@@ -268,27 +268,27 @@ void fn0()
     StackTracePrinter stPrinter;
     stPrinter();
 }
-</pre>
+</code></pre>
 
 <p>And the output is:<figure id="attachment_2326" style="width: 695px;" class="wp-caption aligncenter"></p>
 
 <p><img class="size-full wp-image-2326" src="/wp-content/uploads/2013/04/stack-trace.png" alt="stack-trace" width="695" height="198" /><figcaption class="wp-caption-text">stack-trace</figcaption></figure></p>
 
-<h6 class="zemanta-related-title" style="font-size: 1em;">
+<h6 style="font-size: 1em;">
   Related articles
 </h6>
 
-<ul class="zemanta-article-ul">
-  <li class="zemanta-article-ul-li">
+<ul >
+  <li >
     <a title="C++11: defaulted and deleted functions" href="/2012/01/05/c11-defaulted-and-deleted-functions/" target="_blank">C++11 deleted and default functions</a>
   </li>
-  <li class="zemanta-article-ul-li">
+  <li >
     <a href="http://developer.apple.com/library/mac/#documentation/Darwin/Reference/ManPages/man3/backtrace_symbols.3.html" target="_blank">backtrace_symbols(3) OS X Developer Manual</a> (apple.com)
   </li>
-  <li class="zemanta-article-ul-li">
+  <li >
     <a href="http://developer.apple.com/library/mac/#documentation/Darwin/Reference/ManPages/man3/backtrace.3.html" target="_blank">backtrace OS X Developoer Manual</a> (apple.com)
   </li>
-  <li class="zemanta-article-ul-li">
+  <li >
     <a href="http://stackoverflow.com/questions/15918212/stacktrace-c-application">StackTrace C++ application</a> (stackoverflow.com)
   </li>
 </ul>

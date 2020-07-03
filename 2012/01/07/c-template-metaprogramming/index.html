@@ -134,6 +134,10 @@
       <article role="main" class="blog-post">
           
 
+<blockquote>
+<p>Note: with <code>C++14</code> &amp; <code>C++17</code> life gets much better with <code>constexpr</code>. Details: <a href="/2014/07/06/c11-constexpr-computing-exp-at-compile-time/"><code>computing-exp-at-compile-time</code></a> and <a href="/2019/07/03/constexpr2/"><code>constexpr2</code></a></p>
+</blockquote>
+
 <h2 style="text-align: justify;">
   C++ Template Metaprogramming (TMP)
 </h2>
@@ -172,7 +176,7 @@
   Now being C++ programmer our first attempt would be to iterate:
 </p>
 
-<pre class="brush: cpp; highlight: [4,6]; title: ; notranslate" title="">static int factorial_imperative(int value)
+<pre><code class="language-cpp">static int factorial_imperative(int value)
 {
     int factorial = 1;
     for(auto idx = value; idx &gt; 1; --idx )
@@ -181,7 +185,7 @@
     }
     return factorial;
 }
-</pre>
+</code></pre>
 
 <p style="text-align: justify;">
   This works, but has several limitations when it comes to converting it to metaprogram. First and foremost it mutates state, idx and factorial variables at line 4 and 6 respectively. Second it is not recursive, now recursion is primarily required if we want to avoid state mutation.
@@ -198,13 +202,13 @@
 
 <p>So here is the recursive and immutable version for evaluating factorial:</p>
 
-<pre class="brush: cpp; highlight: [4]; title: ; notranslate" title="">static int factorial_recursive(int value)
+<pre><code class="language-cpp">static int factorial_recursive(int value)
 {
     return
             value &lt;= 1 ? 1 :
             (value * factorial_recursive(value-1));
 }
-</pre>
+</code></pre>
 
 <p style="text-align: justify;">
   That was easy :), few observations though:
@@ -219,10 +223,7 @@
   Once we have recursive & immutable version of algorithm, it is very easy to convert that into TMP. I will first write out the TMP and then walk over various aspects of it and how it relates to previous algorithm.
 </p>
 
-<pre class="brush: cpp; highlight: [5,6,10,18,19,23,31,35,43]; title: ; notranslate" title="">//
-//  in metaprogram every thing is a template-class/struct
-//
-//
+<pre><code class="language-cpp">//  in metaprogram every thing is a template-class/struct
 template&lt;int Num&gt;
 struct factorial_c
 {
@@ -231,7 +232,7 @@ enum
         value = Num * factorial_c&lt;Num-1&gt;::value
     };
 };
-//
+
 //  terminating conditions
 //
 //  factorial of 1 is 1
@@ -244,8 +245,8 @@ struct factorial_c&lt;1&gt;
         value = 1
     };
 };
-//
-//
+
+
 //  factorial of 0 is 1
 //
 template&lt;&gt;
@@ -256,17 +257,16 @@ struct factorial_c&lt;0&gt;
         value = 1
     };
 };
-//
-//
-//
+
+
 int main()
 {
     auto factorial_5 = factorial_c&lt;5&gt;::value;
-    std::cout &lt;&lt; "factorial of 5 is "
+    std::cout &lt;&lt; &quot;factorial of 5 is &quot;
               &lt;&lt; factorial_5 &lt;&lt; std::endl;
     return 0;
 }
-</pre>
+</code></pre>
 
 <p style="text-align: justify;">
   The above Template Metaprogram is almost equivalent to the recursive-immutable runtime version we wrote. Few observations:
@@ -293,14 +293,14 @@ int main()
 
 <p><span style="text-align: justify;">Here is how the compiler evaluates the template recusions:</span></p>
 
-<pre class="brush: cpp; highlight: [2,5]; title: ; notranslate" title="">factorial_5 = factorial_c&lt;5&gt;::value;
+<pre><code class="language-cpp">factorial_5 = factorial_c&lt;5&gt;::value;
 factorial_5 = 5 * factorial_c&lt;4&gt;::value;
 factorial_5 = 5 * 4 * factorial_c&lt;3&gt;::value;
 factorial_5 = 5 * 4 * 3 * factorial_c&lt;2&gt;::value;
 factorial_5 = 5 * 4 * 3 * 2 * factorial_c&lt;1&gt;::value;
 factorial_5 = 5 * 4 * 3 * 2 * 1;
 factorial_5 = 120;
-</pre>
+</code></pre>
 
 <p style="text-align: justify;">
   It checks what is the number, it is 5 now, so none of special cases, known as template specializations, of factorial are applicable. As the number is not 0 or 1 it goes to general definition, which causes it to recurse as on Line 2. Same process is repeated till the Num with which factorial_c is parameterized is 1, Line 5, in which case the template specialization with Num being 1, Line 18,19 with previous code snippet, is invoked and the recursion stops.
@@ -334,7 +334,7 @@ factorial_5 = 120;
 
 <p>Recursive &amp; Immutable runtime code:</p>
 
-<pre class="brush: cpp; title: ; notranslate" title="">static int gcd_recursive(int a, int b)
+<pre><code class="language-cpp">static int gcd_recursive(int a, int b)
 {
     if( a == b )
     {
@@ -351,12 +351,11 @@ factorial_5 = 120;
     }
     return gcd_recursive(min, max % min);
 }
-</pre>
+</code></pre>
 
 <p>TMP:</p>
 
-<pre class="brush: cpp; title: ; notranslate" title="">//
-//  equivalent to max function
+<pre><code class="language-cpp">//  equivalent to max function
 //
 template&lt;int One, int Two&gt;
 struct  max_c
@@ -409,7 +408,7 @@ struct gcd_c&lt;Max, 0&gt;
         value = Max
     };
 };
-</pre>
+</code></pre>
 
 <h3 id="lcm-least-common-multiple">lcm (least common multiple)</h3>
 
@@ -429,15 +428,15 @@ struct gcd_c&lt;Max, 0&gt;
 
 <p>Recursive &amp; Immutable runtime code:</p>
 
-<pre class="brush: cpp; title: ; notranslate" title="">static int lcm_r(int one, int two)
+<pre><code class="language-cpp">static int lcm_r(int one, int two)
 {
     return one * two / gcd_recursive(one, two);
 }
-</pre>
+</code></pre>
 
 <p>TMP:</p>
 
-<pre class="brush: cpp; title: ; notranslate" title="">template&lt;int One, int Two&gt;
+<pre><code class="language-cpp">template&lt;int One, int Two&gt;
 struct lcm_c
 {
     enum
@@ -445,7 +444,7 @@ struct lcm_c
         value = One * Two / gcd_c&lt;One, Two&gt;::value
     };
 };
-</pre>
+</code></pre>
 
 <p style="text-align: justify;">
   As LCM can be evaluated using gcd also, we don&#8217;t care about terminating conditions specific to LCM, as it is not recursive at all! Who said that you couldn&#8217;t re-use TMPs. :).

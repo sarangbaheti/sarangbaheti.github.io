@@ -144,77 +144,68 @@
   For example consider the class Sample:
 </p>
 
-<pre class="brush: cpp; title: ; notranslate" title="">class Sample
+<pre><code class="language-cpp">class Sample
 {
 public:
-    //
-    //
+
     Sample() : r(0), i(0)
     {
 
     }
-    //
-    //
+    
     Sample(double real) : r(real), i(0)
     {
 
     }
-    //
-    //
+    
     Sample(double real, double img) : r(real), i(img)
     {
 
     }
-    //
-    //
+    
     Sample(double data[2]) : r(data[0]), i(data[1])
     {
 
     }
-    //
-    //
-    Sample(const Sample&) = default;
-    Sample& operator=(const Sample&) = default;
+    
+    Sample(const Sample&amp;) = default;
+    Sample&amp; operator=(const Sample&amp;) = default;
     ~Sample() = default;
-    //
+    
 private:
     double r;
     double i;
 };
-</pre>
+</code></pre>
 
 <p style="text-align: justify;">
   Sample class has 4 constructors each initializing member variables r and i. It&#8217;s quite easy to forget to initialize these. Also the initializer code is also fairly repetitive, following the DRY (<a href="http://en.wikipedia.org/wiki/Don't_repeat_yourself">Don&#8217;t Repeat Yourself</a>) principle it would be nice to abstract it out into a initializer method and then call this inside each constructor:
 </p>
 
-<pre class="brush: cpp; title: ; notranslate" title="">class Sample
+<pre><code class="language-cpp">class Sample
 {
 private:
     void Init(double real, double img)
     {
-        this-&gt;r = real;
-        this-&gt;i = img;
+        this-&amp;gt;r = real;
+        this-&amp;gt;i = img;
     }
 public:
-    //
-    //
+
     Sample()
     {
         Init(0,0);
     }
-    //
-    //
+    
     Sample(double real)
     {
         Init(real,0);
     }
-    //
-    //
+    
     ...
-    //
-    //
+    
 };
-</pre>
+</code></pre>
 
 <p style="text-align: justify;">
   This works and has been used by many C++ developers over decades however it gives up the benefits of initializing members in initializer list of constructor.
@@ -226,7 +217,7 @@ public:
   In previous code sample the concise way of initializing objects of a class is to use a init method or to delegate the initialization of the member variables to a method but losing out on the initializer list benefits. This pattern is so useful that various new languages support this delegating construction out of box (C# has similar concept named <a href="http://www.codeproject.com/Articles/271582/Constructor-Chaining-in-Csharp">Constructor Chaining</a>). C++11 also voted on similar proposal of delegating constructors. With delegating constructors above code will look like:
 </p>
 
-<pre class="brush: cpp; highlight: [10,16,21,26]; title: ; notranslate" title="">class Sample
+<pre><code class="language-cpp">class Sample
 {
 private:
     //
@@ -239,32 +230,28 @@ private:
     {
     }
 public:
-    //
-    //
+
     Sample() : Sample(0.0)
     {
     }
-    //
-    //
+    
     Sample(double real) : Sample(real,0)
     {
     }
-    //
-    //
+    
     Sample(double data[2]): Sample(data[0], data[1])
     {
     }
-    //
-    //
-    Sample(const Sample&) = default;
-    Sample& operator=(const Sample&) = default;
+    
+    Sample(const Sample&amp;) = default;
+    Sample&amp; operator=(const Sample&amp;) = default;
     ~Sample() = default;
-    //
+
 private:
     double r;
     double i;
 };
-</pre>
+</code></pre>
 
 <p style="text-align: justify;">
   Constructor defined at Line 10 is the delegated constructor. And it is being delegated the task of constructing object by various constructors at line: 16, 21 and 26.
@@ -300,11 +287,11 @@ private:
   Related articles
 </h6>
 
-<ul class="zemanta-article-ul">
-  <li class="zemanta-article-ul-li">
+<ul >
+  <li >
     <a href="/2012/01/05/c11-defaulted-and-deleted-functions/">C++11: defaulted and deleted functions</a> 
   </li>
-  <li class="zemanta-article-ul-li">
+  <li >
     <a href="http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2006/n1986">N1986: Delegating Constructors</a> (www.open-std.org)
   </li>
 </ul>
