@@ -234,6 +234,78 @@ sub   4096R/05A5640E 2018-02-16
 
 </code></pre>
 
+<p><br/></p>
+
+<p>setting up gpg on linux is comparatively easier, first generate the gpg-key:</p>
+
+<pre><code class="language-sh">gpg --full-generate-key 
+gpg (GnuPG) 2.2.19; Copyright (C) 2019 Free Software Foundation, Inc.
+This is free software: you are free to change and redistribute it.
+There is NO WARRANTY, to the extent permitted by law.
+
+Please select what kind of key you want:
+   (1) RSA and RSA (default)
+   (2) DSA and Elgamal
+   (3) DSA (sign only)
+   (4) RSA (sign only)
+  (14) Existing key from card
+Your selection? 1
+RSA keys may be between 1024 and 4096 bits long.
+What keysize do you want? (3072) 4096
+Requested keysize is 4096 bits
+Please specify how long the key should be valid.
+         0 = key does not expire
+      &lt;n&gt;  = key expires in n days
+      &lt;n&gt;w = key expires in n weeks
+      &lt;n&gt;m = key expires in n months
+      &lt;n&gt;y = key expires in n years
+Key is valid for? (0) 1m
+Key expires at Wed 30 Dec 2020 04:19:02 PM PST
+Is this correct? (y/N) y
+
+GnuPG needs to construct a user ID to identify your key.
+
+Real name: Sarang Baheti
+Email address: ***@**.*
+Comment: github email
+You selected this USER-ID:
+    &quot;Sarang Baheti (github email) &lt;***@**.*&gt;&quot;
+
+Change (N)ame, (C)omment, (E)mail or (O)kay/(Q)uit? O
+We need to generate a lot of random bytes. It is a good idea to perform
+some other action (type on the keyboard, move the mouse, utilize the
+disks) during the prime generation; this gives the random number
+generator a better chance to gain enough entropy.
+We need to generate a lot of random bytes. It is a good idea to perform
+some other action (type on the keyboard, move the mouse, utilize the
+disks) during the prime generation; this gives the random number
+generator a better chance to gain enough entropy.
+gpg: key **************** marked as ultimately trusted
+gpg: revocation certificate stored as '/home/sarang/.gnupg/openpgp-revocs.d/***************************************.rev'
+public and secret key created and signed.
+
+pub   rsa4096 2020-07-04 [SC] [expires: 2020-07-31]
+      ***************************************
+uid                      Sarang Baheti (github email) &lt;***@**.*&gt;
+sub   rsa4096 2020-07-04 [E] [expires: 2020-07-31]
+
+</code></pre>
+
+<p>once you have key generated, export public key, <code>gpg --armor --export &lt;KEY&gt; &gt;  gpg.key.txt</code> does the job. Paste the key as it is in github gpg key.</p>
+
+<pre><code class="language-sh">gpg --armor --export *************************************** &gt; gpg.key.txt
+</code></pre>
+
+<p>then just setup the git config to sign on each commit as below:</p>
+
+<pre><code class="language-sh">git config --global commit.gpgSign ***************************************
+git config --global commit.gpgSign true
+git config --global user.signingKey ***************************************
+
+</code></pre>
+
+<p>Note: if you have chosen to hide email from commits in github, they you would have a cryptic email <code>&lt;something&gt;@users.noreply.github.com</code>, that is the email you need to generate key with.</p>
+
       </article>
       <br/>
       <ul class="pager blog-pager">
