@@ -508,36 +508,9 @@ Here are some of my notes about how to set it up.&lt;/p&gt;
       <pubDate>Thu, 15 Feb 2018 20:11:01 -0800</pubDate>
       
       <guid>https://www.variadic.xyz/2018/02/15/gpg-signing-github-commits/</guid>
-      <description>&lt;p&gt;With &lt;code&gt;git&lt;/code&gt; it is easy to overwrite someone as author or commit as someone else. Then how do you know it was someone who committed the changes?
-That&amp;rsquo;s where the gpg signing comes into picture.&lt;/p&gt;
-
-&lt;blockquote&gt;
-&lt;p&gt;this is my first gpg signed post&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;One thing to note is that once you have generated gpg keys from &lt;code&gt;git bash&lt;/code&gt; then you can&amp;rsquo;t use them from windows command prompt.  I found it rather handy to install gnugpg and then generating keys with gpg.
-One thing i had to setup explicitly is to tell &lt;code&gt;git&lt;/code&gt; where to find &lt;code&gt;gpg&lt;/code&gt; so it asks me &lt;code&gt;passcode&lt;/code&gt; . Anyway the command is:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;git config --global gpg.program &amp;quot;C:\GnuPG\bin\gpg.exe&amp;quot;
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;A few links of interest around this topic:&lt;/p&gt;
-
-&lt;ol&gt;
-&lt;li&gt;&lt;a href=&#34;https://news.ycombinator.com/item?id=7792026&#34;&gt;Why-does-GitHub-let-me-commit-as-other-people&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;http://git.661346.n2.nabble.com/GPG-signing-for-git-commit-td2582986.html&#34;&gt;GPG-signing-for-git-commit&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://mikegerwitz.com/papers/git-horror-story.html&#34;&gt;A git horror story: Repository Integrity With Signed Commits&lt;/a&gt;&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;Anyway the most interesting &lt;a href=&#34;https://security.stackexchange.com/a/33471&#34;&gt;is this&lt;/a&gt;:&lt;/p&gt;
-
-
-&lt;figure &gt;
-    
-        &lt;img src=&#34;https://www.variadic.xyz/images/internet-full-of-chimps.png&#34; /&gt;
-    
-    
-&lt;/figure&gt;</description>
+      <description>With git it is easy to overwrite someone as author or commit as someone else. Then how do you know it was someone who committed the changes? That&amp;rsquo;s where the gpg signing comes into picture.
+ this is my first gpg signed post
+ One thing to note is that once you have generated gpg keys from git bash then you can&amp;rsquo;t use them from windows command prompt. I found it rather handy to install gnugpg and then generating keys with gpg.</description>
     </item>
     
     <item>
