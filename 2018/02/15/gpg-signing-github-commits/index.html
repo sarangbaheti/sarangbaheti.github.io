@@ -298,13 +298,14 @@ sub   rsa4096 2020-07-04 [E] [expires: 2020-07-31]
 
 <p>then just setup the git config to sign on each commit as below:</p>
 
-<pre><code class="language-sh">git config --global commit.gpgSign ***************************************
-git config --global commit.gpgSign true
+<pre><code class="language-sh">git config --global commit.gpgSign true
 git config --global user.signingKey ***************************************
 
 </code></pre>
 
 <p>Note: if you have chosen to hide email from commits in github, they you would have a cryptic email <code>&lt;something&gt;@users.noreply.github.com</code>, that is the email you need to generate key with.</p>
+
+<p>In case you run into issues with not able to sign thru <code>gpg</code>, this <a href="https://stackoverflow.com/a/55993078">stackoverflow answer</a> is quite helpful.</p>
 
       </article>
       <br/>
