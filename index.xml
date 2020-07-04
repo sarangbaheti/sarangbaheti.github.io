@@ -378,7 +378,7 @@ With much better C++17 compiler support quite a few of the template metaprograms
       <pubDate>Wed, 27 Mar 2019 21:55:07 -0700</pubDate>
       
       <guid>https://www.variadic.xyz/2019/03/27/mesi-states-transition/</guid>
-      <description>   from Pentium manuals, it seems a bit MESI :)   </description>
+      <description>   from Pentium manuals, it seems a bit MESI :)      MESI Architecture State Diagram      MESI State Transitions Diagram   </description>
     </item>
     
     <item>
