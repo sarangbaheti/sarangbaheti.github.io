@@ -47,5 +47,14 @@
       <description>jumping thru hoops to keep osx running on MBP with defective discrete GPU</description>
     </item>
     
+    <item>
+      <title>controlling processor frequency</title>
+      <link>https://www.variadic.xyz/2016/06/01/controlling-processor-frequency/</link>
+      <pubDate>Wed, 01 Jun 2016 19:28:33 +0000</pubDate>
+      
+      <guid>https://www.variadic.xyz/2016/06/01/controlling-processor-frequency/</guid>
+      <description>notes on how to control processor frequency for better thermal management on windows</description>
+    </item>
+    
   </channel>
 </rss>

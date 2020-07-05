@@ -59,11 +59,11 @@
   "headline": "C\u002b\u002b11 thread safe statics",
   "description" : "how c\u002b\u002b11 threadsafe statics are implemented under the hood",
   "inLanguage" : "en",
-  "wordCount":  472 ,
+  "wordCount":  547 ,
   "datePublished" : "2017-06-20T10:54:24",
   "dateModified" : "2017-06-20T10:54:24",
   "image" : "https:\/\/www.variadic.xyz\/",
-  "keywords" : [ "" ],
+  "keywords" : [ "C\u002b\u002b, C\u002b\u002b11, multithreading" ],
   "mainEntityOfPage" : "https:\/\/www.variadic.xyz\/2017\/06\/20\/cpp11-threadsafe-statics\/",
   "publisher" : {
     "@type": "Organization",
@@ -274,6 +274,16 @@ if (!doNotTrack) {
 
       
       
+        <div class="blog-tags">
+          
+            <a href="https://www.variadic.xyz//tags/c&#43;&#43;/">C&#43;&#43;</a>&nbsp;
+          
+            <a href="https://www.variadic.xyz//tags/c&#43;&#43;11/">C&#43;&#43;11</a>&nbsp;
+          
+            <a href="https://www.variadic.xyz//tags/multithreading/">multithreading</a>&nbsp;
+          
+        </div>
+      
 
         
           
@@ -284,55 +294,119 @@ if (!doNotTrack) {
 </blockquote>
 
 <p>First thing wrote some code to dump disassembly in VS2015:</p>
-<pre><code>static int function()
-{
-00007FF7610C1910  push        rbp 
-00007FF7610C1912  push        rdi 
-00007FF7610C1913  sub         rsp,108h 
-00007FF7610C191A  lea         rbp,[rsp+20h] 
-00007FF7610C191F  mov         rdi,rsp 
-00007FF7610C1922  mov         ecx,42h 
-00007FF7610C1927  mov         eax,0CCCCCCCCh 
-00007FF7610C192C  rep stos    dword ptr [rdi] 
-00007FF7610C192E  mov         qword ptr [rbp+0C8h],0FFFFFFFFFFFFFFFEh 
-    static int s_value = function2();
-00007FF7610C1939  mov         eax,104h 
-00007FF7610C193E  mov         eax,eax 
-00007FF7610C1940  mov         ecx,dword ptr [_tls_index (07FF7610CC1C8h)] 
-00007FF7610C1946  mov         rdx,qword ptr gs:[58h] 
-00007FF7610C194F  mov         rcx,qword ptr [rdx+rcx*8] 
-00007FF7610C1953  mov         eax,dword ptr [rax+rcx] 
-00007FF7610C1956  cmp         dword ptr [s_value+4h (07FF7610CC164h)],eax 
-00007FF7610C195C  jle         function+7Ah (07FF7610C198Ah) 
-00007FF7610C195E  lea         rcx,[s_value+4h (07FF7610CC164h)] 
-00007FF7610C1965  call        _Init_thread_header (07FF7610C101Eh) 
-00007FF7610C196A  cmp         dword ptr [s_value+4h (07FF7610CC164h)],0FFFFFFFFh 
-00007FF7610C1971  jne         function+7Ah (07FF7610C198Ah) 
-00007FF7610C1973  call        function2 (07FF7610C18D0h) 
-00007FF7610C1978  mov         dword ptr [s_value (07FF7610CC160h)],eax 
-00007FF7610C197E  lea         rcx,[s_value+4h (07FF7610CC164h)] 
-00007FF7610C1985  call        _Init_thread_footer (07FF7610C1073h) 
-    return s_value;
-00007FF7610C198A  mov         eax,dword ptr [s_value (07FF7610CC160h)] 
-}</code></pre>
+<div class="highlight"><div style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">25
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">26
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">27
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">28
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">29
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">30
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">31
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-s" data-lang="s"><span style="color:#111">static</span> <span style="color:#111">int</span> <span style="color:#75af00">function</span><span style="color:#111">()</span>
+<span style="color:#111">{</span>
+<span style="color:#ae81ff">00007</span><span style="color:#111">FF7610C1910</span>  <span style="color:#111">push</span>        <span style="color:#111">rbp</span> 
+<span style="color:#ae81ff">00007</span><span style="color:#111">FF7610C1912</span>  <span style="color:#111">push</span>        <span style="color:#111">rdi</span> 
+<span style="color:#ae81ff">00007</span><span style="color:#111">FF7610C1913</span>  <span style="color:#111">sub</span>         <span style="color:#111">rsp</span><span style="color:#111">,</span><span style="color:#ae81ff">108</span><span style="color:#111">h</span> 
+<span style="color:#ae81ff">00007</span><span style="color:#111">FF7610C191A</span>  <span style="color:#111">lea</span>         <span style="color:#111">rbp</span><span style="color:#111">,</span><span style="color:#111">[rsp</span><span style="color:#ae81ff">+20</span><span style="color:#111">h]</span> 
+<span style="color:#ae81ff">00007</span><span style="color:#111">FF7610C191F</span>  <span style="color:#111">mov</span>         <span style="color:#111">rdi</span><span style="color:#111">,</span><span style="color:#111">rsp</span> 
+<span style="color:#ae81ff">00007</span><span style="color:#111">FF7610C1922</span>  <span style="color:#111">mov</span>         <span style="color:#111">ecx</span><span style="color:#111">,</span><span style="color:#ae81ff">42</span><span style="color:#111">h</span> 
+<span style="color:#ae81ff">00007</span><span style="color:#111">FF7610C1927</span>  <span style="color:#111">mov</span>         <span style="color:#111">eax</span><span style="color:#111">,</span><span style="color:#ae81ff">0</span><span style="color:#111">CCCCCCCCh</span> 
+<span style="color:#ae81ff">00007</span><span style="color:#111">FF7610C192C</span>  <span style="color:#111">rep</span> <span style="color:#111">stos</span>    <span style="color:#111">dword</span> <span style="color:#111">ptr</span> <span style="color:#111">[rdi]</span> 
+<span style="color:#ae81ff">00007</span><span style="color:#111">FF7610C192E</span>  <span style="color:#111">mov</span>         <span style="color:#111">qword</span> <span style="color:#111">ptr</span> <span style="color:#111">[rbp</span><span style="color:#ae81ff">+0</span><span style="color:#111">C8h]</span><span style="color:#111">,</span><span style="color:#ae81ff">0</span><span style="color:#111">FFFFFFFFFFFFFFFEh</span> 
+    <span style="color:#111">static</span> <span style="color:#111">int</span> <span style="color:#111">s_value</span> <span style="color:#f92672">=</span> <span style="color:#75af00">function2</span><span style="color:#111">();</span>
+<span style="color:#ae81ff">00007</span><span style="color:#111">FF7610C1939</span>  <span style="color:#111">mov</span>         <span style="color:#111">eax</span><span style="color:#111">,</span><span style="color:#ae81ff">104</span><span style="color:#111">h</span> 
+<span style="color:#ae81ff">00007</span><span style="color:#111">FF7610C193E</span>  <span style="color:#111">mov</span>         <span style="color:#111">eax</span><span style="color:#111">,</span><span style="color:#111">eax</span> 
+<span style="color:#ae81ff">00007</span><span style="color:#111">FF7610C1940</span>  <span style="color:#111">mov</span>         <span style="color:#111">ecx</span><span style="color:#111">,</span><span style="color:#111">dword</span> <span style="color:#111">ptr</span> <span style="color:#75af00">[_tls_index </span><span style="color:#111">(</span><span style="color:#ae81ff">07</span><span style="color:#111">FF7610CC1C8h</span><span style="color:#111">)</span><span style="color:#111">]</span> 
+<span style="color:#ae81ff">00007</span><span style="color:#111">FF7610C1946</span>  <span style="color:#111">mov</span>         <span style="color:#111">rdx</span><span style="color:#111">,</span><span style="color:#111">qword</span> <span style="color:#111">ptr</span> <span style="color:#111">gs</span><span style="color:#f92672">:</span><span style="color:#111">[58h]</span> 
+<span style="color:#ae81ff">00007</span><span style="color:#111">FF7610C194F</span>  <span style="color:#111">mov</span>         <span style="color:#111">rcx</span><span style="color:#111">,</span><span style="color:#111">qword</span> <span style="color:#111">ptr</span> <span style="color:#111">[rdx</span><span style="color:#f92672">+</span><span style="color:#111">rcx</span><span style="color:#f92672">*</span><span style="color:#ae81ff">8</span><span style="color:#111">]</span> 
+<span style="color:#ae81ff">00007</span><span style="color:#111">FF7610C1953</span>  <span style="color:#111">mov</span>         <span style="color:#111">eax</span><span style="color:#111">,</span><span style="color:#111">dword</span> <span style="color:#111">ptr</span> <span style="color:#111">[rax</span><span style="color:#f92672">+</span><span style="color:#111">rcx]</span> 
+<span style="color:#ae81ff">00007</span><span style="color:#111">FF7610C1956</span>  <span style="color:#111">cmp</span>         <span style="color:#111">dword</span> <span style="color:#111">ptr</span> <span style="color:#111">[s_value</span><span style="color:#ae81ff">+4</span><span style="color:#75af00">h </span><span style="color:#111">(</span><span style="color:#ae81ff">07</span><span style="color:#111">FF7610CC164h</span><span style="color:#111">)</span><span style="color:#111">]</span><span style="color:#111">,</span><span style="color:#111">eax</span> 
+<span style="color:#ae81ff">00007</span><span style="color:#111">FF7610C195C</span>  <span style="color:#111">jle</span>         <span style="color:#111">function</span><span style="color:#ae81ff">+7</span><span style="color:#75af00">Ah </span><span style="color:#111">(</span><span style="color:#ae81ff">07</span><span style="color:#111">FF7610C198Ah</span><span style="color:#111">)</span> 
+<span style="color:#ae81ff">00007</span><span style="color:#111">FF7610C195E</span>  <span style="color:#111">lea</span>         <span style="color:#111">rcx</span><span style="color:#111">,</span><span style="color:#111">[s_value</span><span style="color:#ae81ff">+4</span><span style="color:#75af00">h </span><span style="color:#111">(</span><span style="color:#ae81ff">07</span><span style="color:#111">FF7610CC164h</span><span style="color:#111">)</span><span style="color:#111">]</span> 
+<span style="color:#ae81ff">00007</span><span style="color:#111">FF7610C1965</span>  <span style="color:#111">call</span>        <span style="color:#75af00">_Init_thread_header </span><span style="color:#111">(</span><span style="color:#ae81ff">07</span><span style="color:#111">FF7610C101Eh</span><span style="color:#111">)</span> 
+<span style="color:#ae81ff">00007</span><span style="color:#111">FF7610C196A</span>  <span style="color:#111">cmp</span>         <span style="color:#111">dword</span> <span style="color:#111">ptr</span> <span style="color:#111">[s_value</span><span style="color:#ae81ff">+4</span><span style="color:#75af00">h </span><span style="color:#111">(</span><span style="color:#ae81ff">07</span><span style="color:#111">FF7610CC164h</span><span style="color:#111">)</span><span style="color:#111">]</span><span style="color:#111">,</span><span style="color:#ae81ff">0</span><span style="color:#111">FFFFFFFFh</span> 
+<span style="color:#ae81ff">00007</span><span style="color:#111">FF7610C1971</span>  <span style="color:#111">jne</span>         <span style="color:#111">function</span><span style="color:#ae81ff">+7</span><span style="color:#75af00">Ah </span><span style="color:#111">(</span><span style="color:#ae81ff">07</span><span style="color:#111">FF7610C198Ah</span><span style="color:#111">)</span> 
+<span style="color:#ae81ff">00007</span><span style="color:#111">FF7610C1973</span>  <span style="color:#111">call</span>        <span style="color:#75af00">function2 </span><span style="color:#111">(</span><span style="color:#ae81ff">07</span><span style="color:#111">FF7610C18D0h</span><span style="color:#111">)</span> 
+<span style="color:#ae81ff">00007</span><span style="color:#111">FF7610C1978</span>  <span style="color:#111">mov</span>         <span style="color:#111">dword</span> <span style="color:#111">ptr</span> <span style="color:#75af00">[s_value </span><span style="color:#111">(</span><span style="color:#ae81ff">07</span><span style="color:#111">FF7610CC160h</span><span style="color:#111">)</span><span style="color:#111">]</span><span style="color:#111">,</span><span style="color:#111">eax</span> 
+<span style="color:#ae81ff">00007</span><span style="color:#111">FF7610C197E</span>  <span style="color:#111">lea</span>         <span style="color:#111">rcx</span><span style="color:#111">,</span><span style="color:#111">[s_value</span><span style="color:#ae81ff">+4</span><span style="color:#75af00">h </span><span style="color:#111">(</span><span style="color:#ae81ff">07</span><span style="color:#111">FF7610CC164h</span><span style="color:#111">)</span><span style="color:#111">]</span> 
+<span style="color:#ae81ff">00007</span><span style="color:#111">FF7610C1985</span>  <span style="color:#111">call</span>        <span style="color:#75af00">_Init_thread_footer </span><span style="color:#111">(</span><span style="color:#ae81ff">07</span><span style="color:#111">FF7610C1073h</span><span style="color:#111">)</span> 
+    <span style="color:#111">return</span> <span style="color:#111">s_value</span><span style="color:#111">;</span>
+<span style="color:#ae81ff">00007</span><span style="color:#111">FF7610C198A</span>  <span style="color:#111">mov</span>         <span style="color:#111">eax</span><span style="color:#111">,</span><span style="color:#111">dword</span> <span style="color:#111">ptr</span> <span style="color:#75af00">[s_value </span><span style="color:#111">(</span><span style="color:#ae81ff">07</span><span style="color:#111">FF7610CC160h</span><span style="color:#111">)</span><span style="color:#111">]</span> 
+<span style="color:#111">}</span></code></pre></td></tr></table>
+</div>
+</div>
 <p>Now with this Mike asked is why is TLS even involved?</p>
-<pre><code>00007FF7610C1939  mov         eax,104h 
-00007FF7610C193E  mov         eax,eax 
-00007FF7610C1940  mov         ecx,dword ptr [_tls_index (07FF7610CC1C8h)] 
-00007FF7610C1946  mov         rdx,qword ptr gs:[58h] 
-00007FF7610C194F  mov         rcx,qword ptr [rdx+rcx*8] 
-00007FF7610C1953  mov         eax,dword ptr [rax+rcx] </code></pre>
+<div class="highlight"><div style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-s" data-lang="s"><span style="color:#ae81ff">00007</span><span style="color:#111">FF7610C1939</span>  <span style="color:#111">mov</span>         <span style="color:#111">eax</span><span style="color:#111">,</span><span style="color:#ae81ff">104</span><span style="color:#111">h</span> 
+<span style="color:#ae81ff">00007</span><span style="color:#111">FF7610C193E</span>  <span style="color:#111">mov</span>         <span style="color:#111">eax</span><span style="color:#111">,</span><span style="color:#111">eax</span> 
+<span style="color:#ae81ff">00007</span><span style="color:#111">FF7610C1940</span>  <span style="color:#111">mov</span>         <span style="color:#111">ecx</span><span style="color:#111">,</span><span style="color:#111">dword</span> <span style="color:#111">ptr</span> <span style="color:#75af00">[_tls_index </span><span style="color:#111">(</span><span style="color:#ae81ff">07</span><span style="color:#111">FF7610CC1C8h</span><span style="color:#111">)</span><span style="color:#111">]</span> 
+<span style="color:#ae81ff">00007</span><span style="color:#111">FF7610C1946</span>  <span style="color:#111">mov</span>         <span style="color:#111">rdx</span><span style="color:#111">,</span><span style="color:#111">qword</span> <span style="color:#111">ptr</span> <span style="color:#111">gs</span><span style="color:#f92672">:</span><span style="color:#111">[58h]</span> 
+<span style="color:#ae81ff">00007</span><span style="color:#111">FF7610C194F</span>  <span style="color:#111">mov</span>         <span style="color:#111">rcx</span><span style="color:#111">,</span><span style="color:#111">qword</span> <span style="color:#111">ptr</span> <span style="color:#111">[rdx</span><span style="color:#f92672">+</span><span style="color:#111">rcx</span><span style="color:#f92672">*</span><span style="color:#ae81ff">8</span><span style="color:#111">]</span> 
+<span style="color:#ae81ff">00007</span><span style="color:#111">FF7610C1953</span>  <span style="color:#111">mov</span>         <span style="color:#111">eax</span><span style="color:#111">,</span><span style="color:#111">dword</span> <span style="color:#111">ptr</span> <span style="color:#111">[rax</span><span style="color:#f92672">+</span><span style="color:#111">rcx]</span> </code></pre></td></tr></table>
+</div>
+</div>
 <p>Well my guess is that it is trying to reduce contention among threads initializing same static variable.
 If you call the static function twice it will still go thru the this code as it does not know whether it is the first call or not.</p>
-<pre><code>    static int s_value = function2();
-00007FF7610C1939  mov         eax,104h 
-00007FF7610C193E  mov         eax,eax 
-00007FF7610C1940  mov         ecx,dword ptr [_tls_index (07FF7610CC1C8h)] 
-00007FF7610C1946  mov         rdx,qword ptr gs:[58h] 
-00007FF7610C194F  mov         rcx,qword ptr [rdx+rcx*8] 
-00007FF7610C1953  mov         eax,dword ptr [rax+rcx] 
-00007FF7610C1956  cmp         dword ptr [s_value+4h (07FF7610CC164h)],eax 
-00007FF7610C195C  jle         function+7Ah (07FF7610C198Ah) </code></pre>
+<div class="highlight"><div style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">9
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-s" data-lang="s">    <span style="color:#111">static</span> <span style="color:#111">int</span> <span style="color:#111">s_value</span> <span style="color:#f92672">=</span> <span style="color:#75af00">function2</span><span style="color:#111">();</span>
+<span style="color:#ae81ff">00007</span><span style="color:#111">FF7610C1939</span>  <span style="color:#111">mov</span>         <span style="color:#111">eax</span><span style="color:#111">,</span><span style="color:#ae81ff">104</span><span style="color:#111">h</span> 
+<span style="color:#ae81ff">00007</span><span style="color:#111">FF7610C193E</span>  <span style="color:#111">mov</span>         <span style="color:#111">eax</span><span style="color:#111">,</span><span style="color:#111">eax</span> 
+<span style="color:#ae81ff">00007</span><span style="color:#111">FF7610C1940</span>  <span style="color:#111">mov</span>         <span style="color:#111">ecx</span><span style="color:#111">,</span><span style="color:#111">dword</span> <span style="color:#111">ptr</span> <span style="color:#75af00">[_tls_index </span><span style="color:#111">(</span><span style="color:#ae81ff">07</span><span style="color:#111">FF7610CC1C8h</span><span style="color:#111">)</span><span style="color:#111">]</span> 
+<span style="color:#ae81ff">00007</span><span style="color:#111">FF7610C1946</span>  <span style="color:#111">mov</span>         <span style="color:#111">rdx</span><span style="color:#111">,</span><span style="color:#111">qword</span> <span style="color:#111">ptr</span> <span style="color:#111">gs</span><span style="color:#f92672">:</span><span style="color:#111">[58h]</span> 
+<span style="color:#ae81ff">00007</span><span style="color:#111">FF7610C194F</span>  <span style="color:#111">mov</span>         <span style="color:#111">rcx</span><span style="color:#111">,</span><span style="color:#111">qword</span> <span style="color:#111">ptr</span> <span style="color:#111">[rdx</span><span style="color:#f92672">+</span><span style="color:#111">rcx</span><span style="color:#f92672">*</span><span style="color:#ae81ff">8</span><span style="color:#111">]</span> 
+<span style="color:#ae81ff">00007</span><span style="color:#111">FF7610C1953</span>  <span style="color:#111">mov</span>         <span style="color:#111">eax</span><span style="color:#111">,</span><span style="color:#111">dword</span> <span style="color:#111">ptr</span> <span style="color:#111">[rax</span><span style="color:#f92672">+</span><span style="color:#111">rcx]</span> 
+<span style="color:#ae81ff">00007</span><span style="color:#111">FF7610C1956</span>  <span style="color:#111">cmp</span>         <span style="color:#111">dword</span> <span style="color:#111">ptr</span> <span style="color:#111">[s_value</span><span style="color:#ae81ff">+4</span><span style="color:#75af00">h </span><span style="color:#111">(</span><span style="color:#ae81ff">07</span><span style="color:#111">FF7610CC164h</span><span style="color:#111">)</span><span style="color:#111">]</span><span style="color:#111">,</span><span style="color:#111">eax</span> 
+<span style="color:#ae81ff">00007</span><span style="color:#111">FF7610C195C</span>  <span style="color:#111">jle</span>         <span style="color:#111">function</span><span style="color:#ae81ff">+7</span><span style="color:#75af00">Ah </span><span style="color:#111">(</span><span style="color:#ae81ff">07</span><span style="color:#111">FF7610C198Ah</span><span style="color:#111">)</span> </code></pre></td></tr></table>
+</div>
+</div>
 <p>In case of multiple threads calling the same function- there is a possibility of contention.
 This is where TLS helps (DCLP I guess)</p>
 
@@ -346,40 +420,85 @@ This is where TLS helps (DCLP I guess)</p>
 </blockquote>
 
 <p>Same can be seen, done a bit differently on linux (<a href="https://godbolt.org/g/GfKMQc):">https://godbolt.org/g/GfKMQc):</a></p>
-<pre><code>function2():                         # @function2()
-        push    rbp
-        mov     rbp, rsp
-        sub     rsp, 16
-        cmp     byte ptr [guard variable for function2()::val], 0
-        jne     .LBB1_4
-        movabs  rdi, guard variable for function2()::val
-        call    __cxa_guard_acquire
-        cmp     eax, 0
-        je      .LBB1_4
-        call    function()
-        mov     dword ptr [rbp - 16], eax # 4-byte Spill
-        jmp     .LBB1_3
-.LBB1_3:
-        movabs  rdi, guard variable for function2()::val
-        mov     eax, dword ptr [rbp - 16] # 4-byte Reload
-        mov     dword ptr [function2()::val], eax
-        call    __cxa_guard_release
-.LBB1_4:
-        add     rsp, 16
-        pop     rbp
-        ret
-        movabs  rdi, guard variable for function2()::val
-        mov     ecx, edx
-        mov     qword ptr [rbp - 8], rax
-        mov     dword ptr [rbp - 12], ecx
-        call    __cxa_guard_abort
-        mov     rdi, qword ptr [rbp - 8]
-        call    _Unwind_Resume</code></pre>
+<div class="highlight"><div style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">25
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">26
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">27
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">28
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">29
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-s" data-lang="s"><span style="color:#75af00">function2</span><span style="color:#111">()</span><span style="color:#f92672">:</span>                         <span style="color:#75715e"># @function2()</span>
+        <span style="color:#111">push</span>    <span style="color:#111">rbp</span>
+        <span style="color:#111">mov</span>     <span style="color:#111">rbp</span><span style="color:#111">,</span> <span style="color:#111">rsp</span>
+        <span style="color:#111">sub</span>     <span style="color:#111">rsp</span><span style="color:#111">,</span> <span style="color:#ae81ff">16</span>
+        <span style="color:#111">cmp</span>     <span style="color:#111">byte</span> <span style="color:#111">ptr</span> <span style="color:#111">[guard</span> <span style="color:#111">variable</span> <span style="color:#111">for</span> <span style="color:#75af00">function2</span><span style="color:#111">()</span><span style="color:#f92672">::</span><span style="color:#111">val]</span><span style="color:#111">,</span> <span style="color:#ae81ff">0</span>
+        <span style="color:#111">jne</span>     <span style="color:#111">.LBB1_4</span>
+        <span style="color:#111">movabs</span>  <span style="color:#111">rdi</span><span style="color:#111">,</span> <span style="color:#111">guard</span> <span style="color:#111">variable</span> <span style="color:#111">for</span> <span style="color:#75af00">function2</span><span style="color:#111">()</span><span style="color:#f92672">::</span><span style="color:#111">val</span>
+        <span style="color:#111">call</span>    <span style="color:#111">__cxa_guard_acquire</span>
+        <span style="color:#111">cmp</span>     <span style="color:#111">eax</span><span style="color:#111">,</span> <span style="color:#ae81ff">0</span>
+        <span style="color:#111">je</span>      <span style="color:#111">.LBB1_4</span>
+        <span style="color:#111">call</span>    <span style="color:#75af00">function</span><span style="color:#111">()</span>
+        <span style="color:#111">mov</span>     <span style="color:#111">dword</span> <span style="color:#111">ptr</span> <span style="color:#111">[rbp</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">16</span><span style="color:#111">]</span><span style="color:#111">,</span> <span style="color:#111">eax</span> <span style="color:#75715e"># 4-byte Spill</span>
+        <span style="color:#111">jmp</span>     <span style="color:#111">.LBB1_3</span>
+<span style="color:#111">.LBB1_3</span><span style="color:#f92672">:</span>
+        <span style="color:#111">movabs</span>  <span style="color:#111">rdi</span><span style="color:#111">,</span> <span style="color:#111">guard</span> <span style="color:#111">variable</span> <span style="color:#111">for</span> <span style="color:#75af00">function2</span><span style="color:#111">()</span><span style="color:#f92672">::</span><span style="color:#111">val</span>
+        <span style="color:#111">mov</span>     <span style="color:#111">eax</span><span style="color:#111">,</span> <span style="color:#111">dword</span> <span style="color:#111">ptr</span> <span style="color:#111">[rbp</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">16</span><span style="color:#111">]</span> <span style="color:#75715e"># 4-byte Reload</span>
+        <span style="color:#111">mov</span>     <span style="color:#111">dword</span> <span style="color:#111">ptr</span> <span style="color:#75af00">[function2</span><span style="color:#111">()</span><span style="color:#f92672">::</span><span style="color:#111">val]</span><span style="color:#111">,</span> <span style="color:#111">eax</span>
+        <span style="color:#111">call</span>    <span style="color:#111">__cxa_guard_release</span>
+<span style="color:#111">.LBB1_4</span><span style="color:#f92672">:</span>
+        <span style="color:#111">add</span>     <span style="color:#111">rsp</span><span style="color:#111">,</span> <span style="color:#ae81ff">16</span>
+        <span style="color:#111">pop</span>     <span style="color:#111">rbp</span>
+        <span style="color:#111">ret</span>
+        <span style="color:#111">movabs</span>  <span style="color:#111">rdi</span><span style="color:#111">,</span> <span style="color:#111">guard</span> <span style="color:#111">variable</span> <span style="color:#111">for</span> <span style="color:#75af00">function2</span><span style="color:#111">()</span><span style="color:#f92672">::</span><span style="color:#111">val</span>
+        <span style="color:#111">mov</span>     <span style="color:#111">ecx</span><span style="color:#111">,</span> <span style="color:#111">edx</span>
+        <span style="color:#111">mov</span>     <span style="color:#111">qword</span> <span style="color:#111">ptr</span> <span style="color:#111">[rbp</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">8</span><span style="color:#111">]</span><span style="color:#111">,</span> <span style="color:#111">rax</span>
+        <span style="color:#111">mov</span>     <span style="color:#111">dword</span> <span style="color:#111">ptr</span> <span style="color:#111">[rbp</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">12</span><span style="color:#111">]</span><span style="color:#111">,</span> <span style="color:#111">ecx</span>
+        <span style="color:#111">call</span>    <span style="color:#111">__cxa_guard_abort</span>
+        <span style="color:#111">mov</span>     <span style="color:#111">rdi</span><span style="color:#111">,</span> <span style="color:#111">qword</span> <span style="color:#111">ptr</span> <span style="color:#111">[rbp</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">8</span><span style="color:#111">]</span>
+        <span style="color:#111">call</span>    <span style="color:#111">_Unwind_Resume</span></code></pre></td></tr></table>
+</div>
+</div>
 <p>Here <code>__cxa_guard_acquire</code>, <code>__cxa_guard_release</code> and <code>__cxa_guard_abort</code> do the magic.</p>
 
         
       
       <br/>
+      
+        <div class="blog-tags">
+          
+            <a href="https://www.variadic.xyz//tags/c&#43;&#43;/">C&#43;&#43;</a>&nbsp;
+          
+            <a href="https://www.variadic.xyz//tags/c&#43;&#43;11/">C&#43;&#43;11</a>&nbsp;
+          
+            <a href="https://www.variadic.xyz//tags/multithreading/">multithreading</a>&nbsp;
+          
+        </div>
       
         
         
@@ -411,6 +530,7 @@ This is where TLS helps (DCLP I guess)</p>
 </div>
 
       
+  
 <footer>
   <div class="container">
     <div class="row">

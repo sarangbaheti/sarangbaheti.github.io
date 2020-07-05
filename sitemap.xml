@@ -43,12 +43,27 @@
   </url>
   
   <url>
+    <loc>https://www.variadic.xyz/tags/cpu/</loc>
+    <lastmod>2020-06-21T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.variadic.xyz/tags/performance/</loc>
+    <lastmod>2020-06-21T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://www.variadic.xyz/2020/06/21/offline-cpus/</loc>
     <lastmod>2020-06-21T00:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>https://www.variadic.xyz/2020/06/19/ssh-terminate-remote-processes/</loc>
+    <lastmod>2020-06-19T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.variadic.xyz/tags/utils/</loc>
     <lastmod>2020-06-19T00:00:00+00:00</lastmod>
   </url>
   
@@ -98,8 +113,23 @@
   </url>
   
   <url>
+    <loc>https://www.variadic.xyz/tags/parallel/</loc>
+    <lastmod>2020-05-14T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://www.variadic.xyz/2020/05/11/apple-self-congratulatory-behavior/</loc>
     <lastmod>2020-05-11T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.variadic.xyz/tags/misc/</loc>
+    <lastmod>2020-05-11T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.variadic.xyz/tags/git/</loc>
+    <lastmod>2020-05-07T00:00:00+00:00</lastmod>
   </url>
   
   <url>
@@ -119,6 +149,11 @@
   
   <url>
     <loc>https://www.variadic.xyz/2020/04/01/procexp-minidump/</loc>
+    <lastmod>2020-04-01T01:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.variadic.xyz/tags/windbg/</loc>
     <lastmod>2020-04-01T01:00:00+00:00</lastmod>
   </url>
   
@@ -173,6 +208,11 @@
   </url>
   
   <url>
+    <loc>https://www.variadic.xyz/tags/debug/</loc>
+    <lastmod>2019-11-21T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://www.variadic.xyz/2019/11/21/windbg-crashdump-analysis-1/</loc>
     <lastmod>2019-11-21T00:00:00+00:00</lastmod>
   </url>
@@ -195,6 +235,16 @@
   <url>
     <loc>https://www.variadic.xyz/2019/09/15/shared-mutable-synchronization/</loc>
     <lastmod>2019-09-15T21:32:33-07:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.variadic.xyz/tags/c&#43;&#43;/</loc>
+    <lastmod>2019-08-28T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.variadic.xyz/tags/c&#43;&#43;17/</loc>
+    <lastmod>2019-08-28T00:00:00+00:00</lastmod>
   </url>
   
   <url>
@@ -278,6 +328,11 @@
   </url>
   
   <url>
+    <loc>https://www.variadic.xyz/tags/c&#43;&#43;11/</loc>
+    <lastmod>2018-01-15T22:34:59-08:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://www.variadic.xyz/post/0120-hashing-tuples/</loc>
     <lastmod>2018-01-15T22:34:59-08:00</lastmod>
   </url>
@@ -323,7 +378,17 @@
   </url>
   
   <url>
+    <loc>https://www.variadic.xyz/tags/multithreading/</loc>
+    <lastmod>2017-06-20T10:54:24+02:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://www.variadic.xyz/2017/03/04/github-multiple-accounts-setup-notes/</loc>
+    <lastmod>2017-03-04T11:32:04-08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.variadic.xyz/tags/ssh/</loc>
     <lastmod>2017-03-04T11:32:04-08:00</lastmod>
   </url>
   
@@ -380,6 +445,11 @@
   <url>
     <loc>https://www.variadic.xyz/2016/06/24/c-number-yaml-config/</loc>
     <lastmod>2016-06-24T22:22:39+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.variadic.xyz/tags/vim/</loc>
+    <lastmod>2016-06-16T20:44:00+00:00</lastmod>
   </url>
   
   <url>
@@ -695,6 +765,11 @@
   <url>
     <loc>https://www.variadic.xyz/2011/11/25/comparing-floating-point-numbers/</loc>
     <lastmod>2011-11-25T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.variadic.xyz/tags/debugging/</loc>
+    <lastmod>2011-10-16T00:00:00+00:00</lastmod>
   </url>
   
   <url>
