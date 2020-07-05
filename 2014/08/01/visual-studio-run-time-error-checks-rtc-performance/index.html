@@ -272,7 +272,11 @@ if (!doNotTrack) {
     <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
       <article role="main" class="blog-post">
 
+      
+      
+
         
+          
           <p style="text-align: justify;">
   Recently I was analyzing some very computation intensive code. The code was operating on an image and was fiddling with each pixel. For image of size 4000&#215;4000 my function was called ~5 billion times. Since most of the computation depends only on the pixel attributes &#8211; so this problem <a href="http://en.wikipedia.org/wiki/Embarrassingly_parallel" target="_blank">tended itself very well for data parallel computation</a>, but I was more interested in eliminating bottlenecks in serial code first than running un-optimized code in parallel.
 </p>
@@ -290,12 +294,13 @@ if (!doNotTrack) {
 </p>
 
         
-
-
+      
+      <br/>
+      
+        
         
 
-        
-
+        <hr>
         
       </article>
 
@@ -349,7 +354,7 @@ if (!doNotTrack) {
         </p>
         
         <p class="credits theme-by text-muted">
-          <a href="https://gohugo.io">Hugo v0.73.0</a> powered &nbsp;&bull;&nbsp; Theme <a href="https://github.com/halogenica/beautifulhugo">Beautiful Hugo</a> adapted from <a href="https://deanattali.com/beautiful-jekyll/">Beautiful Jekyll</a>
+          <a href="https://gohugo.io">Hugo v0.73.0</a> powered &nbsp;&bull;&nbsp; Theme <a href="https://github.com/sarangbaheti/beautifulhugo">beautifulhugo</a> forked from <a href="https://github.com/halogenica/beautifulhugo"> halogenica/Beautiful Hugo</a>
           
         </p>
       </div>

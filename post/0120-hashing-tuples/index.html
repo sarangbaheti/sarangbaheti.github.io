@@ -272,7 +272,11 @@ if (!doNotTrack) {
     <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
       <article role="main" class="blog-post">
 
+      
+      
+
         
+          
           
 
 <p>Lately I have been refactoring some old code &amp; found it littered with all sorts of things. This particular code had a custom hash-table for hashing based off 3 values instead of 1. <code>std::tuple</code> are the best fit, or probably providing a custom struct with <code>std::hash</code> specialization would have served as well. What std library provides is <code>std::hash</code> for basic types, <a href="http://en.cppreference.com/w/cpp/utility/hash">reference here</a>. There is nothing for composite types. Even for <code>std::pair</code>.</p>
@@ -536,12 +540,13 @@ The complexity comes with <code>std::tuple</code> and how do you handle <code>#t
 I have posted entire thing as a <a href="https://gist.github.com/angeleno/e838a35f0849ecab56e8be7e46645177">gist here</a>.</p>
 
         
-
-
+      
+      <br/>
+      
+        
         
 
-        
-
+        <hr>
         
       </article>
 
@@ -595,7 +600,7 @@ I have posted entire thing as a <a href="https://gist.github.com/angeleno/e838a3
         </p>
         
         <p class="credits theme-by text-muted">
-          <a href="https://gohugo.io">Hugo v0.73.0</a> powered &nbsp;&bull;&nbsp; Theme <a href="https://github.com/halogenica/beautifulhugo">Beautiful Hugo</a> adapted from <a href="https://deanattali.com/beautiful-jekyll/">Beautiful Jekyll</a>
+          <a href="https://gohugo.io">Hugo v0.73.0</a> powered &nbsp;&bull;&nbsp; Theme <a href="https://github.com/sarangbaheti/beautifulhugo">beautifulhugo</a> forked from <a href="https://github.com/halogenica/beautifulhugo"> halogenica/Beautiful Hugo</a>
           
         </p>
       </div>

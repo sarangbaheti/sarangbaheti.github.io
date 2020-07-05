@@ -272,7 +272,11 @@ if (!doNotTrack) {
     <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
       <article role="main" class="blog-post">
 
+      
+      
+
         
+          
           <p>Recently I was debugging some workflow where it appeared quite slow. As part of debugging i saw it Visual Studio printed debugging information about first chance exceptions thrown.</p>
 
 <p>Now that <a href="https://docs.microsoft.com/en-us/archive/blogs/davidklinems/what-is-a-first-chance-exception">David Kline from MS</a> has made it ample clear that <a href="http://stackoverflow.com/questions/564681/what-is-a-first-chance-exception">FirstChance exceptions are normal exceptions just that debugger gets first chance at them</a>- thus first chance. If debugger chooses not to do anything then application gets a chance to do something about it. If application does not handle it then debugger gets a second chance, thus second chance exceptions. you get the idea.</p>
@@ -313,12 +317,13 @@ The idea is to configure exceptions such that we break on error <code>e06d7363</
 <p>That&rsquo;s it. At the end of workflow I had traces for all 168K exceptions with a text file container ~500MB of tracebacks to dig thru.</p>
 
         
-
-
+      
+      <br/>
+      
+        
         
 
-        
-
+        <hr>
         
       </article>
 
@@ -372,7 +377,7 @@ The idea is to configure exceptions such that we break on error <code>e06d7363</
         </p>
         
         <p class="credits theme-by text-muted">
-          <a href="https://gohugo.io">Hugo v0.73.0</a> powered &nbsp;&bull;&nbsp; Theme <a href="https://github.com/halogenica/beautifulhugo">Beautiful Hugo</a> adapted from <a href="https://deanattali.com/beautiful-jekyll/">Beautiful Jekyll</a>
+          <a href="https://gohugo.io">Hugo v0.73.0</a> powered &nbsp;&bull;&nbsp; Theme <a href="https://github.com/sarangbaheti/beautifulhugo">beautifulhugo</a> forked from <a href="https://github.com/halogenica/beautifulhugo"> halogenica/Beautiful Hugo</a>
           
         </p>
       </div>

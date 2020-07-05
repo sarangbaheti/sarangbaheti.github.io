@@ -59,11 +59,11 @@
   "headline": "2011 MacBook Pro \u0026 OSX",
   "description" : "jumping thru hoops to keep osx running on MBP with defective discrete GPU",
   "inLanguage" : "en",
-  "wordCount":  1608 ,
+  "wordCount":  1668 ,
   "datePublished" : "2020-05-28T00:00:00",
   "dateModified" : "2020-05-28T00:00:00",
   "image" : "https:\/\/www.variadic.xyz\/",
-  "keywords" : [ "" ],
+  "keywords" : [ "macos, mbp" ],
   "mainEntityOfPage" : "https:\/\/www.variadic.xyz\/2020\/05\/28\/2011mbp-osx\/",
   "publisher" : {
     "@type": "Organization",
@@ -250,6 +250,8 @@ if (!doNotTrack) {
   
 
   
+    &nbsp;(Last modified on July 5, 2020)
+  
   
   
   
@@ -272,7 +274,19 @@ if (!doNotTrack) {
     <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
       <article role="main" class="blog-post">
 
+      
+      
+        <div class="blog-tags">
+          
+            <a href="https://www.variadic.xyz//tags/macos/">macos</a>&nbsp;
+          
+            <a href="https://www.variadic.xyz//tags/mbp/">mbp</a>&nbsp;
+          
+        </div>
+      
+
         
+          
           
 
 <p>A few years ago <a href="/2016/06/01/controlling-processor-frequency/">my MBP got a second life</a> due a class action brought on Apple. Things were working just fine for a couple of years and then late last year GPU went belly up again. Display was all green or red depending on how GPU behaved.</p>
@@ -328,41 +342,82 @@ above links some information about how gpu-power-prefs guid was found</p>
 <ol>
 <li><p>boot OSX in single user mode
 to boot in single user mode: power on laptop and hold <code>Command+s</code> button. <a href="https://support.apple.com/en-us/HT201573">Apple doc</a>. Once on the cmd shell enter following command to set the <code>gpu-prefs</code>:</p>
-<pre><code># %01 (iGPU) is the key here, %00 would have been dGPU
-sudo nvram fa4ce28d-b62f-4c99-9cc3-6815686e30f9:gpu-power-prefs=%01%00%00%00</code></pre></li>
+<div class="highlight"><div style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh"><span style="color:#75715e"># %01 (iGPU) is the key here, %00 would have been dGPU</span>
+sudo nvram fa4ce28d-b62f-4c99-9cc3-6815686e30f9:gpu-power-prefs<span style="color:#f92672">=</span>%01%00%00%00</code></pre></td></tr></table>
+</div>
+</div></li>
 
 <li><p>boot thru linux and access efi variables
 i chose to install from arch linux, found a few steps to create a bootable usb. Once i booted press <code>e</code> on the boot menu and just add <code>nomodeset</code> at the beginning of the command.</p></li>
 </ol>
 
 <p><code>efivars</code> will be mounted, but readonly.</p>
-<pre><code># check if the filesystem is mounted or not, if not mounted something is wrong
-cd /sys/firmware/efi/efivars
+<div class="highlight"><div style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">25
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">26
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">27
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh"><span style="color:#75715e"># check if the filesystem is mounted or not, if not mounted something is wrong</span>
+<span style="color:#111">cd</span> /sys/firmware/efi/efivars
 
-cd /
+<span style="color:#111">cd</span> /
 umount /sys/firmware/efi/efivars
 
-# note we are mounting as efivarfs not efivars
+<span style="color:#75715e"># note we are mounting as efivarfs not efivars</span>
 mount -t efivarfs rw /sys/firmware/efi/efivars
 
-cd /sys/firmware/efi/efivars
+<span style="color:#111">cd</span> /sys/firmware/efi/efivars
 
-# well technically you don&#39;t need to delete it, but clean slate
+<span style="color:#75715e"># well technically you don&#39;t need to delete it, but clean slate</span>
 chattr -i gpu-power-prefs-fa4ce28d-b62f-4c99-9cc3-6815686e30f9
 rm gpu-power-prefs-fa4ce28d-b62f-4c99-9cc3-6815686e30f9
 
-# now we are going to set gpu-prefs to be 1 (iGPU) and not 0 (dGPU)
-# x01 is the key here
-printf &#34;\x07\x00\x00\x00\x01\x00\x00\x00&#34; &gt; gpu-power-prefs-fa4ce28d-b62f-4c99-9cc3-6815686e30f9
+<span style="color:#75715e"># now we are going to set gpu-prefs to be 1 (iGPU) and not 0 (dGPU)</span>
+<span style="color:#75715e"># x01 is the key here</span>
+<span style="color:#111">printf</span> <span style="color:#d88200">&#34;\x07\x00\x00\x00\x01\x00\x00\x00&#34;</span> &gt; gpu-power-prefs-fa4ce28d-b62f-4c99-9cc3-6815686e30f9
 
-# set it to read-only again
+<span style="color:#75715e"># set it to read-only again</span>
 chattr +i gpu-power-prefs-fa4ce28d-b62f-4c99-9cc3-6815686e30f9
 
-# unmount efivars, so that changes are flushed
-cd /
+<span style="color:#75715e"># unmount efivars, so that changes are flushed</span>
+<span style="color:#111">cd</span> /
 umount /sys/firmware/efi/efivars
 
-reboot</code></pre>
+reboot</code></pre></td></tr></table>
+</div>
+</div>
 <hr />
 
 <h4 id="3-disable-csrutil">(3) disable csrutil</h4>
@@ -372,8 +427,16 @@ reboot</code></pre>
 <p>Apple added <a href="https://support.apple.com/en-us/HT204899">System Integrity Protection</a> o help prevent potentially malicious software from modifying protected files and folders. Before SIP, the root user had no permission restrictions, so it could access any system folder or app on your Mac. Which now means that you cannot move/backup AMD kexts even as root.</p>
 
 <p>To do this need to <a href="https://support.apple.com/en-us/HT201314">boot in recovery mode</a>. Once you boot go to <code>Utilities</code> and <code>terminal</code> and enter commands</p>
-<pre><code>csrutil disable
-reboot</code></pre>
+<div class="highlight"><div style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">csrutil disable
+reboot</code></pre></td></tr></table>
+</div>
+</div>
 <hr />
 
 <h4 id="4-backup-amd-kexts">(4) backup AMD kexts</h4>
@@ -381,37 +444,78 @@ reboot</code></pre>
 <p>Initially I did not backup any AMD kexts, and found that OSX after booting up loaded those anyway. Where it started getting funny is when I opened chrome browser.</p>
 
 <p>So i quickly checked what kexts are loaded and these messed up my next boot. Again i could have experimented a bit with backing up exactly the kexts that affect- but it was just grunt work and on every update (security or os), these are brought all over again..</p>
-<pre><code>MBP:~ admin$ sudo kextstat | grep AMD
-  130    2 0xffffff7f82aa5000 0x122000   0x122000   com.apple.kext.AMDLegacySupport (1.6.8) 69C5152C-0305-3914-AD56-6601DD449AF4 &lt;106 12 11 7 5 4 3 1&gt;
-  147    0 0xffffff7f82e79000 0x12e000   0x12e000   com.apple.kext.AMD6000Controller (1.6.8) F08FE763-26A1-312E-B690-CB8FDBF8EC31 &lt;130 106 12 11 5 4 3 1&gt;
-  164    0 0xffffff7f834fc000 0x568000   0x568000   com.apple.kext.AMDRadeonX3000 (1.6.8) 8559CEFE-85B8-3FB7-B20A-9346E5A7986A &lt;163 162 106 12 7 5 4 3 1&gt;
-  166    0 0xffffff7f83a69000 0x22000    0x22000    com.apple.kext.AMDLegacyFramebuffer (1.6.8) 13E3BF67-6700-37F0-82EE-E87F8B71A033 &lt;130 106 12 11 7 5 4 3 1&gt;</code></pre>
+<div class="highlight"><div style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">MBP:~ admin$ sudo kextstat <span style="color:#111">|</span> grep AMD
+  <span style="color:#ae81ff">130</span>    <span style="color:#ae81ff">2</span> 0xffffff7f82aa5000 0x122000   0x122000   com.apple.kext.AMDLegacySupport <span style="color:#f92672">(</span>1.6.8<span style="color:#f92672">)</span> 69C5152C-0305-3914-AD56-6601DD449AF4 &lt;<span style="color:#ae81ff">106</span> <span style="color:#ae81ff">12</span> <span style="color:#ae81ff">11</span> <span style="color:#ae81ff">7</span> <span style="color:#ae81ff">5</span> <span style="color:#ae81ff">4</span> <span style="color:#ae81ff">3</span> 1&gt;
+  <span style="color:#ae81ff">147</span>    <span style="color:#ae81ff">0</span> 0xffffff7f82e79000 0x12e000   0x12e000   com.apple.kext.AMD6000Controller <span style="color:#f92672">(</span>1.6.8<span style="color:#f92672">)</span> F08FE763-26A1-312E-B690-CB8FDBF8EC31 &lt;<span style="color:#ae81ff">130</span> <span style="color:#ae81ff">106</span> <span style="color:#ae81ff">12</span> <span style="color:#ae81ff">11</span> <span style="color:#ae81ff">5</span> <span style="color:#ae81ff">4</span> <span style="color:#ae81ff">3</span> 1&gt;
+  <span style="color:#ae81ff">164</span>    <span style="color:#ae81ff">0</span> 0xffffff7f834fc000 0x568000   0x568000   com.apple.kext.AMDRadeonX3000 <span style="color:#f92672">(</span>1.6.8<span style="color:#f92672">)</span> 8559CEFE-85B8-3FB7-B20A-9346E5A7986A &lt;<span style="color:#ae81ff">163</span> <span style="color:#ae81ff">162</span> <span style="color:#ae81ff">106</span> <span style="color:#ae81ff">12</span> <span style="color:#ae81ff">7</span> <span style="color:#ae81ff">5</span> <span style="color:#ae81ff">4</span> <span style="color:#ae81ff">3</span> 1&gt;
+  <span style="color:#ae81ff">166</span>    <span style="color:#ae81ff">0</span> 0xffffff7f83a69000 0x22000    0x22000    com.apple.kext.AMDLegacyFramebuffer <span style="color:#f92672">(</span>1.6.8<span style="color:#f92672">)</span> 13E3BF67-6700-37F0-82EE-E87F8B71A033 &lt;<span style="color:#ae81ff">130</span> <span style="color:#ae81ff">106</span> <span style="color:#ae81ff">12</span> <span style="color:#ae81ff">11</span> <span style="color:#ae81ff">7</span> <span style="color:#ae81ff">5</span> <span style="color:#ae81ff">4</span> <span style="color:#ae81ff">3</span> 1&gt;</code></pre></td></tr></table>
+</div>
+</div>
 <p>boot in single user mode again by pressing <code>Command+s</code> keys.
 On <code>terminal</code> enter following commands:</p>
-<pre><code># check disk in case anything is wrong
+<div class="highlight"><div style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh"><span style="color:#75715e"># check disk in case anything is wrong</span>
 fsck -fy 
 
-# mount root filesystem read/write
+<span style="color:#75715e"># mount root filesystem read/write</span>
 mount -uw /
 
-# AMD kexts are located in /System/Library/Extensions
-# create a temp backup directory for AMD kexts
+<span style="color:#75715e"># AMD kexts are located in /System/Library/Extensions</span>
+<span style="color:#75715e"># create a temp backup directory for AMD kexts</span>
 sudo mkdir /System/Library/Extensions-bkp
 
-# move all AMD kexts to bkp dir
+<span style="color:#75715e"># move all AMD kexts to bkp dir</span>
 sudo mv /System/Library/Extensions/AMD* /System/Library/Extensions-bkp/
 
-# now that we have moved all kexts, invalidate kext caches, so they
-# are rebuilt again on next boot
+<span style="color:#75715e"># now that we have moved all kexts, invalidate kext caches, so they</span>
+<span style="color:#75715e"># are rebuilt again on next boot</span>
 sudo rm -rf /System/Library/Caches/com.apple.kext.caches/
 sudo mkdir /System/Library/Caches/com.apple.kext.caches/
 
-# technically you don&#39;t have to do this, but update timestamp on directory
-# as it&#39;s contents were modified
+<span style="color:#75715e"># technically you don&#39;t have to do this, but update timestamp on directory</span>
+<span style="color:#75715e"># as it&#39;s contents were modified</span>
 sudo touch /System/Library/Extensions/
 
 sudo umount /
-reboot</code></pre>
+reboot</code></pre></td></tr></table>
+</div>
+</div>
 <p>At this point one can enable <code>crsutil</code> again, but I chose to let it be like that.</p>
 
 <hr />
@@ -498,12 +602,42 @@ reboot</code></pre>
 </ol>
 
         
-
-
+      
+      <br/>
+      
+        <div class="blog-tags">
+          
+            <a href="https://www.variadic.xyz//tags/macos/">macos</a>&nbsp;
+          
+            <a href="https://www.variadic.xyz//tags/mbp/">mbp</a>&nbsp;
+          
+        </div>
+      
+        
         
 
+        <hr>
         
+          
+            
+          
 
+          
+                  <h4 class="see-also">See also</h4>
+                  <ul>
+                
+                
+                    <li><a href="/2020/06/28/switching-off-dgpu/">swithcing off dGPU in MBP 2011</a></li>
+                
+                    <li><a href="/2020/06/15/ubuntu-2011mbp/">Ubuntu 20.04 on MacBook Pro 2011</a></li>
+                
+                    <li><a href="/2020/06/08/disabling-turbo/">disabling turbo-bost</a></li>
+                
+                    <li><a href="/2020/05/28/nvram-params/">nvram params</a></li>
+                
+              </ul>
+
+          
         
       </article>
 
@@ -557,7 +691,7 @@ reboot</code></pre>
         </p>
         
         <p class="credits theme-by text-muted">
-          <a href="https://gohugo.io">Hugo v0.73.0</a> powered &nbsp;&bull;&nbsp; Theme <a href="https://github.com/halogenica/beautifulhugo">Beautiful Hugo</a> adapted from <a href="https://deanattali.com/beautiful-jekyll/">Beautiful Jekyll</a>
+          <a href="https://gohugo.io">Hugo v0.73.0</a> powered &nbsp;&bull;&nbsp; Theme <a href="https://github.com/sarangbaheti/beautifulhugo">beautifulhugo</a> forked from <a href="https://github.com/halogenica/beautifulhugo"> halogenica/Beautiful Hugo</a>
           
         </p>
       </div>

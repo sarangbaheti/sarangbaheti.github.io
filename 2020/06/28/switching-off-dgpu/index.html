@@ -59,11 +59,11 @@
   "headline": "swithcing off dGPU in MBP 2011",
   "description" : "swithcing off dGPU in MBP 2011 thru gmux in MacOS \u0026amp; Linux",
   "inLanguage" : "en",
-  "wordCount":  430 ,
+  "wordCount":  434 ,
   "datePublished" : "2020-06-28T00:00:00",
   "dateModified" : "2020-06-28T00:00:00",
   "image" : "https:\/\/www.variadic.xyz\/",
-  "keywords" : [ "" ],
+  "keywords" : [ "linux, mbp, macos" ],
   "mainEntityOfPage" : "https:\/\/www.variadic.xyz\/2020\/06\/28\/switching-off-dgpu\/",
   "publisher" : {
     "@type": "Organization",
@@ -272,16 +272,40 @@ if (!doNotTrack) {
     <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
       <article role="main" class="blog-post">
 
+      
+      
+        <div class="blog-tags">
+          
+            <a href="https://www.variadic.xyz//tags/linux/">linux</a>&nbsp;
+          
+            <a href="https://www.variadic.xyz//tags/mbp/">mbp</a>&nbsp;
+          
+            <a href="https://www.variadic.xyz//tags/macos/">macos</a>&nbsp;
+          
+        </div>
+      
+
         
+          
           <p>I have been <a href="/2020/05/28/2011mbp-osx/">running with Ubuntu</a> for a month now and so far it is holding up very well, just a hiccup with wireless driver up kernel update. Reverted back to previous kernel and things are stable all over again.</p>
 
 <p>I have been monitoring temp and power consumption on my MBP 2011 and found that after every boot it runs quite cool, <a href="/2020/06/03/lmsensors-config/">thanks to lmsensors</a> and <a href="/2020/06/08/disabling-turbo/">swithcing off turbo-boost</a> helps. But one thing I noticed is that every time I resume after suspend the laptop starts heating up all over again, confirmed that dGPU was switched on. Now this is all in domain of <code>gmux</code> and seems like it is playing a role somehow.</p>
 
 <p><a href="/2020/06/15/ubuntu-2011mbp/#a-note-about-previous-magic-numbers">Previously, I had disabled dGPU during boot time</a> with changes to grub, can we do that again? <code>inb</code> and <code>outb</code> here are the io instructions that can do the magic. Thanks to the guys that hacked around MacBook and Apple drivers/kexts.</p>
-<pre><code>outb 0x728 1 # Switch select
-outb 0x710 2 # Switch display
-outb 0x740 2 # Switch DDC
-outb 0x750 0 # Power down discrete graphics</code></pre>
+<div class="highlight"><div style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">outb 0x728 <span style="color:#ae81ff">1</span> <span style="color:#75715e"># Switch select</span>
+outb 0x710 <span style="color:#ae81ff">2</span> <span style="color:#75715e"># Switch display</span>
+outb 0x740 <span style="color:#ae81ff">2</span> <span style="color:#75715e"># Switch DDC</span>
+outb 0x750 <span style="color:#ae81ff">0</span> <span style="color:#75715e"># Power down discrete graphics</span></code></pre></td></tr></table>
+</div>
+</div>
 <p>Following code is pretty much along what we did during boot (found somewhere on internet, don&rsquo;t have link):</p>
 <div class="highlight"><div style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
 <table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
@@ -406,12 +430,46 @@ outb 0x750 0 # Power down discrete graphics</code></pre>
 </ul>
 
         
-
-
+      
+      <br/>
+      
+        <div class="blog-tags">
+          
+            <a href="https://www.variadic.xyz//tags/linux/">linux</a>&nbsp;
+          
+            <a href="https://www.variadic.xyz//tags/mbp/">mbp</a>&nbsp;
+          
+            <a href="https://www.variadic.xyz//tags/macos/">macos</a>&nbsp;
+          
+        </div>
+      
+        
         
 
+        <hr>
         
+          
+            
+          
 
+          
+                  <h4 class="see-also">See also</h4>
+                  <ul>
+                
+                
+                    <li><a href="/2020/07/01/grub-customizer/">grub customizer</a></li>
+                
+                    <li><a href="/2020/06/21/offline-cpus/">swithcing off cpus</a></li>
+                
+                    <li><a href="/2020/06/19/ssh-terminate-remote-processes/">ssh terminate &amp; remote process</a></li>
+                
+                    <li><a href="/2020/06/15/ubuntu-2011mbp/">Ubuntu 20.04 on MacBook Pro 2011</a></li>
+                
+                    <li><a href="/2020/06/08/disabling-turbo/">disabling turbo-bost</a></li>
+                
+              </ul>
+
+          
         
       </article>
 
@@ -465,7 +523,7 @@ outb 0x750 0 # Power down discrete graphics</code></pre>
         </p>
         
         <p class="credits theme-by text-muted">
-          <a href="https://gohugo.io">Hugo v0.73.0</a> powered &nbsp;&bull;&nbsp; Theme <a href="https://github.com/halogenica/beautifulhugo">Beautiful Hugo</a> adapted from <a href="https://deanattali.com/beautiful-jekyll/">Beautiful Jekyll</a>
+          <a href="https://gohugo.io">Hugo v0.73.0</a> powered &nbsp;&bull;&nbsp; Theme <a href="https://github.com/sarangbaheti/beautifulhugo">beautifulhugo</a> forked from <a href="https://github.com/halogenica/beautifulhugo"> halogenica/Beautiful Hugo</a>
           
         </p>
       </div>
