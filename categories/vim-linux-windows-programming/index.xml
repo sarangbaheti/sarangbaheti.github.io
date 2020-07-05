@@ -1,9 +1,9 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Vim Linux Windows Programming on a few notes</title>
+    <title>vim, linux, windows, programming on a few notes</title>
     <link>https://www.variadic.xyz/categories/vim-linux-windows-programming/</link>
-    <description>Recent content in Vim Linux Windows Programming on a few notes</description>
+    <description>Recent content in vim, linux, windows, programming on a few notes</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Sat, 16 May 2015 22:36:41 +0000</lastBuildDate>
@@ -17,7 +17,7 @@
       <pubDate>Sat, 16 May 2015 22:36:41 +0000</pubDate>
       
       <guid>https://www.variadic.xyz/2015/05/16/vim/</guid>
-      <description>vim vim what an editor! I am yet to find someone who used this editor but is neutral. Either folks love it or hate it. I think that is sign of a truly remarkable product, in sense it connects to core- evoking emotional reaction. It was not long ago i was in vim WTF camp. But had to spend a few weeks on linux and re-discovered vim. After about a month of usage vim is one of my preferred editors for code browsing- even on windows.</description>
+      <description>notes on vim &amp;amp; how to use cscope</description>
     </item>
     
   </channel>

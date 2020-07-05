@@ -1,44 +1,114 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="en" itemscope itemtype="http://schema.org/WebPage">
   <head>
+    
+
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 
-  <title>process explorer minidump</title>
-
-  <meta name="author" content="Sarang Baheti" />
-  
-  
+  <title>process explorer minidump - a few notes</title>
   <meta name="description" content="how process explorer generates minidump">
+  <meta name="author" content="Sarang Baheti"/><script type="application/ld+json">
+{
+    "@context": "http://schema.org",
+    "@type": "WebSite",
+    "name": "a few notes",
+    
+    "url": "https:\/\/www.variadic.xyz\/"
+}
+</script><script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Organization",
+  "name": "",
+  "url": "https:\/\/www.variadic.xyz\/"
   
+  
+  
+  
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [{
+        "@type": "ListItem",
+        "position": 1,
+        "item": {
+          "@id": "https:\/\/www.variadic.xyz\/",
+          "name": "home"
+        }
+    },{
+        "@type": "ListItem",
+        "position": 3,
+        "item": {
+          "@id": "https:\/\/www.variadic.xyz\/2020\/04\/01\/procexp-minidump\/",
+          "name": "Process explorer minidump"
+        }
+    }]
+}
+</script><script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Article",
+  "author": {
+    "name" : "Sarang Baheti"
+  },
+  "headline": "process explorer minidump",
+  "description" : "how process explorer generates minidump",
+  "inLanguage" : "en",
+  "wordCount":  1211 ,
+  "datePublished" : "2020-04-01T01:00:00",
+  "dateModified" : "2020-04-01T01:00:00",
+  "image" : "https:\/\/www.variadic.xyz\/",
+  "keywords" : [ "" ],
+  "mainEntityOfPage" : "https:\/\/www.variadic.xyz\/2020\/04\/01\/procexp-minidump\/",
+  "publisher" : {
+    "@type": "Organization",
+    "name" : "https:\/\/www.variadic.xyz\/",
+    "logo" : {
+        "@type" : "ImageObject",
+        "url" : "https:\/\/www.variadic.xyz\/",
+        "height" :  60 ,
+        "width" :  60
+    }
+  }
+}
+</script>
 
-  <meta name="generator" content="Hugo 0.30.2" />
+<meta property="og:title" content="process explorer minidump" />
+<meta property="og:description" content="how process explorer generates minidump">
+<meta property="og:url" content="https://www.variadic.xyz/2020/04/01/procexp-minidump/" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="a few notes" />
 
-  <link rel="alternate" href="https://www.variadic.xyz/index.xml" type="application/rss+xml" title="a few notes">
-
-  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
-  <link rel="stylesheet" href="https://www.variadic.xyz/css/bootstrap.min.css" />
-  <link rel="stylesheet" href="https://www.variadic.xyz/css/main.css" />
-  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" />
-  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" />
-  
-  
-  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/styles/default.min.css">
-  
-  
-  
-  <meta property="og:title" content="process explorer minidump" />
-  <meta property="og:type" content="website" />
-  <meta property="og:url" content="/2020/04/01/procexp-minidump//" />
-  <meta property="og:image" content="" />
-  
-</head>
+  <meta name="twitter:title" content="process explorer minidump" />
+  <meta name="twitter:description" content="how process explorer generates minidump">
+  <meta name="twitter:card" content="summary" />
+  <meta name="generator" content="Hugo 0.73.0" />
+  <link rel="alternate" href="https://www.variadic.xyz/index.xml" type="application/rss+xml" title="a few notes"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css" integrity="sha384-9eLZqc9ds8eNjO3TmqPeYcDj8n+Qfa4nuSiGYa6DjLNcv9BtN69ZIulL9+8CqC9Y" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"><link rel="stylesheet" href="https://www.variadic.xyz/css/main.css" /><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" /><link rel="stylesheet" href="https://www.variadic.xyz/css/syntax.css" /><link rel="stylesheet" href="https://www.variadic.xyz/css/codeblock.css" /><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/photoswipe.min.css" integrity="sha384-h/L2W9KefUClHWaty3SLE5F/qvc4djlyR4qY3NUV5HGQBBW7stbcfff1+I/vmsHh" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/default-skin/default-skin.min.css" integrity="sha384-iD0dNku6PYSIQLyfTOpB06F2KCZJAKLOThS5HRe8b3ibhdEQ6eKsFf/EeFxdOt5R" crossorigin="anonymous">
 
 
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-27935503-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+  </head>
   <body>
-
     <nav class="navbar navbar-default navbar-fixed-top navbar-custom">
   <div class="container-fluid">
     <div class="navbar-header">
@@ -53,93 +123,161 @@
 
     <div class="collapse navbar-collapse" id="main-navbar">
       <ul class="nav navbar-nav navbar-right">
-      
         
-          <li>
-          <a title="Notes" href="/">Notes</a>
-  	      </li>
-  	    
-      
+          
+            <li>
+              <a title="Notes" href="/">Notes</a>
+            </li>
+          
         
-          <li>
-          <a title="About" href="/about/">About</a>
-  	      </li>
-  	    
-      
+          
+            <li>
+              <a title="About" href="/about/">About</a>
+            </li>
+          
         
-          <li>
-          <a title="Archive" href="/archive/">Archive</a>
-  	      </li>
-  	    
-      
+          
+            <li>
+              <a title="Archive" href="/archive/">Archive</a>
+            </li>
+          
         
-          <li>
-          <a title="Books" href="/books/">Books</a>
-  	      </li>
-  	    
-      
+          
+            <li>
+              <a title="Books" href="/books/">Books</a>
+            </li>
+          
         
-          <li>
-          <a title="Disclaimer" href="/disclaimer/">Disclaimer</a>
-  	      </li>
-  	    
-      
+          
+            <li>
+              <a title="Disclaimer" href="/disclaimer/">Disclaimer</a>
+            </li>
+          
+        
+
+        
+
+        
       </ul>
     </div>
 
-	<div class="avatar-container">
-	  <div class="avatar-img-border">
-      
-	  </div>
-	</div>
+    
 
   </div>
 </nav>
 
 
-    <div role="main" class="container main-content">
 
+
+    
+
+
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+<div class="pswp__bg"></div>
+
+<div class="pswp__scroll-wrap">
+    
+    <div class="pswp__container">
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+    </div>
+    
+    <div class="pswp__ui pswp__ui--hidden">
+    <div class="pswp__top-bar">
       
-        
-
-
-
-
-
-<header class="header-section ">
-
-<div class="intro-header no-img">
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-        <div class="post-heading">
-          <h1>process explorer minidump</h1>
+      <div class="pswp__counter"></div>
+      <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+      <button class="pswp__button pswp__button--share" title="Share"></button>
+      <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+      <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
       
       
-      
-      <span class="post-meta"> April 1, 2020 </span>
-      
+      <div class="pswp__preloader">
+        <div class="pswp__preloader__icn">
+          <div class="pswp__preloader__cut">
+            <div class="pswp__preloader__donut"></div>
+          </div>
         </div>
       </div>
     </div>
-  </div>
+    <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+      <div class="pswp__share-tooltip"></div>
+    </div>
+    <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+    </button>
+    <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+    </button>
+    <div class="pswp__caption">
+      <div class="pswp__caption__center"></div>
+    </div>
+    </div>
+    </div>
 </div>
-</header>
+
+
+  
+  
+  
 
 
 
 
 
-<div class="container">
+
+  
+
+  <header class="header-section ">
+    
+    <div class="intro-header no-img">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+            <div class="post-heading">
+              
+                <h1>process explorer minidump</h1>
+              
+              
+              
+              
+                <span class="post-meta">
+  
+  
+
+  
+    Posted on April 1, 2020
+  
+
+  
+  
+  
+  
+  
+</span>
+
+
+              
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+
+    
+<div class="container" role="main">
   <div class="row">
     <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
       <article role="main" class="blog-post">
+
+        
           <p>As in <a href="/2020/04/01/minidump/">last post</a>, I started putting together a utility for generation of minidump, intention is to have it be part of bigger workflow. I got most of it right, but had some fun getting the flags and process access right.</p>
 
 <p>First, I started with <code>OpenProcess</code> but had opened the process with <code>PROCESS_QUERY_INFORMATION</code> and <code>PROCESS_VM_READ</code> access rights only. <a href="https://docs.microsoft.com/en-us/windows/win32/procthread/process-security-and-access-rights">Documentation link</a>.</p>
 
 <p>Second, referring documentation for <a href="https://docs.microsoft.com/en-us/windows/win32/api/minidumpapiset/nf-minidumpapiset-minidumpwritedump">MiniDumpWriteDump </a>, I was looking for flags to be passed as documented for <code>MINIDUMP_TYPE</code>. The way enumeration is done it is hard to specify <code>MiniDumpWithHandleData</code> and <code>MiniDumpWithThreadInfo</code> at the same time, so really doesn&rsquo;t help and it does not even addup with the options as listed by <code>.dumpdebug</code> command in windbg.</p>
-
 <pre><code>0:000&gt; .dumpdebug
 ----- User Mini Dump Analysis
 
@@ -151,11 +289,8 @@ Flags           1105
                 0004 MiniDumpWithHandleData
                 0100 MiniDumpWithProcessThreadData
                 1000 MiniDumpWithThreadInfo
-                
-</code></pre>
-
+                </code></pre>
 <p><code>MINIDUMP_TYPE</code> <a href="https://docs.microsoft.com/en-us/windows/win32/api/minidumpapiset/ne-minidumpapiset-minidump_type">MS documentation</a></p>
-
 <pre><code>typedef enum _MINIDUMP_TYPE {
 00  MiniDumpNormal,
 01  MiniDumpWithDataSegs,
@@ -173,52 +308,78 @@ Flags           1105
 13  MiniDumpWithThreadInfo,
 ...
 25  MiniDumpValidTypeFlags
-} MINIDUMP_TYPE;
-</code></pre>
-
+} MINIDUMP_TYPE;</code></pre>
 <p>On futher digging I found this in <code>dotnet</code> repository on <code>github</code>:
 <a href="https://github.com/dotnet/diagnostics/blob/master/src/Tools/dotnet-dump/Dumper.Windows.cs">link</a></p>
-
-<pre><code class="language-cs">public enum MINIDUMP_TYPE : uint
-{
-    MiniDumpNormal                         = 0,
-    MiniDumpWithDataSegs                   = 1 &lt;&lt; 0,
-    MiniDumpWithFullMemory                 = 1 &lt;&lt; 1,
-    MiniDumpWithHandleData                 = 1 &lt;&lt; 2,
-    MiniDumpFilterMemory                   = 1 &lt;&lt; 3,
-    MiniDumpScanMemory                     = 1 &lt;&lt; 4,
-    MiniDumpWithUnloadedModules            = 1 &lt;&lt; 5,
-    MiniDumpWithIndirectlyReferencedMemory = 1 &lt;&lt; 6,
-    MiniDumpFilterModulePaths              = 1 &lt;&lt; 7,
-    MiniDumpWithProcessThreadData          = 1 &lt;&lt; 8,
-    MiniDumpWithPrivateReadWriteMemory     = 1 &lt;&lt; 9,
-    MiniDumpWithoutOptionalData            = 1 &lt;&lt; 10,
-    MiniDumpWithFullMemoryInfo             = 1 &lt;&lt; 11,
-    MiniDumpWithThreadInfo                 = 1 &lt;&lt; 12,
-    MiniDumpWithCodeSegs                   = 1 &lt;&lt; 13,
-    MiniDumpWithoutAuxiliaryState          = 1 &lt;&lt; 14,
-    MiniDumpWithFullAuxiliaryState         = 1 &lt;&lt; 15,
-    MiniDumpWithPrivateWriteCopyMemory     = 1 &lt;&lt; 16,
-    MiniDumpIgnoreInaccessibleMemory       = 1 &lt;&lt; 17,
-    MiniDumpWithTokenInformation           = 1 &lt;&lt; 18,
-    MiniDumpWithModuleHeaders              = 1 &lt;&lt; 19,
-    MiniDumpFilterTriage                   = 1 &lt;&lt; 20,
-    MiniDumpWithAvxXStateContext           = 1 &lt;&lt; 21,
-    MiniDumpWithIptTrace                   = 1 &lt;&lt; 22,
-    MiniDumpValidTypeFlags                 = (-1) ^ ((~1) &lt;&lt; 22)
-}
-</code></pre>
-
+<div class="highlight"><div style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">25
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">26
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">27
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">28
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cs" data-lang="cs"><span style="color:#00a8c8">public</span> <span style="color:#00a8c8">enum</span> <span style="color:#111">MINIDUMP_TYPE</span> <span style="color:#111">:</span> <span style="color:#00a8c8">uint</span>
+<span style="color:#111">{</span>
+    <span style="color:#111">MiniDumpNormal</span>                         <span style="color:#111">=</span> <span style="color:#ae81ff">0</span><span style="color:#111">,</span>
+    <span style="color:#111">MiniDumpWithDataSegs</span>                   <span style="color:#111">=</span> <span style="color:#ae81ff">1</span> <span style="color:#111">&lt;&lt;</span> <span style="color:#ae81ff">0</span><span style="color:#111">,</span>
+    <span style="color:#111">MiniDumpWithFullMemory</span>                 <span style="color:#111">=</span> <span style="color:#ae81ff">1</span> <span style="color:#111">&lt;&lt;</span> <span style="color:#ae81ff">1</span><span style="color:#111">,</span>
+    <span style="color:#111">MiniDumpWithHandleData</span>                 <span style="color:#111">=</span> <span style="color:#ae81ff">1</span> <span style="color:#111">&lt;&lt;</span> <span style="color:#ae81ff">2</span><span style="color:#111">,</span>
+    <span style="color:#111">MiniDumpFilterMemory</span>                   <span style="color:#111">=</span> <span style="color:#ae81ff">1</span> <span style="color:#111">&lt;&lt;</span> <span style="color:#ae81ff">3</span><span style="color:#111">,</span>
+    <span style="color:#111">MiniDumpScanMemory</span>                     <span style="color:#111">=</span> <span style="color:#ae81ff">1</span> <span style="color:#111">&lt;&lt;</span> <span style="color:#ae81ff">4</span><span style="color:#111">,</span>
+    <span style="color:#111">MiniDumpWithUnloadedModules</span>            <span style="color:#111">=</span> <span style="color:#ae81ff">1</span> <span style="color:#111">&lt;&lt;</span> <span style="color:#ae81ff">5</span><span style="color:#111">,</span>
+    <span style="color:#111">MiniDumpWithIndirectlyReferencedMemory</span> <span style="color:#111">=</span> <span style="color:#ae81ff">1</span> <span style="color:#111">&lt;&lt;</span> <span style="color:#ae81ff">6</span><span style="color:#111">,</span>
+    <span style="color:#111">MiniDumpFilterModulePaths</span>              <span style="color:#111">=</span> <span style="color:#ae81ff">1</span> <span style="color:#111">&lt;&lt;</span> <span style="color:#ae81ff">7</span><span style="color:#111">,</span>
+    <span style="color:#111">MiniDumpWithProcessThreadData</span>          <span style="color:#111">=</span> <span style="color:#ae81ff">1</span> <span style="color:#111">&lt;&lt;</span> <span style="color:#ae81ff">8</span><span style="color:#111">,</span>
+    <span style="color:#111">MiniDumpWithPrivateReadWriteMemory</span>     <span style="color:#111">=</span> <span style="color:#ae81ff">1</span> <span style="color:#111">&lt;&lt;</span> <span style="color:#ae81ff">9</span><span style="color:#111">,</span>
+    <span style="color:#111">MiniDumpWithoutOptionalData</span>            <span style="color:#111">=</span> <span style="color:#ae81ff">1</span> <span style="color:#111">&lt;&lt;</span> <span style="color:#ae81ff">10</span><span style="color:#111">,</span>
+    <span style="color:#111">MiniDumpWithFullMemoryInfo</span>             <span style="color:#111">=</span> <span style="color:#ae81ff">1</span> <span style="color:#111">&lt;&lt;</span> <span style="color:#ae81ff">11</span><span style="color:#111">,</span>
+    <span style="color:#111">MiniDumpWithThreadInfo</span>                 <span style="color:#111">=</span> <span style="color:#ae81ff">1</span> <span style="color:#111">&lt;&lt;</span> <span style="color:#ae81ff">12</span><span style="color:#111">,</span>
+    <span style="color:#111">MiniDumpWithCodeSegs</span>                   <span style="color:#111">=</span> <span style="color:#ae81ff">1</span> <span style="color:#111">&lt;&lt;</span> <span style="color:#ae81ff">13</span><span style="color:#111">,</span>
+    <span style="color:#111">MiniDumpWithoutAuxiliaryState</span>          <span style="color:#111">=</span> <span style="color:#ae81ff">1</span> <span style="color:#111">&lt;&lt;</span> <span style="color:#ae81ff">14</span><span style="color:#111">,</span>
+    <span style="color:#111">MiniDumpWithFullAuxiliaryState</span>         <span style="color:#111">=</span> <span style="color:#ae81ff">1</span> <span style="color:#111">&lt;&lt;</span> <span style="color:#ae81ff">15</span><span style="color:#111">,</span>
+    <span style="color:#111">MiniDumpWithPrivateWriteCopyMemory</span>     <span style="color:#111">=</span> <span style="color:#ae81ff">1</span> <span style="color:#111">&lt;&lt;</span> <span style="color:#ae81ff">16</span><span style="color:#111">,</span>
+    <span style="color:#111">MiniDumpIgnoreInaccessibleMemory</span>       <span style="color:#111">=</span> <span style="color:#ae81ff">1</span> <span style="color:#111">&lt;&lt;</span> <span style="color:#ae81ff">17</span><span style="color:#111">,</span>
+    <span style="color:#111">MiniDumpWithTokenInformation</span>           <span style="color:#111">=</span> <span style="color:#ae81ff">1</span> <span style="color:#111">&lt;&lt;</span> <span style="color:#ae81ff">18</span><span style="color:#111">,</span>
+    <span style="color:#111">MiniDumpWithModuleHeaders</span>              <span style="color:#111">=</span> <span style="color:#ae81ff">1</span> <span style="color:#111">&lt;&lt;</span> <span style="color:#ae81ff">19</span><span style="color:#111">,</span>
+    <span style="color:#111">MiniDumpFilterTriage</span>                   <span style="color:#111">=</span> <span style="color:#ae81ff">1</span> <span style="color:#111">&lt;&lt;</span> <span style="color:#ae81ff">20</span><span style="color:#111">,</span>
+    <span style="color:#111">MiniDumpWithAvxXStateContext</span>           <span style="color:#111">=</span> <span style="color:#ae81ff">1</span> <span style="color:#111">&lt;&lt;</span> <span style="color:#ae81ff">21</span><span style="color:#111">,</span>
+    <span style="color:#111">MiniDumpWithIptTrace</span>                   <span style="color:#111">=</span> <span style="color:#ae81ff">1</span> <span style="color:#111">&lt;&lt;</span> <span style="color:#ae81ff">22</span><span style="color:#111">,</span>
+    <span style="color:#111">MiniDumpValidTypeFlags</span>                 <span style="color:#111">=</span> <span style="color:#111">(-</span><span style="color:#ae81ff">1</span><span style="color:#111">)</span> <span style="color:#111">^</span> <span style="color:#111">((~</span><span style="color:#ae81ff">1</span><span style="color:#111">)</span> <span style="color:#111">&lt;&lt;</span> <span style="color:#ae81ff">22</span><span style="color:#111">)</span>
+<span style="color:#111">}</span>
+</code></pre></td></tr></table>
+</div>
+</div>
 <p>This aligns quite well with the flags we have observed so far. Now, the question is why am I not able to get <code>handles</code> in the dump file. My first guess is that I have not opened file with proper acess rights. To confirm I went about looking at what is process explorer doing. :). I attached to procexp64 process and started dumping trace</p>
 
 <p>first, set the breakpoint at function <code>dbgcore!MiniDumpWriteDump</code> and go</p>
-
 <pre><code>0:012&gt; bp dbgcore!MiniDumpWriteDump
-0:012&gt; g
-</code></pre>
-
+0:012&gt; g</code></pre>
 <p>after selecting the location to save memory-dump, break point is hit and looking at traceback:</p>
-
 <pre><code>Breakpoint 0 hit
 dbgcore!MiniDumpWriteDump:
 00007ff9`73686790 4055            push    rbp
@@ -236,12 +397,9 @@ dbgcore!MiniDumpWriteDump:
 09 00000075`94cff710 00007ff7`eb95dcc4 procexp64+0xa59ad
 0a 00000075`94cff8c0 00007ff9`82387974 procexp64+0xadcc4
 0b 00000075`94cff900 00007ff9`851ba261 KERNEL32!BaseThreadInitThunk+0x14
-0c 00000075`94cff930 00000000`00000000 ntdll!RtlUserThreadStart+0x21
-</code></pre>
-
+0c 00000075`94cff930 00000000`00000000 ntdll!RtlUserThreadStart+0x21</code></pre>
 <p>Function <code>procexp64+0x7869c</code> calls <code>MiniDumpWriteDump</code>, so basically it will setup and pass in the parameters.
 On Winx64, first 4 parameters are passed in registers and rest on stack. Luckily we need the first four params to confirm, based on signature of <code>MiniDumpWriteDump</code>.</p>
-
 <pre><code>0:000&gt; r
 rax=0000000000000000 rbx=0000000000001105 rcx=0000000000000ad4
 rdx=0000000000002d10 rsi=0000000000000ad4 rdi=0000000000000000
@@ -252,21 +410,15 @@ r14=0000000000000e44 r15=0000000000000ad4
 iopl=0         nv up ei pl zr na po nc
 cs=0033  ss=002b  ds=002b  es=002b  fs=0053  gs=002b             efl=00000246
 dbgcore!MiniDumpWriteDump:
-00007ff9`73686790 4055            push    rbp
-</code></pre>
-
+00007ff9`73686790 4055            push    rbp</code></pre>
 <p>The params are passed in this order: <code>ProcessHandle (rcx)</code>, <code>ProcessId (rdx)</code>, <code>File (r8)</code> &amp; <code>MinDumpOpts (r9)</code>.
 Here the <code>rcx</code> is set to <code>0xad4</code> and <code>r8</code> is set to <code>0xe44</code> and <code>r9</code> is <code>0x1105</code>. This <code>0x1105</code> (decimal: <code>4357</code>) is our option value for sure, but what about process.</p>
 
 <p><code>!handle</code> is a great extension to query status/details of various handles:</p>
-
 <pre><code>0:000&gt; !handle ad4
 Handle ad4
-  Type         Process
-</code></pre>
-
+  Type         Process</code></pre>
 <p>Per documentation <a href="https://docs.microsoft.com/en-us/windows-hardware/drivers/debugger/-handle">here</a>, you can pass <code>0x7</code> as option to print further information:</p>
-
 <pre><code>0:000&gt; !handle ad4 7
 Handle ad4
   Type         Process
@@ -276,13 +428,10 @@ Handle ad4
          Terminate,CreateThread,,VMOp,VMRead,VMWrite,DupHandle,CreateProcess,SetQuota,SetInfo,QueryInfo,SetPort
   HandleCount   15
   PointerCount 435679
-  Name         &lt;none&gt;
-</code></pre>
-
+  Name         &lt;none&gt;</code></pre>
 <p>The process is opend with access <code>0x1fffff</code>, which is actually <code>PROCESS_ALL_ACCESS</code>. So that answers my query about how the process should be opened. :)</p>
 
 <p>I just wanted to check how <code>procexp</code> opened the file (I specified the register <code>r8</code> directly and windbg translated it to 0xe44 handle value):</p>
-
 <pre><code>0:000&gt; !handle r8 7
 Handle e44
   Type         File
@@ -291,25 +440,19 @@ Handle e44
          ReadControl,Synch
          Write/Add,Append/SubDir/CreatePipe,WriteEA,ReadAttr,WriteAttr
   HandleCount   2
-  PointerCount 32769
-</code></pre>
-
+  PointerCount 32769</code></pre>
 <hr />
 
 <p>So far we have established that the first 4 parameters to <code>MiniDumpWriteDump</code>, now about remaining 3:</p>
 
 <p>recall the stack we are at is:</p>
-
 <pre><code>0:000&gt; k
  # Child-SP          RetAddr           Call Site
 00 00000075`94cfe938 00007ff7`eb92869c dbgcore!MiniDumpWriteDump
 01 00000075`94cfe940 00007ff7`eb91d04b procexp64+0x7869c
-02 00000075`94cfe990 00007ff7`eb8fc2b0 procexp64+0x6d04b
-</code></pre>
-
+02 00000075`94cfe990 00007ff7`eb8fc2b0 procexp64+0x6d04b</code></pre>
 <p>to look at the calling function disassembly type <code>uf</code> command, it disassmbles function containing specified address.
 Here we will pass in the return address from calling function: <code>procexp64+0x7869c</code>. Here Line#19 is <code>MiniDumpWriteDump</code></p>
-
 <pre><code>0:000&gt; uf procexp64+0x7869c
 procexp64+0x78610:
 00007ff7`4fd58610 48895c2408      mov     qword ptr [rsp+8],rbx
@@ -334,17 +477,11 @@ procexp64+0x78610:
 00007ff7`4fd586a6 488b742460      mov     rsi,qword ptr [rsp+60h]
 00007ff7`4fd586ab 4883c440        add     rsp,40h
 00007ff7`4fd586af 5f              pop     rdi
-00007ff7`4fd586b0 c3              ret
-</code></pre>
-
+00007ff7`4fd586b0 c3              ret</code></pre>
 <p>To confirm that just type, here <code>.frame</code> shows current frame. We set breakpoint at <code>dbgcore!MiniDumpWriteDump</code> so that sounds right.</p>
-
 <pre><code>0:000&gt; .frame
-00 00000075`94cfe938 00007ff7`eb92869c dbgcore!MiniDumpWriteDump
-</code></pre>
-
+00 00000075`94cfe938 00007ff7`eb92869c dbgcore!MiniDumpWriteDump</code></pre>
 <p>One can inspect the register values at a particular frame <a href="https://docs.microsoft.com/en-us/windows-hardware/drivers/debugger/-frame--set-local-context-">doc link</a></p>
-
 <pre><code>0:000&gt; .frame /r 0
 00 00000075`94cfe938 00007ff7`eb92869c dbgcore!MiniDumpWriteDump
 rax=0000000000000000 rbx=0000000000001105 rcx=0000000000000ad4
@@ -356,11 +493,8 @@ r14=0000000000000e44 r15=0000000000000ad4
 iopl=0         nv up ei pl zr na po nc
 cs=0033  ss=002b  ds=002b  es=002b  fs=0053  gs=002b             efl=00000244
 dbgcore!MiniDumpWriteDump:
-00007ff9`73686790 4055            push    rbp
-</code></pre>
-
+00007ff9`73686790 4055            push    rbp</code></pre>
 <p>to look at registers of previous frame:</p>
-
 <pre><code>0:000&gt; .frame /r 1
 01 00000075`94cfe940 00007ff7`eb91d04b procexp64+0x7869c
 rax=0000000000000000 rbx=0000000000001105 rcx=0000000000000ad4
@@ -372,11 +506,8 @@ r14=0000000000000e44 r15=0000000000000ad4
 iopl=0         nv up ei pl zr na po nc
 cs=0033  ss=002b  ds=002b  es=002b  fs=0053  gs=002b             efl=00000244
 procexp64+0x7869c:
-00007ff7`eb92869c 488b5c2450      mov     rbx,qword ptr [rsp+50h] ss:00000075`94cfe990=0000023d59070420
-</code></pre>
-
+00007ff7`eb92869c 488b5c2450      mov     rbx,qword ptr [rsp+50h] ss:00000075`94cfe990=0000023d59070420</code></pre>
 <p>Here the these are just before calling <code>dbgcore!MiniDumpWriteDump</code> and disassembly at this location:</p>
-
 <pre><code>00007ff7`4fd5867a 448bcb          mov     r9d,ebx
 00007ff7`4fd5867d 4c8bc5          mov     r8,rbp
 00007ff7`4fd58680 8bd0            mov     edx,eax
@@ -385,17 +516,12 @@ procexp64+0x7869c:
 00007ff7`4fd58687 4889442430      mov     qword ptr [rsp+30h],rax
 00007ff7`4fd5868c 4889442428      mov     qword ptr [rsp+28h],rax
 00007ff7`4fd58691 4889442420      mov     qword ptr [rsp+20h],rax
-00007ff7`4fd58696 ff15fc860b00    call    qword ptr [procexp64+0x130d98 (00007ff7`4fe10d98)]
-</code></pre>
-
+00007ff7`4fd58696 ff15fc860b00    call    qword ptr [procexp64+0x130d98 (00007ff7`4fe10d98)]</code></pre>
 <p>Lines 6-8 is where the parameters are passed on stack for this function, note <code>rax</code> is <code>0\nullptr</code>.</p>
 
 <p>Thus the call to <code>MiniDumpWriteDump</code> is:</p>
-
 <pre><code>MiniDumpWriteDump(0xad4, 0x2d10, 0xe44, 0x1105, nullptr, nullptr, nullptr);
-MiniDumpWriteDump(hProc, pid,    hFile, 0x1105, nullptr, nullptr, nullptr);
-</code></pre>
-
+MiniDumpWriteDump(hProc, pid,    hFile, 0x1105, nullptr, nullptr, nullptr);</code></pre>
 <p>With this information set, I know that I need to:</p>
 
 <ol>
@@ -419,20 +545,31 @@ MiniDumpWriteDump(hProc, pid,    hFile, 0x1105, nullptr, nullptr, nullptr);
 
 <hr />
 
+        
+
+
+        
+
+        
+
+        
       </article>
-      <br/>
-      <ul class="pager blog-pager">
-        
-        <li class="previous">
-          <a href="https://www.variadic.xyz/2020/04/01/minidump/" data-toggle="tooltip" data-placement="top" title="minidump">&larr; Previous</a>
-        </li>
-        
-        
-        <li class="next">
-          <a href="https://www.variadic.xyz/2020/04/15/encode-vids/" data-toggle="tooltip" data-placement="top" title="encode videos">Next &rarr;</a>
-        </li>
-        
-      </ul>
+
+      
+        <ul class="pager blog-pager">
+          
+            <li class="previous">
+              <a href="https://www.variadic.xyz/2020/04/01/minidump/" data-toggle="tooltip" data-placement="top" title="minidump">&larr; Previous Post</a>
+            </li>
+          
+          
+            <li class="next">
+              <a href="https://www.variadic.xyz/2020/04/15/encode-vids/" data-toggle="tooltip" data-placement="top" title="encode videos">Next Post &rarr;</a>
+            </li>
+          
+        </ul>
+      
+
 
       
 
@@ -441,95 +578,56 @@ MiniDumpWriteDump(hProc, pid,    hFile, 0x1105, nullptr, nullptr, nullptr);
 </div>
 
       
-
-    </div>
-
-    <footer>
-  <div class="container beautiful-jekyll-footer">
+<footer>
+  <div class="container">
     <div class="row">
       <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
         <ul class="list-inline text-center footer-links">
           
           
-          
-          <li>
-            <a href="https://github.com/sarangbaheti" title="GitHub">
-              <span class="fa-stack fa-lg">
-                <i class="fa fa-circle fa-stack-2x"></i>
-                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
-              </span>
-            </a>
-          </li>
-          
-		      
-		      
-          <li>
-            <a href="https://linkedin.com/in/sarangbaheti" title="LinkedIn">
-              <span class="fa-stack fa-lg">
-                <i class="fa fa-circle fa-stack-2x"></i>
-                <i class="fa fa-linkedin fa-stack-1x fa-inverse"></i>
-              </span>
-            </a>
-          </li>
-          
-	    	  
-          <li>
-            <a href="https://stackoverflow.com/users/916549/sarang" title="StackOverflow">
-              <span class="fa-stack fa-lg">
-                <i class="fa fa-circle fa-stack-2x"></i>
-                <i class="fa fa-stack-overflow fa-stack-1x fa-inverse"></i>
-              </span>
-            </a>
-          </li>
-          
-          
-    		  <li>
-      			<a href="https://www.variadic.xyz/index.xml" title="RSS">
-      			  <span class="fa-stack fa-lg">
-        				<i class="fa fa-circle fa-stack-2x"></i>
-        				<i class="fa fa-rss fa-stack-1x fa-inverse"></i>
-      			  </span>
-      			</a>
-    		  </li>		
-
         </ul>
-        <p class="copyright text-muted">
-    		  Sarang Baheti
-    		  &nbsp;&bull;&nbsp;
-    		  2020
-    		  
-    		  
-    		  &nbsp;&bull;&nbsp;
-    		  <a href="https://www.variadic.xyz/">a few notes</a>
-    		  
-  	    </p>
-  	        
-    		<p class="theme-by text-muted">
-    		  Theme by
-    		  <a href="https://github.com/sarangbaheti/bh">bh</a>
-    		</p>
+        <p class="credits copyright text-muted">
+          
+            
+              Sarang Baheti
+            
+          
+
+          &nbsp;&bull;&nbsp;&copy;
+          
+            2020
+          
+
+          
+            &nbsp;&bull;&nbsp;
+            <a href="https://www.variadic.xyz/">a few notes</a>
+          
+        </p>
+        
+        <p class="credits theme-by text-muted">
+          <a href="https://gohugo.io">Hugo v0.73.0</a> powered &nbsp;&bull;&nbsp; Theme <a href="https://github.com/halogenica/beautifulhugo">Beautiful Hugo</a> adapted from <a href="https://deanattali.com/beautiful-jekyll/">Beautiful Jekyll</a>
+          
+        </p>
       </div>
     </div>
   </div>
-</footer>
+</footer><script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.js" integrity="sha384-K3vbOmF2BtaVai+Qk37uypf7VrgBubhQreNQe9aGsz9lB63dIFiQVlJbr92dw2Lx" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/contrib/auto-render.min.js" integrity="sha384-kmZOZB5ObwgQnS/DuDg6TScgOiWWBiVt0plIRkZCmE6rDZGrEOQeHM5PcHi+nyqe" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
-<script src="https://www.variadic.xyz/js/jquery-1.11.2.min.js"></script>
-<script src="https://www.variadic.xyz/js/bootstrap.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/highlight.min.js"></script>
-<script src="https://www.variadic.xyz/js/main.js"></script>
-
-
-<script>
-(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-
-ga('create', 'UA-27935503-1', 'auto');
-ga('send', 'pageview');
-</script>
+<script src="https://www.variadic.xyz/js/main.js"></script><script> renderMathInElement(document.body); </script><script src="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/photoswipe.min.js" integrity="sha384-QELNnmcmU8IR9ZAykt67vGr9/rZJdHbiWi64V88fCPaOohUlHCqUD/unNN0BXSqy" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/photoswipe-ui-default.min.js" integrity="sha384-m67o7SkQ1ALzKZIFh4CiTA8tmadaujiTa9Vu+nqPSwDOqHrDmxLezTdFln8077+q" crossorigin="anonymous"></script><script src="https://www.variadic.xyz/js/load-photoswipe.js"></script>
 
 
 
+
+
+
+
+
+
+    
   </body>
 </html>
+

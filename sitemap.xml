@@ -1,9 +1,19 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://www.variadic.xyz/</loc>
+    <lastmod>2020-07-01T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://www.variadic.xyz/2020/07/01/grub-customizer/</loc>
+    <lastmod>2020-07-01T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.variadic.xyz/post/</loc>
     <lastmod>2020-07-01T00:00:00+00:00</lastmod>
   </url>
   
@@ -148,7 +158,7 @@
   </url>
   
   <url>
-    <loc>https://www.variadic.xyz/2019/10/06/runas-from-cmd/</loc>
+    <loc>https://www.variadic.xyz/post/0139-runas-from-cmd/</loc>
     <lastmod>2019-10-06T16:55:07-07:00</lastmod>
   </url>
   
@@ -168,82 +178,82 @@
   </url>
   
   <url>
-    <loc>https://www.variadic.xyz/2019/05/27/open-with-notepad/</loc>
+    <loc>https://www.variadic.xyz/post/0135-open-with-notepad/</loc>
     <lastmod>2019-05-27T21:32:33-07:00</lastmod>
   </url>
   
   <url>
-    <loc>https://www.variadic.xyz/2019/03/27/mesi-states-transition/</loc>
+    <loc>https://www.variadic.xyz/post/0134-mesi-states/</loc>
     <lastmod>2019-03-27T21:55:07-07:00</lastmod>
   </url>
   
   <url>
-    <loc>https://www.variadic.xyz/2019/02/21/relaunching-as-an-admin/</loc>
+    <loc>https://www.variadic.xyz/post/0133-relaunching-as-admin/</loc>
     <lastmod>2019-02-21T12:04:07-07:00</lastmod>
   </url>
   
   <url>
-    <loc>https://www.variadic.xyz/2019/01/20/library-load-dbg-flags/</loc>
+    <loc>https://www.variadic.xyz/post/0132-library-load-dbg-flags/</loc>
     <lastmod>2019-01-20T12:04:07-07:00</lastmod>
   </url>
   
   <url>
-    <loc>https://www.variadic.xyz/2018/10/26/wpf-style-inheritance-behavior/</loc>
+    <loc>https://www.variadic.xyz/post/0131-inheritancebehavior/</loc>
     <lastmod>2018-10-26T15:33:06-07:00</lastmod>
   </url>
   
   <url>
-    <loc>https://www.variadic.xyz/2018/06/18/system-call-failed/</loc>
+    <loc>https://www.variadic.xyz/post/0130-system-call-failed/</loc>
     <lastmod>2018-06-18T17:11:54-07:00</lastmod>
   </url>
   
   <url>
-    <loc>https://www.variadic.xyz/2018/03/11/diskpart/</loc>
+    <loc>https://www.variadic.xyz/post/0129-diskpart/</loc>
     <lastmod>2018-03-11T19:25:24-07:00</lastmod>
   </url>
   
   <url>
-    <loc>https://www.variadic.xyz/2018/03/09/pwsh-and-openssh-on-windows/</loc>
+    <loc>https://www.variadic.xyz/post/0128-pwsh/</loc>
     <lastmod>2018-03-09T21:49:25-08:00</lastmod>
   </url>
   
   <url>
-    <loc>https://www.variadic.xyz/2018/03/02/git-diff/</loc>
+    <loc>https://www.variadic.xyz/post/0126-git-difftool/</loc>
     <lastmod>2018-03-02T12:13:02-08:00</lastmod>
   </url>
   
   <url>
-    <loc>https://www.variadic.xyz/2018/03/02/error-handling-links/</loc>
+    <loc>https://www.variadic.xyz/post/0125-error-handling-links/</loc>
     <lastmod>2018-03-02T11:53:15-08:00</lastmod>
   </url>
   
   <url>
-    <loc>https://www.variadic.xyz/2018/02/15/gpg-signing-github-commits/</loc>
+    <loc>https://www.variadic.xyz/post/0124-gpg-signing-github-commits/</loc>
     <lastmod>2018-02-15T20:11:01-08:00</lastmod>
   </url>
   
   <url>
-    <loc>https://www.variadic.xyz/2018/02/14/tweaking-hugo-summary/</loc>
+    <loc>https://www.variadic.xyz/post/0123-tweaking-hugo-summary/</loc>
     <lastmod>2018-02-14T18:11:15-08:00</lastmod>
   </url>
   
   <url>
-    <loc>https://www.variadic.xyz/2018/02/14/gcc-headers-dir/</loc>
+    <loc>https://www.variadic.xyz/post/0122-gcc-headers-dir/</loc>
     <lastmod>2018-02-14T17:15:00-08:00</lastmod>
   </url>
   
   <url>
-    <loc>https://www.variadic.xyz/2018/01/24/querying-disk-type/</loc>
+    <loc>https://www.variadic.xyz/post/0121-disk-type/</loc>
     <lastmod>2018-01-24T20:21:28-07:00</lastmod>
   </url>
   
   <url>
-    <loc>https://www.variadic.xyz/2018/01/15/hashing-stdpair-and-stdtuple/</loc>
+    <loc>https://www.variadic.xyz/post/0120-hashing-tuples/</loc>
     <lastmod>2018-01-15T22:34:59-08:00</lastmod>
   </url>
   
   <url>
-    <loc>https://www.variadic.xyz/2017/11/06/error-handling-links/</loc>
+    <loc>https://www.variadic.xyz/post/0119-error-handling-links/</loc>
     <lastmod>2017-11-06T19:56:41-08:00</lastmod>
   </url>
   
@@ -313,6 +323,31 @@
   </url>
   
   <url>
+    <loc>https://www.variadic.xyz/books/</loc>
+    <lastmod>2016-11-27T16:18:02-08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.variadic.xyz/bootcamp-parallel-desktop/</loc>
+    <lastmod>2016-11-27T16:18:02-08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.variadic.xyz/mac-osx-resource/</loc>
+    <lastmod>2016-11-27T16:18:02-08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.variadic.xyz/programming-resources/</loc>
+    <lastmod>2016-11-27T16:18:02-08:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.variadic.xyz/resources/</loc>
+    <lastmod>2016-11-27T16:18:02-08:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://www.variadic.xyz/2016/06/24/c-number-yaml-config/</loc>
     <lastmod>2016-06-24T22:22:39+00:00</lastmod>
   </url>
@@ -353,8 +388,23 @@
   </url>
   
   <url>
+    <loc>https://www.variadic.xyz/categories/</loc>
+    <lastmod>2015-05-16T22:36:41+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://www.variadic.xyz/2015/05/16/vim/</loc>
     <lastmod>2015-05-16T22:36:41+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.variadic.xyz/categories/vim-linux-windows-programming/</loc>
+    <lastmod>2015-05-16T22:36:41+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://www.variadic.xyz/categories/git-code/</loc>
+    <lastmod>2015-05-16T12:29:54+00:00</lastmod>
   </url>
   
   <url>
@@ -363,12 +413,12 @@
   </url>
   
   <url>
-    <loc>https://www.variadic.xyz/disclaimer/</loc>
+    <loc>https://www.variadic.xyz/about/</loc>
     <lastmod>2015-05-14T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://www.variadic.xyz/about/</loc>
+    <loc>https://www.variadic.xyz/disclaimer/</loc>
     <lastmod>2015-05-14T00:00:00+00:00</lastmod>
   </url>
   
@@ -793,57 +843,7 @@
   </url>
   
   <url>
-    <loc>https://www.variadic.xyz/books/</loc>
-  </url>
-  
-  <url>
-    <loc>https://www.variadic.xyz/bootcamp-parallel-desktop/</loc>
-  </url>
-  
-  <url>
-    <loc>https://www.variadic.xyz/categories/</loc>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://www.variadic.xyz/categories/git-code/</loc>
-    <lastmod>2015-05-16T12:29:54+00:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://www.variadic.xyz/mac-osx-resource/</loc>
-  </url>
-  
-  <url>
-    <loc>https://www.variadic.xyz/post/</loc>
-    <lastmod>2020-07-01T00:00:00+00:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://www.variadic.xyz/programming-resources/</loc>
-  </url>
-  
-  <url>
-    <loc>https://www.variadic.xyz/resources/</loc>
-  </url>
-  
-  <url>
     <loc>https://www.variadic.xyz/tags/</loc>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://www.variadic.xyz/categories/vim-linux-windows-programming/</loc>
-    <lastmod>2015-05-16T22:36:41+00:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://www.variadic.xyz/</loc>
-    <lastmod>2020-07-01T00:00:00+00:00</lastmod>
-    <priority>0</priority>
   </url>
   
 </urlset>
