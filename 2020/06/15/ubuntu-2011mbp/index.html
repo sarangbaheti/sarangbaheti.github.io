@@ -59,7 +59,7 @@
   "headline": "Ubuntu 20.04 on MacBook Pro 2011",
   "description" : "setting up a functional ubuntu 20.04 on MacBook Pro 2011",
   "inLanguage" : "en",
-  "wordCount":  615 ,
+  "wordCount":  651 ,
   "datePublished" : "2020-06-15T00:00:00",
   "dateModified" : "2020-06-15T00:00:00",
   "image" : "https:\/\/www.variadic.xyz\/",
@@ -297,43 +297,109 @@ if (!doNotTrack) {
 
 <hr />
 
-<p>Now, i did ensure that <code>nvram</code> had set up <code>gpu-power-prefs</code> correctly to always go with iGPU. Once installed now it was important to ensure that dGPU stayed off and did not kick in.</p>
+<p>Now, I did ensure that <code>nvram</code> had set up <code>gpu-power-prefs</code> correctly to always go with iGPU. Once installed now it was important to ensure that dGPU stayed off and did not kick in.</p>
 
 <p>GRUB to rescue (more on GRUB later):</p>
-<pre><code>sudo vim /etc/default/grub</code></pre>
+<div class="highlight"><div style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">sudo vim /etc/default/grub</code></pre></td></tr></table>
+</div>
+</div>
 <p>update <code>GRUB_CMDLINE_LINUX_DEFAULT</code> with following options. Here we are asking kernel to neglect radeon driver, even if it is found &amp; go with i915 (intel iGPU) instead.</p>
-<pre><code>GRUB_DEFAULT=0
-GRUB_TIMEOUT_STYLE=hidden
-GRUB_TIMEOUT=0
-GRUB_DISTRIBUTOR=`lsb_release -i -s 2&gt; /dev/null || echo Debian`
-GRUB_CMDLINE_LINUX_DEFAULT=&#34;quiet splash radeon.modeset=0 i915.lvds_channel_mode=2 i915.modeset=1&#34;
-GRUB_CMDLINE_LINUX=&#34;&#34;</code></pre>
-<p>Now this will just switch GPU, but will not power off dGPU. To achieve that:</p>
-<pre><code>sudo vim /etc/grub.d/10_linux</code></pre>
+<div class="highlight"><div style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh"><span style="color:#111">GRUB_DEFAULT</span><span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>
+<span style="color:#111">GRUB_TIMEOUT_STYLE</span><span style="color:#f92672">=</span>hidden
+<span style="color:#111">GRUB_TIMEOUT</span><span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>
+<span style="color:#111">GRUB_DISTRIBUTOR</span><span style="color:#f92672">=</span><span style="color:#d88200">`</span>lsb_release -i -s 2&gt; /dev/null <span style="color:#f92672">||</span> <span style="color:#111">echo</span> Debian<span style="color:#d88200">`</span>
+<span style="color:#111">GRUB_CMDLINE_LINUX_DEFAULT</span><span style="color:#f92672">=</span><span style="color:#d88200">&#34;quiet splash radeon.modeset=0 i915.lvds_channel_mode=2 i915.modeset=1&#34;</span>
+<span style="color:#111">GRUB_CMDLINE_LINUX</span><span style="color:#f92672">=</span><span style="color:#d88200">&#34;&#34;</span></code></pre></td></tr></table>
+</div>
+</div>
+<p><br/>
+Now this will just switch GPU, but will not power off dGPU. To achieve that:</p>
+<div class="highlight"><div style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">sudo vim /etc/grub.d/10_linux</code></pre></td></tr></table>
+</div>
+</div>
+<p><br/></p>
+
 <blockquote>
 <p>more details here <a href="https://forums.macrumors.com/threads/installing-ubuntu-on-2011-mbp-with-failed-amd-gpu.2182103/">https://forums.macrumors.com/threads/installing-ubuntu-on-2011-mbp-with-failed-amd-gpu.2182103/</a></p>
 </blockquote>
 
 <p>It is important to add <code>outb</code> lines before <code>insmod gzio</code> (this is a grub thing). Basically GRUB will load (<code>insmod</code>) <code>gzio</code> before loading kernel (often linux kernel is compressed). Lines <code>6-9</code> are of interest here. After <code>GRUB_GFXPAYLOAD_LINUX</code> and before <code>insmod gzio</code>.</p>
-<pre><code>if ([ &#34;$ubuntu_recovery&#34; = 0 ] || [ x$type != xrecovery ]) &amp;&amp; \
-   ([ &#34;x$GRUB_GFXPAYLOAD_LINUX&#34; != x ] || [ &#34;$gfxpayload_dynamic&#34; = 1 ]); then
-    echo &#34;    gfxmode \$linux_gfx_mode&#34; | sed &#34;s/^/$submenu_indentation/&#34;
-fi
+<div class="highlight"><div style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh"><span style="color:#00a8c8">if</span> <span style="color:#f92672">([</span> <span style="color:#d88200">&#34;</span><span style="color:#111">$ubuntu_recovery</span><span style="color:#d88200">&#34;</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">]</span> <span style="color:#f92672">||</span> <span style="color:#f92672">[</span> x<span style="color:#111">$type</span> !<span style="color:#f92672">=</span> xrecovery <span style="color:#f92672">])</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#8045ff">\
+</span><span style="color:#8045ff"></span>   <span style="color:#f92672">([</span> <span style="color:#d88200">&#34;x</span><span style="color:#111">$GRUB_GFXPAYLOAD_LINUX</span><span style="color:#d88200">&#34;</span> !<span style="color:#f92672">=</span> x <span style="color:#f92672">]</span> <span style="color:#f92672">||</span> <span style="color:#f92672">[</span> <span style="color:#d88200">&#34;</span><span style="color:#111">$gfxpayload_dynamic</span><span style="color:#d88200">&#34;</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">])</span><span style="color:#111">;</span> <span style="color:#00a8c8">then</span>
+    <span style="color:#111">echo</span> <span style="color:#d88200">&#34;    gfxmode \$linux_gfx_mode&#34;</span> <span style="color:#111">|</span> sed <span style="color:#d88200">&#34;s/^/</span><span style="color:#111">$submenu_indentation</span><span style="color:#d88200">/&#34;</span>
+<span style="color:#00a8c8">fi</span>
 
-echo &#34;        outb 0x728 1&#34; | sed &#34;s/^/$submenu_indentation/&#34;
-echo &#34;          outb 0x710 2&#34; | sed &#34;s/^/$submenu_indentation/&#34;
-echo &#34;          outb 0x740 2&#34; | sed &#34;s/^/$submenu_indentation/&#34;
-echo &#34;          outb 0x750 0&#34; | sed &#34;s/^/$submenu_indentation/&#34;
-echo &#34;        insmod gzio&#34; | sed &#34;s/^/$submenu_indentation/&#34;</code></pre>
-<p>Once done with updating grub config and files, ensure that you update grub:</p>
-<pre><code>sudo update grub</code></pre>
-<p>Now, the best part of this is dGPU is completely powered down. <a href="/2020/06/03/lmsensors-config/">Can be checked with <code>sensors</code> as installed with lm-sensors</a>. I can see that GPU-diode consistently reports either <code>-128</code> or low single digit numbers (as the heat sink is shared between both CPU &amp; dGPU). But overall MacBook is quite cool and does not heat up at all (to the point I don&rsquo;t even need a laptop cooler to use it :) ).</p>
+<span style="color:#111">echo</span> <span style="color:#d88200">&#34;        outb 0x728 1&#34;</span> <span style="color:#111">|</span> sed <span style="color:#d88200">&#34;s/^/</span><span style="color:#111">$submenu_indentation</span><span style="color:#d88200">/&#34;</span>
+<span style="color:#111">echo</span> <span style="color:#d88200">&#34;          outb 0x710 2&#34;</span> <span style="color:#111">|</span> sed <span style="color:#d88200">&#34;s/^/</span><span style="color:#111">$submenu_indentation</span><span style="color:#d88200">/&#34;</span>
+<span style="color:#111">echo</span> <span style="color:#d88200">&#34;          outb 0x740 2&#34;</span> <span style="color:#111">|</span> sed <span style="color:#d88200">&#34;s/^/</span><span style="color:#111">$submenu_indentation</span><span style="color:#d88200">/&#34;</span>
+<span style="color:#111">echo</span> <span style="color:#d88200">&#34;          outb 0x750 0&#34;</span> <span style="color:#111">|</span> sed <span style="color:#d88200">&#34;s/^/</span><span style="color:#111">$submenu_indentation</span><span style="color:#d88200">/&#34;</span>
+<span style="color:#111">echo</span> <span style="color:#d88200">&#34;        insmod gzio&#34;</span> <span style="color:#111">|</span> sed <span style="color:#d88200">&#34;s/^/</span><span style="color:#111">$submenu_indentation</span><span style="color:#d88200">/&#34;</span></code></pre></td></tr></table>
+</div>
+</div>
+<p><br/>
+Once done with updating grub config and files, ensure that you update grub:</p>
+<div class="highlight"><div style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">sudo update grub</code></pre></td></tr></table>
+</div>
+</div>
+<p><br/>
+Now, the best part of this is dGPU is completely powered down. <a href="/2020/06/03/lmsensors-config/">Can be checked with <code>sensors</code> as installed with lm-sensors</a>. I can see that GPU-diode consistently reports either <code>-128</code> or low single digit numbers (as the heat sink is shared between both CPU &amp; dGPU). But overall MacBook is quite cool and does not heat up at all (to the point I don&rsquo;t even need a laptop cooler to use it :) ).</p>
+
+<p><br/></p>
 
 <h4 id="a-note-about-previous-magic-numbers">A note about previous magic numbers:</h4>
-<pre><code>outb 0x728 1 # Switch select
-outb 0x710 2 # Switch display
-outb 0x740 2 # Switch DDC
-outb 0x750 0 # Power down discrete graphics</code></pre>
+<div class="highlight"><div style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">outb 0x728 <span style="color:#ae81ff">1</span> <span style="color:#75715e"># Switch select</span>
+outb 0x710 <span style="color:#ae81ff">2</span> <span style="color:#75715e"># Switch display</span>
+outb 0x740 <span style="color:#ae81ff">2</span> <span style="color:#75715e"># Switch DDC</span>
+outb 0x750 <span style="color:#ae81ff">0</span> <span style="color:#75715e"># Power down discrete graphics</span></code></pre></td></tr></table>
+</div>
+</div>
 <p>Now, on every reboot this sets up well &amp; looks very usable overall. More details on how to do this <a href="/2020/06/28/switching-off-dgpu/">on resume after suspending here</a>.</p>
 
 <p><br/></p>
@@ -343,7 +409,24 @@ outb 0x750 0 # Power down discrete graphics</code></pre>
 <hr />
 
 <p>I tried both <code>KDE</code> and <code>Gnome</code>. I found <code>Gnome</code> to be quite handy as compared to <code>KDE</code>. Matter of personal choice- both desktop envs are great. I like the typography as well. Anyway following packages are easily installed and used.</p>
-<pre><code>sudo apt install hwinfo
+<div class="highlight"><div style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">sudo apt install hwinfo
 sudo apt install lm-sensors
 sudo apt install htop
 sudo apt install git
@@ -355,7 +438,9 @@ sudo apt install okular
 sudo apt install vim
 sudo apt install psensor
 sudo apt install nodejs
-sudo apt install npm</code></pre>
+sudo apt install npm</code></pre></td></tr></table>
+</div>
+</div>
 <p>Goes without saying that I installed <code>VisualStudio Code</code> and <code>Brave/Chrome</code> browsers. But that is it really.</p>
 
 <h2 id="br"><br/></h2>
