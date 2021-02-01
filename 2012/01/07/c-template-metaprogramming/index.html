@@ -1,306 +1,904 @@
-<!doctype html><html lang=en itemscope itemtype=http://schema.org/WebPage><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1"><title>C++ Template Metaprogramming - a few notes</title><meta name=description content="notes on C++ template metaprogramming"><meta name=author content="Sarang Baheti"><script type=application/ld+json>{"@context":"http://schema.org","@type":"WebSite","name":"a few notes","url":"https:\/\/www.variadic.xyz\/"}</script><script type=application/ld+json>{"@context":"http://schema.org","@type":"Organization","name":"","url":"https:\/\/www.variadic.xyz\/"}</script><script type=application/ld+json>{"@context":"http://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"item":{"@id":"https:\/\/www.variadic.xyz\/","name":"home"}},{"@type":"ListItem","position":3,"item":{"@id":"https:\/\/www.variadic.xyz\/2012\/01\/07\/c-template-metaprogramming\/","name":"C\u002b\u002b template metaprogramming"}}]}</script><script type=application/ld+json>{"@context":"http://schema.org","@type":"Article","author":{"name":"Sarang Baheti"},"headline":"C\u002b\u002b Template Metaprogramming","description":"notes on C\u002b\u002b template metaprogramming","inLanguage":"en","wordCount":1695,"datePublished":"2012-01-07T00:00:00","dateModified":"2012-01-07T00:00:00","image":"https:\/\/www.variadic.xyz\/","keywords":["C\u002b\u002b"],"mainEntityOfPage":"https:\/\/www.variadic.xyz\/2012\/01\/07\/c-template-metaprogramming\/","publisher":{"@type":"Organization","name":"https:\/\/www.variadic.xyz\/","logo":{"@type":"ImageObject","url":"https:\/\/www.variadic.xyz\/","height":60,"width":60}}}</script><meta property="og:title" content="C++ Template Metaprogramming"><meta property="og:description" content="notes on C++ template metaprogramming"><meta property="og:url" content="https://www.variadic.xyz/2012/01/07/c-template-metaprogramming/"><meta property="og:type" content="website"><meta property="og:site_name" content="a few notes"><meta name=twitter:title content="C++ Template Metaprogramming"><meta name=twitter:description content="notes on C++ template metaprogramming"><meta name=twitter:card content="summary"><meta name=generator content="Hugo 0.73.0"><link rel=alternate href=https://www.variadic.xyz/index.xml type=application/rss+xml title="a few notes"><link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css integrity=sha384-9eLZqc9ds8eNjO3TmqPeYcDj8n+Qfa4nuSiGYa6DjLNcv9BtN69ZIulL9+8CqC9Y crossorigin=anonymous><link rel=stylesheet href=https://use.fontawesome.com/releases/v5.5.0/css/all.css integrity=sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU crossorigin=anonymous><link rel=stylesheet href=https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css integrity=sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u crossorigin=anonymous><link rel=stylesheet href=https://www.variadic.xyz/css/main.css><link rel=stylesheet href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic"><link rel=stylesheet href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800"><link rel=stylesheet href=https://www.variadic.xyz/css/syntax.css><link rel=stylesheet href=https://www.variadic.xyz/css/codeblock.css><link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/photoswipe.min.css integrity=sha384-h/L2W9KefUClHWaty3SLE5F/qvc4djlyR4qY3NUV5HGQBBW7stbcfff1+I/vmsHh crossorigin=anonymous><link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/default-skin/default-skin.min.css integrity=sha384-iD0dNku6PYSIQLyfTOpB06F2KCZJAKLOThS5HRe8b3ibhdEQ6eKsFf/EeFxdOt5R crossorigin=anonymous><script type=application/javascript>var doNotTrack=false;if(!doNotTrack){window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;ga('create','UA-27935503-1','auto');ga('send','pageview');}</script><script async src=https://www.google-analytics.com/analytics.js></script></head><body><nav class="navbar navbar-default navbar-fixed-top navbar-custom"><div class=container-fluid><div class=navbar-header><button type=button class=navbar-toggle data-toggle=collapse data-target=#main-navbar>
-<span class=sr-only>Toggle navigation</span>
-<span class=icon-bar></span><span class=icon-bar></span><span class=icon-bar></span></button>
-<a class=navbar-brand href=https://www.variadic.xyz/>a few notes</a></div><div class="collapse navbar-collapse" id=main-navbar><ul class="nav navbar-nav navbar-right"><li><a title=Notes href=/>Notes</a></li><li><a title=About href=/about/>About</a></li><li><a title=Archive href=/archive/>Archive</a></li><li><a title=Books href=/books/>Books</a></li><li><a title=Disclaimer href=/disclaimer/>Disclaimer</a></li></ul></div></div></nav><div class=pswp tabindex=-1 role=dialog aria-hidden=true><div class=pswp__bg></div><div class=pswp__scroll-wrap><div class=pswp__container><div class=pswp__item></div><div class=pswp__item></div><div class=pswp__item></div></div><div class="pswp__ui pswp__ui--hidden"><div class=pswp__top-bar><div class=pswp__counter></div><button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
-<button class="pswp__button pswp__button--share" title=Share></button>
-<button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
-<button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button><div class=pswp__preloader><div class=pswp__preloader__icn><div class=pswp__preloader__cut><div class=pswp__preloader__donut></div></div></div></div></div><div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap"><div class=pswp__share-tooltip></div></div><button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)"></button>
-<button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)"></button><div class=pswp__caption><div class=pswp__caption__center></div></div></div></div></div><header class=header-section><div class="intro-header no-img"><div class=container><div class=row><div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1"><div class=post-heading><h1>C++ Template Metaprogramming</h1><span class=post-meta>Posted on January 7, 2012</span></div></div></div></div></div></header><div class=container role=main><div class=row><div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1"><article role=main class=blog-post><div class=blog-tags><a href=https://www.variadic.xyz//tags/c++/>C++</a>&nbsp;</div><blockquote><p>Note: with <code>C++14</code> & <code>C++17</code> life gets much better with <code>constexpr</code>. Details: <a href=/2014/07/06/c11-constexpr-computing-exp-at-compile-time/><code>computing-exp-at-compile-time</code></a> and <a href=/2019/07/03/constexpr2/><code>constexpr2</code></a></p></blockquote><h2 style=text-align:justify>C++ Template Metaprogramming (TMP)</h2><p style=text-align:justify>Template metaprogramming is a metaprogramming technique in which templates are used by a compiler to generate temporary source code, which is merged by the compiler with the rest of the source code and then compiled. The output of these templates include compile-time constants, data structures, and complete functions. The use of templates can be thought of as compile-time execution.</p><p style=text-align:justify>The use of templates as a metaprogramming technique requires two distinct operations: a template must be defined, and a defined template must be instantiated. The template definition describes the generic form of the generated source code, and the instantiation causes a specific set of source code to be generated from the generic form in the template.</p><blockquote><p style=text-align:justify>TMP is generally Turing-complete, meaning that any computation expressible by a computer program can be computed, in some form, by a template metaprogram. TMP have no mutable variables— that is, no variable can change value once it has been initialized, therefore template metaprogramming can be seen as a form of functional programming. In fact many template implementations only implement flow control through recursion.</p></blockquote><p style=text-align:justify></p><h2 style=text-align:justify>C++ Template Metaprogramming: fundamentals</h2><p style=text-align:justify>One of the key concepts  for writing Template Metaprogramming is to model your algorithm in recursion and it should be immutable. Let&#8217;s take evaluation of factorial, for example. We all know factorial of a number is the product of all positive integers till the number itself.</p><blockquote><p>factorial(number) = 1 * 2 * 3 * &#8230; * (n-1) * n</p></blockquote><p style=text-align:justify>Now being C++ programmer our first attempt would be to iterate:</p><div class=highlight><div style=color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4><table style=border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre style=color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">1
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">2
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">3
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">4
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">5
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">6
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">7
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">8
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">9
-</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre style=color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-cpp data-lang=cpp><span style=color:#00a8c8>static</span> <span style=color:#00a8c8>int</span> <span style=color:#75af00>factorial_imperative</span><span style=color:#111>(</span><span style=color:#00a8c8>int</span> <span style=color:#111>value</span><span style=color:#111>)</span>
-<span style=color:#111>{</span>
-    <span style=color:#00a8c8>int</span> <span style=color:#111>factorial</span> <span style=color:#f92672>=</span> <span style=color:#ae81ff>1</span><span style=color:#111>;</span>
-    <span style=color:#00a8c8>for</span><span style=color:#111>(</span><span style=color:#00a8c8>auto</span> <span style=color:#111>idx</span> <span style=color:#f92672>=</span> <span style=color:#111>value</span><span style=color:#111>;</span> <span style=color:#111>idx</span> <span style=color:#f92672>&gt;</span> <span style=color:#ae81ff>1</span><span style=color:#111>;</span> <span style=color:#f92672>--</span><span style=color:#111>idx</span> <span style=color:#111>)</span>
-    <span style=color:#111>{</span>
-        <span style=color:#111>factorial</span> <span style=color:#f92672>*=</span> <span style=color:#111>idx</span><span style=color:#111>;</span>
-    <span style=color:#111>}</span>
-    <span style=color:#00a8c8>return</span> <span style=color:#111>factorial</span><span style=color:#111>;</span>
-<span style=color:#111>}</span>
-</code></pre></td></tr></table></div></div><p style=text-align:justify>This works, but has several limitations when it comes to converting it to metaprogram. First and foremost it mutates state, idx and factorial variables at line 4 and 6 respectively. Second it is not recursive, now recursion is primarily required if we want to avoid state mutation.</p><p style=text-align:justify>Keeping above considerations in mind, we will write another function that will be recursive in nature. Generally recursions are difficult to model and understand, primarily for two reasons:</p><ol><li>Very compact code, which is good as well as bad for it can be difficult to understand at times</li><li>Understanding when to stop, specifying termination condition correctly</li></ol><p>So here is the recursive and immutable version for evaluating factorial:</p><div class=highlight><div style=color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4><table style=border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre style=color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">1
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">2
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">3
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">4
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">5
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">6
-</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre style=color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-cpp data-lang=cpp><span style=color:#00a8c8>static</span> <span style=color:#00a8c8>int</span> <span style=color:#75af00>factorial_recursive</span><span style=color:#111>(</span><span style=color:#00a8c8>int</span> <span style=color:#111>value</span><span style=color:#111>)</span>
-<span style=color:#111>{</span>
-    <span style=color:#00a8c8>return</span>
-            <span style=color:#111>value</span> <span style=color:#f92672>&lt;=</span> <span style=color:#ae81ff>1</span> <span style=color:#f92672>?</span> <span style=color:#ae81ff>1</span> <span style=color:#f92672>:</span>
-            <span style=color:#111>(</span><span style=color:#111>value</span> <span style=color:#f92672>*</span> <span style=color:#111>factorial_recursive</span><span style=color:#111>(</span><span style=color:#111>value</span><span style=color:#f92672>-</span><span style=color:#ae81ff>1</span><span style=color:#111>));</span>
-<span style=color:#111>}</span>
-</code></pre></td></tr></table></div></div><p style=text-align:justify>That was easy :), few observations though:</p><ol><li>we are not mutating any variable, even though we generate new values due to recursion but we are not mutating</li><li>well defined termination condition, at line 4: <strong><em>value &lt;= 1</em></strong></li></ol><p style=text-align:justify>Once we have recursive & immutable version of algorithm, it is very easy to convert that into TMP. I will first write out the TMP and then walk over various aspects of it and how it relates to previous algorithm.</p><div class=highlight><div style=color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4><table style=border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre style=color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 1
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 2
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 3
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 4
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 5
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 6
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 7
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 8
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 9
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">10
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">11
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">12
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">13
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">14
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">15
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">16
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">17
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">18
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">19
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">20
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">21
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">22
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">23
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">24
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">25
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">26
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">27
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">28
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">29
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">30
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">31
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">32
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">33
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">34
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">35
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">36
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">37
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">38
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">39
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">40
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">41
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">42
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">43
-</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre style=color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-cpp data-lang=cpp><span style=color:#75715e>//  in metaprogram every thing is a template-class/struct
-</span><span style=color:#75715e></span><span style=color:#00a8c8>template</span><span style=color:#f92672>&lt;</span><span style=color:#00a8c8>int</span> <span style=color:#111>Num</span><span style=color:#f92672>&gt;</span>
-<span style=color:#00a8c8>struct</span> <span style=color:#75af00>factorial_c</span>
-<span style=color:#111>{</span>
-<span style=color:#00a8c8>enum</span>
-    <span style=color:#111>{</span>
-        <span style=color:#111>value</span> <span style=color:#f92672>=</span> <span style=color:#111>Num</span> <span style=color:#f92672>*</span> <span style=color:#111>factorial_c</span><span style=color:#f92672>&lt;</span><span style=color:#111>Num</span><span style=color:#f92672>-</span><span style=color:#ae81ff>1</span><span style=color:#f92672>&gt;::</span><span style=color:#111>value</span>
-    <span style=color:#111>};</span>
-<span style=color:#111>};</span>
+<!DOCTYPE html>
+<html lang="en" itemscope itemtype="http://schema.org/WebPage">
+  <head>
+    
 
-<span style=color:#75715e>//  terminating conditions
-</span><span style=color:#75715e>//
-</span><span style=color:#75715e>//  factorial of 1 is 1
-</span><span style=color:#75715e>//
-</span><span style=color:#75715e></span><span style=color:#00a8c8>template</span><span style=color:#f92672>&lt;&gt;</span>
-<span style=color:#00a8c8>struct</span> <span style=color:#75af00>factorial_c</span><span style=color:#f92672>&lt;</span><span style=color:#ae81ff>1</span><span style=color:#f92672>&gt;</span>
-<span style=color:#111>{</span>
-    <span style=color:#00a8c8>enum</span>
-    <span style=color:#111>{</span>
-        <span style=color:#111>value</span> <span style=color:#f92672>=</span> <span style=color:#ae81ff>1</span>
-    <span style=color:#111>};</span>
-<span style=color:#111>};</span>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+  <title>C&#43;&#43; Template Metaprogramming - a few notes</title>
+  <meta name="description" content="notes on C&#43;&#43; template metaprogramming">
+  <meta name="author" content="Sarang Baheti"/><script type="application/ld+json">
+{
+    "@context": "http://schema.org",
+    "@type": "WebSite",
+    "name": "a few notes",
+    
+    "url": "https:\/\/www.variadic.xyz\/"
+}
+</script><script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Organization",
+  "name": "",
+  "url": "https:\/\/www.variadic.xyz\/"
+  
+  
+  
+  
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [{
+        "@type": "ListItem",
+        "position": 1,
+        "item": {
+          "@id": "https:\/\/www.variadic.xyz\/",
+          "name": "home"
+        }
+    },{
+        "@type": "ListItem",
+        "position": 3,
+        "item": {
+          "@id": "https:\/\/www.variadic.xyz\/2012\/01\/07\/c-template-metaprogramming\/",
+          "name": "C\u002b\u002b template metaprogramming"
+        }
+    }]
+}
+</script><script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Article",
+  "author": {
+    "name" : "Sarang Baheti"
+  },
+  "headline": "C\u002b\u002b Template Metaprogramming",
+  "description" : "notes on C\u002b\u002b template metaprogramming",
+  "inLanguage" : "en",
+  "wordCount":  1695 ,
+  "datePublished" : "2012-01-07T00:00:00",
+  "dateModified" : "2012-01-07T00:00:00",
+  "image" : "https:\/\/www.variadic.xyz\/",
+  "keywords" : [ "C\u002b\u002b" ],
+  "mainEntityOfPage" : "https:\/\/www.variadic.xyz\/2012\/01\/07\/c-template-metaprogramming\/",
+  "publisher" : {
+    "@type": "Organization",
+    "name" : "https:\/\/www.variadic.xyz\/",
+    "logo" : {
+        "@type" : "ImageObject",
+        "url" : "https:\/\/www.variadic.xyz\/",
+        "height" :  60 ,
+        "width" :  60
+    }
+  }
+}
+</script>
+
+<meta property="og:title" content="C&#43;&#43; Template Metaprogramming" />
+<meta property="og:description" content="notes on C&#43;&#43; template metaprogramming">
+<meta property="og:url" content="https://www.variadic.xyz/2012/01/07/c-template-metaprogramming/" />
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="a few notes" />
+
+  <meta name="twitter:title" content="C&#43;&#43; Template Metaprogramming" />
+  <meta name="twitter:description" content="notes on C&#43;&#43; template metaprogramming">
+  <meta name="twitter:card" content="summary" />
+  <meta name="generator" content="Hugo 0.73.0" />
+  <link rel="alternate" href="https://www.variadic.xyz/index.xml" type="application/rss+xml" title="a few notes"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css" integrity="sha384-9eLZqc9ds8eNjO3TmqPeYcDj8n+Qfa4nuSiGYa6DjLNcv9BtN69ZIulL9+8CqC9Y" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"><link rel="stylesheet" href="https://www.variadic.xyz/css/main.css" /><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800" /><link rel="stylesheet" href="https://www.variadic.xyz/css/syntax.css" /><link rel="stylesheet" href="https://www.variadic.xyz/css/codeblock.css" /><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/photoswipe.min.css" integrity="sha384-h/L2W9KefUClHWaty3SLE5F/qvc4djlyR4qY3NUV5HGQBBW7stbcfff1+I/vmsHh" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/default-skin/default-skin.min.css" integrity="sha384-iD0dNku6PYSIQLyfTOpB06F2KCZJAKLOThS5HRe8b3ibhdEQ6eKsFf/EeFxdOt5R" crossorigin="anonymous">
 
 
-<span style=color:#75715e>//  factorial of 0 is 1
-</span><span style=color:#75715e>//
-</span><span style=color:#75715e></span><span style=color:#00a8c8>template</span><span style=color:#f92672>&lt;&gt;</span>
-<span style=color:#00a8c8>struct</span> <span style=color:#75af00>factorial_c</span><span style=color:#f92672>&lt;</span><span style=color:#ae81ff>0</span><span style=color:#f92672>&gt;</span>
-<span style=color:#111>{</span>
-    <span style=color:#00a8c8>enum</span>
-    <span style=color:#111>{</span>
-        <span style=color:#111>value</span> <span style=color:#f92672>=</span> <span style=color:#ae81ff>1</span>
-    <span style=color:#111>};</span>
-<span style=color:#111>};</span>
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-27935503-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
 
 
-<span style=color:#00a8c8>int</span> <span style=color:#75af00>main</span><span style=color:#111>()</span>
-<span style=color:#111>{</span>
-    <span style=color:#00a8c8>auto</span> <span style=color:#111>factorial_5</span> <span style=color:#f92672>=</span> <span style=color:#111>factorial_c</span><span style=color:#f92672>&lt;</span><span style=color:#ae81ff>5</span><span style=color:#f92672>&gt;::</span><span style=color:#111>value</span><span style=color:#111>;</span>
-    <span style=color:#111>std</span><span style=color:#f92672>::</span><span style=color:#111>cout</span> <span style=color:#f92672>&lt;&lt;</span> <span style=color:#d88200>&#34;factorial of 5 is &#34;</span>
-              <span style=color:#f92672>&lt;&lt;</span> <span style=color:#111>factorial_5</span> <span style=color:#f92672>&lt;&lt;</span> <span style=color:#111>std</span><span style=color:#f92672>::</span><span style=color:#111>endl</span><span style=color:#111>;</span>
-    <span style=color:#00a8c8>return</span> <span style=color:#ae81ff>0</span><span style=color:#111>;</span>
-<span style=color:#111>}</span>
-</code></pre></td></tr></table></div></div><p style=text-align:justify>The above Template Metaprogram is almost equivalent to the recursive-immutable runtime version we wrote. Few observations:</p><p><li style=text-align:justify>Line 5 and 6 define a new template struct <strong><em>factorial_c</em></strong> which is parametrized by integers (C++ Templates can be parameterized by types as well as by integers).  Even though we have defined a template struct we are going to use it as if it were a function, see Line 43 for usage</li><li style=text-align:justify>Line 10: does the evaluation for us. Since C++ TMP  code is evaluated by compiler, which means every thing has to be compile time constant, we are forced to use <strong><em>enum</em></strong> or <em><strong>static const int</strong></em>, I prefer <strong><em>enums</em></strong></li><li style=text-align:justify>We will be using this <strong><em>factorial_c</em></strong> TMP function (which is a struct as per what you see) whenever we want compiler to evaluate factorial of any number for us</li><li style=text-align:justify>Line 18, 19 & 23: This is where magic begins. Remember we talked about importance of termination conditions, this is our first termination condition for value of 1. What these lines means is we have already defined a general version of <strong><em>factorial_c</em></strong> but whenever compiler needs to evaluate <em><strong>factorial_c</strong></em> with <em><strong>Num</strong></em> being 1 it should pick this version, that&#8217;s why we have defined the enum with value in there, Line 23</li><li style=text-align:justify>Line 31 & 35: Similar to first termination condition we have one more here for evaluating factorial of 0</li><li style=text-align:justify>Line 43: This is where evaluation happens! This can be related to first call to recursive version, which will recurse till it&#8217;s termination conditions are met</li></p><p><span style=text-align:justify>Here is how the compiler evaluates the template recusions:</span></p><div class=highlight><div style=color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4><table style=border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre style=color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">1
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">2
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">3
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">4
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">5
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">6
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">7
-</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre style=color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-cpp data-lang=cpp><span style=color:#111>factorial_5</span> <span style=color:#f92672>=</span> <span style=color:#111>factorial_c</span><span style=color:#f92672>&lt;</span><span style=color:#ae81ff>5</span><span style=color:#f92672>&gt;::</span><span style=color:#111>value</span><span style=color:#111>;</span>
-<span style=color:#111>factorial_5</span> <span style=color:#f92672>=</span> <span style=color:#ae81ff>5</span> <span style=color:#f92672>*</span> <span style=color:#111>factorial_c</span><span style=color:#f92672>&lt;</span><span style=color:#ae81ff>4</span><span style=color:#f92672>&gt;::</span><span style=color:#111>value</span><span style=color:#111>;</span>
-<span style=color:#111>factorial_5</span> <span style=color:#f92672>=</span> <span style=color:#ae81ff>5</span> <span style=color:#f92672>*</span> <span style=color:#ae81ff>4</span> <span style=color:#f92672>*</span> <span style=color:#111>factorial_c</span><span style=color:#f92672>&lt;</span><span style=color:#ae81ff>3</span><span style=color:#f92672>&gt;::</span><span style=color:#111>value</span><span style=color:#111>;</span>
-<span style=color:#111>factorial_5</span> <span style=color:#f92672>=</span> <span style=color:#ae81ff>5</span> <span style=color:#f92672>*</span> <span style=color:#ae81ff>4</span> <span style=color:#f92672>*</span> <span style=color:#ae81ff>3</span> <span style=color:#f92672>*</span> <span style=color:#111>factorial_c</span><span style=color:#f92672>&lt;</span><span style=color:#ae81ff>2</span><span style=color:#f92672>&gt;::</span><span style=color:#111>value</span><span style=color:#111>;</span>
-<span style=color:#111>factorial_5</span> <span style=color:#f92672>=</span> <span style=color:#ae81ff>5</span> <span style=color:#f92672>*</span> <span style=color:#ae81ff>4</span> <span style=color:#f92672>*</span> <span style=color:#ae81ff>3</span> <span style=color:#f92672>*</span> <span style=color:#ae81ff>2</span> <span style=color:#f92672>*</span> <span style=color:#111>factorial_c</span><span style=color:#f92672>&lt;</span><span style=color:#ae81ff>1</span><span style=color:#f92672>&gt;::</span><span style=color:#111>value</span><span style=color:#111>;</span>
-<span style=color:#111>factorial_5</span> <span style=color:#f92672>=</span> <span style=color:#ae81ff>5</span> <span style=color:#f92672>*</span> <span style=color:#ae81ff>4</span> <span style=color:#f92672>*</span> <span style=color:#ae81ff>3</span> <span style=color:#f92672>*</span> <span style=color:#ae81ff>2</span> <span style=color:#f92672>*</span> <span style=color:#ae81ff>1</span><span style=color:#111>;</span>
-<span style=color:#111>factorial_5</span> <span style=color:#f92672>=</span> <span style=color:#ae81ff>120</span><span style=color:#111>;</span>
-</code></pre></td></tr></table></div></div><p style=text-align:justify>It checks what is the number, it is 5 now, so none of special cases, known as template specializations, of factorial are applicable. As the number is not 0 or 1 it goes to general definition, which causes it to recurse as on Line 2. Same process is repeated till the Num with which factorial_c is parameterized is 1, Line 5, in which case the template specialization with Num being 1, Line 18,19 with previous code snippet, is invoked and the recursion stops.</p><p style=text-align:justify>One must be wondering we have not reached 0, why do we want template specialization for 0 (Line 31 with previous code snippet), do I like to increase the number of lines of code (few idiots think that it is how one should measure how much you have done, that is sadistic approach to life and programming)? What happens if you want to evaluate factorial of 1 or 0?</p><h2 style=text-align:justify>Few More Template Metaprograms</h2><p style=text-align:justify>Last section was short introduction to TMP, in this section I would like to put few more TMPs. Even though I am mostly writing algorithmic code here, by no means TMP is restricted to these. TMP is computation with types! not just numbers.</p><blockquote><p style=text-align:justify>Note: you cannot write TMPs with floats or doubles.</p></blockquote><h3 style=text-align:justify>gcd (greatest common divisor)</h3><p style=text-align:justify>In mathematics, the greatest common divisor (gcd), also known as the greatest common factor (gcf), or highest common factor (hcf), of two or more non-zero integers, is the largest positive integer that divides the numbers without a remainder. For example, the GCD of 8 and 12 is 4.</p><p>Recursive & Immutable runtime code:</p><div class=highlight><div style=color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4><table style=border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre style=color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 1
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 2
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 3
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 4
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 5
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 6
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 7
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 8
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 9
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">10
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">11
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">12
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">13
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">14
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">15
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">16
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">17
-</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre style=color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-cpp data-lang=cpp><span style=color:#00a8c8>static</span> <span style=color:#00a8c8>int</span> <span style=color:#75af00>gcd_recursive</span><span style=color:#111>(</span><span style=color:#00a8c8>int</span> <span style=color:#111>a</span><span style=color:#111>,</span> <span style=color:#00a8c8>int</span> <span style=color:#111>b</span><span style=color:#111>)</span>
-<span style=color:#111>{</span>
-    <span style=color:#00a8c8>if</span><span style=color:#111>(</span> <span style=color:#111>a</span> <span style=color:#f92672>==</span> <span style=color:#111>b</span> <span style=color:#111>)</span>
-    <span style=color:#111>{</span>
-        <span style=color:#00a8c8>return</span> <span style=color:#111>a</span><span style=color:#111>;</span>
-    <span style=color:#111>}</span>
-    <span style=color:#75715e>//
-</span><span style=color:#75715e></span>    <span style=color:#00a8c8>auto</span> <span style=color:#111>max</span> <span style=color:#f92672>=</span> <span style=color:#111>a</span> <span style=color:#f92672>&gt;</span> <span style=color:#111>b</span> <span style=color:#f92672>?</span> <span style=color:#111>a</span> <span style=color:#111>:</span> <span style=color:#111>b</span><span style=color:#111>;</span>
-    <span style=color:#00a8c8>auto</span> <span style=color:#111>min</span> <span style=color:#f92672>=</span> <span style=color:#111>a</span> <span style=color:#f92672>&lt;</span> <span style=color:#111>b</span> <span style=color:#f92672>?</span> <span style=color:#111>a</span> <span style=color:#111>:</span> <span style=color:#111>b</span><span style=color:#111>;</span>
-    <span style=color:#75715e>//
-</span><span style=color:#75715e></span>    <span style=color:#75715e>//
-</span><span style=color:#75715e></span>    <span style=color:#00a8c8>if</span><span style=color:#111>(</span> <span style=color:#111>min</span> <span style=color:#f92672>==</span> <span style=color:#ae81ff>0</span> <span style=color:#111>)</span>
-    <span style=color:#111>{</span>
-        <span style=color:#00a8c8>return</span> <span style=color:#111>max</span><span style=color:#111>;</span>
-    <span style=color:#111>}</span>
-    <span style=color:#00a8c8>return</span> <span style=color:#111>gcd_recursive</span><span style=color:#111>(</span><span style=color:#111>min</span><span style=color:#111>,</span> <span style=color:#111>max</span> <span style=color:#f92672>%</span> <span style=color:#111>min</span><span style=color:#111>);</span>
-<span style=color:#111>}</span>
-</code></pre></td></tr></table></div></div><p>TMP:</p><div class=highlight><div style=color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4><table style=border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre style=color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 1
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 2
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 3
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 4
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 5
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 6
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 7
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 8
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f"> 9
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">10
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">11
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">12
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">13
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">14
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">15
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">16
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">17
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">18
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">19
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">20
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">21
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">22
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">23
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">24
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">25
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">26
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">27
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">28
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">29
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">30
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">31
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">32
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">33
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">34
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">35
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">36
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">37
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">38
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">39
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">40
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">41
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">42
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">43
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">44
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">45
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">46
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">47
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">48
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">49
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">50
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">51
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">52
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">53
-</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre style=color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-cpp data-lang=cpp><span style=color:#75715e>//  equivalent to max function
-</span><span style=color:#75715e>//
-</span><span style=color:#75715e></span><span style=color:#00a8c8>template</span><span style=color:#f92672>&lt;</span><span style=color:#00a8c8>int</span> <span style=color:#111>One</span><span style=color:#111>,</span> <span style=color:#00a8c8>int</span> <span style=color:#111>Two</span><span style=color:#f92672>&gt;</span>
-<span style=color:#00a8c8>struct</span>  <span style=color:#75af00>max_c</span>
-<span style=color:#111>{</span>
-    <span style=color:#00a8c8>enum</span>
-    <span style=color:#111>{</span>
-        <span style=color:#111>value</span> <span style=color:#f92672>=</span> <span style=color:#111>One</span> <span style=color:#f92672>&gt;</span> <span style=color:#111>Two</span> <span style=color:#f92672>?</span> <span style=color:#111>One</span> <span style=color:#111>:</span> <span style=color:#111>Two</span>
-    <span style=color:#111>};</span>
-<span style=color:#111>};</span>
-<span style=color:#75715e>//
-</span><span style=color:#75715e>//
-</span><span style=color:#75715e>//  equivalent to min function
-</span><span style=color:#75715e>//
-</span><span style=color:#75715e></span><span style=color:#00a8c8>template</span><span style=color:#f92672>&lt;</span><span style=color:#00a8c8>int</span> <span style=color:#111>One</span><span style=color:#111>,</span> <span style=color:#00a8c8>int</span> <span style=color:#111>Two</span><span style=color:#f92672>&gt;</span>
-<span style=color:#00a8c8>struct</span> <span style=color:#75af00>min_c</span>
-<span style=color:#111>{</span>
-    <span style=color:#00a8c8>enum</span>
-    <span style=color:#111>{</span>
-        <span style=color:#111>value</span> <span style=color:#f92672>=</span> <span style=color:#111>One</span> <span style=color:#f92672>&lt;</span> <span style=color:#111>Two</span> <span style=color:#f92672>?</span> <span style=color:#111>One</span> <span style=color:#111>:</span> <span style=color:#111>Two</span>
-    <span style=color:#111>};</span>
-<span style=color:#111>};</span>
-<span style=color:#75715e>//
-</span><span style=color:#75715e>//
-</span><span style=color:#75715e>//  TMP version of gcd
-</span><span style=color:#75715e>//
-</span><span style=color:#75715e></span><span style=color:#00a8c8>template</span><span style=color:#f92672>&lt;</span><span style=color:#00a8c8>int</span> <span style=color:#111>One</span><span style=color:#111>,</span> <span style=color:#00a8c8>int</span> <span style=color:#111>Two</span><span style=color:#f92672>&gt;</span>
-<span style=color:#00a8c8>struct</span> <span style=color:#75af00>gcd_c</span>
-<span style=color:#111>{</span>
-    <span style=color:#00a8c8>enum</span>
-    <span style=color:#111>{</span>
-        <span style=color:#75715e>//  equivalent to:
-</span><span style=color:#75715e></span>        <span style=color:#75715e>//  value = gcd(min, max % min)
-</span><span style=color:#75715e></span>        <span style=color:#75715e>//
-</span><span style=color:#75715e></span>        <span style=color:#111>value</span> <span style=color:#f92672>=</span> <span style=color:#111>gcd_c</span><span style=color:#f92672>&lt;</span>  <span style=color:#111>min_c</span><span style=color:#f92672>&lt;</span><span style=color:#111>One</span><span style=color:#111>,</span> <span style=color:#111>Two</span><span style=color:#f92672>&gt;::</span><span style=color:#111>value</span><span style=color:#111>,</span>
-                        <span style=color:#111>max_c</span><span style=color:#f92672>&lt;</span><span style=color:#111>One</span><span style=color:#111>,</span> <span style=color:#111>Two</span><span style=color:#f92672>&gt;::</span><span style=color:#111>value</span> <span style=color:#f92672>%</span>
-                        <span style=color:#111>min_c</span><span style=color:#f92672>&lt;</span><span style=color:#111>One</span><span style=color:#111>,</span><span style=color:#111>Two</span><span style=color:#f92672>&gt;::</span><span style=color:#111>value</span><span style=color:#f92672>&gt;::</span><span style=color:#111>value</span>
-    <span style=color:#111>};</span>
-<span style=color:#111>};</span>
-<span style=color:#75715e>//
-</span><span style=color:#75715e>//
-</span><span style=color:#75715e>//  template specialization for
-</span><span style=color:#75715e>//  Min being 0, this is our
-</span><span style=color:#75715e>//  termination condition for recursion
-</span><span style=color:#75715e>//
-</span><span style=color:#75715e></span><span style=color:#00a8c8>template</span><span style=color:#f92672>&lt;</span><span style=color:#00a8c8>int</span> <span style=color:#111>Max</span><span style=color:#f92672>&gt;</span>
-<span style=color:#00a8c8>struct</span> <span style=color:#75af00>gcd_c</span><span style=color:#f92672>&lt;</span><span style=color:#111>Max</span><span style=color:#111>,</span> <span style=color:#ae81ff>0</span><span style=color:#f92672>&gt;</span>
-<span style=color:#111>{</span>
-    <span style=color:#00a8c8>enum</span>
-    <span style=color:#111>{</span>
-        <span style=color:#111>value</span> <span style=color:#f92672>=</span> <span style=color:#111>Max</span>
-    <span style=color:#111>};</span>
-<span style=color:#111>};</span>
-</code></pre></td></tr></table></div></div><h3 id=lcm-least-common-multiple>lcm (least common multiple)</h3><p style=text-align:justify>In arithmetic and number theory, the least common multiple (also called the lowest common multiple or smallest common multiple) of two integers <em>a</em> and <em>b</em>, usually denoted by LCM(<em>a</em>, <em>b</em>), is the smallest positive integer that is a multiple of both <em>a</em> and <em>b</em>.</p><blockquote><p style=text-align:justify>Formula for lcm is:</p><p style=text-align:justify>lcm(one, two) = one * two / gcd(one, two)</p></blockquote><p>Recursive & Immutable runtime code:</p><div class=highlight><div style=color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4><table style=border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre style=color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">1
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">2
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">3
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">4
-</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre style=color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-cpp data-lang=cpp><span style=color:#00a8c8>static</span> <span style=color:#00a8c8>int</span> <span style=color:#75af00>lcm_r</span><span style=color:#111>(</span><span style=color:#00a8c8>int</span> <span style=color:#111>one</span><span style=color:#111>,</span> <span style=color:#00a8c8>int</span> <span style=color:#111>two</span><span style=color:#111>)</span>
-<span style=color:#111>{</span>
-    <span style=color:#00a8c8>return</span> <span style=color:#111>one</span> <span style=color:#f92672>*</span> <span style=color:#111>two</span> <span style=color:#f92672>/</span> <span style=color:#111>gcd_recursive</span><span style=color:#111>(</span><span style=color:#111>one</span><span style=color:#111>,</span> <span style=color:#111>two</span><span style=color:#111>);</span>
-<span style=color:#111>}</span>
-</code></pre></td></tr></table></div></div><p>TMP:</p><div class=highlight><div style=color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4><table style=border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block><tr><td style=vertical-align:top;padding:0;margin:0;border:0><pre style=color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">1
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">2
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">3
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">4
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">5
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">6
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">7
-</span><span style="margin-right:.4em;padding:0 .4em;color:#7f7f7f">8
-</span></code></pre></td><td style=vertical-align:top;padding:0;margin:0;border:0;width:100%><pre style=color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-cpp data-lang=cpp><span style=color:#00a8c8>template</span><span style=color:#f92672>&lt;</span><span style=color:#00a8c8>int</span> <span style=color:#111>One</span><span style=color:#111>,</span> <span style=color:#00a8c8>int</span> <span style=color:#111>Two</span><span style=color:#f92672>&gt;</span>
-<span style=color:#00a8c8>struct</span> <span style=color:#75af00>lcm_c</span>
-<span style=color:#111>{</span>
-    <span style=color:#00a8c8>enum</span>
-    <span style=color:#111>{</span>
-        <span style=color:#111>value</span> <span style=color:#f92672>=</span> <span style=color:#111>One</span> <span style=color:#f92672>*</span> <span style=color:#111>Two</span> <span style=color:#f92672>/</span> <span style=color:#111>gcd_c</span><span style=color:#f92672>&lt;</span><span style=color:#111>One</span><span style=color:#111>,</span> <span style=color:#111>Two</span><span style=color:#f92672>&gt;::</span><span style=color:#111>value</span>
-    <span style=color:#111>};</span>
-<span style=color:#111>};</span>
-</code></pre></td></tr></table></div></div><p style=text-align:justify>As LCM can be evaluated using gcd also, we don&#8217;t care about terminating conditions specific to LCM, as it is not recursive at all! Who said that you couldn&#8217;t re-use TMPs. :).</p><h2 id=parting-thoughts>Parting Thoughts</h2><p style=text-align:justify>Well I don&#8217;t have summary for this post, as it is not yet finished. We have barely scratched the surface of this beast. C++ TMP has a complete language of its own, well thats what <a href=http://www.boost.org/doc/libs/1_48_0/libs/mpl/doc/index.html>Boost.MPL</a> library is all about. I will follow up on TMP with few more posts.</p><h6 class=zemanta-related-title style=font-size:1em>Related reading</h6><ul class=zemanta-article-ul><li class=zemanta-article-ul-li><a href=http://en.wikipedia.org/wiki/Template_metaprogramming>C++ Template Metaprogramming</a> (en.wikipedia.org)</li><li class=zemanta-article-ul-li><a href=http://www.boost.org/doc/libs/1_48_0/libs/mpl/doc/index.html>BOOST MPL</a> (boost.org)</li><li class=zemanta-article-ul-li><a href=http://www.d-programming-language.org/templates-revisited.html>Templates Revisited</a> (d-programming-language.org)</li><li class=zemanta-article-ul-li><a href=http://www.cs.tut.fi/~kk/webstuff/MetaprogrammingCpp.pdf>Metaprogramming in C++</a> (cs.tut.fi)</li><li class=zemanta-article-ul-li><a title="Functional Programming For The Rest of Us" href=/2011/06/07/functional-programming-for-the-rest-of-us/>Functional Programming For The Rest of Us </a></li></ul><br><div class=blog-tags><a href=https://www.variadic.xyz//tags/c++/>C++</a>&nbsp;</div><hr></article><ul class="pager blog-pager"><li class=previous><a href=https://www.variadic.xyz/2012/01/06/parallel-computing-terms/ data-toggle=tooltip data-placement=top title="Parallel Computing Terms">&larr; Previous Post</a></li><li class=next><a href=https://www.variadic.xyz/2012/01/17/c11-delegating-constructors/ data-toggle=tooltip data-placement=top title="C++11: delegating constructors">Next Post &rarr;</a></li></ul></div></div></div><footer><div class=container><div class=row><div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1"><ul class="list-inline text-center footer-links"></ul><p class="credits copyright text-muted">Sarang Baheti
-&nbsp;&bull;&nbsp;&copy;
-2020
-&nbsp;&bull;&nbsp;
-<a href=https://www.variadic.xyz/>a few notes</a></p><p class="credits theme-by text-muted"><a href=https://gohugo.io>Hugo v0.73.0</a> powered &nbsp;&bull;&nbsp; Theme <a href=https://github.com/sarangbaheti/beautifulhugo>beautifulhugo</a> forked from <a href=https://github.com/halogenica/beautifulhugo>halogenica/Beautiful Hugo</a></p></div></div></div></footer><script src=https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.js integrity=sha384-K3vbOmF2BtaVai+Qk37uypf7VrgBubhQreNQe9aGsz9lB63dIFiQVlJbr92dw2Lx crossorigin=anonymous></script><script src=https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/contrib/auto-render.min.js integrity=sha384-kmZOZB5ObwgQnS/DuDg6TScgOiWWBiVt0plIRkZCmE6rDZGrEOQeHM5PcHi+nyqe crossorigin=anonymous></script><script src=https://code.jquery.com/jquery-1.12.4.min.js integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin=anonymous></script><script src=https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js integrity=sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa crossorigin=anonymous></script><script src=https://www.variadic.xyz/js/main.js></script><script>renderMathInElement(document.body);</script><script src=https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/photoswipe.min.js integrity=sha384-QELNnmcmU8IR9ZAykt67vGr9/rZJdHbiWi64V88fCPaOohUlHCqUD/unNN0BXSqy crossorigin=anonymous></script><script src=https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/photoswipe-ui-default.min.js integrity=sha384-m67o7SkQ1ALzKZIFh4CiTA8tmadaujiTa9Vu+nqPSwDOqHrDmxLezTdFln8077+q crossorigin=anonymous></script><script src=https://www.variadic.xyz/js/load-photoswipe.js></script></body></html>
+  </head>
+  <body>
+    <nav class="navbar navbar-default navbar-fixed-top navbar-custom">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="https://www.variadic.xyz/">a few notes</a>
+    </div>
+
+    <div class="collapse navbar-collapse" id="main-navbar">
+      <ul class="nav navbar-nav navbar-right">
+        
+          
+            <li>
+              <a title="Notes" href="/">Notes</a>
+            </li>
+          
+        
+          
+            <li>
+              <a title="About" href="/about/">About</a>
+            </li>
+          
+        
+          
+            <li>
+              <a title="Archive" href="/archive/">Archive</a>
+            </li>
+          
+        
+          
+            <li>
+              <a title="Books" href="/books/">Books</a>
+            </li>
+          
+        
+          
+            <li>
+              <a title="Disclaimer" href="/disclaimer/">Disclaimer</a>
+            </li>
+          
+        
+
+        
+
+        
+      </ul>
+    </div>
+
+    
+
+  </div>
+</nav>
+
+
+
+
+    
+
+
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+<div class="pswp__bg"></div>
+
+<div class="pswp__scroll-wrap">
+    
+    <div class="pswp__container">
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+      <div class="pswp__item"></div>
+    </div>
+    
+    <div class="pswp__ui pswp__ui--hidden">
+    <div class="pswp__top-bar">
+      
+      <div class="pswp__counter"></div>
+      <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+      <button class="pswp__button pswp__button--share" title="Share"></button>
+      <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+      <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+      
+      
+      <div class="pswp__preloader">
+        <div class="pswp__preloader__icn">
+          <div class="pswp__preloader__cut">
+            <div class="pswp__preloader__donut"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+      <div class="pswp__share-tooltip"></div>
+    </div>
+    <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+    </button>
+    <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+    </button>
+    <div class="pswp__caption">
+      <div class="pswp__caption__center"></div>
+    </div>
+    </div>
+    </div>
+</div>
+
+
+  
+  
+  
+
+
+
+
+
+
+  
+
+  <header class="header-section ">
+    
+    <div class="intro-header no-img">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+            <div class="post-heading">
+              
+                <h1>C&#43;&#43; Template Metaprogramming</h1>
+              
+              
+              
+              
+                <span class="post-meta">
+  
+  
+
+  
+    Posted on January 7, 2012
+  
+
+  
+  
+  
+  
+  
+</span>
+
+
+              
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+
+    
+<div class="container" role="main">
+  <div class="row">
+    <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+      <article role="main" class="blog-post">
+
+      
+      
+        <div class="blog-tags">
+          
+            <a href="https://www.variadic.xyz//tags/c&#43;&#43;/">C&#43;&#43;</a>&nbsp;
+          
+        </div>
+      
+
+        
+          
+          
+
+<blockquote>
+<p>Note: with <code>C++14</code> &amp; <code>C++17</code> life gets much better with <code>constexpr</code>. Details: <a href="/2014/07/06/c11-constexpr-computing-exp-at-compile-time/"><code>computing-exp-at-compile-time</code></a> and <a href="/2019/07/03/constexpr2/"><code>constexpr2</code></a></p>
+</blockquote>
+
+<h2 style="text-align: justify;">
+  C++ Template Metaprogramming (TMP)
+</h2>
+
+<p style="text-align: justify;">
+  Template metaprogramming is a metaprogramming technique in which templates are used by a compiler to generate temporary source code, which is merged by the compiler with the rest of the source code and then compiled. The output of these templates include compile-time constants, data structures, and complete functions. The use of templates can be thought of as compile-time execution.
+</p>
+
+<p style="text-align: justify;">
+  The use of templates as a metaprogramming technique requires two distinct operations: a template must be defined, and a defined template must be instantiated. The template definition describes the generic form of the generated source code, and the instantiation causes a specific set of source code to be generated from the generic form in the template.
+</p>
+
+<blockquote>
+<p style="text-align: justify;">
+  TMP is generally Turing-complete, meaning that any computation expressible by a computer program can be computed, in some form, by a template metaprogram. TMP have no mutable variables— that is, no variable can change value once it has been initialized, therefore template metaprogramming can be seen as a form of functional programming. In fact many template implementations only implement flow control through recursion.
+</p>
+</blockquote>
+
+<p style="text-align: justify;">
+  
+</p>
+
+<h2 style="text-align: justify;">
+  C++ Template Metaprogramming: fundamentals
+</h2>
+
+<p style="text-align: justify;">
+  One of the key concepts  for writing Template Metaprogramming is to model your algorithm in recursion and it should be immutable. Let&#8217;s take evaluation of factorial, for example. We all know factorial of a number is the product of all positive integers till the number itself.
+</p>
+
+<blockquote>
+<p>factorial(number) = 1 * 2 * 3 * &#8230; * (n-1) * n</p>
+</blockquote>
+
+<p style="text-align: justify;">
+  Now being C++ programmer our first attempt would be to iterate:
+</p>
+<div class="highlight"><div style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">9
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#00a8c8">static</span> <span style="color:#00a8c8">int</span> <span style="color:#75af00">factorial_imperative</span><span style="color:#111">(</span><span style="color:#00a8c8">int</span> <span style="color:#111">value</span><span style="color:#111">)</span>
+<span style="color:#111">{</span>
+    <span style="color:#00a8c8">int</span> <span style="color:#111">factorial</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span><span style="color:#111">;</span>
+    <span style="color:#00a8c8">for</span><span style="color:#111">(</span><span style="color:#00a8c8">auto</span> <span style="color:#111">idx</span> <span style="color:#f92672">=</span> <span style="color:#111">value</span><span style="color:#111">;</span> <span style="color:#111">idx</span> <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">1</span><span style="color:#111">;</span> <span style="color:#f92672">--</span><span style="color:#111">idx</span> <span style="color:#111">)</span>
+    <span style="color:#111">{</span>
+        <span style="color:#111">factorial</span> <span style="color:#f92672">*=</span> <span style="color:#111">idx</span><span style="color:#111">;</span>
+    <span style="color:#111">}</span>
+    <span style="color:#00a8c8">return</span> <span style="color:#111">factorial</span><span style="color:#111">;</span>
+<span style="color:#111">}</span>
+</code></pre></td></tr></table>
+</div>
+</div>
+<p style="text-align: justify;">
+  This works, but has several limitations when it comes to converting it to metaprogram. First and foremost it mutates state, idx and factorial variables at line 4 and 6 respectively. Second it is not recursive, now recursion is primarily required if we want to avoid state mutation.
+</p>
+
+<p style="text-align: justify;">
+  Keeping above considerations in mind, we will write another function that will be recursive in nature. Generally recursions are difficult to model and understand, primarily for two reasons:
+</p>
+
+<ol>
+<li>Very compact code, which is good as well as bad for it can be difficult to understand at times</li>
+<li>Understanding when to stop, specifying termination condition correctly</li>
+</ol>
+
+<p>So here is the recursive and immutable version for evaluating factorial:</p>
+<div class="highlight"><div style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#00a8c8">static</span> <span style="color:#00a8c8">int</span> <span style="color:#75af00">factorial_recursive</span><span style="color:#111">(</span><span style="color:#00a8c8">int</span> <span style="color:#111">value</span><span style="color:#111">)</span>
+<span style="color:#111">{</span>
+    <span style="color:#00a8c8">return</span>
+            <span style="color:#111">value</span> <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">?</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">:</span>
+            <span style="color:#111">(</span><span style="color:#111">value</span> <span style="color:#f92672">*</span> <span style="color:#111">factorial_recursive</span><span style="color:#111">(</span><span style="color:#111">value</span><span style="color:#f92672">-</span><span style="color:#ae81ff">1</span><span style="color:#111">));</span>
+<span style="color:#111">}</span>
+</code></pre></td></tr></table>
+</div>
+</div>
+<p style="text-align: justify;">
+  That was easy :), few observations though:
+</p>
+
+<ol>
+<li>we are not mutating any variable, even though we generate new values due to recursion but we are not mutating</li>
+<li>well defined termination condition, at line 4: <strong><em>value &lt;= 1</em></strong></li>
+</ol>
+
+<p style="text-align: justify;">
+  Once we have recursive & immutable version of algorithm, it is very easy to convert that into TMP. I will first write out the TMP and then walk over various aspects of it and how it relates to previous algorithm.
+</p>
+<div class="highlight"><div style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">25
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">26
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">27
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">28
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">29
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">30
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">31
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">32
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">33
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">34
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">35
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">36
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">37
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">38
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">39
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">40
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">41
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">42
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">43
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">//  in metaprogram every thing is a template-class/struct
+</span><span style="color:#75715e"></span><span style="color:#00a8c8">template</span><span style="color:#f92672">&lt;</span><span style="color:#00a8c8">int</span> <span style="color:#111">Num</span><span style="color:#f92672">&gt;</span>
+<span style="color:#00a8c8">struct</span> <span style="color:#75af00">factorial_c</span>
+<span style="color:#111">{</span>
+<span style="color:#00a8c8">enum</span>
+    <span style="color:#111">{</span>
+        <span style="color:#111">value</span> <span style="color:#f92672">=</span> <span style="color:#111">Num</span> <span style="color:#f92672">*</span> <span style="color:#111">factorial_c</span><span style="color:#f92672">&lt;</span><span style="color:#111">Num</span><span style="color:#f92672">-</span><span style="color:#ae81ff">1</span><span style="color:#f92672">&gt;::</span><span style="color:#111">value</span>
+    <span style="color:#111">};</span>
+<span style="color:#111">};</span>
+
+<span style="color:#75715e">//  terminating conditions
+</span><span style="color:#75715e">//
+</span><span style="color:#75715e">//  factorial of 1 is 1
+</span><span style="color:#75715e">//
+</span><span style="color:#75715e"></span><span style="color:#00a8c8">template</span><span style="color:#f92672">&lt;&gt;</span>
+<span style="color:#00a8c8">struct</span> <span style="color:#75af00">factorial_c</span><span style="color:#f92672">&lt;</span><span style="color:#ae81ff">1</span><span style="color:#f92672">&gt;</span>
+<span style="color:#111">{</span>
+    <span style="color:#00a8c8">enum</span>
+    <span style="color:#111">{</span>
+        <span style="color:#111">value</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>
+    <span style="color:#111">};</span>
+<span style="color:#111">};</span>
+
+
+<span style="color:#75715e">//  factorial of 0 is 1
+</span><span style="color:#75715e">//
+</span><span style="color:#75715e"></span><span style="color:#00a8c8">template</span><span style="color:#f92672">&lt;&gt;</span>
+<span style="color:#00a8c8">struct</span> <span style="color:#75af00">factorial_c</span><span style="color:#f92672">&lt;</span><span style="color:#ae81ff">0</span><span style="color:#f92672">&gt;</span>
+<span style="color:#111">{</span>
+    <span style="color:#00a8c8">enum</span>
+    <span style="color:#111">{</span>
+        <span style="color:#111">value</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>
+    <span style="color:#111">};</span>
+<span style="color:#111">};</span>
+
+
+<span style="color:#00a8c8">int</span> <span style="color:#75af00">main</span><span style="color:#111">()</span>
+<span style="color:#111">{</span>
+    <span style="color:#00a8c8">auto</span> <span style="color:#111">factorial_5</span> <span style="color:#f92672">=</span> <span style="color:#111">factorial_c</span><span style="color:#f92672">&lt;</span><span style="color:#ae81ff">5</span><span style="color:#f92672">&gt;::</span><span style="color:#111">value</span><span style="color:#111">;</span>
+    <span style="color:#111">std</span><span style="color:#f92672">::</span><span style="color:#111">cout</span> <span style="color:#f92672">&lt;&lt;</span> <span style="color:#d88200">&#34;factorial of 5 is &#34;</span>
+              <span style="color:#f92672">&lt;&lt;</span> <span style="color:#111">factorial_5</span> <span style="color:#f92672">&lt;&lt;</span> <span style="color:#111">std</span><span style="color:#f92672">::</span><span style="color:#111">endl</span><span style="color:#111">;</span>
+    <span style="color:#00a8c8">return</span> <span style="color:#ae81ff">0</span><span style="color:#111">;</span>
+<span style="color:#111">}</span>
+</code></pre></td></tr></table>
+</div>
+</div>
+<p style="text-align: justify;">
+  The above Template Metaprogram is almost equivalent to the recursive-immutable runtime version we wrote. Few observations:
+</p>
+
+<p><li style="text-align: justify;">
+  Line 5 and 6 define a new template struct <strong><em>factorial_c</em></strong> which is parametrized by integers (C++ Templates can be parameterized by types as well as by integers).  Even though we have defined a template struct we are going to use it as if it were a function, see Line 43 for usage
+</li>
+<li style="text-align: justify;">
+  Line 10: does the evaluation for us. Since C++ TMP  code is evaluated by compiler, which means every thing has to be compile time constant, we are forced to use <strong><em>enum</em></strong> or <em><strong>static const int</strong></em>, I prefer <strong><em>enums</em></strong>
+</li>
+<li style="text-align: justify;">
+  We will be using this <strong><em>factorial_c</em></strong> TMP function (which is a struct as per what you see) whenever we want compiler to evaluate factorial of any number for us
+</li>
+<li style="text-align: justify;">
+  Line 18, 19 &amp; 23: This is where magic begins. Remember we talked about importance of termination conditions, this is our first termination condition for value of 1. What these lines means is we have already defined a general version of <strong><em>factorial_c</em></strong> but whenever compiler needs to evaluate <em><strong>factorial_c</strong></em> with <em><strong>Num</strong></em> being 1 it should pick this version, that&#8217;s why we have defined the enum with value in there, Line 23
+</li>
+<li style="text-align: justify;">
+  Line 31 &amp; 35: Similar to first termination condition we have one more here for evaluating factorial of 0
+</li>
+<li style="text-align: justify;">
+  Line 43: This is where evaluation happens! This can be related to first call to recursive version, which will recurse till it&#8217;s termination conditions are met
+</li></p>
+
+<p><span style="text-align: justify;">Here is how the compiler evaluates the template recusions:</span></p>
+<div class="highlight"><div style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">7
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#111">factorial_5</span> <span style="color:#f92672">=</span> <span style="color:#111">factorial_c</span><span style="color:#f92672">&lt;</span><span style="color:#ae81ff">5</span><span style="color:#f92672">&gt;::</span><span style="color:#111">value</span><span style="color:#111">;</span>
+<span style="color:#111">factorial_5</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">5</span> <span style="color:#f92672">*</span> <span style="color:#111">factorial_c</span><span style="color:#f92672">&lt;</span><span style="color:#ae81ff">4</span><span style="color:#f92672">&gt;::</span><span style="color:#111">value</span><span style="color:#111">;</span>
+<span style="color:#111">factorial_5</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">5</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">4</span> <span style="color:#f92672">*</span> <span style="color:#111">factorial_c</span><span style="color:#f92672">&lt;</span><span style="color:#ae81ff">3</span><span style="color:#f92672">&gt;::</span><span style="color:#111">value</span><span style="color:#111">;</span>
+<span style="color:#111">factorial_5</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">5</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">4</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">3</span> <span style="color:#f92672">*</span> <span style="color:#111">factorial_c</span><span style="color:#f92672">&lt;</span><span style="color:#ae81ff">2</span><span style="color:#f92672">&gt;::</span><span style="color:#111">value</span><span style="color:#111">;</span>
+<span style="color:#111">factorial_5</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">5</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">4</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">3</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">*</span> <span style="color:#111">factorial_c</span><span style="color:#f92672">&lt;</span><span style="color:#ae81ff">1</span><span style="color:#f92672">&gt;::</span><span style="color:#111">value</span><span style="color:#111">;</span>
+<span style="color:#111">factorial_5</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">5</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">4</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">3</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">1</span><span style="color:#111">;</span>
+<span style="color:#111">factorial_5</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">120</span><span style="color:#111">;</span>
+</code></pre></td></tr></table>
+</div>
+</div>
+<p style="text-align: justify;">
+  It checks what is the number, it is 5 now, so none of special cases, known as template specializations, of factorial are applicable. As the number is not 0 or 1 it goes to general definition, which causes it to recurse as on Line 2. Same process is repeated till the Num with which factorial_c is parameterized is 1, Line 5, in which case the template specialization with Num being 1, Line 18,19 with previous code snippet, is invoked and the recursion stops.
+</p>
+
+<p style="text-align: justify;">
+  One must be wondering we have not reached 0, why do we want template specialization for 0 (Line 31 with previous code snippet), do I like to increase the number of lines of code (few idiots think that it is how one should measure how much you have done, that is sadistic approach to life and programming)? What happens if you want to evaluate factorial of 1 or 0?
+</p>
+
+<h2 style="text-align: justify;">
+  Few More Template Metaprograms
+</h2>
+
+<p style="text-align: justify;">
+  Last section was short introduction to TMP, in this section I would like to put few more TMPs. Even though I am mostly writing algorithmic code here, by no means TMP is restricted to these. TMP is computation with types! not just numbers.
+</p>
+
+<blockquote>
+<p style="text-align: justify;">
+  Note: you cannot write TMPs with floats or doubles.
+</p>
+</blockquote>
+
+<h3 style="text-align: justify;">
+  gcd (greatest common divisor)
+</h3>
+
+<p style="text-align: justify;">
+  In mathematics, the greatest common divisor (gcd), also known as the greatest common factor (gcf), or highest common factor (hcf), of two or more non-zero integers, is the largest positive integer that divides the numbers without a remainder. For example, the GCD of 8 and 12 is 4.
+</p>
+
+<p>Recursive &amp; Immutable runtime code:</p>
+<div class="highlight"><div style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#00a8c8">static</span> <span style="color:#00a8c8">int</span> <span style="color:#75af00">gcd_recursive</span><span style="color:#111">(</span><span style="color:#00a8c8">int</span> <span style="color:#111">a</span><span style="color:#111">,</span> <span style="color:#00a8c8">int</span> <span style="color:#111">b</span><span style="color:#111">)</span>
+<span style="color:#111">{</span>
+    <span style="color:#00a8c8">if</span><span style="color:#111">(</span> <span style="color:#111">a</span> <span style="color:#f92672">==</span> <span style="color:#111">b</span> <span style="color:#111">)</span>
+    <span style="color:#111">{</span>
+        <span style="color:#00a8c8">return</span> <span style="color:#111">a</span><span style="color:#111">;</span>
+    <span style="color:#111">}</span>
+    <span style="color:#75715e">//
+</span><span style="color:#75715e"></span>    <span style="color:#00a8c8">auto</span> <span style="color:#111">max</span> <span style="color:#f92672">=</span> <span style="color:#111">a</span> <span style="color:#f92672">&gt;</span> <span style="color:#111">b</span> <span style="color:#f92672">?</span> <span style="color:#111">a</span> <span style="color:#111">:</span> <span style="color:#111">b</span><span style="color:#111">;</span>
+    <span style="color:#00a8c8">auto</span> <span style="color:#111">min</span> <span style="color:#f92672">=</span> <span style="color:#111">a</span> <span style="color:#f92672">&lt;</span> <span style="color:#111">b</span> <span style="color:#f92672">?</span> <span style="color:#111">a</span> <span style="color:#111">:</span> <span style="color:#111">b</span><span style="color:#111">;</span>
+    <span style="color:#75715e">//
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">//
+</span><span style="color:#75715e"></span>    <span style="color:#00a8c8">if</span><span style="color:#111">(</span> <span style="color:#111">min</span> <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span> <span style="color:#111">)</span>
+    <span style="color:#111">{</span>
+        <span style="color:#00a8c8">return</span> <span style="color:#111">max</span><span style="color:#111">;</span>
+    <span style="color:#111">}</span>
+    <span style="color:#00a8c8">return</span> <span style="color:#111">gcd_recursive</span><span style="color:#111">(</span><span style="color:#111">min</span><span style="color:#111">,</span> <span style="color:#111">max</span> <span style="color:#f92672">%</span> <span style="color:#111">min</span><span style="color:#111">);</span>
+<span style="color:#111">}</span>
+</code></pre></td></tr></table>
+</div>
+</div>
+<p>TMP:</p>
+<div class="highlight"><div style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 8
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f"> 9
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">10
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">11
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">12
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">13
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">14
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">15
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">16
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">17
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">18
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">19
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">20
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">21
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">22
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">23
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">24
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">25
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">26
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">27
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">28
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">29
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">30
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">31
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">32
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">33
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">34
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">35
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">36
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">37
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">38
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">39
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">40
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">41
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">42
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">43
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">44
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">45
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">46
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">47
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">48
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">49
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">50
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">51
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">52
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">53
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">//  equivalent to max function
+</span><span style="color:#75715e">//
+</span><span style="color:#75715e"></span><span style="color:#00a8c8">template</span><span style="color:#f92672">&lt;</span><span style="color:#00a8c8">int</span> <span style="color:#111">One</span><span style="color:#111">,</span> <span style="color:#00a8c8">int</span> <span style="color:#111">Two</span><span style="color:#f92672">&gt;</span>
+<span style="color:#00a8c8">struct</span>  <span style="color:#75af00">max_c</span>
+<span style="color:#111">{</span>
+    <span style="color:#00a8c8">enum</span>
+    <span style="color:#111">{</span>
+        <span style="color:#111">value</span> <span style="color:#f92672">=</span> <span style="color:#111">One</span> <span style="color:#f92672">&gt;</span> <span style="color:#111">Two</span> <span style="color:#f92672">?</span> <span style="color:#111">One</span> <span style="color:#111">:</span> <span style="color:#111">Two</span>
+    <span style="color:#111">};</span>
+<span style="color:#111">};</span>
+<span style="color:#75715e">//
+</span><span style="color:#75715e">//
+</span><span style="color:#75715e">//  equivalent to min function
+</span><span style="color:#75715e">//
+</span><span style="color:#75715e"></span><span style="color:#00a8c8">template</span><span style="color:#f92672">&lt;</span><span style="color:#00a8c8">int</span> <span style="color:#111">One</span><span style="color:#111">,</span> <span style="color:#00a8c8">int</span> <span style="color:#111">Two</span><span style="color:#f92672">&gt;</span>
+<span style="color:#00a8c8">struct</span> <span style="color:#75af00">min_c</span>
+<span style="color:#111">{</span>
+    <span style="color:#00a8c8">enum</span>
+    <span style="color:#111">{</span>
+        <span style="color:#111">value</span> <span style="color:#f92672">=</span> <span style="color:#111">One</span> <span style="color:#f92672">&lt;</span> <span style="color:#111">Two</span> <span style="color:#f92672">?</span> <span style="color:#111">One</span> <span style="color:#111">:</span> <span style="color:#111">Two</span>
+    <span style="color:#111">};</span>
+<span style="color:#111">};</span>
+<span style="color:#75715e">//
+</span><span style="color:#75715e">//
+</span><span style="color:#75715e">//  TMP version of gcd
+</span><span style="color:#75715e">//
+</span><span style="color:#75715e"></span><span style="color:#00a8c8">template</span><span style="color:#f92672">&lt;</span><span style="color:#00a8c8">int</span> <span style="color:#111">One</span><span style="color:#111">,</span> <span style="color:#00a8c8">int</span> <span style="color:#111">Two</span><span style="color:#f92672">&gt;</span>
+<span style="color:#00a8c8">struct</span> <span style="color:#75af00">gcd_c</span>
+<span style="color:#111">{</span>
+    <span style="color:#00a8c8">enum</span>
+    <span style="color:#111">{</span>
+        <span style="color:#75715e">//  equivalent to:
+</span><span style="color:#75715e"></span>        <span style="color:#75715e">//  value = gcd(min, max % min)
+</span><span style="color:#75715e"></span>        <span style="color:#75715e">//
+</span><span style="color:#75715e"></span>        <span style="color:#111">value</span> <span style="color:#f92672">=</span> <span style="color:#111">gcd_c</span><span style="color:#f92672">&lt;</span>  <span style="color:#111">min_c</span><span style="color:#f92672">&lt;</span><span style="color:#111">One</span><span style="color:#111">,</span> <span style="color:#111">Two</span><span style="color:#f92672">&gt;::</span><span style="color:#111">value</span><span style="color:#111">,</span>
+                        <span style="color:#111">max_c</span><span style="color:#f92672">&lt;</span><span style="color:#111">One</span><span style="color:#111">,</span> <span style="color:#111">Two</span><span style="color:#f92672">&gt;::</span><span style="color:#111">value</span> <span style="color:#f92672">%</span>
+                        <span style="color:#111">min_c</span><span style="color:#f92672">&lt;</span><span style="color:#111">One</span><span style="color:#111">,</span><span style="color:#111">Two</span><span style="color:#f92672">&gt;::</span><span style="color:#111">value</span><span style="color:#f92672">&gt;::</span><span style="color:#111">value</span>
+    <span style="color:#111">};</span>
+<span style="color:#111">};</span>
+<span style="color:#75715e">//
+</span><span style="color:#75715e">//
+</span><span style="color:#75715e">//  template specialization for
+</span><span style="color:#75715e">//  Min being 0, this is our
+</span><span style="color:#75715e">//  termination condition for recursion
+</span><span style="color:#75715e">//
+</span><span style="color:#75715e"></span><span style="color:#00a8c8">template</span><span style="color:#f92672">&lt;</span><span style="color:#00a8c8">int</span> <span style="color:#111">Max</span><span style="color:#f92672">&gt;</span>
+<span style="color:#00a8c8">struct</span> <span style="color:#75af00">gcd_c</span><span style="color:#f92672">&lt;</span><span style="color:#111">Max</span><span style="color:#111">,</span> <span style="color:#ae81ff">0</span><span style="color:#f92672">&gt;</span>
+<span style="color:#111">{</span>
+    <span style="color:#00a8c8">enum</span>
+    <span style="color:#111">{</span>
+        <span style="color:#111">value</span> <span style="color:#f92672">=</span> <span style="color:#111">Max</span>
+    <span style="color:#111">};</span>
+<span style="color:#111">};</span>
+</code></pre></td></tr></table>
+</div>
+</div>
+<h3 id="lcm-least-common-multiple">lcm (least common multiple)</h3>
+
+<p style="text-align: justify;">
+  In arithmetic and number theory, the least common multiple (also called the lowest common multiple or smallest common multiple) of two integers <em>a</em> and <em>b</em>, usually denoted by LCM(<em>a</em>, <em>b</em>), is the smallest positive integer that is a multiple of both <em>a</em> and <em>b</em>.
+</p>
+
+<blockquote>
+<p style="text-align: justify;">
+  Formula for lcm is:
+</p>
+
+<p style="text-align: justify;">
+  lcm(one, two) = one * two / gcd(one, two)
+</p>
+</blockquote>
+
+<p>Recursive &amp; Immutable runtime code:</p>
+<div class="highlight"><div style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#00a8c8">static</span> <span style="color:#00a8c8">int</span> <span style="color:#75af00">lcm_r</span><span style="color:#111">(</span><span style="color:#00a8c8">int</span> <span style="color:#111">one</span><span style="color:#111">,</span> <span style="color:#00a8c8">int</span> <span style="color:#111">two</span><span style="color:#111">)</span>
+<span style="color:#111">{</span>
+    <span style="color:#00a8c8">return</span> <span style="color:#111">one</span> <span style="color:#f92672">*</span> <span style="color:#111">two</span> <span style="color:#f92672">/</span> <span style="color:#111">gcd_recursive</span><span style="color:#111">(</span><span style="color:#111">one</span><span style="color:#111">,</span> <span style="color:#111">two</span><span style="color:#111">);</span>
+<span style="color:#111">}</span>
+</code></pre></td></tr></table>
+</div>
+</div>
+<p>TMP:</p>
+<div class="highlight"><div style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4">
+<table style="border-spacing:0;padding:0;margin:0;border:0;width:auto;overflow:auto;display:block;"><tr><td style="vertical-align:top;padding:0;margin:0;border:0;">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">1
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">2
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">3
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">4
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">5
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">6
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">7
+</span><span style="margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f">8
+</span></code></pre></td>
+<td style="vertical-align:top;padding:0;margin:0;border:0;;width:100%">
+<pre style="color:#272822;background-color:#fafafa;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#00a8c8">template</span><span style="color:#f92672">&lt;</span><span style="color:#00a8c8">int</span> <span style="color:#111">One</span><span style="color:#111">,</span> <span style="color:#00a8c8">int</span> <span style="color:#111">Two</span><span style="color:#f92672">&gt;</span>
+<span style="color:#00a8c8">struct</span> <span style="color:#75af00">lcm_c</span>
+<span style="color:#111">{</span>
+    <span style="color:#00a8c8">enum</span>
+    <span style="color:#111">{</span>
+        <span style="color:#111">value</span> <span style="color:#f92672">=</span> <span style="color:#111">One</span> <span style="color:#f92672">*</span> <span style="color:#111">Two</span> <span style="color:#f92672">/</span> <span style="color:#111">gcd_c</span><span style="color:#f92672">&lt;</span><span style="color:#111">One</span><span style="color:#111">,</span> <span style="color:#111">Two</span><span style="color:#f92672">&gt;::</span><span style="color:#111">value</span>
+    <span style="color:#111">};</span>
+<span style="color:#111">};</span>
+</code></pre></td></tr></table>
+</div>
+</div>
+<p style="text-align: justify;">
+  As LCM can be evaluated using gcd also, we don&#8217;t care about terminating conditions specific to LCM, as it is not recursive at all! Who said that you couldn&#8217;t re-use TMPs. :).
+</p>
+
+<h2 id="parting-thoughts">Parting Thoughts</h2>
+
+<p style="text-align: justify;">
+  Well I don&#8217;t have summary for this post, as it is not yet finished. We have barely scratched the surface of this beast. C++ TMP has a complete language of its own, well thats what <a href="http://www.boost.org/doc/libs/1_48_0/libs/mpl/doc/index.html">Boost.MPL</a> library is all about. I will follow up on TMP with few more posts.
+</p>
+
+<h6 class="zemanta-related-title" style="font-size: 1em;">
+  Related reading
+</h6>
+
+<ul class="zemanta-article-ul">
+  <li class="zemanta-article-ul-li">
+    <a href="http://en.wikipedia.org/wiki/Template_metaprogramming">C++ Template Metaprogramming</a> (en.wikipedia.org)
+  </li>
+  <li class="zemanta-article-ul-li">
+    <a href="http://www.boost.org/doc/libs/1_48_0/libs/mpl/doc/index.html">BOOST MPL</a> (boost.org)
+  </li>
+  <li class="zemanta-article-ul-li">
+    <a href="http://www.d-programming-language.org/templates-revisited.html">Templates Revisited</a> (d-programming-language.org)
+  </li>
+  <li class="zemanta-article-ul-li">
+    <a href="http://www.cs.tut.fi/~kk/webstuff/MetaprogrammingCpp.pdf">Metaprogramming in C++</a> (cs.tut.fi)
+  </li>
+  <li class="zemanta-article-ul-li">
+    <a title="Functional Programming For The Rest of Us" href="/2011/06/07/functional-programming-for-the-rest-of-us/">Functional Programming For The Rest of Us </a>
+  </li>
+</ul>
+
+        
+      
+      <br/>
+      
+        <div class="blog-tags">
+          
+            <a href="https://www.variadic.xyz//tags/c&#43;&#43;/">C&#43;&#43;</a>&nbsp;
+          
+        </div>
+      
+        
+        
+
+        <hr>
+        
+      </article>
+
+      
+        <ul class="pager blog-pager">
+          
+            <li class="previous">
+              <a href="https://www.variadic.xyz/2012/01/06/parallel-computing-terms/" data-toggle="tooltip" data-placement="top" title="Parallel Computing Terms">&larr; Previous Post</a>
+            </li>
+          
+          
+            <li class="next">
+              <a href="https://www.variadic.xyz/2012/01/17/c11-delegating-constructors/" data-toggle="tooltip" data-placement="top" title="C&#43;&#43;11: delegating constructors">Next Post &rarr;</a>
+            </li>
+          
+        </ul>
+      
+
+
+      
+
+    </div>
+  </div>
+</div>
+
+      
+  
+<footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+        <ul class="list-inline text-center footer-links">
+          
+          
+        </ul>
+        <p class="credits copyright text-muted">
+          
+            
+              Sarang Baheti
+            
+          
+
+          &nbsp;&bull;&nbsp;&copy;
+          
+            2020
+          
+
+          
+            &nbsp;&bull;&nbsp;
+            <a href="https://www.variadic.xyz/">a few notes</a>
+          
+        </p>
+        
+        <p class="credits theme-by text-muted">
+          <a href="https://gohugo.io">Hugo v0.73.0</a> powered &nbsp;&bull;&nbsp; Theme <a href="https://github.com/sarangbaheti/beautifulhugo">beautifulhugo</a> forked from <a href="https://github.com/halogenica/beautifulhugo"> halogenica/Beautiful Hugo</a>
+          
+        </p>
+      </div>
+    </div>
+  </div>
+</footer><script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.js" integrity="sha384-K3vbOmF2BtaVai+Qk37uypf7VrgBubhQreNQe9aGsz9lB63dIFiQVlJbr92dw2Lx" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/contrib/auto-render.min.js" integrity="sha384-kmZOZB5ObwgQnS/DuDg6TScgOiWWBiVt0plIRkZCmE6rDZGrEOQeHM5PcHi+nyqe" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+<script src="https://www.variadic.xyz/js/main.js"></script><script> renderMathInElement(document.body); </script><script src="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/photoswipe.min.js" integrity="sha384-QELNnmcmU8IR9ZAykt67vGr9/rZJdHbiWi64V88fCPaOohUlHCqUD/unNN0BXSqy" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/photoswipe/4.1.2/photoswipe-ui-default.min.js" integrity="sha384-m67o7SkQ1ALzKZIFh4CiTA8tmadaujiTa9Vu+nqPSwDOqHrDmxLezTdFln8077+q" crossorigin="anonymous"></script><script src="https://www.variadic.xyz/js/load-photoswipe.js"></script>
+
+
+
+
+
+
+
+
+
+    
+  </body>
+</html>
+
